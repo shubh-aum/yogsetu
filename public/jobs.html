@@ -236,13 +236,40 @@ a{text-decoration:none;transition:color .2s}
   .load-more-wrap{display:flex}
 }
 @media(max-width:767px){
+  .container{padding-left:20px!important;padding-right:20px!important}
   .jobs-grid{grid-template-columns:1fr}
   .adv-inner{grid-template-columns:1fr 1fr}
   .list-view .j-card{flex-direction:column}
   .list-view .j-card-body{width:100%}
+  /* Search bar */
+  .s-input{font-size:.97rem;padding:11px 11px 11px 32px}
+  .s-btn{font-size:.97rem;padding:11px 20px}
+  .s-adv-btn{font-size:.9rem;padding:11px 13px}
+  /* Category strip */
+  .cat-lbl{font-size:.76rem}
+  .cat-name{font-size:.82rem}
+  /* Results */
+  .res-count{font-size:1.04rem}
+  /* Job card text */
+  .j-title-lnk{font-size:1rem}
+  .j-company-row{font-size:.84rem}
+  .j-meta-it{font-size:.8rem}
+  .j-salary{font-size:.92rem}
+  .j-posted,.j-applied{font-size:.76rem}
+  /* Filter panel */
+  .fp-title{font-size:1rem}
+  .fp-pill{font-size:.78rem;padding:5px 10px}
+  /* Footer */
+  .yk-footer a{font-size:.9rem}
+  .yk-footer h6{font-size:.92rem}
 }
 @media(max-width:480px){
+  .container{padding-left:16px!important;padding-right:16px!important}
   .adv-inner{grid-template-columns:1fr}
+  .s-input{font-size:.94rem}
+  .j-title-lnk{font-size:.97rem}
+  .j-meta-it{font-size:.78rem}
+  .j-salary{font-size:.88rem}
 }
 </style>
 </head>

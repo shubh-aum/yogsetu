@@ -118,11 +118,37 @@ body{font-family:var(--f-body);background:var(--cream);color:var(--ink);min-heig
 .jt-footer{background:var(--ink2);padding:28px 0;text-align:center;font-size:.82rem;color:rgba(255,255,255,.4);font-family:var(--f-body)}
 .jt-footer a{color:rgba(255,255,255,.6);text-decoration:none;margin:0 10px}
 /* RESPONSIVE */
+@media(max-width:767px){
+  .container{padding-left:20px!important;padding-right:20px!important}
+  .jt-page{padding-top:88px!important}
+  /* Hero text */
+  .step-title{font-size:1.42rem;line-height:1.28}
+  .step-sub{font-size:.94rem;line-height:1.78;margin-bottom:24px}
+  /* Form */
+  .fgroup label{font-size:.88rem}
+  .finput,.fselect,.ftextarea{font-size:.97rem;padding:12px 14px}
+  .fopt label{font-size:.88rem;padding:10px 12px}
+  /* Terms */
+  .terms-row label{font-size:.92rem;line-height:1.82}
+  /* Success */
+  .success-title{font-size:1.58rem}
+  .success-sub{font-size:.97rem;line-height:1.85}
+  /* Nav buttons */
+  .btn-back{font-size:.9rem}
+}
 @media(max-width:640px){
   .jt-card{padding:24px 18px;border-radius:18px}
   .frow{grid-template-columns:1fr}
   .prog-label{display:none}
   .fopts{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .container{padding-left:16px!important;padding-right:16px!important}
+  .step-title{font-size:1.28rem}
+  .step-sub{font-size:.9rem}
+  .finput,.fselect,.ftextarea{font-size:.94rem;padding:11px 12px}
+  .fopt label{font-size:.86rem}
+  .terms-row label{font-size:.88rem}
 }
 </style>
 </head>
