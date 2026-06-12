@@ -225,8 +225,8 @@ a{text-decoration:none;transition:color .2s}
   .mob-btn{display:flex}
   .yk-nav .yk-links{display:none!important}
   .mob-filter-btn{display:flex}
-  .jobs-sidebar{position:fixed;left:0;top:0;bottom:0;width:min(290px,84vw);z-index:400;overflow-y:auto;transform:translateX(-105%);transition:transform .34s cubic-bezier(.23,1,.32,1);background:var(--cream);padding:56px 14px 20px;box-shadow:4px 0 22px rgba(0,0,0,.14);max-height:100vh}
-  .jobs-sidebar.drawer-open{transform:none}
+  .jobs-sidebar{position:fixed;left:0;top:0;bottom:0;width:min(290px,84vw);z-index:400;overflow-y:auto;transform:translateX(-105%);transition:transform .34s cubic-bezier(.23,1,.32,1);background:var(--cream);padding:56px 14px 20px;box-shadow:4px 0 22px rgba(0,0,0,.14);max-height:100vh;pointer-events:none}
+  .jobs-sidebar.drawer-open{transform:none;pointer-events:auto}
   .jobs-sidebar .fp-apply{display:block}
   .sidebar-close{position:absolute;top:12px;right:12px;background:none;border:none;font-size:1.1rem;cursor:pointer;color:var(--muted)}
   .sidebar-close{display:flex!important}
@@ -1089,15 +1089,18 @@ a{text-decoration:none;transition:color .2s}
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script>
+/* MOBILE MENU — runs first, nothing can block it */
+(function(){
+  const btn=document.getElementById('mobBtn'),nav=document.getElementById('ykMobNav');
+  if(!btn||!nav)return;
+  btn.addEventListener('click',function(){const o=nav.classList.toggle('open');btn.classList.toggle('open',o);document.body.style.overflow=o?'hidden':'';});
+  nav.querySelectorAll('.mob-lnk,.mob-act a').forEach(l=>l.addEventListener('click',function(){btn.classList.remove('open');nav.classList.remove('open');document.body.style.overflow='';}));
+})();
+
 if(typeof gsap!=='undefined'){gsap.registerPlugin(ScrollTrigger);}
 
 /* NAV */
 window.addEventListener('scroll',()=>document.getElementById('ykNav').classList.toggle('solid',scrollY>10),{passive:true});
-
-/* MOBILE MENU */
-const mobBtn=document.getElementById('mobBtn'),mobNav=document.getElementById('ykMobNav');
-mobBtn.addEventListener('click',()=>{const o=mobNav.classList.toggle('open');mobBtn.classList.toggle('open',o);document.body.style.overflow=o?'hidden':'';});
-mobNav.querySelectorAll('.mob-lnk,.mob-act a').forEach(l=>l.addEventListener('click',()=>{mobBtn.classList.remove('open');mobNav.classList.remove('open');document.body.style.overflow='';}));
 
 /* ADVANCED SEARCH PANEL */
 function toggleAdv(){const p=document.getElementById('advPanel'),b=document.getElementById('advToggle');const o=p.classList.toggle('open');b.classList.toggle('active',o);}
