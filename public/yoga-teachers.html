@@ -113,44 +113,47 @@ a{text-decoration:none;transition:color .2s}
 
 /* TEACHER GRID */
 .teachers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding-bottom:40px}
-.t-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:var(--shadow);transition:transform .3s,box-shadow .3s;display:flex;flex-direction:column}
-.t-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
-.t-photo-wrap{position:relative;overflow:hidden}
-.t-photo{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform .4s}
-.t-card:hover .t-photo{transform:scale(1.04)}
-.t-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(30,13,78,.42) 100%);pointer-events:none}
-.t-badges{position:absolute;top:9px;left:9px;right:9px;display:flex;justify-content:space-between;align-items:flex-start;gap:5px}
-.t-verified{background:linear-gradient(135deg,var(--purple),var(--purple-lt));color:#fff;font-size:.62rem;font-weight:700;padding:3px 8px;border-radius:50px;font-family:var(--f-body);white-space:nowrap}
-.t-mode-pill{font-size:.62rem;font-weight:700;padding:3px 8px;border-radius:50px;font-family:var(--f-body);white-space:nowrap}
-.t-mode-pill.online{background:#22C55E;color:#fff}
-.t-mode-pill.offline{background:#F59E0B;color:#fff}
-.t-mode-pill.both{background:linear-gradient(90deg,#22C55E,#7C3AED);color:#fff}
-.t-body{padding:13px;flex:1;display:flex;flex-direction:column;gap:6px}
-.t-top{display:flex;justify-content:space-between;align-items:flex-start;gap:6px}
-.t-name{font-family:var(--f-head);font-size:.94rem;font-weight:700;color:var(--ink2)}
-.t-price{font-family:var(--f-display);font-size:.9rem;font-weight:700;color:var(--purple);white-space:nowrap;flex-shrink:0}
-.t-price sub{font-size:.6rem;font-weight:500;color:var(--muted)}
-.t-meta{font-size:.72rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px}
-.t-meta strong{color:var(--ink2)}
-.t-tags{display:flex;flex-wrap:wrap;gap:4px}
-.t-tag{font-size:.66rem;font-weight:600;padding:2px 7px;background:var(--purple-bg);border-radius:50px;color:var(--purple);font-family:var(--f-body)}
-.t-lang{font-size:.72rem;color:var(--muted)}
-.t-footer{margin-top:auto;padding-top:9px;border-top:1px solid var(--bdr);display:flex;gap:6px}
-.btn-profile{flex:1;padding:8px 6px;font-size:.76rem;text-align:center;border-radius:9px;font-weight:600;font-family:var(--f-body);color:var(--purple);border:1.5px solid rgba(61,23,133,.2);background:transparent;cursor:pointer;transition:all .18s}
-.btn-profile:hover{background:var(--purple-bg);border-color:var(--purple)}
-.btn-demo{flex:1;padding:8px 6px;font-size:.76rem;border-radius:9px;font-weight:700;font-family:var(--f-body);background:linear-gradient(135deg,var(--purple),var(--purple-lt));color:#fff;border:none;cursor:pointer;box-shadow:0 3px 9px rgba(61,23,133,.2);transition:all .18s}
-.btn-demo:hover{transform:translateY(-1px);box-shadow:0 5px 13px rgba(61,23,133,.3)}
+.t-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 2px 16px rgba(30,13,78,.07);transition:transform .28s,box-shadow .28s;display:flex;flex-direction:column;border:1px solid rgba(61,23,133,.08)}
+.t-card:hover{transform:translateY(-5px);box-shadow:0 14px 44px rgba(30,13,78,.13)}
+/* Pastel header band — cycles every 3 */
+.t-header{padding:18px 16px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.teachers-grid .t-card:nth-child(3n+1) .t-header{background:#FFF0EC}
+.teachers-grid .t-card:nth-child(3n+2) .t-header{background:#EEF2FF}
+.teachers-grid .t-card:nth-child(3n) .t-header{background:#ECFDF5}
+.t-avatar{width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:top;border:3px solid #fff;box-shadow:0 3px 12px rgba(30,13,78,.14);flex-shrink:0}
+.t-header-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.t-verified-new{background:#0D9488;color:#fff;font-size:.62rem;font-weight:700;padding:3px 9px;border-radius:50px;font-family:var(--f-body);white-space:nowrap}
+.t-avail-dot{font-size:.68rem;font-weight:600;color:#16A34A;font-family:var(--f-body);display:flex;align-items:center;gap:4px}
+.t-avail-dot::before{content:'';width:7px;height:7px;border-radius:50%;background:#22C55E;display:inline-block;flex-shrink:0}
+/* Card body */
+.t-body{padding:14px 16px;flex:1;display:flex;flex-direction:column}
+.t-name{font-family:var(--f-head);font-size:1.06rem;font-weight:700;color:var(--ink2);margin-bottom:2px}
+.t-subtitle{font-size:.64rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#E07730;margin-bottom:11px;font-family:var(--f-body)}
+.t-info-rows{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.t-info-row{font-size:.73rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:12px;font-family:var(--f-body)}
+.t-tags{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px}
+.t-tag{font-size:.65rem;font-weight:600;padding:3px 9px;background:var(--purple-bg);border-radius:50px;color:var(--purple);font-family:var(--f-body)}
+.t-bio{font-size:.8rem;color:var(--muted);line-height:1.76;flex:1;margin-bottom:12px}
+.t-price-row{display:flex;align-items:flex-end;justify-content:space-between;padding-top:10px;border-top:1px solid var(--bdr);margin-bottom:10px}
+.t-price{font-family:var(--f-display);font-size:1.08rem;font-weight:700;color:var(--ink2);line-height:1.2}
+.t-price sub{font-size:.64rem;font-weight:500;color:var(--muted);vertical-align:baseline}
+.t-free-demo{font-size:.67rem;font-weight:600;color:#0D9488;margin-top:3px;display:flex;align-items:center;gap:3px}
+.t-rating{font-size:.72rem;color:var(--muted);text-align:right;line-height:1.5}
+.t-rating strong{color:var(--ink2)}
+.t-footer{display:flex;gap:7px}
+.btn-profile{flex:1;padding:9px 6px;font-size:.78rem;text-align:center;border-radius:10px;font-weight:600;font-family:var(--f-body);color:var(--ink2);border:1.5px solid rgba(30,13,78,.2);background:transparent;cursor:pointer;transition:all .18s;text-decoration:none;display:flex;align-items:center;justify-content:center}
+.btn-profile:hover{background:var(--purple-bg);border-color:var(--purple);color:var(--purple)}
+.btn-demo{flex:2;padding:9px 6px;font-size:.78rem;border-radius:10px;font-weight:700;font-family:var(--f-body);background:#18102A;color:#fff;border:none;cursor:pointer;transition:all .18s}
+.btn-demo:hover{background:var(--purple);transform:translateY(-1px)}
 
 /* LIST VIEW */
 .teachers-grid.list-view{grid-template-columns:1fr}
-.list-view .t-card{flex-direction:row;min-height:180px}
-.list-view .t-photo-wrap{width:180px;flex-shrink:0}
-.list-view .t-photo{aspect-ratio:unset;height:100%}
-.list-view .t-overlay{display:none}
-.list-view .t-body{flex-direction:row;flex-wrap:wrap;padding:14px 18px;gap:0;align-content:flex-start}
-.list-view .t-top{flex:1 1 55%;min-width:0;flex-direction:column;gap:3px;align-items:flex-start}
-.list-view .t-meta,.list-view .t-tags,.list-view .t-lang{flex:1 1 100%}
-.list-view .t-footer{border-top:none;padding-top:0;flex-direction:column;flex:0 0 110px;justify-content:center;gap:5px;padding-left:8px}
+.list-view .t-card{flex-direction:row}
+.list-view .t-header{width:120px;min-width:120px;flex-shrink:0;flex-direction:column;align-items:center;gap:8px;padding:20px 12px}
+.list-view .t-header-right{align-items:center;flex-direction:row;flex-wrap:wrap;justify-content:center;gap:4px}
+.list-view .t-avatar{width:58px;height:58px}
+.list-view .t-body{padding:12px 16px}
+.list-view .t-bio{-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden}
 
 /* PAGINATION */
 .pagination-wrap{padding:6px 0 46px;display:flex;justify-content:center}
@@ -217,11 +220,9 @@ a{text-decoration:none;transition:color .2s}
   .teachers-grid{grid-template-columns:repeat(2,1fr)}
   .trust-grid{grid-template-columns:repeat(3,1fr)}
   .adv-grid{grid-template-columns:repeat(2,1fr)}
-  .list-view .t-card{flex-direction:column;min-height:0}
-  .list-view .t-photo-wrap{width:100%}
-  .list-view .t-photo{aspect-ratio:16/7;height:auto}
-  .list-view .t-body{flex-direction:column;padding:13px}
-  .list-view .t-footer{border-top:1px solid var(--bdr);padding-top:8px;flex-direction:row;padding-left:0}
+  .list-view .t-card{flex-direction:column}
+  .list-view .t-header{width:100%;flex-direction:row;align-items:center;justify-content:flex-start;padding:14px 16px;gap:12px}
+  .list-view .t-avatar{width:52px;height:52px}
   .pagination-wrap{display:none}
   .load-more-wrap{display:flex}
 }
@@ -239,9 +240,10 @@ a{text-decoration:none;transition:color .2s}
   .sec-h2{font-size:1.85rem;line-height:1.18}
   .sec-label{font-size:.84rem;letter-spacing:1.6px}
   .t-name{font-size:1.06rem}
-  .t-meta{font-size:.88rem}
-  .t-price{font-size:1.02rem}
-  .t-tag{font-size:.8rem;padding:3px 9px}
+  .t-info-row{font-size:.8rem}
+  .t-bio{font-size:.84rem}
+  .t-price{font-size:1.08rem}
+  .t-tag{font-size:.72rem;padding:3px 9px}
   .trust-title{font-size:1.02rem}
   .trust-desc{font-size:.9rem;line-height:1.82}
   .faq-q{font-size:1.04rem;padding:16px 18px}
@@ -463,64 +465,352 @@ a{text-decoration:none;transition:color .2s}
 <main class="container">
 <div class="teachers-grid" id="teachersGrid">
 
+<!-- Card 1: Priya Sharma -->
 <article class="t-card g-fade" data-name="priya sharma" data-city="delhi" data-cat="hatha,vinyasa,therapy" data-mode="both" data-exp="5-10" data-lang="hindi,english" data-gender="female" data-state="delhi" data-avail="morning,evening" data-rating="4.9" data-expyrs="8">
-  <div class="t-photo-wrap"><img class="t-photo" src="https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=500&h=375&fit=crop" alt="Priya Sharma yoga teacher Delhi" loading="lazy"><div class="t-overlay"></div><div class="t-badges"><span class="t-verified">✓ RYT 500</span><span class="t-mode-pill both">Online + Home</span></div></div>
-  <div class="t-body"><div class="t-top"><div><div class="t-name">Priya Sharma</div></div><div class="t-price">₹450<sub>/session</sub></div></div><div class="t-meta"><span>⭐ <strong>4.9</strong> (142)</span><span>⏱ <strong>8 yrs</strong></span><span>📍 <strong>New Delhi</strong></span></div><div class="t-tags"><span class="t-tag">Hatha</span><span class="t-tag">Vinyasa</span><span class="t-tag">Therapy</span></div><div class="t-lang">🌐 Hindi, English</div><div class="t-footer"><a href="/teacher/priya-sharma" class="btn-profile">View Profile</a><button class="btn-demo" onclick="openBooking('Priya Sharma')">Book Demo</button></div></div>
+  <div class="t-header">
+    <img class="t-avatar" src="https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=faces" alt="Priya Sharma" loading="lazy">
+    <div class="t-header-right">
+      <span class="t-verified-new">✓ Verified</span>
+      <span class="t-avail-dot">Available</span>
+    </div>
+  </div>
+  <div class="t-body">
+    <div class="t-name">Priya Sharma</div>
+    <div class="t-subtitle">Hatha · Vinyasa &nbsp;·&nbsp; New Delhi</div>
+    <div class="t-info-rows">
+      <div class="t-info-row"><span>📍 New Delhi</span><span>🎓 RYT 500</span></div>
+      <div class="t-info-row"><span>💻 Online + Home</span><span>⏱ 8 yrs exp</span></div>
+    </div>
+    <div class="t-tags"><span class="t-tag">Hatha</span><span class="t-tag">Vinyasa</span><span class="t-tag">Therapy</span></div>
+    <p class="t-bio">Certified RYT 500 with 8 years guiding students in mindful Hatha and dynamic Vinyasa flows. Specialist in therapeutic yoga for back pain and stress relief.</p>
+    <div class="t-price-row">
+      <div><div class="t-price">₹450<sub>/hr</sub></div><div class="t-free-demo">✓ Free demo class</div></div>
+      <div class="t-rating">⭐ <strong>4.9</strong><br>(142 reviews)</div>
+    </div>
+    <div class="t-footer">
+      <a href="/teacher/priya-sharma" class="btn-profile">Profile</a>
+      <button class="btn-demo" onclick="openBooking('Priya Sharma')">Book Demo</button>
+    </div>
+  </div>
 </article>
 
+<!-- Card 2: Rajesh Kumar -->
 <article class="t-card g-fade" data-name="rajesh kumar" data-city="mumbai" data-cat="ashtanga,hatha" data-mode="offline" data-exp="10+" data-lang="hindi,english" data-gender="male" data-state="maharashtra" data-avail="morning" data-rating="4.8" data-expyrs="12">
-  <div class="t-photo-wrap"><img class="t-photo" src="https://images.pexels.com/photos/4056535/pexels-photo-4056535.jpeg?auto=compress&cs=tinysrgb&w=500&h=375&fit=crop" alt="Rajesh Kumar ashtanga yoga Mumbai" loading="lazy"><div class="t-overlay"></div><div class="t-badges"><span class="t-verified">✓ E-RYT 500</span><span class="t-mode-pill offline">Home Visits</span></div></div>
-  <div class="t-body"><div class="t-top"><div><div class="t-name">Rajesh Kumar</div></div><div class="t-price">₹600<sub>/session</sub></div></div><div class="t-meta"><span>⭐ <strong>4.8</strong> (218)</span><span>⏱ <strong>12 yrs</strong></span><span>📍 <strong>Mumbai</strong></span></div><div class="t-tags"><span class="t-tag">Ashtanga</span><span class="t-tag">Hatha</span></div><div class="t-lang">🌐 Hindi, English</div><div class="t-footer"><a href="/yoga-teachers" class="btn-profile">View Profile</a><button class="btn-demo" onclick="openBooking('Rajesh Kumar')">Book Demo</button></div></div>
+  <div class="t-header">
+    <img class="t-avatar" src="https://images.pexels.com/photos/4056535/pexels-photo-4056535.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=faces" alt="Rajesh Kumar" loading="lazy">
+    <div class="t-header-right">
+      <span class="t-verified-new">✓ Verified</span>
+      <span class="t-avail-dot">Available</span>
+    </div>
+  </div>
+  <div class="t-body">
+    <div class="t-name">Rajesh Kumar</div>
+    <div class="t-subtitle">Ashtanga · Hatha &nbsp;·&nbsp; Mumbai</div>
+    <div class="t-info-rows">
+      <div class="t-info-row"><span>📍 Mumbai</span><span>🎓 E-RYT 500</span></div>
+      <div class="t-info-row"><span>🏠 Home Visits</span><span>⏱ 12 yrs exp</span></div>
+    </div>
+    <div class="t-tags"><span class="t-tag">Ashtanga</span><span class="t-tag">Hatha</span></div>
+    <p class="t-bio">E-RYT 500 Ashtanga specialist with 12 years of disciplined teaching. Trained in Mysore tradition, brings structure and depth to every session.</p>
+    <div class="t-price-row">
+      <div><div class="t-price">₹600<sub>/hr</sub></div><div class="t-free-demo">✓ Free demo class</div></div>
+      <div class="t-rating">⭐ <strong>4.8</strong><br>(218 reviews)</div>
+    </div>
+    <div class="t-footer">
+      <a href="/yoga-teachers" class="btn-profile">Profile</a>
+      <button class="btn-demo" onclick="openBooking('Rajesh Kumar')">Book Demo</button>
+    </div>
+  </div>
 </article>
 
+<!-- Card 3: Kavita Nair -->
 <article class="t-card g-fade" data-name="kavita nair" data-city="chennai" data-cat="therapy,prenatal,meditation" data-mode="online" data-exp="5-10" data-lang="english,other" data-gender="female" data-state="tamil-nadu" data-avail="morning,afternoon" data-rating="4.9" data-expyrs="6">
-  <div class="t-photo-wrap"><img class="t-photo" src="https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=500&h=375&fit=crop" alt="Kavita Nair yoga therapist Chennai" loading="lazy"><div class="t-overlay"></div><div class="t-badges"><span class="t-verified">✓ C-IAYT</span><span class="t-mode-pill online">Online</span></div></div>
-  <div class="t-body"><div class="t-top"><div><div class="t-name">Kavita Nair</div></div><div class="t-price">₹500<sub>/session</sub></div></div><div class="t-meta"><span>⭐ <strong>4.9</strong> (97)</span><span>⏱ <strong>6 yrs</strong></span><span>📍 <strong>Chennai</strong></span></div><div class="t-tags"><span class="t-tag">Therapy</span><span class="t-tag">Prenatal</span><span class="t-tag">Meditation</span></div><div class="t-lang">🌐 English, Tamil</div><div class="t-footer"><a href="/yoga-teachers" class="btn-profile">View Profile</a><button class="btn-demo" onclick="openBooking('Kavita Nair')">Book Demo</button></div></div>
+  <div class="t-header">
+    <img class="t-avatar" src="https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=faces" alt="Kavita Nair" loading="lazy">
+    <div class="t-header-right">
+      <span class="t-verified-new">✓ Verified</span>
+      <span class="t-avail-dot">Available</span>
+    </div>
+  </div>
+  <div class="t-body">
+    <div class="t-name">Kavita Nair</div>
+    <div class="t-subtitle">Therapy · Prenatal &nbsp;·&nbsp; Chennai</div>
+    <div class="t-info-rows">
+      <div class="t-info-row"><span>📍 Chennai</span><span>🎓 C-IAYT</span></div>
+      <div class="t-info-row"><span>💻 Online</span><span>⏱ 6 yrs exp</span></div>
+    </div>
+    <div class="t-tags"><span class="t-tag">Therapy</span><span class="t-tag">Prenatal</span><span class="t-tag">Meditation</span></div>
+    <p class="t-bio">Certified yoga therapist specialising in prenatal wellness and meditative healing. Helps expecting mothers build strength and calm through tailored online sessions.</p>
+    <div class="t-price-row">
+      <div><div class="t-price">₹500<sub>/hr</sub></div><div class="t-free-demo">✓ Free demo class</div></div>
+      <div class="t-rating">⭐ <strong>4.9</strong><br>(97 reviews)</div>
+    </div>
+    <div class="t-footer">
+      <a href="/yoga-teachers" class="btn-profile">Profile</a>
+      <button class="btn-demo" onclick="openBooking('Kavita Nair')">Book Demo</button>
+    </div>
+  </div>
 </article>
 
+<!-- Card 4: Amit Verma -->
 <article class="t-card g-fade" data-name="amit verma" data-city="bangalore" data-cat="kundalini,meditation,vinyasa" data-mode="online" data-exp="5-10" data-lang="hindi,english,sanskrit" data-gender="male" data-state="karnataka" data-avail="morning,evening" data-rating="4.7" data-expyrs="5">
-  <div class="t-photo-wrap"><img class="t-photo" src="https://images.pexels.com/photos/4327139/pexels-photo-4327139.jpeg?auto=compress&cs=tinysrgb&w=500&h=375&fit=crop" alt="Amit Verma kundalini yoga Bangalore" loading="lazy"><div class="t-overlay"></div><div class="t-badges"><span class="t-verified">✓ KRI Certified</span><span class="t-mode-pill online">Online</span></div></div>
-  <div class="t-body"><div class="t-top"><div><div class="t-name">Amit Verma</div></div><div class="t-price">₹400<sub>/session</sub></div></div><div class="t-meta"><span>⭐ <strong>4.7</strong> (64)</span><span>⏱ <strong>5 yrs</strong></span><span>📍 <strong>Bangalore</strong></span></div><div class="t-tags"><span class="t-tag">Kundalini</span><span class="t-tag">Meditation</span><span class="t-tag">Vinyasa</span></div><div class="t-lang">🌐 Hindi, English, Sanskrit</div><div class="t-footer"><a href="/yoga-teachers" class="btn-profile">View Profile</a><button class="btn-demo" onclick="openBooking('Amit Verma')">Book Demo</button></div></div>
+  <div class="t-header">
+    <img class="t-avatar" src="https://images.pexels.com/photos/4327139/pexels-photo-4327139.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=faces" alt="Amit Verma" loading="lazy">
+    <div class="t-header-right">
+      <span class="t-verified-new">✓ Verified</span>
+      <span class="t-avail-dot">Available</span>
+    </div>
+  </div>
+  <div class="t-body">
+    <div class="t-name">Amit Verma</div>
+    <div class="t-subtitle">Kundalini · Meditation &nbsp;·&nbsp; Bangalore</div>
+    <div class="t-info-rows">
+      <div class="t-info-row"><span>📍 Bangalore</span><span>🎓 KRI Certified</span></div>
+      <div class="t-info-row"><span>💻 Online</span><span>⏱ 5 yrs exp</span></div>
+    </div>
+    <div class="t-tags"><span class="t-tag">Kundalini</span><span class="t-tag">Meditation</span><span class="t-tag">Vinyasa</span></div>
+    <p class="t-bio">KRI-certified Kundalini teacher blending ancient mantras with modern mindfulness. Leads powerful energy-awakening online sessions in Hindi, English and Sanskrit.</p>
+    <div class="t-price-row">
+      <div><div class="t-price">₹400<sub>/hr</sub></div><div class="t-free-demo">✓ Free demo class</div></div>
+      <div class="t-rating">⭐ <strong>4.7</strong><br>(64 reviews)</div>
+    </div>
+    <div class="t-footer">
+      <a href="/yoga-teachers" class="btn-profile">Profile</a>
+      <button class="btn-demo" onclick="openBooking('Amit Verma')">Book Demo</button>
+    </div>
+  </div>
 </article>
 
+<!-- Card 5: Sunita Joshi -->
 <article class="t-card g-fade" data-name="sunita joshi" data-city="pune" data-cat="yin,meditation,hatha" data-mode="both" data-exp="5-10" data-lang="hindi,english" data-gender="female" data-state="maharashtra" data-avail="morning,afternoon,evening" data-rating="4.8" data-expyrs="9">
-  <div class="t-photo-wrap"><img class="t-photo" src="https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=500&h=375&fit=crop" alt="Sunita Joshi yin yoga Pune" loading="lazy"><div class="t-overlay"></div><div class="t-badges"><span class="t-verified">✓ RYT 500</span><span class="t-mode-pill both">Online + Home</span></div></div>
-  <div class="t-body"><div class="t-top"><div><div class="t-name">Sunita Joshi</div></div><div class="t-price">₹380<sub>/session</sub></div></div><div class="t-meta"><span>⭐ <strong>4.8</strong> (183)</span><span>⏱ <strong>9 yrs</strong></span><span>📍 <strong>Pune</strong></span></div><div class="t-tags"><span class="t-tag">Yin Yoga</span><span class="t-tag">Meditation</span><span class="t-tag">Hatha</span></div><div class="t-lang">🌐 Hindi, English</div><div class="t-footer"><a href="/yoga-teachers" class="btn-profile">View Profile</a><button class="btn-demo" onclick="openBooking('Sunita Joshi')">Book Demo</button></div></div>
+  <div class="t-header">
+    <img class="t-avatar" src="https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=faces" alt="Sunita Joshi" loading="lazy">
+    <div class="t-header-right">
+      <span class="t-verified-new">✓ Verified</span>
+      <span class="t-avail-dot">Available</span>
+    </div>
+  </div>
+  <div class="t-body">
+    <div class="t-name">Sunita Joshi</div>
+    <div class="t-subtitle">Yin · Meditation &nbsp;·&nbsp; Pune</div>
+    <div class="t-info-rows">
+      <div class="t-info-row"><span>📍 Pune</span><span>🎓 RYT 500</span></div>
+      <div class="t-info-row"><span>💻 Online + Home</span><span>⏱ 9 yrs exp</span></div>
+    </div>
+    <div class="t-tags"><span class="t-tag">Yin Yoga</span><span class="t-tag">Meditation</span><span class="t-tag">Hatha</span></div>
+    <p class="t-bio">RYT 500 with 9 years guiding students through deep Yin holds and mindful Hatha. Creates safe, slow-paced sessions perfect for recovery, flexibility and inner calm.</p>
+    <div class="t-price-row">
+      <div><div class="t-price">₹380<sub>/hr</sub></div><div class="t-free-demo">✓ Free demo class</div></div>
+      <div class="t-rating">⭐ <strong>4.8</strong><br>(183 reviews)</div>
+    </div>
+    <div class="t-footer">
+      <a href="/yoga-teachers" class="btn-profile">Profile</a>
+      <button class="btn-demo" onclick="openBooking('Sunita Joshi')">Book Demo</button>
+    </div>
+  </div>
 </article>
 
+<!-- Card 6: Vikram Singh -->
 <article class="t-card g-fade" data-name="vikram singh" data-city="delhi" data-cat="corporate,hatha,vinyasa" data-mode="offline" data-exp="5-10" data-lang="hindi,english" data-gender="male" data-state="delhi" data-avail="morning,afternoon" data-rating="4.6" data-expyrs="7">
-  <div class="t-photo-wrap"><img class="t-photo" src="https://images.pexels.com/photos/3822862/pexels-photo-3822862.jpeg?auto=compress&cs=tinysrgb&w=500&h=375&fit=crop" alt="Vikram Singh corporate yoga Delhi" loading="lazy"><div class="t-overlay"></div><div class="t-badges"><span class="t-verified">✓ RYT 200</span><span class="t-mode-pill offline">Home Visits</span></div></div>
-  <div class="t-body"><div class="t-top"><div><div class="t-name">Vikram Singh</div></div><div class="t-price">₹500<sub>/session</sub></div></div><div class="t-meta"><span>⭐ <strong>4.6</strong> (55)</span><span>⏱ <strong>7 yrs</strong></span><span>📍 <strong>New Delhi</strong></span></div><div class="t-tags"><span class="t-tag">Corporate</span><span class="t-tag">Hatha</span><span class="t-tag">Vinyasa</span></div><div class="t-lang">🌐 Hindi, English</div><div class="t-footer"><a href="/yoga-teachers" class="btn-profile">View Profile</a><button class="btn-demo" onclick="openBooking('Vikram Singh')">Book Demo</button></div></div>
+  <div class="t-header">
+    <img class="t-avatar" src="https://images.pexels.com/photos/3822862/pexels-photo-3822862.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=faces" alt="Vikram Singh" loading="lazy">
+    <div class="t-header-right">
+      <span class="t-verified-new">✓ Verified</span>
+      <span class="t-avail-dot">Available</span>
+    </div>
+  </div>
+  <div class="t-body">
+    <div class="t-name">Vikram Singh</div>
+    <div class="t-subtitle">Corporate · Vinyasa &nbsp;·&nbsp; New Delhi</div>
+    <div class="t-info-rows">
+      <div class="t-info-row"><span>📍 New Delhi</span><span>🎓 RYT 200</span></div>
+      <div class="t-info-row"><span>🏠 Home Visits</span><span>⏱ 7 yrs exp</span></div>
+    </div>
+    <div class="t-tags"><span class="t-tag">Corporate</span><span class="t-tag">Hatha</span><span class="t-tag">Vinyasa</span></div>
+    <p class="t-bio">Dedicated corporate wellness instructor bringing structured Hatha and energising Vinyasa to busy professionals. Conducts home visits across Delhi NCR at flexible hours.</p>
+    <div class="t-price-row">
+      <div><div class="t-price">₹500<sub>/hr</sub></div><div class="t-free-demo">✓ Free demo class</div></div>
+      <div class="t-rating">⭐ <strong>4.6</strong><br>(55 reviews)</div>
+    </div>
+    <div class="t-footer">
+      <a href="/yoga-teachers" class="btn-profile">Profile</a>
+      <button class="btn-demo" onclick="openBooking('Vikram Singh')">Book Demo</button>
+    </div>
+  </div>
 </article>
 
+<!-- Card 7: Meera Iyer -->
 <article class="t-card g-fade" data-name="meera iyer" data-city="bangalore" data-cat="prenatal,postnatal,hatha" data-mode="online" data-exp="2-5" data-lang="english,other" data-gender="female" data-state="karnataka" data-avail="morning,afternoon" data-rating="5.0" data-expyrs="4">
-  <div class="t-photo-wrap"><img class="t-photo" src="https://images.pexels.com/photos/8436487/pexels-photo-8436487.jpeg?auto=compress&cs=tinysrgb&w=500&h=375&fit=crop" alt="Meera Iyer prenatal yoga Bangalore" loading="lazy"><div class="t-overlay"></div><div class="t-badges"><span class="t-verified">✓ Birthlight Cert</span><span class="t-mode-pill online">Online</span></div></div>
-  <div class="t-body"><div class="t-top"><div><div class="t-name">Meera Iyer</div></div><div class="t-price">₹420<sub>/session</sub></div></div><div class="t-meta"><span>⭐ <strong>5.0</strong> (78)</span><span>⏱ <strong>4 yrs</strong></span><span>📍 <strong>Bangalore</strong></span></div><div class="t-tags"><span class="t-tag">Prenatal</span><span class="t-tag">Postnatal</span><span class="t-tag">Hatha</span></div><div class="t-lang">🌐 English, Kannada</div><div class="t-footer"><a href="/yoga-teachers" class="btn-profile">View Profile</a><button class="btn-demo" onclick="openBooking('Meera Iyer')">Book Demo</button></div></div>
+  <div class="t-header">
+    <img class="t-avatar" src="https://images.pexels.com/photos/8436487/pexels-photo-8436487.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=faces" alt="Meera Iyer" loading="lazy">
+    <div class="t-header-right">
+      <span class="t-verified-new">✓ Verified</span>
+      <span class="t-avail-dot">Available</span>
+    </div>
+  </div>
+  <div class="t-body">
+    <div class="t-name">Meera Iyer</div>
+    <div class="t-subtitle">Prenatal · Postnatal &nbsp;·&nbsp; Bangalore</div>
+    <div class="t-info-rows">
+      <div class="t-info-row"><span>📍 Bangalore</span><span>🎓 Birthlight Cert</span></div>
+      <div class="t-info-row"><span>💻 Online</span><span>⏱ 4 yrs exp</span></div>
+    </div>
+    <div class="t-tags"><span class="t-tag">Prenatal</span><span class="t-tag">Postnatal</span><span class="t-tag">Hatha</span></div>
+    <p class="t-bio">Birthlight-certified specialist in pregnancy and new-mother yoga. 5-star rated across 78 reviews for her gentle, supportive approach to each stage of motherhood.</p>
+    <div class="t-price-row">
+      <div><div class="t-price">₹420<sub>/hr</sub></div><div class="t-free-demo">✓ Free demo class</div></div>
+      <div class="t-rating">⭐ <strong>5.0</strong><br>(78 reviews)</div>
+    </div>
+    <div class="t-footer">
+      <a href="/yoga-teachers" class="btn-profile">Profile</a>
+      <button class="btn-demo" onclick="openBooking('Meera Iyer')">Book Demo</button>
+    </div>
+  </div>
 </article>
 
+<!-- Card 8: Arjun Sharma -->
 <article class="t-card g-fade" data-name="arjun sharma" data-city="hyderabad" data-cat="ashtanga,hatha,vinyasa" data-mode="both" data-exp="10+" data-lang="hindi,english,sanskrit" data-gender="male" data-state="telangana" data-avail="morning,evening" data-rating="4.7" data-expyrs="11">
-  <div class="t-photo-wrap"><img class="t-photo" src="https://images.pexels.com/photos/4378691/pexels-photo-4378691.jpeg?auto=compress&cs=tinysrgb&w=500&h=375&fit=crop" alt="Arjun Sharma ashtanga yoga Hyderabad" loading="lazy"><div class="t-overlay"></div><div class="t-badges"><span class="t-verified">✓ E-RYT 500</span><span class="t-mode-pill both">Online + Home</span></div></div>
-  <div class="t-body"><div class="t-top"><div><div class="t-name">Arjun Sharma</div></div><div class="t-price">₹550<sub>/session</sub></div></div><div class="t-meta"><span>⭐ <strong>4.7</strong> (194)</span><span>⏱ <strong>11 yrs</strong></span><span>📍 <strong>Hyderabad</strong></span></div><div class="t-tags"><span class="t-tag">Ashtanga</span><span class="t-tag">Hatha</span><span class="t-tag">Vinyasa</span></div><div class="t-lang">🌐 Hindi, English, Sanskrit</div><div class="t-footer"><a href="/yoga-teachers" class="btn-profile">View Profile</a><button class="btn-demo" onclick="openBooking('Arjun Sharma')">Book Demo</button></div></div>
+  <div class="t-header">
+    <img class="t-avatar" src="https://images.pexels.com/photos/4378691/pexels-photo-4378691.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=faces" alt="Arjun Sharma" loading="lazy">
+    <div class="t-header-right">
+      <span class="t-verified-new">✓ Verified</span>
+      <span class="t-avail-dot">Available</span>
+    </div>
+  </div>
+  <div class="t-body">
+    <div class="t-name">Arjun Sharma</div>
+    <div class="t-subtitle">Ashtanga · Vinyasa &nbsp;·&nbsp; Hyderabad</div>
+    <div class="t-info-rows">
+      <div class="t-info-row"><span>📍 Hyderabad</span><span>🎓 E-RYT 500</span></div>
+      <div class="t-info-row"><span>💻 Online + Home</span><span>⏱ 11 yrs exp</span></div>
+    </div>
+    <div class="t-tags"><span class="t-tag">Ashtanga</span><span class="t-tag">Hatha</span><span class="t-tag">Vinyasa</span></div>
+    <p class="t-bio">Senior E-RYT 500 instructor with 11 years mastering the Ashtanga primary and secondary series. Teaches flowing Vinyasa sequences that build strength and flexibility progressively.</p>
+    <div class="t-price-row">
+      <div><div class="t-price">₹550<sub>/hr</sub></div><div class="t-free-demo">✓ Free demo class</div></div>
+      <div class="t-rating">⭐ <strong>4.7</strong><br>(194 reviews)</div>
+    </div>
+    <div class="t-footer">
+      <a href="/yoga-teachers" class="btn-profile">Profile</a>
+      <button class="btn-demo" onclick="openBooking('Arjun Sharma')">Book Demo</button>
+    </div>
+  </div>
 </article>
 
+<!-- Card 9: Nisha Gupta -->
 <article class="t-card g-fade" data-name="nisha gupta" data-city="delhi" data-cat="kids,hatha" data-mode="both" data-exp="2-5" data-lang="hindi,english" data-gender="female" data-state="delhi" data-avail="morning,afternoon" data-rating="4.8" data-expyrs="3">
-  <div class="t-photo-wrap"><img class="t-photo" src="https://images.pexels.com/photos/5632397/pexels-photo-5632397.jpeg?auto=compress&cs=tinysrgb&w=500&h=375&fit=crop" alt="Nisha Gupta kids yoga Delhi" loading="lazy"><div class="t-overlay"></div><div class="t-badges"><span class="t-verified">✓ Kids Yoga Cert</span><span class="t-mode-pill both">Online + Home</span></div></div>
-  <div class="t-body"><div class="t-top"><div><div class="t-name">Nisha Gupta</div></div><div class="t-price">₹350<sub>/session</sub></div></div><div class="t-meta"><span>⭐ <strong>4.8</strong> (46)</span><span>⏱ <strong>3 yrs</strong></span><span>📍 <strong>New Delhi</strong></span></div><div class="t-tags"><span class="t-tag">Kids Yoga</span><span class="t-tag">Hatha</span></div><div class="t-lang">🌐 Hindi, English</div><div class="t-footer"><a href="/yoga-teachers" class="btn-profile">View Profile</a><button class="btn-demo" onclick="openBooking('Nisha Gupta')">Book Demo</button></div></div>
+  <div class="t-header">
+    <img class="t-avatar" src="https://images.pexels.com/photos/5632397/pexels-photo-5632397.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=faces" alt="Nisha Gupta" loading="lazy">
+    <div class="t-header-right">
+      <span class="t-verified-new">✓ Verified</span>
+      <span class="t-avail-dot">Available</span>
+    </div>
+  </div>
+  <div class="t-body">
+    <div class="t-name">Nisha Gupta</div>
+    <div class="t-subtitle">Kids Yoga · Hatha &nbsp;·&nbsp; New Delhi</div>
+    <div class="t-info-rows">
+      <div class="t-info-row"><span>📍 New Delhi</span><span>🎓 Kids Yoga Cert</span></div>
+      <div class="t-info-row"><span>💻 Online + Home</span><span>⏱ 3 yrs exp</span></div>
+    </div>
+    <div class="t-tags"><span class="t-tag">Kids Yoga</span><span class="t-tag">Hatha</span></div>
+    <p class="t-bio">Specialised kids yoga instructor making movement fun and confidence-building for ages 4–14. Uses games, stories and gentle Hatha to teach body awareness early.</p>
+    <div class="t-price-row">
+      <div><div class="t-price">₹350<sub>/hr</sub></div><div class="t-free-demo">✓ Free demo class</div></div>
+      <div class="t-rating">⭐ <strong>4.8</strong><br>(46 reviews)</div>
+    </div>
+    <div class="t-footer">
+      <a href="/yoga-teachers" class="btn-profile">Profile</a>
+      <button class="btn-demo" onclick="openBooking('Nisha Gupta')">Book Demo</button>
+    </div>
+  </div>
 </article>
 
+<!-- Card 10: Ravi Tiwari -->
 <article class="t-card g-fade" data-name="ravi tiwari" data-city="varanasi" data-cat="senior,hatha,meditation" data-mode="both" data-exp="10+" data-lang="hindi,sanskrit" data-gender="male" data-state="uttar-pradesh" data-avail="morning" data-rating="4.9" data-expyrs="15">
-  <div class="t-photo-wrap"><img class="t-photo" src="https://images.pexels.com/photos/8436490/pexels-photo-8436490.jpeg?auto=compress&cs=tinysrgb&w=500&h=375&fit=crop" alt="Ravi Tiwari senior yoga Varanasi" loading="lazy"><div class="t-overlay"></div><div class="t-badges"><span class="t-verified">✓ E-RYT 500</span><span class="t-mode-pill both">Online + Home</span></div></div>
-  <div class="t-body"><div class="t-top"><div><div class="t-name">Ravi Tiwari</div></div><div class="t-price">₹650<sub>/session</sub></div></div><div class="t-meta"><span>⭐ <strong>4.9</strong> (261)</span><span>⏱ <strong>15 yrs</strong></span><span>📍 <strong>Varanasi</strong></span></div><div class="t-tags"><span class="t-tag">Senior Yoga</span><span class="t-tag">Hatha</span><span class="t-tag">Meditation</span></div><div class="t-lang">🌐 Hindi, Sanskrit</div><div class="t-footer"><a href="/yoga-teachers" class="btn-profile">View Profile</a><button class="btn-demo" onclick="openBooking('Ravi Tiwari')">Book Demo</button></div></div>
+  <div class="t-header">
+    <img class="t-avatar" src="https://images.pexels.com/photos/8436490/pexels-photo-8436490.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=faces" alt="Ravi Tiwari" loading="lazy">
+    <div class="t-header-right">
+      <span class="t-verified-new">✓ Verified</span>
+      <span class="t-avail-dot">Available</span>
+    </div>
+  </div>
+  <div class="t-body">
+    <div class="t-name">Ravi Tiwari</div>
+    <div class="t-subtitle">Senior Yoga · Hatha &nbsp;·&nbsp; Varanasi</div>
+    <div class="t-info-rows">
+      <div class="t-info-row"><span>📍 Varanasi</span><span>🎓 E-RYT 500</span></div>
+      <div class="t-info-row"><span>💻 Online + Home</span><span>⏱ 15 yrs exp</span></div>
+    </div>
+    <div class="t-tags"><span class="t-tag">Senior Yoga</span><span class="t-tag">Hatha</span><span class="t-tag">Meditation</span></div>
+    <p class="t-bio">15 years of deep classical Hatha and senior yoga practice rooted in the Varanasi tradition. Specially skilled in adapting postures for older adults and those recovering from injury.</p>
+    <div class="t-price-row">
+      <div><div class="t-price">₹650<sub>/hr</sub></div><div class="t-free-demo">✓ Free demo class</div></div>
+      <div class="t-rating">⭐ <strong>4.9</strong><br>(261 reviews)</div>
+    </div>
+    <div class="t-footer">
+      <a href="/yoga-teachers" class="btn-profile">Profile</a>
+      <button class="btn-demo" onclick="openBooking('Ravi Tiwari')">Book Demo</button>
+    </div>
+  </div>
 </article>
 
+<!-- Card 11: Anjali Singh -->
 <article class="t-card g-fade" data-name="anjali singh" data-city="rishikesh" data-cat="meditation,therapy,kundalini" data-mode="online" data-exp="10+" data-lang="hindi,english,sanskrit" data-gender="female" data-state="uttarakhand" data-avail="morning,evening" data-rating="5.0" data-expyrs="10">
-  <div class="t-photo-wrap"><img class="t-photo" src="https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=500&h=375&fit=crop" alt="Anjali Singh meditation Rishikesh" loading="lazy"><div class="t-overlay"></div><div class="t-badges"><span class="t-verified">✓ RYT 500 + C-IAYT</span><span class="t-mode-pill online">Online</span></div></div>
-  <div class="t-body"><div class="t-top"><div><div class="t-name">Anjali Singh</div></div><div class="t-price">₹700<sub>/session</sub></div></div><div class="t-meta"><span>⭐ <strong>5.0</strong> (312)</span><span>⏱ <strong>10 yrs</strong></span><span>📍 <strong>Rishikesh</strong></span></div><div class="t-tags"><span class="t-tag">Meditation</span><span class="t-tag">Therapy</span><span class="t-tag">Kundalini</span></div><div class="t-lang">🌐 Hindi, English, Sanskrit</div><div class="t-footer"><a href="/yoga-teachers" class="btn-profile">View Profile</a><button class="btn-demo" onclick="openBooking('Anjali Singh')">Book Demo</button></div></div>
+  <div class="t-header">
+    <img class="t-avatar" src="https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=faces" alt="Anjali Singh" loading="lazy">
+    <div class="t-header-right">
+      <span class="t-verified-new">✓ Verified</span>
+      <span class="t-avail-dot">Available</span>
+    </div>
+  </div>
+  <div class="t-body">
+    <div class="t-name">Anjali Singh</div>
+    <div class="t-subtitle">Meditation · Kundalini &nbsp;·&nbsp; Rishikesh</div>
+    <div class="t-info-rows">
+      <div class="t-info-row"><span>📍 Rishikesh</span><span>🎓 RYT 500 + C-IAYT</span></div>
+      <div class="t-info-row"><span>💻 Online</span><span>⏱ 10 yrs exp</span></div>
+    </div>
+    <div class="t-tags"><span class="t-tag">Meditation</span><span class="t-tag">Therapy</span><span class="t-tag">Kundalini</span></div>
+    <p class="t-bio">Dual-certified RYT 500 and C-IAYT therapist from the yoga capital of the world. 312 students rate her 5-star for transformative meditation and Kundalini awakening sessions.</p>
+    <div class="t-price-row">
+      <div><div class="t-price">₹700<sub>/hr</sub></div><div class="t-free-demo">✓ Free demo class</div></div>
+      <div class="t-rating">⭐ <strong>5.0</strong><br>(312 reviews)</div>
+    </div>
+    <div class="t-footer">
+      <a href="/yoga-teachers" class="btn-profile">Profile</a>
+      <button class="btn-demo" onclick="openBooking('Anjali Singh')">Book Demo</button>
+    </div>
+  </div>
 </article>
 
+<!-- Card 12: Deepak Patel -->
 <article class="t-card g-fade" data-name="deepak patel" data-city="ahmedabad" data-cat="vinyasa,hatha,corporate" data-mode="both" data-exp="5-10" data-lang="hindi,english,other" data-gender="male" data-state="gujarat" data-avail="morning,afternoon,evening" data-rating="4.7" data-expyrs="6">
-  <div class="t-photo-wrap"><img class="t-photo" src="https://images.pexels.com/photos/4056543/pexels-photo-4056543.jpeg?auto=compress&cs=tinysrgb&w=500&h=375&fit=crop" alt="Deepak Patel vinyasa yoga Ahmedabad" loading="lazy"><div class="t-overlay"></div><div class="t-badges"><span class="t-verified">✓ RYT 200</span><span class="t-mode-pill both">Online + Home</span></div></div>
-  <div class="t-body"><div class="t-top"><div><div class="t-name">Deepak Patel</div></div><div class="t-price">₹350<sub>/session</sub></div></div><div class="t-meta"><span>⭐ <strong>4.7</strong> (88)</span><span>⏱ <strong>6 yrs</strong></span><span>📍 <strong>Ahmedabad</strong></span></div><div class="t-tags"><span class="t-tag">Vinyasa</span><span class="t-tag">Hatha</span><span class="t-tag">Corporate</span></div><div class="t-lang">🌐 Hindi, English, Gujarati</div><div class="t-footer"><a href="/yoga-teachers" class="btn-profile">View Profile</a><button class="btn-demo" onclick="openBooking('Deepak Patel')">Book Demo</button></div></div>
+  <div class="t-header">
+    <img class="t-avatar" src="https://images.pexels.com/photos/4056543/pexels-photo-4056543.jpeg?auto=compress&cs=tinysrgb&w=200&h=200&fit=crop&crop=faces" alt="Deepak Patel" loading="lazy">
+    <div class="t-header-right">
+      <span class="t-verified-new">✓ Verified</span>
+      <span class="t-avail-dot">Available</span>
+    </div>
+  </div>
+  <div class="t-body">
+    <div class="t-name">Deepak Patel</div>
+    <div class="t-subtitle">Vinyasa · Corporate &nbsp;·&nbsp; Ahmedabad</div>
+    <div class="t-info-rows">
+      <div class="t-info-row"><span>📍 Ahmedabad</span><span>🎓 RYT 200</span></div>
+      <div class="t-info-row"><span>💻 Online + Home</span><span>⏱ 6 yrs exp</span></div>
+    </div>
+    <div class="t-tags"><span class="t-tag">Vinyasa</span><span class="t-tag">Hatha</span><span class="t-tag">Corporate</span></div>
+    <p class="t-bio">Versatile RYT 200 teacher available mornings, afternoons and evenings across Ahmedabad. Highly sought-after for corporate wellness programmes and energetic Vinyasa flows.</p>
+    <div class="t-price-row">
+      <div><div class="t-price">₹350<sub>/hr</sub></div><div class="t-free-demo">✓ Free demo class</div></div>
+      <div class="t-rating">⭐ <strong>4.7</strong><br>(88 reviews)</div>
+    </div>
+    <div class="t-footer">
+      <a href="/yoga-teachers" class="btn-profile">Profile</a>
+      <button class="btn-demo" onclick="openBooking('Deepak Patel')">Book Demo</button>
+    </div>
+  </div>
 </article>
 
 <div id="noResults" style="display:none;grid-column:1/-1;text-align:center;padding:60px 20px">
