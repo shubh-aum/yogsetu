@@ -169,17 +169,16 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 .pain-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:5px;font-family:var(--f-body)}
 .pain-q{font-family:var(--f-head);font-size:1.08rem;font-weight:600;color:var(--ink);line-height:1.65;font-style:italic;margin:0}
 
-/* ─── WHY – alternating image rows ─── */
-.why-row{display:flex;border-radius:22px;overflow:hidden;margin-bottom:22px;box-shadow:0 4px 28px rgba(30,13,78,0.08);background:#fff}
-.why-img{flex:0 0 40%;position:relative;overflow:hidden;min-height:280px}
-.why-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s}
-.why-row:hover .why-img img{transform:scale(1.04)}
-.why-img-overlay{position:absolute;inset:0;background:linear-gradient(to right,transparent 60%,rgba(255,255,255,0.15) 100%)}
-.why-content{flex:1;padding:36px 32px;display:flex;flex-direction:column;justify-content:center}
-.why-tag{font-size:0.73rem;font-weight:700;text-transform:uppercase;letter-spacing:1.8px;color:var(--gold-dk);margin-bottom:8px;font-family:var(--f-body)}
-.why-title{font-family:var(--f-head);font-size:1.4rem;font-weight:700;color:var(--ink2);margin-bottom:10px;line-height:1.3}
-.why-desc{font-size:1rem;color:var(--muted);line-height:1.88;margin-bottom:14px}
-.why-pill{display:inline-flex;align-items:center;gap:6px;background:var(--gold-bg);border:1px solid rgba(255,208,64,0.35);border-radius:50px;padding:5px 16px;font-size:0.8rem;font-weight:600;color:var(--gold-dk);font-family:var(--f-body)}
+/* ─── WHY – feature card grid ─── */
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.why-card{background:#fff;border-radius:20px;padding:26px 24px;border:1px solid var(--bdr);box-shadow:0 3px 18px rgba(30,13,78,.06);transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
+.why-card:hover{transform:translateY(-6px);box-shadow:0 16px 46px rgba(30,13,78,.12)}
+.why-icon{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:16px;flex-shrink:0}
+.why-solves{font-size:.61rem;font-weight:800;text-transform:uppercase;letter-spacing:1.3px;margin-bottom:9px;font-family:var(--f-body);display:flex;align-items:center;gap:5px}
+.why-arr{opacity:.4;font-size:.68rem;font-weight:700}
+.why-card-title{font-family:var(--f-head);font-size:1.1rem;font-weight:700;color:var(--ink2);margin-bottom:10px;line-height:1.28}
+.why-card-desc{font-size:.88rem;color:var(--muted);line-height:1.86;flex:1}
+.why-card-pill{display:inline-flex;align-items:center;gap:5px;margin-top:16px;font-size:.73rem;font-weight:600;padding:4px 13px;border-radius:50px;font-family:var(--f-body)}
 
 /* ─── TIMELINE ─── */
 .tl-item{display:flex;gap:24px;padding-bottom:36px;position:relative}
@@ -385,9 +384,7 @@ footer a:hover{color:var(--gold-hi)}
 /* ─── TABLET (≤ 991px) ─── */
 @media(max-width:991px){
   .fb{display:none}
-  .why-row,.why-row.rev{flex-direction:column!important}
-  .why-img{flex:0 0 240px;min-height:240px;width:100%}
-  .why-content{padding:28px 24px}
+  .why-grid{grid-template-columns:repeat(2,1fr)}
   .pain-section-sticky{position:relative!important;top:auto!important}
 }
 
@@ -450,12 +447,10 @@ footer a:hover{color:var(--gold-hi)}
   .pain-tag{font-size:0.78rem}
 
   /* Why section */
-  .why-row,.why-row.rev{flex-direction:column!important}
-  .why-img{flex:0 0 210px;min-height:210px;width:100%}
-  .why-content{padding:24px 20px}
-  .why-title{font-size:1.28rem;line-height:1.35;margin-bottom:10px}
-  .why-desc{font-size:1.05rem;line-height:1.88}
-  .why-pill{font-size:0.82rem}
+  .why-grid{grid-template-columns:1fr}
+  .why-card{padding:22px 20px}
+  .why-card-title{font-size:1.1rem}
+  .why-card-desc{font-size:.97rem;line-height:1.86}
 
   /* Comparison strip */
   .comp-strip{padding:28px 20px;border-radius:16px}
@@ -526,8 +521,8 @@ footer a:hover{color:var(--gold-hi)}
   .sec-h{font-size:1.75rem;line-height:1.18}
   .sec-lbl{font-size:0.8rem}
   .pain-q{font-size:1.08rem;line-height:1.65}
-  .why-title{font-size:1.28rem}
-  .why-desc{font-size:1.04rem}
+  .why-card-title{font-size:1.08rem}
+  .why-card-desc{font-size:1.01rem}
   .stat-val{font-size:1.95rem}
   .comp-strip h3{font-size:1.42rem!important}
   .comp-strip p{font-size:1rem!important}
@@ -796,56 +791,62 @@ footer a:hover{color:var(--gold-hi)}
       <p style="font-size:0.94rem;color:var(--muted);max-width:440px;margin:0 auto;line-height:1.82">Every frustration above has a <strong style="color:var(--ink2)">specific solution</strong> baked into YogSetu.</p>
     </div>
 
-    <div class="why-row fade-in">
-      <div class="why-img">
-        <img src="https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=500&h=360&fit=crop" alt="Verified yoga teacher certification" onerror="this.src='https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=500'">
-        <div class="why-img-overlay"></div>
-      </div>
-      <div class="why-content">
-        <div class="why-tag">Solves Problem 01</div>
-        <div class="why-title"><span class="hl-purple">Every Teacher</span> is RYT or AYUSH Certified</div>
-        <p class="why-desc">Before listing on YogSetu, teachers must submit their Yoga Alliance (RYT 200/500) or Ministry of AYUSH certification. We verify every document <strong><span class="hl-uline-p">manually</span></strong>. No exceptions, no shortcuts.</p>
-        <div class="why-pill">✦ Zero unverified listings – guaranteed</div>
-      </div>
-    </div>
+    <div class="why-grid fade-in">
 
-    <div class="why-row rev fade-in" style="flex-direction:row-reverse">
-      <div class="why-img">
-        <img src="https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=500&h=360&fit=crop" alt="Yoga style matching consultation" onerror="this.src='https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=500'">
-        <div class="why-img-overlay"></div>
+      <!-- Card 1 -->
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(61,23,133,.1)">🛡️</div>
+        <div class="why-solves" style="color:#3D1785">Solves <span class="why-arr">›</span> Unqualified Teachers</div>
+        <div class="why-card-title">Every Teacher Verified &amp; Certified</div>
+        <p class="why-card-desc">Before listing on YogSetu, teachers must submit their Yoga Alliance (RYT 200/500) or AYUSH certification. We verify every document manually. No exceptions, no shortcuts.</p>
+        <div class="why-card-pill" style="background:rgba(61,23,133,.08);color:#3D1785">✦ Zero unverified listings</div>
       </div>
-      <div class="why-content">
-        <div class="why-tag">Solves Problem 02</div>
-        <div class="why-title"><span class="hl-purple">Health-First</span> Teacher Matching</div>
-        <p class="why-desc">Before matching, we ask about your <strong><span class="hl-marker-p">health conditions, injuries, goals,</span></strong> and experience. A student with spondylitis is <strong><span class="hl-uline">never matched</span></strong> to a Power Yoga instructor. Period.</p>
-        <div class="why-pill">✦ Personalised match in under 2 minutes</div>
-      </div>
-    </div>
 
-    <div class="why-row fade-in">
-      <div class="why-img">
-        <img src="https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=500&h=360&fit=crop" alt="Weekly yoga progress report" onerror="this.src='https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=500'">
-        <div class="why-img-overlay"></div>
+      <!-- Card 2 -->
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(192,120,16,.1)">🎯</div>
+        <div class="why-solves" style="color:#9A6C0E">Solves <span class="why-arr">›</span> No Style Matching</div>
+        <div class="why-card-title">Health-First Teacher Matching</div>
+        <p class="why-card-desc">We ask about your health conditions, injuries and goals before matching. A student with spondylitis is never sent a Power Yoga teacher. Your health comes first, always.</p>
+        <div class="why-card-pill" style="background:rgba(192,120,16,.08);color:#9A6C0E">✦ Match in under 2 minutes</div>
       </div>
-      <div class="why-content">
-        <div class="why-tag">Solves Problem 03</div>
-        <div class="why-title"><span class="hl-purple">Weekly Progress Reports</span> – Every Student</div>
-        <p class="why-desc">Your teacher logs posture improvements, flexibility milestones, and session notes after every class. You get a <strong><span class="hl-marker">detailed weekly report</span></strong> – see exactly how your practice is growing.</p>
-        <div class="why-pill">✦ Never guess your progress again</div>
-      </div>
-    </div>
 
-    <div class="why-row rev fade-in" style="flex-direction:row-reverse">
-      <div class="why-img">
-        <img src="https://images.pexels.com/photos/4327139/pexels-photo-4327139.jpeg?auto=compress&cs=tinysrgb&w=500&h=360&fit=crop" alt="1-on-1 accountability yoga session" onerror="this.src='https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=500'">
-        <div class="why-img-overlay"></div>
+      <!-- Card 3 -->
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(13,148,136,.1)">📈</div>
+        <div class="why-solves" style="color:#0D9488">Solves <span class="why-arr">›</span> Zero Progress Tracking</div>
+        <div class="why-card-title">Weekly Progress Reports, Always</div>
+        <p class="why-card-desc">Your teacher logs posture improvements, milestones and session notes after every class. You get a detailed weekly report — see your growth, every single week.</p>
+        <div class="why-card-pill" style="background:rgba(13,148,136,.08);color:#0D9488">✦ Never guess your progress again</div>
       </div>
-      <div class="why-content">
-        <div class="why-tag">Solves Problems 04 &amp; 05</div>
-        <div class="why-title"><span class="hl-purple">Full Accountability</span> + 1-on-1 Only</div>
-        <p class="why-desc">Every session is logged. You're notified when class starts and ends. <span class="hl-box">More than 2 cancellations = teacher removed.</span> YogSetu offers only <strong><span class="hl-uline-t">1-on-1 sessions</span></strong> – never group classes. Your progress is our responsibility.</p>
-        <div class="why-pill">✦ Zero tolerance for unreliable teachers</div>
+
+      <!-- Card 4 -->
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(59,130,246,.1)">✅</div>
+        <div class="why-solves" style="color:#2563EB">Solves <span class="why-arr">›</span> Unreliable Teachers</div>
+        <div class="why-card-title">Full Session Accountability</div>
+        <p class="why-card-desc">Every session is logged and you're notified when class starts and ends. More than 2 cancellations and the teacher is removed from the platform. Zero tolerance, always.</p>
+        <div class="why-card-pill" style="background:rgba(59,130,246,.08);color:#2563EB">✦ Zero-tolerance policy</div>
       </div>
+
+      <!-- Card 5 -->
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(225,29,72,.1)">🧘</div>
+        <div class="why-solves" style="color:#BE123C">Solves <span class="why-arr">›</span> Group Classes Don't Work</div>
+        <div class="why-card-title">1-on-1 Only. Never Group Classes.</div>
+        <p class="why-card-desc">YogSetu is built exclusively for personal sessions. Your teacher sees only you, corrects your posture in real time and builds a curriculum entirely around your needs.</p>
+        <div class="why-card-pill" style="background:rgba(225,29,72,.08);color:#BE123C">✦ 100% personal attention</div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(5,150,105,.1)">⚡</div>
+        <div class="why-solves" style="color:#059669">Solves <span class="why-arr">›</span> Commitment Risk</div>
+        <div class="why-card-title">First Session Free, Zero Risk</div>
+        <p class="why-card-desc">Every teacher offers a completely free first class. Experience their teaching style, posture corrections and approach before paying a single rupee. No card, no commitment.</p>
+        <div class="why-card-pill" style="background:rgba(5,150,105,.08);color:#059669">✦ Try before you commit</div>
+      </div>
+
     </div>
 
     <!-- Comparison strip -->
