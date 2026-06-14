@@ -99,7 +99,8 @@ a{text-decoration:none;transition:color .2s}
 .sec-h2{font-family:var(--f-head);font-size:1.4rem;font-weight:700;color:var(--ink2);margin-bottom:16px}
 .tp-bio{font-size:.95rem;color:var(--muted);line-height:1.9}
 .spec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
-.spec-item{background:#F5F3FF;border-radius:12px;padding:14px 12px;text-align:center}
+.spec-item{background:#F5F3FF;border-radius:12px;padding:14px 12px;text-align:center;border:1px solid rgba(61,23,133,.1);transition:transform .2s,box-shadow .2s}
+.spec-item:hover{transform:translateY(-3px);box-shadow:0 5px 16px rgba(61,23,133,.1);background:#EDE9FF}
 .spec-icon{font-size:1.5rem;margin-bottom:6px}
 .spec-name{font-size:.78rem;font-weight:700;color:var(--ink2);font-family:var(--f-body)}
 /* CERT */
@@ -110,11 +111,13 @@ a{text-decoration:none;transition:color .2s}
 .cert-year{font-size:.75rem;font-weight:700;color:var(--gold-dk);background:var(--gold-bg);padding:2px 8px;border-radius:50px;margin-top:4px;display:inline-block}
 /* TIMELINE */
 .tl{border-left:2px solid var(--bdr);padding-left:24px;margin-left:8px}
-.tl-item{position:relative;padding-bottom:28px}
-.tl-item::before{content:'';position:absolute;left:-32px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--purple);border:2px solid #fff;box-shadow:0 0 0 3px rgba(61,23,133,.15)}
-.tl-date{font-size:.75rem;font-weight:700;color:var(--gold-dk);background:var(--gold-bg);padding:2px 9px;border-radius:50px;display:inline-block;margin-bottom:6px}
+.tl-item{position:relative;padding-bottom:16px;margin-bottom:10px}
+.tl-item:last-child{padding-bottom:0;margin-bottom:0}
+.tl-item::before{content:'';position:absolute;left:-32px;top:14px;width:14px;height:14px;border-radius:50%;background:var(--purple);border:2px solid #fff;box-shadow:0 0 0 3px rgba(61,23,133,.18)}
+.tl-inner{background:#fff;border-radius:14px;padding:14px 16px;border:1px solid var(--bdr);border-left:3px solid var(--purple);box-shadow:0 2px 10px rgba(30,13,78,.04)}
+.tl-date{font-size:.7rem;font-weight:800;color:var(--gold-dk);background:rgba(255,208,64,.14);border:1px solid rgba(224,153,24,.3);padding:2px 9px;border-radius:50px;display:inline-block;margin-bottom:7px;letter-spacing:.5px}
 .tl-title{font-family:var(--f-head);font-size:1rem;font-weight:700;color:var(--ink2);margin-bottom:4px}
-.tl-desc{font-size:.85rem;color:var(--muted);line-height:1.75}
+.tl-desc{font-size:.85rem;color:var(--muted);line-height:1.78}
 /* REVIEWS */
 .review-card{padding:22px 0;border-bottom:1px solid var(--bdr)}
 .review-card:last-child{border-bottom:none}
@@ -138,9 +141,11 @@ a{text-decoration:none;transition:color .2s}
 .price-amt{font-family:var(--f-display);font-size:2rem;font-weight:700;margin:8px 0}
 .price-amt sub{font-size:1rem;font-weight:500;opacity:.75}
 .price-features{list-style:none;margin:14px 0 20px;text-align:left}
-.price-features li{font-size:.83rem;padding:5px 0;display:flex;align-items:center;gap:8px;opacity:.85}
-.price-features li::before{content:'✓';color:var(--purple);font-weight:700;flex-shrink:0}
-.price-card.featured .price-features li::before{color:rgba(255,208,64,.9)}
+.price-features li{font-size:.85rem;padding:7px 0;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid rgba(61,23,133,.06)}
+.price-features li:last-child{border-bottom:none}
+.price-features li::before{content:'✓';color:#0D9488;font-weight:800;flex-shrink:0;width:18px;height:18px;background:rgba(13,148,136,.12);border-radius:50%;font-size:.68rem;text-align:center;line-height:18px;margin-top:1px}
+.price-card.featured .price-features li{border-bottom-color:rgba(255,255,255,.15)}
+.price-card.featured .price-features li::before{background:rgba(255,208,64,.25);color:#FFD040}
 /* RELATED */
 .rel-card{background:#fff;border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow);transition:all .3s}
 .rel-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
@@ -361,24 +366,32 @@ a{text-decoration:none;transition:color .2s}
           <h2 class="sec-h2">Teaching Journey</h2>
           <div class="tl">
             <div class="tl-item">
-              <div class="tl-date">2024 – Present</div>
-              <div class="tl-title">Senior Yoga Instructor · YogKulam</div>
-              <div class="tl-desc">Online and home yoga sessions across Delhi NCR. Conducting weekly therapeutic yoga workshops and corporate wellness sessions.</div>
+              <div class="tl-inner">
+                <div class="tl-date">2024 – Present</div>
+                <div class="tl-title">Senior Yoga Instructor · YogKulam</div>
+                <div class="tl-desc">Online and home yoga sessions across Delhi NCR. Conducting weekly therapeutic yoga workshops and corporate wellness sessions.</div>
+              </div>
             </div>
             <div class="tl-item">
-              <div class="tl-date">2020 – 2024</div>
-              <div class="tl-title">Head Yoga Instructor · Serene Studio, Delhi</div>
-              <div class="tl-desc">Led daily Hatha and Vinyasa classes. Introduced prenatal yoga programme that grew to 40+ regular students.</div>
+              <div class="tl-inner">
+                <div class="tl-date">2020 – 2024</div>
+                <div class="tl-title">Head Yoga Instructor · Serene Studio, Delhi</div>
+                <div class="tl-desc">Led daily Hatha and Vinyasa classes. Introduced prenatal yoga programme that grew to 40+ regular students.</div>
+              </div>
             </div>
             <div class="tl-item">
-              <div class="tl-date">2018 – 2020</div>
-              <div class="tl-title">RYT 500 Training · Rishikesh Yog Peeth</div>
-              <div class="tl-desc">Completed 500-hour advanced teacher training with focus on Ashtanga and therapeutic yoga applications.</div>
+              <div class="tl-inner">
+                <div class="tl-date">2018 – 2020</div>
+                <div class="tl-title">RYT 500 Training · Rishikesh Yog Peeth</div>
+                <div class="tl-desc">Completed 500-hour advanced teacher training with focus on Ashtanga and therapeutic yoga applications.</div>
+              </div>
             </div>
-            <div class="tl-item" style="padding-bottom:0">
-              <div class="tl-date">2016 – 2018</div>
-              <div class="tl-title">Yoga Instructor · Corporate Wellness</div>
-              <div class="tl-desc">Conducted morning yoga sessions at three corporate offices in Gurgaon. Introduced mindfulness breaks and breathing workshops.</div>
+            <div class="tl-item">
+              <div class="tl-inner">
+                <div class="tl-date">2016 – 2018</div>
+                <div class="tl-title">Yoga Instructor · Corporate Wellness</div>
+                <div class="tl-desc">Conducted morning yoga sessions at three corporate offices in Gurgaon. Introduced mindfulness breaks and breathing workshops.</div>
+              </div>
             </div>
           </div>
         </div>

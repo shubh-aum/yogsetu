@@ -131,30 +131,43 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 .sd{color:var(--gold-hi);font-size:0.5rem}
 @keyframes sc{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
-/* ─── TWO PATHS ─── */
-.path-card{border-radius:24px;overflow:hidden;height:100%;transition:transform 0.3s,box-shadow 0.3s;box-shadow:0 4px 24px rgba(30,13,78,0.08)}
-.path-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(30,13,78,0.14)}
-.path-img{height:220px;overflow:hidden;position:relative}
-.path-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s}
-.path-card:hover .path-img img{transform:scale(1.05)}
-.path-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,rgba(30,13,78,0.55) 100%)}
-.path-num-badge{position:absolute;top:16px;left:16px;width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#FFD040,#C07810);display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-size:0.9rem;font-weight:700;color:#18100A;box-shadow:0 3px 12px rgba(224,153,24,0.4)}
-.path-img-label{position:absolute;bottom:14px;left:18px;right:18px}
-.path-img-label h3{font-family:var(--f-head);font-size:1.4rem;font-weight:700;color:#fff;line-height:1.2;text-shadow:0 2px 8px rgba(0,0,0,0.3)}
-.path-body{background:#fff;padding:28px 26px}
-.path-body p{font-size:1rem;color:var(--muted);line-height:1.85;margin-bottom:18px}
-.path-ul{list-style:none;padding:0;margin:0 0 22px}
-.path-ul li{font-size:0.97rem;padding:8px 0;display:flex;align-items:flex-start;gap:9px;color:var(--ink);border-bottom:1px solid rgba(61,23,133,0.05)}
-.path-ul li:last-child{border-bottom:none}
-.path-ul li .arrow{color:var(--gold-mid);font-weight:700;flex-shrink:0;font-size:0.75rem;margin-top:3px}
+/* ─── PLAN SLIDER ─── */
+.plan-slider-outer{display:flex;align-items:center;gap:12px}
+.plan-track{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:12px 0 28px;scroll-behavior:smooth;flex:1}
+.plan-track::-webkit-scrollbar{display:none}
+.plan-arrow{flex-shrink:0;width:52px;height:52px;border-radius:50%;border:2px solid rgba(61,23,133,.2);background:#fff;color:var(--purple);font-size:1.7rem;font-weight:300;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s;box-shadow:0 4px 18px rgba(30,13,78,.1);line-height:1;align-self:center}
+.plan-arrow:hover:not([disabled]){background:var(--purple);color:#fff;border-color:var(--purple);transform:scale(1.08);box-shadow:0 6px 24px rgba(61,23,133,.28)}
+.plan-arrow[disabled]{opacity:.28;cursor:default}
+.plan-card{flex:0 0 340px;scroll-snap-align:center;background:#fff;border-radius:24px;border:1.5px solid var(--bdr);overflow:hidden;box-shadow:0 4px 24px rgba(30,13,78,.08);transition:transform .3s,box-shadow .3s;display:flex;flex-direction:column}
+.plan-card:hover{transform:translateY(-6px);box-shadow:0 18px 50px rgba(30,13,78,.14)}
+.plan-card.featured{border-color:var(--purple);box-shadow:0 6px 32px rgba(61,23,133,.16)}
+.plan-popular{background:linear-gradient(135deg,#FFD040,#C07810);color:#18100A;font-size:.7rem;font-weight:800;padding:5px 14px;font-family:var(--f-body);letter-spacing:.5px;text-align:center;display:block}
+.plan-img{height:205px;overflow:hidden;position:relative;flex-shrink:0}
+.plan-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.plan-card:hover .plan-img img{transform:scale(1.05)}
+.plan-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 18%,rgba(18,8,42,.78) 100%)}
+.plan-badge{position:absolute;top:14px;left:14px;background:rgba(255,255,255,.18);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:50px;font-family:var(--f-body);letter-spacing:.4px}
+.plan-price-overlay{position:absolute;bottom:16px;left:18px;right:18px}
+.plan-name{font-family:var(--f-head);font-size:1.3rem;font-weight:700;color:#fff;line-height:1.2;margin-bottom:5px;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.plan-price{font-family:var(--f-display);font-size:1.75rem;font-weight:700;color:#FFD040;line-height:1}
+.plan-price sub{font-size:.88rem;font-weight:500;color:rgba(255,255,255,.78);vertical-align:baseline;margin-left:2px}
+.plan-body{padding:22px 22px 26px;flex:1;display:flex;flex-direction:column}
+.plan-tagline{font-size:.9rem;color:var(--muted);line-height:1.72;margin-bottom:16px}
+.plan-features{list-style:none;padding:0;margin:0 0 22px;flex:1}
+.plan-features li{font-size:.93rem;padding:7px 0;display:flex;align-items:flex-start;gap:10px;color:var(--ink);border-bottom:1px solid rgba(61,23,133,.05)}
+.plan-features li:last-child{border-bottom:none}
+.plan-check{color:#0D9488;font-weight:800;flex-shrink:0;font-size:.72rem;margin-top:3px;background:rgba(13,148,136,.1);border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center}
+.plan-dots{display:flex;justify-content:center;gap:7px;margin-top:6px}
+.plan-dot{width:7px;height:7px;border-radius:50%;background:var(--bdr);transition:all .3s;cursor:pointer;border:none;padding:0;background-color:rgba(61,23,133,.18)}
+.plan-dot.active{background-color:var(--purple);width:22px;border-radius:4px}
 
 /* ─── PAIN POINTS ─── */
-.pain-item{display:flex;align-items:flex-start;gap:20px;padding:24px 0;border-bottom:1px solid rgba(61,23,133,0.07);transition:all 0.2s}
-.pain-item:hover{padding-left:8px}
-.pain-item:last-child{border-bottom:none}
-.pain-num{font-family:var(--f-display);font-size:2.5rem;font-weight:900;line-height:1;color:rgba(61,23,133,0.1);flex-shrink:0;min-width:60px;text-align:right}
-.pain-tag{font-size:0.76rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px;font-family:var(--f-body)}
-.pain-q{font-family:var(--f-head);font-size:1.12rem;font-weight:600;color:var(--ink);line-height:1.65;font-style:italic}
+.pain-item{display:flex;align-items:flex-start;gap:14px;padding:17px 20px;background:#fff;border-radius:16px;border:1px solid var(--bdr);border-left:4px solid var(--purple);margin-bottom:11px;box-shadow:0 2px 10px rgba(30,13,78,.04);transition:transform .22s,box-shadow .22s}
+.pain-item:last-child{margin-bottom:0}
+.pain-item:hover{transform:translateX(5px);box-shadow:0 6px 24px rgba(30,13,78,.1)}
+.pain-num{font-size:.8rem;font-weight:800;color:#fff;flex-shrink:0;width:32px;height:32px;min-width:32px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple-md));display:flex;align-items:center;justify-content:center;margin-top:2px;font-family:var(--f-body)}
+.pain-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:5px;font-family:var(--f-body)}
+.pain-q{font-family:var(--f-head);font-size:1.08rem;font-weight:600;color:var(--ink);line-height:1.65;font-style:italic;margin:0}
 
 /* ─── WHY – alternating image rows ─── */
 .why-row{display:flex;border-radius:22px;overflow:hidden;margin-bottom:22px;box-shadow:0 4px 28px rgba(30,13,78,0.08);background:#fff}
@@ -173,7 +186,8 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 .tl-item:not(:last-child)::before{content:'';position:absolute;left:28px;top:58px;bottom:0;width:2px;background:linear-gradient(to bottom,rgba(255,208,64,0.5),transparent)}
 .tl-img{width:56px;height:56px;border-radius:50%;overflow:hidden;flex-shrink:0;box-shadow:0 4px 16px rgba(30,13,78,0.15);border:2px solid rgba(255,208,64,0.4)}
 .tl-img img{width:100%;height:100%;object-fit:cover}
-.tl-num{font-size:0.76rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:4px;font-family:var(--f-body)}
+.tl-num{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dk);background:rgba(255,208,64,.14);border:1px solid rgba(224,153,24,.35);padding:3px 11px;border-radius:50px;margin-bottom:8px;font-family:var(--f-body)}
+.tl-body{background:#fff;border-radius:14px;padding:16px 18px;border:1px solid var(--bdr);box-shadow:0 2px 10px rgba(30,13,78,.04);flex:1}
 .tl-h{font-family:var(--f-head);font-size:1.15rem;font-weight:700;color:var(--ink2);margin-bottom:6px}
 .tl-p{font-size:0.98rem;color:var(--muted);line-height:1.82;font-weight:400}
 
@@ -419,18 +433,21 @@ footer a:hover{color:var(--gold-hi)}
   .sec-h{font-size:1.85rem;line-height:1.18}
   .sec-lbl{font-size:0.78rem;letter-spacing:2px}
 
-  /* Path cards */
-  .path-img{height:200px}
-  .path-img-label h3{font-size:1.3rem}
-  .path-body{padding:24px 20px}
-  .path-body p{font-size:1.05rem;line-height:1.88}
-  .path-ul li{font-size:1rem;padding:8px 0;line-height:1.7}
+  /* Plan slider */
+  .plan-slider-outer{gap:8px}
+  .plan-arrow{width:42px;height:42px;font-size:1.4rem}
+  .plan-card{flex:0 0 calc(100vw - 90px)}
+  .plan-img{height:188px}
+  .plan-name{font-size:1.18rem}
+  .plan-price{font-size:1.55rem}
+  .plan-body{padding:18px 18px 22px}
+  .plan-features li{font-size:.97rem}
 
   /* Pain section */
-  .pain-item{gap:14px;padding:20px 0}
-  .pain-num{font-size:1.8rem;min-width:40px}
-  .pain-q{font-size:1.08rem;line-height:1.68}
-  .pain-tag{font-size:0.76rem}
+  .pain-item{gap:12px;padding:14px 16px}
+  .pain-num{width:28px;height:28px;min-width:28px;font-size:.75rem}
+  .pain-q{font-size:1.04rem;line-height:1.7}
+  .pain-tag{font-size:0.78rem}
 
   /* Why section */
   .why-row,.why-row.rev{flex-direction:column!important}
@@ -454,9 +471,10 @@ footer a:hover{color:var(--gold-hi)}
   .ftab{padding:8px 15px;font-size:0.88rem}
 
   /* Timeline */
-  .tl-item{gap:16px;padding-bottom:24px}
+  .tl-item{gap:12px;padding-bottom:18px}
   .tl-item::before{display:none}
-  .tl-img{width:48px;height:48px}
+  .tl-img{width:46px;height:46px}
+  .tl-body{padding:13px 14px}
   .tl-h{font-size:1.12rem}
   .tl-p{font-size:1rem;line-height:1.82}
 
@@ -515,7 +533,8 @@ footer a:hover{color:var(--gold-hi)}
   .comp-strip p{font-size:1rem!important}
   .cta-box h2{font-size:1.72rem!important}
   .cta-box p{font-size:1.04rem}
-  .path-img{height:175px}
+  .plan-arrow{width:38px;height:38px;font-size:1.25rem}
+  .plan-card{flex:0 0 calc(100vw - 80px)}
   .chip-lbl{font-size:0.9rem}
   .ftab{padding:7px 13px;font-size:0.92rem}
   .tq-text{font-size:1.06rem}
@@ -633,59 +652,101 @@ footer a:hover{color:var(--gold-hi)}
   </div>
 </div>
 
-<!-- ── TWO PATHS ── -->
+<!-- ── CHOOSE YOUR PLAN ── -->
 <section id="offer" style="padding:90px 0;background:#fff">
   <div class="container">
     <div class="text-center mb-5 fade-in">
-      <div class="sec-lbl">Choose Your Path</div>
-      <h2 class="sec-h">Two Ways to <span class="hl-gold">Grow With Yoga</span></h2>
-      <p style="font-size:0.94rem;color:var(--muted);max-width:420px;margin:0 auto;line-height:1.82">Whether you want a <strong style="color:var(--ink2)">long-term personal teacher</strong> or a <strong style="color:var(--ink2)">quick focused session</strong> – YogSetu has you covered.</p>
+      <div class="sec-lbl">Choose Your Plan</div>
+      <h2 class="sec-h">Start Your Yoga Journey <span class="hl-gold">Today</span></h2>
+      <p style="font-size:0.94rem;color:var(--muted);max-width:440px;margin:0 auto;line-height:1.82">Every plan includes a <strong style="color:var(--ink2)">free first session</strong> – no commitment, no card needed. Pick what fits your life.</p>
     </div>
-    <div class="row g-4 fade-in">
-      <div class="col-md-6">
-        <div class="path-card">
-          <div class="path-img">
-            <img src="https://images.pexels.com/photos/3822862/pexels-photo-3822862.jpeg?auto=compress&cs=tinysrgb&w=640&h=400&fit=crop" alt="Personal yoga teacher at home" onerror="this.src='https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=640'">
-            <div class="path-img-overlay"></div>
-            <div class="path-num-badge">01</div>
-            <div class="path-img-label">
-              <h3>Hire a Personal<br>Yoga Teacher</h3>
+
+    <!-- Slider -->
+    <div class="plan-slider-outer fade-in">
+      <button class="plan-arrow" id="planPrev" aria-label="Previous plan" disabled>&#8249;</button>
+
+      <div class="plan-track" id="planTrack">
+
+        <!-- ── Plan 1: Single Session ── -->
+        <div class="plan-card">
+          <div class="plan-img">
+            <img src="https://images.pexels.com/photos/4327139/pexels-photo-4327139.jpeg?auto=compress&cs=tinysrgb&w=640&h=400&fit=crop" alt="Book a single yoga session" onerror="this.src='https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=640'">
+            <div class="plan-img-overlay"></div>
+            <div class="plan-badge">Flexible</div>
+            <div class="plan-price-overlay">
+              <div class="plan-name">Single Session</div>
+              <div class="plan-price">&#8377;299<sub>/class</sub></div>
             </div>
           </div>
-          <div class="path-body">
-            <p>Get a certified teacher who visits your home or teaches you online on a <strong style="color:var(--ink2)">regular schedule</strong> – weekly or daily, with a personalised curriculum.</p>
-            <ul class="path-ul">
-              <li><span class="arrow">›</span><span>Monthly plans starting <span class="hl-pill">₹1,500/month</span></span></li>
-              <li><span class="arrow">›</span><span>Custom curriculum built <strong style="color:var(--ink2)"><span class="hl-uline-p">just for you</span></strong></span></li>
-              <li><span class="arrow">›</span><span>Health conditions &amp; injuries <strong style="color:var(--ink2)">fully considered</strong></span></li>
-              <li><span class="arrow">›</span><span>Weekly progress reports <strong style="color:var(--ink2)">sent to you</strong></span></li>
+          <div class="plan-body">
+            <p class="plan-tagline">One focused class with a certified teacher. Online or at your home — anytime.</p>
+            <ul class="plan-features">
+              <li><span class="plan-check">&#10003;</span><span>Book same-day or in advance</span></li>
+              <li><span class="plan-check">&#10003;</span><span>Choose style, duration &amp; language</span></li>
+              <li><span class="plan-check">&#10003;</span><span>Online (Zoom) or home visit</span></li>
+              <li><span class="plan-check">&#10003;</span><span><strong style="color:var(--ink2)">First class completely free</strong></span></li>
             </ul>
-            <a href="#" class="btn-g" data-book="1">Hire a Teacher →</a>
+            <a href="#" class="btn-g" data-book="1" style="width:100%;justify-content:center">Book a Session &#8594;</a>
           </div>
         </div>
-      </div>
-      <div class="col-md-6">
-        <div class="path-card">
-          <div class="path-img">
-            <img src="https://images.pexels.com/photos/4327139/pexels-photo-4327139.jpeg?auto=compress&cs=tinysrgb&w=640&h=400&fit=crop" alt="1-on-1 yoga session" onerror="this.src='https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=640'">
-            <div class="path-img-overlay"></div>
-            <div class="path-num-badge">02</div>
-            <div class="path-img-label">
-              <h3>Book a 1-on-1<br>Yoga Session</h3>
+
+        <!-- ── Plan 2: Monthly Personal — FEATURED ── -->
+        <div class="plan-card featured">
+          <span class="plan-popular">&#9733; Most Popular</span>
+          <div class="plan-img">
+            <img src="https://images.pexels.com/photos/3822862/pexels-photo-3822862.jpeg?auto=compress&cs=tinysrgb&w=640&h=400&fit=crop" alt="Personal yoga teacher" onerror="this.src='https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=640'">
+            <div class="plan-img-overlay"></div>
+            <div class="plan-badge">Best Value</div>
+            <div class="plan-price-overlay">
+              <div class="plan-name">Monthly Plan</div>
+              <div class="plan-price">&#8377;1,500<sub>/month</sub></div>
             </div>
           </div>
-          <div class="path-body">
-            <p>Need just one session? Book any certified teacher for a <strong style="color:var(--ink2)">single focused class</strong> – online or at home – anytime you want.</p>
-            <ul class="path-ul">
-              <li><span class="arrow">›</span><span>Single sessions from <span class="hl-pill">₹299/session</span></span></li>
-              <li><span class="arrow">›</span><span>Book <strong style="color:var(--ink2)"><span class="hl-uline">same-day</span></strong> or schedule in advance</span></li>
-              <li><span class="arrow">›</span><span>Choose style, <strong style="color:var(--ink2)">duration &amp; language</strong></span></li>
-              <li><span class="arrow">›</span><span><strong style="color:var(--ink2)">First session</strong> <span class="hl-marker">completely free</span></span></li>
+          <div class="plan-body">
+            <p class="plan-tagline">A dedicated personal teacher on a regular schedule — built around your health goals.</p>
+            <ul class="plan-features">
+              <li><span class="plan-check">&#10003;</span><span>Daily or weekly schedule</span></li>
+              <li><span class="plan-check">&#10003;</span><span>Custom curriculum for your body</span></li>
+              <li><span class="plan-check">&#10003;</span><span>Health &amp; injuries fully considered</span></li>
+              <li><span class="plan-check">&#10003;</span><span>Weekly progress reports sent to you</span></li>
             </ul>
-            <a href="#" class="btn-g" data-book="1">Book a Session →</a>
+            <a href="#" class="btn-g" data-book="1" style="width:100%;justify-content:center;background:linear-gradient(135deg,var(--purple-dk),var(--purple-md))">Hire a Teacher &#8594;</a>
           </div>
         </div>
-      </div>
+
+        <!-- ── Plan 3: Group / Corporate ── -->
+        <div class="plan-card">
+          <div class="plan-img">
+            <img src="https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=640&h=400&fit=crop" alt="Group yoga for corporates" onerror="this.src='https://images.pexels.com/photos/3822862/pexels-photo-3822862.jpeg?auto=compress&cs=tinysrgb&w=640'">
+            <div class="plan-img-overlay"></div>
+            <div class="plan-badge">For Teams</div>
+            <div class="plan-price-overlay">
+              <div class="plan-name">Group / Corporate</div>
+              <div class="plan-price">&#8377;499<sub>/person</sub></div>
+            </div>
+          </div>
+          <div class="plan-body">
+            <p class="plan-tagline">Bring wellness to your team. Live group sessions for companies, studios &amp; schools.</p>
+            <ul class="plan-features">
+              <li><span class="plan-check">&#10003;</span><span>5–50 participants per session</span></li>
+              <li><span class="plan-check">&#10003;</span><span>Online or on-site delivery</span></li>
+              <li><span class="plan-check">&#10003;</span><span>Custom wellness programme</span></li>
+              <li><span class="plan-check">&#10003;</span><span>Monthly invoicing available</span></li>
+            </ul>
+            <a href="#" class="btn-g" data-book="1" style="width:100%;justify-content:center">Get a Quote &#8594;</a>
+          </div>
+        </div>
+
+      </div><!-- /plan-track -->
+
+      <button class="plan-arrow" id="planNext" aria-label="Next plan">&#8250;</button>
+    </div><!-- /plan-slider-outer -->
+
+    <!-- Dots indicator -->
+    <div class="plan-dots" id="planDotsWrap">
+      <button class="plan-dot active" data-plan="0" aria-label="Plan 1"></button>
+      <button class="plan-dot" data-plan="1" aria-label="Plan 2"></button>
+      <button class="plan-dot" data-plan="2" aria-label="Plan 3"></button>
     </div>
   </div>
 </section>
@@ -701,24 +762,24 @@ footer a:hover{color:var(--gold-hi)}
         <a href="#why" class="btn-g">How We Solve This →</a>
       </div>
       <div class="col-lg-8 fade-in">
-        <div class="pain-item">
-          <div class="pain-num">01</div>
+        <div class="pain-item" style="border-left-color:var(--purple)">
+          <div class="pain-num" style="background:linear-gradient(135deg,#3D1785,#6B3FA0)">01</div>
           <div><div class="pain-tag" style="color:var(--purple)">Unqualified Teachers</div><p class="pain-q">"The teacher had <span class="hl-wave-r">no RYT certification</span>. I injured my lower back in the second class and couldn't practice for weeks."</p></div>
         </div>
-        <div class="pain-item">
-          <div class="pain-num">02</div>
+        <div class="pain-item" style="border-left-color:#9A6C0E">
+          <div class="pain-num" style="background:linear-gradient(135deg,#B7860B,#C07810)">02</div>
           <div><div class="pain-tag" style="color:var(--gold-dk)">No Style Matching</div><p class="pain-q">"I wanted therapeutic yoga for my spondylitis. I was given Power Yoga. <span class="hl-wave-r">Nobody asked about my health.</span>"</p></div>
         </div>
-        <div class="pain-item">
-          <div class="pain-num">03</div>
+        <div class="pain-item" style="border-left-color:#0D9488">
+          <div class="pain-num" style="background:linear-gradient(135deg,#0D9488,#0F766E)">03</div>
           <div><div class="pain-tag" style="color:#0D9488">Zero Progress Tracking</div><p class="pain-q">"After 4 months I still don't know if I'm improving. <span class="hl-wave-r">No benchmarks, no feedback,</span> no posture assessments. Nothing."</p></div>
         </div>
-        <div class="pain-item">
-          <div class="pain-num">04</div>
+        <div class="pain-item" style="border-left-color:#3B82F6">
+          <div class="pain-num" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">04</div>
           <div><div class="pain-tag" style="color:#3B82F6">Unreliable &amp; Unaccountable</div><p class="pain-q">"Cancelled 6 times in 2 months with no notice. I lost <span class="hl-marker" style="background:linear-gradient(transparent 48%,rgba(225,29,72,0.2) 48%)">₹4,000 and all my motivation</span> to practice yoga."</p></div>
         </div>
-        <div class="pain-item">
-          <div class="pain-num">05</div>
+        <div class="pain-item" style="border-left-color:#E11D48">
+          <div class="pain-num" style="background:linear-gradient(135deg,#E11D48,#BE123C)">05</div>
           <div><div class="pain-tag" style="color:#E11D48">Group Classes Don't Work</div><p class="pain-q">"In a group class <span class="hl-wave-r">the teacher never corrects my posture.</span> I'm practicing wrong for months and nobody tells me."</p></div>
         </div>
       </div>
@@ -891,19 +952,19 @@ footer a:hover{color:var(--gold-hi)}
       <div class="col-lg-7 fade-in">
         <div class="tl-item">
           <div class="tl-img"><img src="https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=60&h=60&fit=crop" alt="Step 1"></div>
-          <div><div class="tl-num">Step 01</div><div class="tl-h">Tell Us About <span class="hl-purple">Yourself</span></div><p class="tl-p">Share your yoga experience, health conditions, goals, preferred schedule, and whether you want home, studio, or online sessions. Takes 2 minutes.</p></div>
+          <div class="tl-body"><div class="tl-num">Step 01</div><div class="tl-h">Tell Us About <span class="hl-purple">Yourself</span></div><p class="tl-p">Share your yoga experience, health conditions, goals, preferred schedule, and whether you want home, studio, or online sessions. Takes 2 minutes.</p></div>
         </div>
         <div class="tl-item">
           <div class="tl-img"><img src="https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=60&h=60&fit=crop" alt="Step 2"></div>
-          <div><div class="tl-num">Step 02</div><div class="tl-h">Get <span class="hl-purple">Matched Instantly</span></div><p class="tl-p">Our system finds certified teachers who match your style, location, health needs, and budget. Browse profiles, ratings, and session recordings before deciding.</p></div>
+          <div class="tl-body"><div class="tl-num">Step 02</div><div class="tl-h">Get <span class="hl-purple">Matched Instantly</span></div><p class="tl-p">Our system finds certified teachers who match your style, location, health needs, and budget. Browse profiles, ratings, and session recordings before deciding.</p></div>
         </div>
         <div class="tl-item">
           <div class="tl-img"><img src="https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=60&h=60&fit=crop" alt="Step 3"></div>
-          <div><div class="tl-num">Step 03</div><div class="tl-h"><span class="hl-purple">Free</span> First Session</div><p class="tl-p">Book your first session <span class="hl-marker">completely free</span>. Experience the teacher's style, posture corrections, and approach before paying a single rupee. <span class="hl-pill-p">No commitment needed.</span></p></div>
+          <div class="tl-body"><div class="tl-num">Step 03</div><div class="tl-h"><span class="hl-purple">Free</span> First Session</div><p class="tl-p">Book your first session <span class="hl-marker">completely free</span>. Experience the teacher's style, posture corrections, and approach before paying a single rupee. <span class="hl-pill-p">No commitment needed.</span></p></div>
         </div>
         <div class="tl-item" style="padding-bottom:0">
           <div class="tl-img"><img src="https://images.pexels.com/photos/4327139/pexels-photo-4327139.jpeg?auto=compress&cs=tinysrgb&w=60&h=60&fit=crop" alt="Step 4"></div>
-          <div><div class="tl-num">Step 04</div><div class="tl-h">Begin Your <span class="hl-purple">Journey</span></div><p class="tl-p">Happy? Book a monthly plan or pay per session. Get your personalised curriculum, weekly reports, and start growing your practice consistently.</p></div>
+          <div class="tl-body"><div class="tl-num">Step 04</div><div class="tl-h">Begin Your <span class="hl-purple">Journey</span></div><p class="tl-p">Happy? Book a monthly plan or pay per session. Get your personalised curriculum, weekly reports, and start growing your practice consistently.</p></div>
         </div>
       </div>
     </div>
@@ -1378,6 +1439,45 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape') closeModal();});
 document.querySelectorAll('[data-book]').forEach(btn=>{
   btn.addEventListener('click',e=>{e.preventDefault();openModal();});
 });
+
+// ── Plan Slider ──
+(function(){
+  const track = document.getElementById('planTrack');
+  const btnPrev = document.getElementById('planPrev');
+  const btnNext = document.getElementById('planNext');
+  const dots = document.querySelectorAll('#planDotsWrap .plan-dot');
+  const cards = track ? track.querySelectorAll('.plan-card') : [];
+  const total = cards.length;
+  let current = 0;
+
+  function goTo(idx){
+    current = Math.max(0, Math.min(total - 1, idx));
+    if(cards[current]){
+      cards[current].scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+    }
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current === total - 1;
+    dots.forEach((d,i) => d.classList.toggle('active', i === current));
+  }
+
+  if(!track) return;
+  btnPrev.addEventListener('click', () => goTo(current - 1));
+  btnNext.addEventListener('click', () => goTo(current + 1));
+  dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.plan)));
+
+  track.addEventListener('scroll', () => {
+    let minDist = Infinity;
+    cards.forEach((card, i) => {
+      const cr = card.getBoundingClientRect();
+      const tr = track.getBoundingClientRect();
+      const dist = Math.abs((cr.left + cr.width / 2) - (tr.left + tr.width / 2));
+      if(dist < minDist){ minDist = dist; current = i; }
+    });
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current === total - 1;
+    dots.forEach((d,i) => d.classList.toggle('active', i === current));
+  }, {passive: true});
+})();
 </script>
 </body>
 </html>
