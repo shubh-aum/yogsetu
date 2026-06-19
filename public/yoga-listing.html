@@ -166,20 +166,19 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 .plan-dot.active{background-color:var(--primary);width:22px;border-radius:4px}
 
 /* ─── PAIN POINTS ─── */
-.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.prob-card{background:linear-gradient(160deg,#ffffff 0%,#fdfbff 100%);border:1px solid rgba(0,0,0,0.07);border-radius:14px;padding:30px 30px 26px;display:flex;flex-direction:column;transition:box-shadow .22s,transform .22s;position:relative;overflow:hidden}
-.prob-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--pc),transparent 70%);border-radius:14px 14px 0 0}
-.prob-card:hover{box-shadow:0 8px 32px rgba(30,13,78,0.1);transform:translateY(-2px)}
-.prob-head{display:flex;align-items:center;gap:7px;margin-bottom:14px}
-.prob-dot{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--pc),var(--pc));box-shadow:0 0 0 2.5px rgba(0,0,0,0.06);flex-shrink:0}
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.prob-card{background:linear-gradient(160deg,#ffffff 0%,#fdfbff 100%);border:1px solid rgba(0,0,0,0.07);border-radius:16px;padding:36px 32px 32px;display:flex;flex-direction:column;transition:box-shadow .25s,transform .25s;position:relative;overflow:hidden}
+.prob-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--pc),transparent 70%);border-radius:16px 16px 0 0}
+.prob-card:hover{box-shadow:0 12px 40px rgba(30,13,78,0.1);transform:translateY(-3px)}
+.prob-head{display:flex;align-items:center;gap:7px;margin-bottom:22px}
+.prob-dot{width:7px;height:7px;border-radius:50%;background:var(--pc);box-shadow:0 0 0 2.5px rgba(0,0,0,0.06);flex-shrink:0}
 .prob-idx{font-size:0.67rem;font-weight:700;letter-spacing:1.8px;color:var(--muted);font-family:var(--f-body);text-transform:uppercase}
-.prob-title{font-family:var(--f-head);font-size:1.18rem;font-weight:700;color:var(--ink2);line-height:1.32;margin-bottom:14px}
-.prob-rule{border:none;height:1px;background:linear-gradient(90deg,var(--pc) 0%,rgba(0,0,0,0.05) 40%,transparent 100%);margin:0 0 14px}
-.prob-stmt{font-size:0.86rem;color:var(--muted);line-height:1.8;font-family:var(--f-body);margin-bottom:14px}
-.prob-quote{font-family:var(--f-head);font-size:0.85rem;font-style:italic;color:rgba(30,13,78,0.4);line-height:1.72;padding-left:11px;border-left:2px solid var(--pc);margin-bottom:0}
-.prob-stat{margin-top:auto;display:flex;align-items:baseline;gap:7px;padding-top:18px;margin-top:18px;border-top:1px solid rgba(0,0,0,0.06)}
-.prob-stat-n{font-family:var(--f-head);font-size:1.45rem;font-weight:700;color:var(--pc);line-height:1;background:linear-gradient(135deg,var(--pc) 30%,var(--primary-md));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.prob-stat-l{font-size:0.74rem;color:var(--muted);font-family:var(--f-body);line-height:1.45}
+.prob-stat{display:flex;align-items:baseline;gap:9px;margin-bottom:6px}
+.prob-stat-n{font-family:var(--f-head);font-size:2.6rem;font-weight:700;line-height:1;background:linear-gradient(135deg,var(--pc) 30%,var(--primary-md));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.prob-stat-l{font-size:0.75rem;color:var(--muted);font-family:var(--f-body);line-height:1.5;max-width:130px}
+.prob-rule{border:none;height:1px;background:linear-gradient(90deg,var(--pc) 0%,rgba(0,0,0,0.05) 40%,transparent 100%);margin:22px 0}
+.prob-title{font-family:var(--f-head);font-size:1.28rem;font-weight:700;color:var(--ink2);line-height:1.3;margin-bottom:12px}
+.prob-quote{font-family:var(--f-head);font-size:0.9rem;font-style:italic;color:rgba(30,13,78,0.42);line-height:1.72;padding-left:12px;border-left:2px solid var(--pc);margin:0}
 
 /* ─── WHY – feature card grid ─── */
 .why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
@@ -456,7 +455,9 @@ footer a:hover{color:var(--gold-hi)}
 
   /* Pain section */
   .prob-grid{grid-template-columns:1fr}
-  .prob-card{padding:24px 22px 20px}
+  .prob-card{padding:30px 26px 28px}
+  .prob-stat-n{font-size:2.2rem}
+  .prob-title{font-size:1.2rem}
 
   /* Why section */
   .why-grid{grid-template-columns:1fr}
@@ -758,10 +759,10 @@ footer a:hover{color:var(--gold-hi)}
 <section style="padding:96px 0;background:linear-gradient(160deg,#F4F0F8 0%,#FAF8FC 45%,#EDE5F0 100%)">
   <div class="container">
 
-    <div class="text-center mb-5 fade-in" style="max-width:520px;margin-left:auto;margin-right:auto">
+    <div class="text-center mb-5 fade-in" style="max-width:480px;margin-left:auto;margin-right:auto">
       <div class="sec-lbl">The Real Problems</div>
-      <h2 class="sec-h" style="margin-bottom:10px">Why Good Yoga Instruction<br>Is Hard to Find</h2>
-      <p style="font-size:0.88rem;color:var(--muted);line-height:1.8">We spoke to <strong style="color:var(--ink2)">500+ students</strong> across India. The same four problems came up every time.</p>
+      <h2 class="sec-h" style="margin-bottom:10px">Why Good Yoga Is<br>Hard to Find</h2>
+      <p style="font-size:0.9rem;color:var(--muted);line-height:1.8"><strong style="color:var(--ink2)">500+ students.</strong> Four problems. Every single time.</p>
     </div>
 
     <div class="prob-grid fade-in">
@@ -772,14 +773,13 @@ footer a:hover{color:var(--gold-hi)}
           <span class="prob-dot"></span>
           <span class="prob-idx">01 &nbsp;·&nbsp; Unqualified Teachers</span>
         </div>
-        <div class="prob-title">Teaching Without Credentials or Verification</div>
-        <hr class="prob-rule">
-        <p class="prob-stmt">Most platforms let anyone list as a yoga teacher. No certification is checked, no qualification is verified — before your very first class.</p>
-        <p class="prob-quote">"I injured my lower back in the second class and couldn't practice for weeks."</p>
         <div class="prob-stat">
           <span class="prob-stat-n">1 in 3</span>
-          <span class="prob-stat-l">yoga students experience injury from unqualified instruction</span>
+          <span class="prob-stat-l">injured by unqualified teachers</span>
         </div>
+        <hr class="prob-rule">
+        <div class="prob-title">No Credentials. No Verification.</div>
+        <p class="prob-quote">"I injured my back in the second class and couldn't practice for weeks."</p>
       </div>
 
       <!-- Card 2 -->
@@ -788,14 +788,13 @@ footer a:hover{color:var(--gold-hi)}
           <span class="prob-dot"></span>
           <span class="prob-idx">02 &nbsp;·&nbsp; No Style Matching</span>
         </div>
-        <div class="prob-title">Wrong Practice Prescribed for Your Body</div>
-        <hr class="prob-rule">
-        <p class="prob-stmt">Without a health intake, style matching is random. A student with spondylitis gets Power Yoga. No one asks. No one adjusts.</p>
-        <p class="prob-quote">"I wanted therapeutic yoga. Nobody asked about my condition before we started."</p>
         <div class="prob-stat">
           <span class="prob-stat-n">7 in 10</span>
-          <span class="prob-stat-l">students are never asked about health before their first session</span>
+          <span class="prob-stat-l">never asked about health</span>
         </div>
+        <hr class="prob-rule">
+        <div class="prob-title">Wrong Yoga for Your Body</div>
+        <p class="prob-quote">"I needed therapeutic yoga. Nobody asked about my condition."</p>
       </div>
 
       <!-- Card 3 -->
@@ -804,14 +803,13 @@ footer a:hover{color:var(--gold-hi)}
           <span class="prob-dot"></span>
           <span class="prob-idx">03 &nbsp;·&nbsp; Zero Progress Tracking</span>
         </div>
-        <div class="prob-title">No Visibility Into Whether You're Improving</div>
-        <hr class="prob-rule">
-        <p class="prob-stmt">Classes happen week after week with zero documentation. No milestones, no posture feedback, no benchmarks. Months invested, nothing to measure.</p>
-        <p class="prob-quote">"After 4 months I still don't know if I'm even improving."</p>
         <div class="prob-stat">
           <span class="prob-stat-n">4 months</span>
-          <span class="prob-stat-l">average time before students lose motivation without feedback</span>
+          <span class="prob-stat-l">before motivation disappears</span>
         </div>
+        <hr class="prob-rule">
+        <div class="prob-title">No Way to Know If You're Improving</div>
+        <p class="prob-quote">"After 4 months I still don't know if I'm getting better."</p>
       </div>
 
       <!-- Card 4 -->
@@ -820,14 +818,13 @@ footer a:hover{color:var(--gold-hi)}
           <span class="prob-dot"></span>
           <span class="prob-idx">04 &nbsp;·&nbsp; Unreliable Teachers</span>
         </div>
-        <div class="prob-title">Cancellations With No Notice and No Accountability</div>
-        <hr class="prob-rule">
-        <p class="prob-stmt">There is no enforcement layer. Teachers cancel at will. Students absorb the cost — financially and motivationally — with no recourse.</p>
-        <p class="prob-quote">"Cancelled 6 times in 2 months. I lost ₹4,000 and all motivation to continue."</p>
         <div class="prob-stat">
           <span class="prob-stat-n">3×</span>
-          <span class="prob-stat-l">more likely to quit yoga permanently after repeated cancellations</span>
+          <span class="prob-stat-l">more likely to quit yoga</span>
         </div>
+        <hr class="prob-rule">
+        <div class="prob-title">Cancelled. No Notice. No Refund.</div>
+        <p class="prob-quote">"6 cancellations in 2 months. I lost ₹4,000 and all motivation."</p>
       </div>
 
     </div>
