@@ -10,15 +10,17 @@
 <style>
 /* ─── DESIGN TOKENS ─── */
 :root{
-  --cream:#FDFAF5; --parchment:#F7F2E8; --lavender:#F0EAFF; --lav-mid:#E0D3FF;
-  --purple:#3D1785; --purple-dk:#1E0D4E; --purple-md:#6B3FA0;
-  --gold-hi:#FFD040; --gold-mid:#E09918; --gold-dk:#9A6C0E; --gold-bg:#FBF4DE;
-  --ink:#18102A; --ink2:#2E1760; --muted:#6A5F82; --bdr:rgba(61,23,133,0.09);
+  --cream:#FAF7F9; --parchment:#F3EAF2; --lavender:#F0E6EF; --lav-mid:#E2C9DF;
+  --primary:#83467E; --primary-dk:#4D2832; --primary-md:#B58AB1;
+  --primary-bg:#F3EAF2; --primary-light:#FAF7F9;
+  /* legacy aliases so unchanged HTML vars still resolve */
+  --purple:#83467E; --purple-dk:#4D2832; --purple-md:#B58AB1;
+  --gold-hi:#FFD040; --gold-mid:#E09918; --gold-dk:#83467E; --gold-bg:#F3EAF2;
+  --ink:#1A1020; --ink2:#3D1A38; --muted:#5C4A58; --bdr:rgba(131,70,126,0.09);
   /* typography */
   --f-display:'El Messiri',serif;
   --f-head:'El Messiri',serif;
   --f-body:'Plus Jakarta Sans',sans-serif;
-  --muted:#4E4468;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -49,17 +51,16 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 
 /* ─── BUTTONS ─── */
 .btn-g{
-  background:linear-gradient(135deg,#FFD040 0%,#E8A010 55%,#C07810 100%);
-  color:#18100A;font-family:var(--f-body);font-size:0.9rem;font-weight:700;
+  background:#83467E;
+  color:#fff;font-family:var(--f-body);font-size:0.9rem;font-weight:700;
   padding:11px 26px;border-radius:50px;text-decoration:none;border:none;cursor:pointer;
-  transition:all 0.25s;box-shadow:0 4px 20px rgba(224,153,24,0.45);white-space:nowrap;
+  transition:all 0.25s;box-shadow:0 4px 20px rgba(131,70,126,0.35);white-space:nowrap;
   display:inline-flex;align-items:center;gap:7px;letter-spacing:0.2px;
 }
-.btn-g:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(224,153,24,0.55);color:#18100A;
-  background:linear-gradient(135deg,#FFE060 0%,#EAB820 55%,#C87E10 100%)}
+.btn-g:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(131,70,126,0.5);color:#fff}
 .btn-g-lg{padding:14px 38px;font-size:1rem}
-.btn-op{background:transparent;color:var(--purple);font-family:var(--f-body);font-size:0.88rem;font-weight:600;padding:10px 24px;border-radius:50px;text-decoration:none;border:1.5px solid rgba(61,23,133,0.28);cursor:pointer;transition:all 0.22s;display:inline-flex;align-items:center}
-.btn-op:hover{background:var(--lavender);border-color:var(--purple);color:var(--purple)}
+.btn-op{background:transparent;color:var(--primary);font-family:var(--f-body);font-size:0.88rem;font-weight:600;padding:10px 24px;border-radius:50px;text-decoration:none;border:1.5px solid rgba(131,70,126,0.28);cursor:pointer;transition:all 0.22s;display:inline-flex;align-items:center}
+.btn-op:hover{background:var(--primary-bg);border-color:var(--primary);color:var(--primary)}
 .btn-gw{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.88);font-family:var(--f-body);font-size:0.9rem;font-weight:600;padding:10px 24px;border-radius:50px;border:1.5px solid rgba(255,255,255,0.22);text-decoration:none;cursor:pointer;transition:all 0.22s;display:inline-flex;align-items:center}
 .btn-gw:hover{background:rgba(255,255,255,0.16);border-color:rgba(255,255,255,0.4);color:#fff}
 
@@ -67,11 +68,11 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 .yk-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:14px 0;transition:all .3s}
 .yk-nav.solid{background:rgba(253,250,245,.97);backdrop-filter:blur(18px);border-bottom:1px solid var(--bdr);padding:9px 0;box-shadow:0 2px 16px rgba(30,13,78,.06)}
 .yk-brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
-.yk-logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#3D1785,#7C3AED);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--f-display);font-weight:700;font-size:.95rem;box-shadow:0 3px 10px rgba(61,23,133,.3)}
+.yk-logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#83467E,#B58AB1);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--f-display);font-weight:700;font-size:.95rem;box-shadow:0 3px 10px rgba(131,70,126,.3)}
 .yk-bname{font-family:var(--f-display);font-size:1.2rem;font-weight:700;color:var(--ink2)}
-.yk-bname em{color:var(--gold-dk);font-style:normal}
+.yk-bname em{color:var(--primary);font-style:normal}
 .yk-nl a{font-size:.88rem;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:8px;transition:all .2s;font-family:var(--f-body)}
-.yk-nl a:hover{color:var(--ink2);background:var(--lavender)}
+.yk-nl a:hover{color:var(--ink2);background:var(--primary-bg)}
 .mob-btn{display:none;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;padding:5px;border:none;background:transparent}
 .mob-btn span{display:block;width:21px;height:2px;background:var(--ink2);border-radius:2px;transition:transform .32s cubic-bezier(.23,1,.32,1),opacity .22s}
 .mob-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
@@ -89,11 +90,11 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 @media(max-width:991px){.mob-btn{display:flex}.yk-nav .yk-nl{display:none!important}}
 
 /* ─── HERO ─── */
-.hero{min-height:100vh;background:linear-gradient(150deg,#F0EAFF 0%,#FDFAF5 45%,#FBF4DE 100%);display:flex;align-items:center;padding-top:88px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;right:-200px;top:-200px;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,rgba(255,208,64,0.1),transparent 65%);pointer-events:none}
-.hero::after{content:'';position:absolute;left:-150px;bottom:-150px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(61,23,133,0.06),transparent 65%);pointer-events:none}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:0.78rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:16px;font-family:var(--f-body)}
-.eyebrow::before{content:'';width:20px;height:1.5px;background:linear-gradient(90deg,var(--gold-hi),var(--gold-mid))}
+.hero{min-height:90vh;background:linear-gradient(150deg,#F3EAF2 0%,#FAF7F9 45%,#F3EAF2 100%);display:flex;align-items:center;padding-top:88px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-200px;top:-200px;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,rgba(181,138,177,0.12),transparent 65%);pointer-events:none}
+.hero::after{content:'';position:absolute;left:-150px;bottom:-150px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(131,70,126,0.06),transparent 65%);pointer-events:none}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:0.78rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--primary);margin-bottom:16px;font-family:var(--f-body)}
+.eyebrow::before{content:'';width:20px;height:1.5px;background:linear-gradient(90deg,var(--primary),var(--primary-md))}
 .hero-title{font-family:var(--f-display);font-size:clamp(2.4rem,4.5vw,4.4rem);font-weight:700;line-height:1.2;letter-spacing:0;margin-bottom:8px;color:var(--ink)}
 .hero-sub-head{font-family:var(--f-head);font-size:clamp(1.1rem,2.5vw,1.55rem);font-weight:500;font-style:italic;color:var(--muted);margin-bottom:22px;line-height:1.45}
 .hero-body{font-size:1.05rem;color:var(--muted);line-height:1.88;max-width:460px;margin-bottom:28px;font-weight:400}
@@ -113,7 +114,7 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 .s-btn{border-radius:12px!important;padding:9px 18px!important;font-size:0.85rem!important;white-space:nowrap;flex-shrink:0}
 .trust-r{display:flex;align-items:center;gap:18px;margin-top:18px;flex-wrap:wrap}
 .ti{display:flex;align-items:center;gap:6px;font-size:0.88rem;color:var(--muted);font-weight:500}
-.td{width:5px;height:5px;border-radius:50%;background:linear-gradient(135deg,var(--gold-hi),var(--gold-mid));flex-shrink:0}
+.td{width:5px;height:5px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-md));flex-shrink:0}
 
 /* FLOAT BADGES */
 .img-wrap{position:relative;width:460px;max-width:100%}
@@ -125,10 +126,10 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 @keyframes yf{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 
 /* ─── STRIP ─── */
-.strip{padding:14px 0;background:linear-gradient(90deg,#1E0D4E 0%,#3D1785 50%,#1E0D4E 100%);overflow:hidden}
+.strip{padding:14px 0;background:linear-gradient(90deg,#4D2832 0%,#83467E 50%,#4D2832 100%);overflow:hidden}
 .strip-track{display:flex;animation:sc 24s linear infinite;white-space:nowrap;width:max-content}
 .si{display:inline-flex;align-items:center;gap:8px;padding:8px 24px;font-size:0.72rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.42);border-right:1px solid rgba(255,255,255,0.07);font-family:var(--f-body)}
-.sd{color:var(--gold-hi);font-size:0.5rem}
+.sd{color:rgba(255,255,255,0.6);font-size:0.5rem}
 @keyframes sc{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
 /* ─── PLAN SLIDER ─── */
@@ -136,12 +137,12 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 .plan-track{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:12px 0 28px;scroll-behavior:smooth;flex:1}
 .plan-track::-webkit-scrollbar{display:none}
 .plan-arrow{flex-shrink:0;width:52px;height:52px;border-radius:50%;border:2px solid rgba(61,23,133,.2);background:#fff;color:var(--purple);font-size:1.7rem;font-weight:300;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s;box-shadow:0 4px 18px rgba(30,13,78,.1);line-height:1;align-self:center}
-.plan-arrow:hover:not([disabled]){background:var(--purple);color:#fff;border-color:var(--purple);transform:scale(1.08);box-shadow:0 6px 24px rgba(61,23,133,.28)}
+.plan-arrow:hover:not([disabled]){background:var(--primary);color:#fff;border-color:var(--primary);transform:scale(1.08);box-shadow:0 6px 24px rgba(131,70,126,.28)}
 .plan-arrow[disabled]{opacity:.28;cursor:default}
 .plan-card{flex:0 0 340px;scroll-snap-align:center;background:#fff;border-radius:24px;border:1.5px solid var(--bdr);overflow:hidden;box-shadow:0 4px 24px rgba(30,13,78,.08);transition:transform .3s,box-shadow .3s;display:flex;flex-direction:column}
 .plan-card:hover{transform:translateY(-6px);box-shadow:0 18px 50px rgba(30,13,78,.14)}
 .plan-card.featured{border-color:var(--purple);box-shadow:0 6px 32px rgba(61,23,133,.16)}
-.plan-popular{background:linear-gradient(135deg,#FFD040,#C07810);color:#18100A;font-size:.7rem;font-weight:800;padding:5px 14px;font-family:var(--f-body);letter-spacing:.5px;text-align:center;display:block}
+.plan-popular{background:#83467E;color:#fff;font-size:.7rem;font-weight:800;padding:5px 14px;font-family:var(--f-body);letter-spacing:.5px;text-align:center;display:block}
 .plan-img{height:205px;overflow:hidden;position:relative;flex-shrink:0}
 .plan-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
 .plan-card:hover .plan-img img{transform:scale(1.05)}
@@ -149,7 +150,7 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 .plan-badge{position:absolute;top:14px;left:14px;background:rgba(255,255,255,.18);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:50px;font-family:var(--f-body);letter-spacing:.4px}
 .plan-price-overlay{position:absolute;bottom:16px;left:18px;right:18px}
 .plan-name{font-family:var(--f-head);font-size:1.3rem;font-weight:700;color:#fff;line-height:1.2;margin-bottom:5px;text-shadow:0 2px 8px rgba(0,0,0,.3)}
-.plan-price{font-family:var(--f-display);font-size:1.75rem;font-weight:700;color:#FFD040;line-height:1}
+.plan-price{font-family:var(--f-display);font-size:1.75rem;font-weight:700;color:#F0C8EC;line-height:1}
 .plan-price sub{font-size:.88rem;font-weight:500;color:rgba(255,255,255,.78);vertical-align:baseline;margin-left:2px}
 .plan-body{padding:22px 22px 26px;flex:1;display:flex;flex-direction:column}
 .plan-tagline{font-size:.9rem;color:var(--muted);line-height:1.72;margin-bottom:16px}
@@ -159,18 +160,25 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 .plan-check{color:#0D9488;font-weight:800;flex-shrink:0;font-size:.72rem;margin-top:3px;background:rgba(13,148,136,.1);border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center}
 .plan-dots{display:flex;justify-content:center;gap:7px;margin-top:6px}
 .plan-dot{width:7px;height:7px;border-radius:50%;background:var(--bdr);transition:all .3s;cursor:pointer;border:none;padding:0;background-color:rgba(61,23,133,.18)}
-.plan-dot.active{background-color:var(--purple);width:22px;border-radius:4px}
+.plan-dot.active{background-color:var(--primary);width:22px;border-radius:4px}
 
 /* ─── PAIN POINTS ─── */
-.pain-item{display:flex;align-items:flex-start;gap:14px;padding:17px 20px;background:#fff;border-radius:16px;border:1px solid var(--bdr);border-left:4px solid var(--purple);margin-bottom:11px;box-shadow:0 2px 10px rgba(30,13,78,.04);transition:transform .22s,box-shadow .22s}
-.pain-item:last-child{margin-bottom:0}
-.pain-item:hover{transform:translateX(5px);box-shadow:0 6px 24px rgba(30,13,78,.1)}
-.pain-num{font-size:.8rem;font-weight:800;color:#fff;flex-shrink:0;width:32px;height:32px;min-width:32px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple-md));display:flex;align-items:center;justify-content:center;margin-top:2px;font-family:var(--f-body)}
-.pain-tag{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:5px;font-family:var(--f-body)}
-.pain-q{font-family:var(--f-head);font-size:1.08rem;font-weight:600;color:var(--ink);line-height:1.65;font-style:italic;margin:0}
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.prob-card{background:#fff;border:1px solid rgba(0,0,0,0.07);border-radius:14px;padding:30px 30px 26px;display:flex;flex-direction:column;transition:box-shadow .22s,transform .22s}
+.prob-card:hover{box-shadow:0 8px 28px rgba(30,13,78,0.08);transform:translateY(-2px)}
+.prob-head{display:flex;align-items:center;gap:7px;margin-bottom:14px}
+.prob-dot{width:7px;height:7px;border-radius:50%;background:var(--pc);flex-shrink:0}
+.prob-idx{font-size:0.67rem;font-weight:700;letter-spacing:1.8px;color:var(--muted);font-family:var(--f-body);text-transform:uppercase}
+.prob-title{font-family:var(--f-head);font-size:1.18rem;font-weight:700;color:var(--ink2);line-height:1.32;margin-bottom:14px}
+.prob-rule{border:none;border-top:1px solid rgba(0,0,0,0.07);margin:0 0 14px}
+.prob-stmt{font-size:0.86rem;color:var(--muted);line-height:1.8;font-family:var(--f-body);margin-bottom:14px}
+.prob-quote{font-family:var(--f-head);font-size:0.85rem;font-style:italic;color:rgba(30,13,78,0.4);line-height:1.72;padding-left:11px;border-left:2px solid var(--pc);margin-bottom:0}
+.prob-stat{margin-top:auto;display:flex;align-items:baseline;gap:7px;padding-top:18px;margin-top:18px;border-top:1px solid rgba(0,0,0,0.06)}
+.prob-stat-n{font-family:var(--f-head);font-size:1.45rem;font-weight:700;color:var(--pc);line-height:1}
+.prob-stat-l{font-size:0.74rem;color:var(--muted);font-family:var(--f-body);line-height:1.45}
 
 /* ─── WHY – feature card grid ─── */
-.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .why-card{background:#fff;border-radius:20px;padding:26px 24px;border:1px solid var(--bdr);box-shadow:0 3px 18px rgba(30,13,78,.06);transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
 .why-card:hover{transform:translateY(-6px);box-shadow:0 16px 46px rgba(30,13,78,.12)}
 .why-icon{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:16px;flex-shrink:0}
@@ -182,10 +190,10 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 
 /* ─── TIMELINE ─── */
 .tl-item{display:flex;gap:24px;padding-bottom:36px;position:relative}
-.tl-item:not(:last-child)::before{content:'';position:absolute;left:28px;top:58px;bottom:0;width:2px;background:linear-gradient(to bottom,rgba(255,208,64,0.5),transparent)}
-.tl-img{width:56px;height:56px;border-radius:50%;overflow:hidden;flex-shrink:0;box-shadow:0 4px 16px rgba(30,13,78,0.15);border:2px solid rgba(255,208,64,0.4)}
+.tl-item:not(:last-child)::before{content:'';position:absolute;left:28px;top:58px;bottom:0;width:2px;background:linear-gradient(to bottom,rgba(131,70,126,0.4),transparent)}
+.tl-img{width:56px;height:56px;border-radius:50%;overflow:hidden;flex-shrink:0;box-shadow:0 4px 16px rgba(30,13,78,0.15);border:2px solid rgba(131,70,126,0.3)}
 .tl-img img{width:100%;height:100%;object-fit:cover}
-.tl-num{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dk);background:rgba(255,208,64,.14);border:1px solid rgba(224,153,24,.35);padding:3px 11px;border-radius:50px;margin-bottom:8px;font-family:var(--f-body)}
+.tl-num{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--primary);background:rgba(131,70,126,.12);border:1px solid rgba(131,70,126,.3);padding:3px 11px;border-radius:50px;margin-bottom:8px;font-family:var(--f-body)}
 .tl-body{background:#fff;border-radius:14px;padding:16px 18px;border:1px solid var(--bdr);box-shadow:0 2px 10px rgba(30,13,78,.04);flex:1}
 .tl-h{font-family:var(--f-head);font-size:1.15rem;font-weight:700;color:var(--ink2);margin-bottom:6px}
 .tl-p{font-size:0.98rem;color:var(--muted);line-height:1.82;font-weight:400}
@@ -199,14 +207,14 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 .tc-top-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(18,8,42,0.7) 100%)}
 .tc-av{position:absolute;bottom:-22px;left:18px;width:56px;height:56px;border-radius:50%;border:3px solid #fff;overflow:hidden;box-shadow:0 3px 12px rgba(30,13,78,0.2)}
 .tc-av img{width:100%;height:100%;object-fit:cover}
-.tc-bdg{position:absolute;bottom:14px;right:14px;background:linear-gradient(135deg,#FFD040,#C07810);color:#18100A;font-size:0.7rem;font-weight:700;padding:4px 12px;border-radius:50px;font-family:var(--f-body)}
+.tc-bdg{position:absolute;bottom:14px;right:14px;background:#83467E;color:#fff;font-size:0.7rem;font-weight:700;padding:4px 12px;border-radius:50px;font-family:var(--f-body)}
 .tc-body{padding:34px 16px 18px}
 .tc-name{font-family:var(--f-head);font-size:1.12rem;font-weight:700;color:var(--ink);margin-bottom:2px}
 .tc-style{font-size:0.8rem;font-weight:700;color:var(--purple-md);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;font-family:var(--f-body)}
 .tc-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .tc-m{font-size:0.82rem;color:var(--muted);font-family:var(--f-body);font-weight:500}
 .tg-r{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}
-.tg{background:var(--lavender);color:var(--purple);font-size:0.76rem;font-weight:600;padding:4px 10px;border-radius:6px;font-family:var(--f-body)}
+.tg{background:var(--primary-bg);color:var(--primary);font-size:0.76rem;font-weight:600;padding:4px 10px;border-radius:6px;font-family:var(--f-body)}
 .tc-foot{display:flex;justify-content:space-between;align-items:center;padding-top:11px;border-top:1px solid var(--bdr)}
 .tc-rate{font-family:var(--f-head);font-size:1.15rem;font-weight:700;color:var(--ink2)}
 .tc-rate small{font-family:var(--f-body);font-size:0.78rem;font-weight:500;color:var(--muted)}
@@ -214,7 +222,7 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 
 /* FILTER TABS */
 .ftab{background:#fff;border:1px solid var(--bdr);border-radius:50px;padding:8px 18px;font-family:var(--f-body);font-size:0.88rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all 0.2s}
-.ftab:hover,.ftab.active{background:linear-gradient(135deg,#FFD040,#C07810);color:#18100A;border-color:transparent;box-shadow:0 3px 12px rgba(224,153,24,0.35)}
+.ftab:hover,.ftab.active{background:#83467E;color:#fff;border-color:transparent;box-shadow:0 3px 12px rgba(131,70,126,0.35)}
 
 /* ─── VIDEO CARDS ─── */
 .vid-card{background:#fff;border-radius:20px;overflow:hidden;border:1px solid var(--bdr);transition:all 0.3s;height:100%}
@@ -224,7 +232,7 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 .vid-card:hover .vid-thumb img{transform:scale(1.05)}
 .play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(30,13,78,0.35);transition:background 0.3s}
 .vid-card:hover .play-btn{background:rgba(30,13,78,0.18)}
-.play-circle{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#FFD040,#C07810);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(224,153,24,0.5);transition:transform 0.3s}
+.play-circle{width:54px;height:54px;border-radius:50%;background:#83467E;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(131,70,126,0.4);transition:transform 0.3s}
 .vid-card:hover .play-circle{transform:scale(1.1)}
 .vid-info{padding:18px}
 .vid-name{font-family:var(--f-head);font-size:1.05rem;font-weight:700;color:var(--ink2);margin-bottom:2px}
@@ -232,30 +240,30 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 .vid-quote{font-family:var(--f-head);font-size:1rem;color:var(--ink);line-height:1.72;font-style:italic}
 
 /* ─── TESTIMONIALS ─── */
-.testi-bg{padding:90px 0;background:linear-gradient(155deg,#1E0D4E 0%,#3D1785 55%,#2A1060 100%);position:relative;overflow:hidden}
-.testi-bg::before{content:'';position:absolute;right:-180px;top:-180px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(255,208,64,0.09),transparent 65%);pointer-events:none}
+.testi-bg{padding:100px 0;background:linear-gradient(155deg,#4D2832 0%,#83467E 55%,#4D2832 100%);position:relative;overflow:hidden}
+.testi-bg::before{content:'';position:absolute;right:-180px;top:-180px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,0.06),transparent 65%);pointer-events:none}
 .tq-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);border-radius:20px;padding:28px;height:100%;backdrop-filter:blur(8px);transition:all 0.3s}
-.tq-card:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,208,64,0.3)}
-.tq-mark{font-family:var(--f-head);font-size:4rem;color:var(--gold-hi);line-height:0.7;margin-bottom:14px;display:block;font-style:italic}
+.tq-card:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2)}
+.tq-mark{font-family:var(--f-head);font-size:4rem;color:rgba(255,255,255,0.5);line-height:0.7;margin-bottom:14px;display:block;font-style:italic}
 .tq-text{font-family:var(--f-head);font-size:1.05rem;color:rgba(255,255,255,0.88);line-height:1.85;font-style:italic;margin-bottom:18px}
 .tq-author{display:flex;align-items:center;gap:10px}
-.tq-av{width:42px;height:42px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid rgba(255,208,64,0.3)}
+.tq-av{width:42px;height:42px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid rgba(255,255,255,0.25)}
 .tq-av img{width:100%;height:100%;object-fit:cover}
 .tq-name{font-family:var(--f-head);font-size:1rem;font-weight:600;color:#fff}
 .tq-role{font-size:0.82rem;color:rgba(255,255,255,0.55);font-family:var(--f-body);font-weight:500}
 
 /* ─── FAQ ─── */
-.faq-section{padding:90px 0;background:var(--lavender)}
+.faq-section{padding:100px 0;background:var(--primary-bg)}
 .accordion-item{border:1px solid rgba(61,23,133,0.1)!important;border-radius:14px!important;margin-bottom:10px;overflow:hidden;box-shadow:0 2px 8px rgba(30,13,78,0.04)}
 .accordion-button{font-family:var(--f-body);font-size:1rem;font-weight:600;color:var(--ink2)!important;background:#fff!important;border-radius:14px!important;padding:18px 22px}
-.accordion-button:not(.collapsed){color:var(--purple)!important;box-shadow:none!important}
+.accordion-button:not(.collapsed){color:var(--primary)!important;box-shadow:none!important}
 .accordion-button:focus{box-shadow:none}
 .accordion-collapse .accordion-body{font-size:0.98rem;color:var(--muted);line-height:1.85;background:#fff;padding:0 22px 20px}
 
 /* ─── CTA BOX ─── */
-.cta-band{padding:90px 0;background:var(--parchment)}
-.cta-box{background:#fff;border-radius:26px;padding:58px 50px;border:1px solid rgba(255,208,64,0.22);box-shadow:0 14px 50px rgba(30,13,78,0.07);position:relative;overflow:hidden}
-.cta-box::before{content:'';position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(255,208,64,0.1),transparent 65%)}
+.cta-band{padding:100px 0;background:var(--parchment)}
+.cta-box{background:#fff;border-radius:26px;padding:58px 50px;border:1px solid rgba(131,70,126,0.15);box-shadow:0 14px 50px rgba(30,13,78,0.07);position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(131,70,126,0.08),transparent 65%)}
 .cta-box h2{font-family:var(--f-head);font-size:clamp(1.8rem,3vw,2.75rem);font-weight:700;color:var(--ink2);line-height:1.12;margin-bottom:14px}
 .cta-box p{font-size:0.94rem;color:var(--muted);max-width:400px;margin-bottom:26px;line-height:1.78}
 
@@ -272,10 +280,10 @@ footer h6{font-size:0.76rem;font-weight:700;letter-spacing:1.5px;text-transform:
 footer a{color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.92rem;display:block;margin-bottom:8px;transition:color 0.2s;font-family:var(--f-body)}
 footer a:hover{color:var(--gold-hi)}
 .soc{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.44);font-size:0.8rem;text-decoration:none;transition:all 0.2s;margin-right:5px}
-.soc:hover{background:linear-gradient(135deg,#FFD040,#C07810);color:#18100A}
+.soc:hover{background:var(--primary);color:#fff}
 
 /* ─── SECTION LABELS ─── */
-.sec-lbl{font-size:0.78rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:10px;font-family:var(--f-body)}
+.sec-lbl{font-size:0.78rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--primary);margin-bottom:10px;font-family:var(--f-body)}
 .sec-h{font-family:var(--f-head);font-size:clamp(1.85rem,3.2vw,2.75rem);font-weight:700;color:var(--ink2);line-height:1.15;margin-bottom:14px}
 
 /* ─── COMPARISON ─── */
@@ -327,21 +335,21 @@ footer a:hover{color:var(--gold-hi)}
 .bm-close:hover{background:rgba(61,23,133,0.16);color:var(--ink)}
 /* Header */
 .bm-header{text-align:center;margin-bottom:22px}
-.bm-logo-badge{display:inline-flex;align-items:center;gap:6px;background:var(--lavender);border-radius:50px;padding:4px 14px;margin-bottom:10px}
+.bm-logo-badge{display:inline-flex;align-items:center;gap:6px;background:var(--primary-bg);border-radius:50px;padding:4px 14px;margin-bottom:10px}
 .bm-logo-badge span{font-family:var(--f-display);font-size:0.88rem;font-weight:700;color:var(--ink2)}
-.bm-logo-badge em{color:var(--gold-dk);font-style:normal}
+.bm-logo-badge em{color:var(--primary);font-style:normal}
 .bm-header h3{font-family:var(--f-head);font-size:1.4rem;font-weight:700;color:var(--ink2);margin:0 0 5px}
 .bm-header p{font-size:0.86rem;color:var(--muted);margin:0}
 /* Progress */
 .bm-progress-wrap{display:flex;align-items:center;justify-content:center;margin-bottom:5px}
 .bm-step-dot{width:32px;height:32px;border-radius:50%;background:var(--lavender);display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;color:var(--purple);flex-shrink:0;transition:all 0.3s}
-.bm-step-dot.active{background:linear-gradient(135deg,#FFD040,#C07810);color:#18100A;box-shadow:0 3px 10px rgba(224,153,24,0.4)}
-.bm-step-dot.done{background:var(--purple);color:#fff}
+.bm-step-dot.active{background:#83467E;color:#fff;box-shadow:0 3px 10px rgba(131,70,126,0.35)}
+.bm-step-dot.done{background:var(--primary);color:#fff}
 .bm-prog-line{flex:1;height:2px;background:var(--lavender);max-width:56px;transition:background 0.3s}
-.bm-prog-line.done{background:var(--purple)}
+.bm-prog-line.done{background:var(--primary)}
 .bm-label-row{display:flex;justify-content:space-between;margin-bottom:22px;padding:0 2px}
 .bm-label-row span{font-size:0.66rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;text-align:center;flex:1;transition:color 0.3s}
-.bm-label-row span.active{color:var(--gold-dk)}
+.bm-label-row span.active{color:var(--primary)}
 /* Panels */
 .bm-panel{display:none}
 .bm-panel.active{display:block;animation:bmSlideIn 0.3s ease}
@@ -352,17 +360,17 @@ footer a:hover{color:var(--gold-hi)}
 .bm-field{margin-bottom:14px}
 .bm-field label{display:block;font-size:0.82rem;font-weight:600;color:var(--ink2);margin-bottom:6px}
 .bm-field input,.bm-field textarea,.bm-field select{width:100%;border:1.5px solid rgba(61,23,133,0.15);border-radius:10px;padding:10px 14px;font-family:var(--f-body);font-size:0.93rem;color:var(--ink);background:#f9f8ff;transition:border-color 0.2s,box-shadow 0.2s;outline:none}
-.bm-field input:focus,.bm-field textarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(61,23,133,0.09);background:#fff}
+.bm-field input:focus,.bm-field textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(131,70,126,0.09);background:#fff}
 .bm-field textarea{resize:vertical;min-height:80px}
 .bm-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 /* Option pills */
 .bm-options{display:flex;flex-wrap:wrap;gap:7px}
 .bm-opt{background:#fff;border:1.5px solid rgba(61,23,133,0.14);border-radius:50px;padding:7px 14px;font-family:var(--f-body);font-size:0.82rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all 0.2s}
-.bm-opt:hover{border-color:var(--purple);color:var(--purple);background:var(--lavender)}
-.bm-opt.selected{background:linear-gradient(135deg,#FFD040,#E09918);color:#18100A;border-color:transparent;font-weight:700;box-shadow:0 2px 8px rgba(224,153,24,0.28)}
+.bm-opt:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-bg)}
+.bm-opt.selected{background:#83467E;color:#fff;border-color:transparent;font-weight:700;box-shadow:0 2px 8px rgba(131,70,126,0.25)}
 /* Guarantee */
-.bm-guarantee{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;padding:11px 14px;background:linear-gradient(135deg,var(--gold-bg),#fff);border-radius:12px;border:1px solid rgba(255,208,64,0.3)}
-.bm-guarantee span{font-size:0.8rem;font-weight:600;color:var(--gold-dk)}
+.bm-guarantee{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;padding:11px 14px;background:linear-gradient(135deg,var(--primary-bg),#fff);border-radius:12px;border:1px solid rgba(131,70,126,0.2)}
+.bm-guarantee span{font-size:0.8rem;font-weight:600;color:var(--primary)}
 /* Success */
 .bm-success{display:none;text-align:center;padding:24px 0 8px}
 .bm-success.show{display:block}
@@ -372,7 +380,7 @@ footer a:hover{color:var(--gold-hi)}
 /* Footer */
 .bm-footer{display:flex;align-items:center;justify-content:flex-end;gap:12px;margin-top:20px;padding-top:16px;border-top:1px solid rgba(61,23,133,0.07)}
 .bm-back{background:none;border:1.5px solid rgba(61,23,133,0.2);border-radius:50px;padding:9px 22px;font-family:var(--f-body);font-size:0.9rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all 0.2s}
-.bm-back:hover{background:var(--lavender);color:var(--purple);border-color:var(--purple)}
+.bm-back:hover{background:var(--primary-bg);color:var(--primary);border-color:var(--primary)}
 @media(max-width:600px){
   .bm-modal{padding:24px 18px 20px;border-radius:18px;max-height:94vh}
   .bm-row{grid-template-columns:1fr}
@@ -385,7 +393,6 @@ footer a:hover{color:var(--gold-hi)}
 @media(max-width:991px){
   .fb{display:none}
   .why-grid{grid-template-columns:repeat(2,1fr)}
-  .pain-section-sticky{position:relative!important;top:auto!important}
 }
 
 /* ─── MOBILE (≤ 767px) ─── */
@@ -441,10 +448,8 @@ footer a:hover{color:var(--gold-hi)}
   .plan-features li{font-size:.97rem}
 
   /* Pain section */
-  .pain-item{gap:12px;padding:14px 16px}
-  .pain-num{width:28px;height:28px;min-width:28px;font-size:.75rem}
-  .pain-q{font-size:1.04rem;line-height:1.7}
-  .pain-tag{font-size:0.78rem}
+  .prob-grid{grid-template-columns:1fr}
+  .prob-card{padding:24px 22px 20px}
 
   /* Why section */
   .why-grid{grid-template-columns:1fr}
@@ -585,13 +590,6 @@ footer a:hover{color:var(--gold-hi)}
         <h1 class="hero-title"><span class="hl-gold">Hire</span> a Verified<br>Yoga Teacher.</h1>
         <p class="hero-sub-head">Book <span class="hl-purple">1-on-1 Sessions</span> tailored to your body.</p>
 
-        <div class="chip-row">
-          <div class="chip"><span class="chip-dot" style="background:#0D9488">✓</span><span class="chip-lbl">RYT Certified</span></div>
-          <div class="chip"><span class="chip-dot" style="background:var(--purple)">✓</span><span class="chip-lbl">Style Matched</span></div>
-          <div class="chip"><span class="chip-dot" style="background:var(--gold-mid)">✓</span><span class="chip-lbl">Home &amp; Online</span></div>
-          <div class="chip"><span class="chip-dot" style="background:#3B82F6">✓</span><span class="chip-lbl">First Class Free</span></div>
-        </div>
-
         <div class="s-box">
           <svg width="15" height="15" fill="none" stroke="#B0A4C5" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
           <input type="text" placeholder="Your city…" class="s-city">
@@ -648,7 +646,7 @@ footer a:hover{color:var(--gold-hi)}
 </div>
 
 <!-- ── CHOOSE YOUR PLAN ── -->
-<section id="offer" style="padding:90px 0;background:#fff">
+<section id="offer" style="padding:100px 0;background:#fff">
   <div class="container">
     <div class="text-center mb-5 fade-in">
       <div class="sec-lbl">Choose Your Plan</div>
@@ -705,7 +703,7 @@ footer a:hover{color:var(--gold-hi)}
               <li><span class="plan-check">&#10003;</span><span>Health &amp; injuries fully considered</span></li>
               <li><span class="plan-check">&#10003;</span><span>Weekly progress reports sent to you</span></li>
             </ul>
-            <a href="#" class="btn-g" data-book="1" style="width:100%;justify-content:center;background:linear-gradient(135deg,var(--purple-dk),var(--purple-md));color:#fff">Hire a Teacher &#8594;</a>
+            <a href="#" class="btn-g" data-book="1" style="width:100%;justify-content:center">Hire a Teacher &#8594;</a>
           </div>
         </div>
 
@@ -747,43 +745,92 @@ footer a:hover{color:var(--gold-hi)}
 </section>
 
 <!-- ── PAIN POINTS ── -->
-<section style="padding:90px 0;background:var(--parchment)">
+<section style="padding:96px 0;background:#F9F8FC">
   <div class="container">
-    <div class="row g-5 align-items-start">
-      <div class="col-lg-4 fade-in pain-section-sticky" style="position:sticky;top:100px">
-        <div class="sec-lbl">The Real Problems</div>
-        <h2 class="sec-h">Why Finding a Good Yoga Teacher is <span class="hl-purple">Harder Than It Looks</span></h2>
-        <p style="font-size:0.9rem;color:var(--muted);line-height:1.82;margin-bottom:24px">We spoke to <strong style="color:var(--ink2)"><span class="hl-marker">500+ yoga seekers</span></strong> across India. These are the frustrations they all shared.</p>
-        <a href="#why" class="btn-g">How We Solve This →</a>
-      </div>
-      <div class="col-lg-8 fade-in">
-        <div class="pain-item" style="border-left-color:var(--purple)">
-          <div class="pain-num" style="background:linear-gradient(135deg,#3D1785,#6B3FA0)">01</div>
-          <div><div class="pain-tag" style="color:var(--purple)">Unqualified Teachers</div><p class="pain-q">"The teacher had <span class="hl-wave-r">no RYT certification</span>. I injured my lower back in the second class and couldn't practice for weeks."</p></div>
-        </div>
-        <div class="pain-item" style="border-left-color:#9A6C0E">
-          <div class="pain-num" style="background:linear-gradient(135deg,#B7860B,#C07810)">02</div>
-          <div><div class="pain-tag" style="color:var(--gold-dk)">No Style Matching</div><p class="pain-q">"I wanted therapeutic yoga for my spondylitis. I was given Power Yoga. <span class="hl-wave-r">Nobody asked about my health.</span>"</p></div>
-        </div>
-        <div class="pain-item" style="border-left-color:#0D9488">
-          <div class="pain-num" style="background:linear-gradient(135deg,#0D9488,#0F766E)">03</div>
-          <div><div class="pain-tag" style="color:#0D9488">Zero Progress Tracking</div><p class="pain-q">"After 4 months I still don't know if I'm improving. <span class="hl-wave-r">No benchmarks, no feedback,</span> no posture assessments. Nothing."</p></div>
-        </div>
-        <div class="pain-item" style="border-left-color:#3B82F6">
-          <div class="pain-num" style="background:linear-gradient(135deg,#3B82F6,#2563EB)">04</div>
-          <div><div class="pain-tag" style="color:#3B82F6">Unreliable &amp; Unaccountable</div><p class="pain-q">"Cancelled 6 times in 2 months with no notice. I lost <span class="hl-marker" style="background:linear-gradient(transparent 48%,rgba(225,29,72,0.2) 48%)">₹4,000 and all my motivation</span> to practice yoga."</p></div>
-        </div>
-        <div class="pain-item" style="border-left-color:#E11D48">
-          <div class="pain-num" style="background:linear-gradient(135deg,#E11D48,#BE123C)">05</div>
-          <div><div class="pain-tag" style="color:#E11D48">Group Classes Don't Work</div><p class="pain-q">"In a group class <span class="hl-wave-r">the teacher never corrects my posture.</span> I'm practicing wrong for months and nobody tells me."</p></div>
-        </div>
-      </div>
+
+    <div class="text-center mb-5 fade-in" style="max-width:520px;margin-left:auto;margin-right:auto">
+      <div class="sec-lbl">The Real Problems</div>
+      <h2 class="sec-h" style="margin-bottom:10px">Why Good Yoga Instruction<br>Is Hard to Find</h2>
+      <p style="font-size:0.88rem;color:var(--muted);line-height:1.8">We spoke to <strong style="color:var(--ink2)">500+ students</strong> across India. The same four problems came up every time.</p>
     </div>
+
+    <div class="prob-grid fade-in">
+
+      <!-- Card 1 -->
+      <div class="prob-card" style="--pc:#83467E">
+        <div class="prob-head">
+          <span class="prob-dot"></span>
+          <span class="prob-idx">01 &nbsp;·&nbsp; Unqualified Teachers</span>
+        </div>
+        <div class="prob-title">Teaching Without Credentials or Verification</div>
+        <hr class="prob-rule">
+        <p class="prob-stmt">Most platforms let anyone list as a yoga teacher. No certification is checked, no qualification is verified — before your very first class.</p>
+        <p class="prob-quote">"I injured my lower back in the second class and couldn't practice for weeks."</p>
+        <div class="prob-stat">
+          <span class="prob-stat-n">1 in 3</span>
+          <span class="prob-stat-l">yoga students experience injury from unqualified instruction</span>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="prob-card" style="--pc:#B7860B">
+        <div class="prob-head">
+          <span class="prob-dot"></span>
+          <span class="prob-idx">02 &nbsp;·&nbsp; No Style Matching</span>
+        </div>
+        <div class="prob-title">Wrong Practice Prescribed for Your Body</div>
+        <hr class="prob-rule">
+        <p class="prob-stmt">Without a health intake, style matching is random. A student with spondylitis gets Power Yoga. No one asks. No one adjusts.</p>
+        <p class="prob-quote">"I wanted therapeutic yoga. Nobody asked about my condition before we started."</p>
+        <div class="prob-stat">
+          <span class="prob-stat-n">7 in 10</span>
+          <span class="prob-stat-l">students are never asked about health before their first session</span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="prob-card" style="--pc:#0D9488">
+        <div class="prob-head">
+          <span class="prob-dot"></span>
+          <span class="prob-idx">03 &nbsp;·&nbsp; Zero Progress Tracking</span>
+        </div>
+        <div class="prob-title">No Visibility Into Whether You're Improving</div>
+        <hr class="prob-rule">
+        <p class="prob-stmt">Classes happen week after week with zero documentation. No milestones, no posture feedback, no benchmarks. Months invested, nothing to measure.</p>
+        <p class="prob-quote">"After 4 months I still don't know if I'm even improving."</p>
+        <div class="prob-stat">
+          <span class="prob-stat-n">4 months</span>
+          <span class="prob-stat-l">average time before students lose motivation without feedback</span>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="prob-card" style="--pc:#2563EB">
+        <div class="prob-head">
+          <span class="prob-dot"></span>
+          <span class="prob-idx">04 &nbsp;·&nbsp; Unreliable Teachers</span>
+        </div>
+        <div class="prob-title">Cancellations With No Notice and No Accountability</div>
+        <hr class="prob-rule">
+        <p class="prob-stmt">There is no enforcement layer. Teachers cancel at will. Students absorb the cost — financially and motivationally — with no recourse.</p>
+        <p class="prob-quote">"Cancelled 6 times in 2 months. I lost ₹4,000 and all motivation to continue."</p>
+        <div class="prob-stat">
+          <span class="prob-stat-n">3×</span>
+          <span class="prob-stat-l">more likely to quit yoga permanently after repeated cancellations</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="text-center mt-5 fade-in">
+      <a href="#why" class="btn-g">How We Fix Every One of These →</a>
+    </div>
+
   </div>
 </section>
 
 <!-- ── WHY YOGSETU – alternating image rows ── -->
-<section id="why" style="padding:90px 0;background:#fff">
+<section id="why" style="padding:100px 0;background:#fff">
   <div class="container">
     <div class="text-center mb-5 fade-in">
       <div class="sec-lbl">Why YogSetu</div>
@@ -829,24 +876,6 @@ footer a:hover{color:var(--gold-hi)}
         <div class="why-card-pill" style="background:rgba(59,130,246,.08);color:#2563EB">✦ Zero-tolerance policy</div>
       </div>
 
-      <!-- Card 5 -->
-      <div class="why-card">
-        <div class="why-icon" style="background:rgba(225,29,72,.1)">🧘</div>
-        <div class="why-solves" style="color:#BE123C">Solves <span class="why-arr">›</span> Group Classes Don't Work</div>
-        <div class="why-card-title">1-on-1 Only. Never Group Classes.</div>
-        <p class="why-card-desc">YogSetu is built exclusively for personal sessions. Your teacher sees only you, corrects your posture in real time and builds a curriculum entirely around your needs.</p>
-        <div class="why-card-pill" style="background:rgba(225,29,72,.08);color:#BE123C">✦ 100% personal attention</div>
-      </div>
-
-      <!-- Card 6 -->
-      <div class="why-card">
-        <div class="why-icon" style="background:rgba(5,150,105,.1)">⚡</div>
-        <div class="why-solves" style="color:#059669">Solves <span class="why-arr">›</span> Commitment Risk</div>
-        <div class="why-card-title">First Session Free, Zero Risk</div>
-        <p class="why-card-desc">Every teacher offers a completely free first class. Experience their teaching style, posture corrections and approach before paying a single rupee. No card, no commitment.</p>
-        <div class="why-card-pill" style="background:rgba(5,150,105,.08);color:#059669">✦ Try before you commit</div>
-      </div>
-
     </div>
 
     <!-- Comparison strip -->
@@ -874,7 +903,7 @@ footer a:hover{color:var(--gold-hi)}
 </section>
 
 <!-- ── TEACHERS ── -->
-<section id="teachers" style="padding:90px 0;background:var(--lavender)">
+<section id="teachers" style="padding:100px 0;background:var(--primary-bg)">
   <div class="container">
     <div class="text-center mb-5 fade-in">
       <div class="sec-lbl">Top Rated</div>
@@ -937,15 +966,15 @@ footer a:hover{color:var(--gold-hi)}
 </section>
 
 <!-- ── HOW IT WORKS – vertical timeline ── -->
-<section style="padding:90px 0;background:var(--cream)">
+<section style="padding:100px 0;background:var(--cream)">
   <div class="container">
     <div class="row g-5 align-items-center">
       <div class="col-lg-5 fade-in">
         <div class="sec-lbl">Simple Process</div>
         <h2 class="sec-h">From Search to <span class="hl-gold">First Session</span><br>in Minutes</h2>
         <p style="font-size:0.92rem;color:var(--muted);line-height:1.82;margin-bottom:24px">No lengthy sign-ups. Answer <strong style="color:var(--ink2)"><span class="hl-uline">5 quick questions</span></strong> and we match you instantly.</p>
-        <div style="background:linear-gradient(135deg,var(--gold-bg),#fff);border:1px solid rgba(255,208,64,0.3);border-radius:18px;padding:22px 24px;max-width:280px">
-          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gold-dk);margin-bottom:6px;font-family:var(--f-body)">⚡ Average match time</div>
+        <div style="background:linear-gradient(135deg,var(--primary-bg),#fff);border:1px solid rgba(131,70,126,0.2);border-radius:18px;padding:22px 24px;max-width:280px">
+          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--primary);margin-bottom:6px;font-family:var(--f-body)">⚡ Average match time</div>
           <div class="display-font" style="font-size:2.2rem;font-weight:700;color:var(--ink2);line-height:1">8 min</div>
           <div style="font-size:0.82rem;color:var(--muted);margin-top:4px;font-family:var(--f-body)">from first visit to session booked</div>
         </div>
@@ -973,7 +1002,7 @@ footer a:hover{color:var(--gold-hi)}
 </section>
 
 <!-- ── VIDEO TESTIMONIALS ── -->
-<section style="padding:90px 0;background:var(--parchment)">
+<section style="padding:100px 0;background:var(--parchment)">
   <div class="container">
     <div class="text-center mb-5 fade-in">
       <div class="sec-lbl">Real Stories</div>
@@ -1028,8 +1057,8 @@ footer a:hover{color:var(--gold-hi)}
 <section id="reviews" class="testi-bg">
   <div class="container">
     <div class="text-center mb-5 fade-in">
-      <div class="sec-lbl" style="color:var(--gold-hi)">Student Reviews</div>
-      <h2 class="sec-h" style="color:#fff;font-family:var(--f-head)">What Students <em style="color:var(--gold-hi)">Say About Us</em></h2>
+      <div class="sec-lbl" style="color:rgba(255,255,255,0.7)">Student Reviews</div>
+      <h2 class="sec-h" style="color:#fff;font-family:var(--f-head)">What Students <em style="color:var(--primary-md)">Say About Us</em></h2>
     </div>
     <div class="row g-4">
       <div class="col-md-4 fade-in"><div class="tq-card"><span class="tq-mark">"</span><p class="tq-text">The <strong style="color:rgba(255,255,255,0.95)"><span class="hl-dbl" style="border-bottom-color:var(--gold-hi)">weekly progress report</span></strong> blew me away. I could see my flexibility improving week by week, pose by pose. No other platform does this.</p><div class="tq-author"><div class="tq-av"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=60&h=60&fit=crop&crop=face" alt="Pooja Mehta"></div><div><div class="tq-name">Pooja Mehta</div><div class="tq-role">Student · Bangalore</div></div></div></div></div>
@@ -1044,19 +1073,19 @@ footer a:hover{color:var(--gold-hi)}
   <div class="container">
     <div class="row g-0 text-center fade-in">
       <div class="col-6 col-md-3" style="padding:18px;border-right:1px solid var(--bdr)">
-        <div class="stat-val">2,800<span style="color:var(--gold-mid);font-size:1.4rem">+</span></div>
+        <div class="stat-val">2,800<span style="color:var(--primary-md);font-size:1.4rem">+</span></div>
         <div class="stat-lbl">Certified Teachers</div>
       </div>
       <div class="col-6 col-md-3" style="padding:18px;border-right:1px solid var(--bdr)">
-        <div class="stat-val">9,200<span style="color:var(--gold-mid);font-size:1.4rem">+</span></div>
+        <div class="stat-val">9,200<span style="color:var(--primary-md);font-size:1.4rem">+</span></div>
         <div class="stat-lbl">Students Served</div>
       </div>
       <div class="col-6 col-md-3" style="padding:18px;border-right:1px solid var(--bdr)">
-        <div class="stat-val">30<span style="color:var(--gold-mid);font-size:1.4rem">+</span></div>
+        <div class="stat-val">30<span style="color:var(--primary-md);font-size:1.4rem">+</span></div>
         <div class="stat-lbl">Cities Covered</div>
       </div>
       <div class="col-6 col-md-3" style="padding:18px">
-        <div class="stat-val">4.9<span style="color:var(--gold-mid);font-size:1.4rem">★</span></div>
+        <div class="stat-val">4.9<span style="color:var(--primary-md);font-size:1.4rem">★</span></div>
         <div class="stat-lbl">Average Rating</div>
       </div>
     </div>
@@ -1095,14 +1124,6 @@ footer a:hover{color:var(--gold-hi)}
             <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f5">What if my teacher cancels or I'm not satisfied?</button></h2>
             <div id="f5" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Cancellation without 24-hour notice = no charge and a replacement found within 2 hours. More than 2 unexplained cancellations = teacher removed. If you're not satisfied with your teacher at any point, switch for free. Your satisfaction is 100% guaranteed.</div></div>
           </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f6">Are online sessions available? How do they work?</button></h2>
-            <div id="f6" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Yes – all teachers offer online sessions via Google Meet or Zoom. Online sessions are identical in quality to in-person classes. Your teacher can still correct your posture via camera, demonstrate poses, and track your progress. Many students prefer online for early morning sessions.</div></div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f7">What yoga styles are available?</button></h2>
-            <div id="f7" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">We have certified teachers for: Hatha, Vinyasa, Ashtanga, Yin Yoga, Kundalini, Power Yoga, Restorative, Prenatal &amp; Postnatal, Therapeutic / Back Care, Kids Yoga, Meditation &amp; Mindfulness, Pranayama, and more. Unsure which style suits you? Take our 2-minute quiz and we recommend the best match.</div></div>
-          </div>
         </div>
       </div>
     </div>
@@ -1129,7 +1150,7 @@ footer a:hover{color:var(--gold-hi)}
             <div style="border-radius:20px;overflow:hidden;box-shadow:0 14px 46px rgba(30,13,78,0.12)">
               <img src="https://images.pexels.com/photos/3822862/pexels-photo-3822862.jpeg?auto=compress&cs=tinysrgb&w=420&h=300&fit=crop" alt="Personal yoga session" style="width:100%;height:260px;object-fit:cover;display:block" onerror="this.src='https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=420'">
             </div>
-            <div style="position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);background:#fff;border-radius:50px;padding:9px 20px;box-shadow:0 5px 20px rgba(30,13,78,0.1);display:flex;align-items:center;gap:7px;white-space:nowrap;border:1px solid rgba(255,208,64,0.22)">
+            <div style="position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);background:#fff;border-radius:50px;padding:9px 20px;box-shadow:0 5px 20px rgba(30,13,78,0.1);display:flex;align-items:center;gap:7px;white-space:nowrap;border:1px solid rgba(131,70,126,0.15)">
               <span style="font-size:0.95rem">🎉</span>
               <span style="font-family:var(--f-body);font-size:0.82rem;font-weight:700;color:var(--ink2)">Free first session – always</span>
             </div>
@@ -1146,8 +1167,8 @@ footer a:hover{color:var(--gold-hi)}
     <div class="row g-4 mb-5">
       <div class="col-md-4 col-lg-3">
         <div class="d-flex align-items-center gap-2 mb-3">
-          <div style="width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--purple),var(--purple-md));display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=60" style="width:100%;height:100%;object-fit:cover" alt="YogSetu"></div>
-          <span class="f-bn"><span class="display-font">Yog<em>Setu</em></span></span>
+          <div style="width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--primary-md));display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=60" style="width:100%;height:100%;object-fit:cover" alt="YogSetu"></div>
+          <span class="f-bn"><span class="display-font">Yog<em style="color:var(--primary-md)">Setu</em></span></span>
         </div>
         <p class="f-desc">India's most trusted platform for hiring certified yoga teachers and booking 1-on-1 sessions.</p>
         <div><a href="#" class="soc">f</a><a href="#" class="soc">in</a><a href="#" class="soc">ig</a><a href="#" class="soc">yt</a></div>
