@@ -118,6 +118,9 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 
 /* FLOAT BADGES */
 .img-wrap{position:relative;width:460px;max-width:100%}
+.hero-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(0,0,0,0.22);transition:transform .22s,box-shadow .22s;z-index:2}
+.hero-play:hover{transform:translate(-50%,-50%) scale(1.1);box-shadow:0 14px 40px rgba(0,0,0,0.28)}
+.hero-play svg{width:22px;height:22px;fill:#83467E;margin-left:3px}
 .fb{position:absolute;background:rgba(255,255,255,0.96);border-radius:14px;padding:10px 14px;box-shadow:0 6px 24px rgba(30,13,78,0.12);display:flex;align-items:center;gap:9px;border:1px solid rgba(255,208,64,0.22);animation:yf 5s ease-in-out infinite;backdrop-filter:blur(6px)}
 .fb-ico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;overflow:hidden}
 .fb-ico img{width:100%;height:100%;object-fit:cover}
@@ -164,17 +167,18 @@ p,span,a,li,label,small{font-family:var(--f-body)}
 
 /* ─── PAIN POINTS ─── */
 .prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.prob-card{background:#fff;border:1px solid rgba(0,0,0,0.07);border-radius:14px;padding:30px 30px 26px;display:flex;flex-direction:column;transition:box-shadow .22s,transform .22s}
-.prob-card:hover{box-shadow:0 8px 28px rgba(30,13,78,0.08);transform:translateY(-2px)}
+.prob-card{background:linear-gradient(160deg,#ffffff 0%,#fdfbff 100%);border:1px solid rgba(0,0,0,0.07);border-radius:14px;padding:30px 30px 26px;display:flex;flex-direction:column;transition:box-shadow .22s,transform .22s;position:relative;overflow:hidden}
+.prob-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--pc),transparent 70%);border-radius:14px 14px 0 0}
+.prob-card:hover{box-shadow:0 8px 32px rgba(30,13,78,0.1);transform:translateY(-2px)}
 .prob-head{display:flex;align-items:center;gap:7px;margin-bottom:14px}
-.prob-dot{width:7px;height:7px;border-radius:50%;background:var(--pc);flex-shrink:0}
+.prob-dot{width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--pc),var(--pc));box-shadow:0 0 0 2.5px rgba(0,0,0,0.06);flex-shrink:0}
 .prob-idx{font-size:0.67rem;font-weight:700;letter-spacing:1.8px;color:var(--muted);font-family:var(--f-body);text-transform:uppercase}
 .prob-title{font-family:var(--f-head);font-size:1.18rem;font-weight:700;color:var(--ink2);line-height:1.32;margin-bottom:14px}
-.prob-rule{border:none;border-top:1px solid rgba(0,0,0,0.07);margin:0 0 14px}
+.prob-rule{border:none;height:1px;background:linear-gradient(90deg,var(--pc) 0%,rgba(0,0,0,0.05) 40%,transparent 100%);margin:0 0 14px}
 .prob-stmt{font-size:0.86rem;color:var(--muted);line-height:1.8;font-family:var(--f-body);margin-bottom:14px}
 .prob-quote{font-family:var(--f-head);font-size:0.85rem;font-style:italic;color:rgba(30,13,78,0.4);line-height:1.72;padding-left:11px;border-left:2px solid var(--pc);margin-bottom:0}
 .prob-stat{margin-top:auto;display:flex;align-items:baseline;gap:7px;padding-top:18px;margin-top:18px;border-top:1px solid rgba(0,0,0,0.06)}
-.prob-stat-n{font-family:var(--f-head);font-size:1.45rem;font-weight:700;color:var(--pc);line-height:1}
+.prob-stat-n{font-family:var(--f-head);font-size:1.45rem;font-weight:700;color:var(--pc);line-height:1;background:linear-gradient(135deg,var(--pc) 30%,var(--primary-md));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .prob-stat-l{font-size:0.74rem;color:var(--muted);font-family:var(--f-body);line-height:1.45}
 
 /* ─── WHY – feature card grid ─── */
@@ -421,7 +425,10 @@ footer a:hover{color:var(--gold-hi)}
   .chip-row{gap:7px;margin-bottom:20px}
   .chip{padding:6px 13px}
   .chip-lbl{font-size:0.88rem;font-weight:600}
-  .hero-img-col{display:none!important}
+  .hero-img-col{margin-top:28px}
+  .hero-img-col .fb{display:none!important}
+  .hero-img-col .img-wrap{width:100%}
+  .hero-img-col img{height:240px!important}
 
   /* Search box */
   .s-box{flex-direction:column;padding:10px;gap:8px;border-radius:14px;max-width:100%}
@@ -612,6 +619,9 @@ footer a:hover{color:var(--gold-hi)}
               style="width:100%;height:360px;object-fit:cover;object-position:center;display:block;border-radius:24px;"
               onerror="this.src='https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=640'">
           </div>
+          <button class="hero-play" aria-label="Watch how YogSetu works">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+          </button>
           <!-- Float badges -->
           <div class="fb" style="top:20px;left:-14px">
             <div class="fb-ico" style="background:var(--gold-bg)">
@@ -745,7 +755,7 @@ footer a:hover{color:var(--gold-hi)}
 </section>
 
 <!-- ── PAIN POINTS ── -->
-<section style="padding:96px 0;background:#F9F8FC">
+<section style="padding:96px 0;background:linear-gradient(160deg,#F4F0F8 0%,#FAF8FC 45%,#EDE5F0 100%)">
   <div class="container">
 
     <div class="text-center mb-5 fade-in" style="max-width:520px;margin-left:auto;margin-right:auto">
