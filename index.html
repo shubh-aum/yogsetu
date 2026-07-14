@@ -1,0 +1,1539 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GrowYogi — Helping Yogis Grow Digitally</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <!-- Elite fonts: Cormorant (English luxury display) + Noto Serif Devanagari (Hindi) + DM Sans (body) -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Noto+Serif+Devanagari:wght@400;500;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
+
+  <style>
+    /* ── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --bg-deep:    #06001a;
+      --bg-mid:     #130438;
+      --bg-rich:    #2a1060;
+      --purple:     #5B2C83;
+      --purple-lt:  #8040b8;
+      --gold-a:     #c8961e;
+      --gold-b:     #f0c84a;
+      --gold-c:     #fde68a;
+      --warm-white: #F8F5FC;
+      --coal:       #1e1e2e;
+      --wa:         #25D366;
+
+      --grad-gold:  linear-gradient(135deg, var(--gold-a) 0%, var(--gold-b) 50%, var(--gold-c) 75%, var(--gold-a) 100%);
+      --grad-purple: linear-gradient(135deg, #2a1060 0%, #5B2C83 60%, #7a3aaa 100%);
+      --grad-bg:    linear-gradient(155deg, #060010 0%, #120530 18%, #1e0848 36%, #2d1265 55%, #3b1a78 70%, #250c52 85%, #0e0220 100%);
+      --shadow-card: 0 32px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.05);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--coal);
+      background: var(--warm-white);
+    }
+
+    /* Font helpers */
+    .hn { font-family: 'Noto Serif Devanagari', serif; }
+    .en { font-family: 'Cormorant Garamond', serif; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--warm-white); }
+    ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
+
+    /* ── NAVBAR ─────────────────────────────────────────── */
+    .navbar {
+      background: rgba(6,0,26,.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(200,150,30,.12);
+      transition: box-shadow .3s;
+    }
+    .navbar.scrolled {
+      box-shadow: 0 4px 28px rgba(0,0,0,.4);
+      background: rgba(6,0,26,.98);
+    }
+    .navbar-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.85rem; font-weight: 700;
+      background: var(--grad-gold);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: .5px;
+    }
+    .navbar-brand span {
+      font-family: 'Noto Serif Devanagari', serif;
+      font-size: 1.5rem;
+      background: linear-gradient(to right, #fff, rgba(255,255,255,.8));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-link {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem; font-weight: 500;
+      color: rgba(255,255,255,.78) !important;
+      padding: 7px 13px !important;
+      transition: color .25s;
+    }
+    .nav-link:hover { color: var(--gold-b) !important; }
+    .btn-nav {
+      background: var(--grad-gold);
+      color: var(--bg-deep) !important;
+      border-radius: 25px; padding: 8px 22px !important;
+      font-weight: 700; font-family: 'Poppins', sans-serif;
+      font-size: .82rem;
+      box-shadow: 0 4px 16px rgba(200,150,30,.3);
+      transition: all .3s;
+    }
+    .btn-nav:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(200,150,30,.45); }
+
+    /* ── HERO ───────────────────────────────────────────── */
+    .hero {
+      background: var(--grad-bg);
+      min-height: 100dvh;
+      padding: 88px 0 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Animated colour mesh */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 60% at 90% 5%,  rgba(140,40,220,.32) 0%, transparent 55%),
+        radial-gradient(ellipse 55% 45% at 10% 90%, rgba(90,10,160,.22) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 35% at 50% 55%, rgba(70,0,130,.14) 0%, transparent 45%);
+      animation: meshPulse 9s ease-in-out infinite alternate;
+    }
+    @keyframes meshPulse {
+      0%   { opacity: .8; transform: scale(1)    translate(0, 0); }
+      100% { opacity: 1;  transform: scale(1.06) translate(-1.5%, 1.5%); }
+    }
+    /* Faint grid */
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* ── HERO IMAGE CARD ────────────────────────────────── */
+    .hero-img-card {
+      background: linear-gradient(145deg,
+        rgba(255,255,255,.10) 0%,
+        rgba(160,80,255,.06) 50%,
+        rgba(255,255,255,.04) 100%);
+      border: 1px solid rgba(200,150,30,.28);
+      border-radius: 26px;
+      padding: 28px 18px 18px;
+      position: relative;
+      text-align: center;
+      backdrop-filter: blur(8px);
+      box-shadow:
+        0 28px 72px rgba(0,0,0,.55),
+        0  0   0 1px rgba(255,255,255,.06),
+        inset 0 1px 0 rgba(255,255,255,.12);
+    }
+    .hero-img-card svg { width: 100%; max-width: 200px; height: auto; display: block; margin: 0 auto; }
+
+    .img-badge {
+      position: absolute; top: -14px; right: -10px;
+      background: var(--grad-gold);
+      color: var(--bg-deep);
+      font-family: 'Poppins', sans-serif;
+      font-size: .65rem; font-weight: 800;
+      padding: 5px 13px; border-radius: 20px;
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(200,150,30,.5);
+    }
+
+    .img-bottom-strip {
+      display: flex; justify-content: center; gap: 14px;
+      margin-top: 14px; padding-top: 13px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .img-stat .num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 700;
+      background: var(--grad-gold);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block; line-height: 1;
+    }
+    .img-stat .lbl {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .6rem; color: rgba(255,255,255,.5);
+      text-transform: uppercase; letter-spacing: .5px;
+    }
+
+    /* ── HERO CONTENT ───────────────────────────────────── */
+    .hero-chip {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: linear-gradient(135deg, rgba(200,150,30,.18), rgba(240,200,74,.1));
+      border: 1px solid rgba(200,150,30,.4);
+      color: var(--gold-b);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .72rem; font-weight: 600;
+      padding: 5px 14px; border-radius: 20px;
+      letter-spacing: .8px; margin-bottom: 18px;
+    }
+
+    .hero-h1 {
+      font-size: clamp(2.1rem, 5vw, 3.2rem);
+      line-height: 1.22; margin-bottom: 18px;
+      color: #fff;
+    }
+    /* Hindi words */
+    .hero-h1 .hn {
+      font-weight: 700; font-size: 1em;
+    }
+    /* English display words */
+    .hero-h1 .en {
+      font-weight: 700; font-size: 1.08em;
+      font-style: italic;
+    }
+    /* Gold gradient text */
+    .grad-gold {
+      background: var(--grad-gold);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    /* Underline accent */
+    .ul-gold {
+      position: relative; display: inline;
+    }
+    .ul-gold::after {
+      content: '';
+      position: absolute; bottom: -5px; left: 0; right: 0;
+      height: 3px;
+      background: var(--grad-gold);
+      border-radius: 2px;
+    }
+
+    .hero-p {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem; color: rgba(255,255,255,.68);
+      line-height: 1.75; margin-bottom: 24px;
+    }
+    .hero-p .hn { font-size: .95rem; }
+    .hero-p strong { color: #fff; font-weight: 600; }
+
+    .pain-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+    .pain-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,.055);
+      border: 1px solid rgba(255,255,255,.12);
+      color: rgba(255,255,255,.82);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .78rem; font-weight: 400;
+      padding: 6px 13px; border-radius: 25px;
+      backdrop-filter: blur(4px);
+    }
+    .pain-pill .hn { font-size: .82rem; }
+    .dot-red { width: 7px; height: 7px; border-radius: 50%; background: #ff6b6b; flex-shrink: 0; }
+
+    /* Buttons */
+    .hero-btns { display: flex; gap: 11px; flex-wrap: wrap; }
+    .btn-wa-hero {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: linear-gradient(135deg, #1db954, #25D366, #2ecc71);
+      color: #fff; border-radius: 14px; padding: 14px 22px;
+      font-family: 'Poppins', sans-serif; font-size: .88rem; font-weight: 700;
+      text-decoration: none; border: none;
+      box-shadow: 0 6px 24px rgba(37,211,102,.38);
+      transition: all .3s;
+    }
+    .btn-wa-hero:hover {
+      color: #fff; transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(37,211,102,.5);
+    }
+    .btn-call-hero {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      border: 1.5px solid rgba(255,255,255,.32);
+      color: #fff; border-radius: 14px; padding: 13px 20px;
+      font-family: 'Poppins', sans-serif; font-size: .88rem; font-weight: 600;
+      text-decoration: none; backdrop-filter: blur(6px);
+      transition: all .3s;
+    }
+    .btn-call-hero:hover {
+      background: rgba(255,255,255,.16);
+      border-color: rgba(255,255,255,.6); color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* ── FORM CARD ──────────────────────────────────────── */
+    .form-card {
+      background: linear-gradient(160deg, #ffffff 0%, #fbf8ff 60%, #f5efff 100%);
+      border-radius: 24px; padding: 34px 28px;
+      border: 1px solid rgba(91,44,131,.1);
+      box-shadow:
+        0 40px 90px rgba(0,0,0,.45),
+        0  0   0 1px rgba(255,255,255,.6),
+        inset 0 3px 0 0 rgba(200,150,30,.55);   /* gold top accent */
+      position: relative; z-index: 2;
+    }
+    .form-top-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #130438, var(--purple));
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-size: .68rem; font-weight: 700;
+      padding: 4px 13px; border-radius: 20px; margin-bottom: 11px;
+    }
+    .form-title {
+      font-family: 'Noto Serif Devanagari', serif;
+      font-size: 1.4rem; font-weight: 700;
+      color: var(--bg-rich); margin-bottom: 3px;
+    }
+    .form-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .78rem; color: #999; margin-bottom: 18px;
+    }
+    .form-sub .hn { font-size: .8rem; }
+
+    .form-card .form-control,
+    .form-card .form-select {
+      border: 1.5px solid #e4d8f8;
+      border-radius: 11px; padding: 12px 14px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px; /* prevent iOS zoom */
+      background: #faf7ff; color: var(--coal);
+      transition: all .25s;
+    }
+    .form-card .form-control:focus,
+    .form-card .form-select:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(91,44,131,.12);
+      outline: none; background: #fff;
+    }
+
+    .btn-form-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #1a0540, #2d1265, #5B2C83);
+      color: #fff; border: none; border-radius: 12px;
+      padding: 14px;
+      font-family: 'Poppins', sans-serif; font-size: .9rem; font-weight: 700;
+      margin-bottom: 9px; cursor: pointer;
+      box-shadow: 0 6px 22px rgba(59,30,91,.4);
+      transition: all .3s;
+    }
+    .btn-form-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(59,30,91,.55);
+    }
+    .btn-form-wa {
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+      width: 100%;
+      background: linear-gradient(135deg, #1db954, #25D366);
+      color: #fff; border-radius: 12px; padding: 13px;
+      font-family: 'Poppins', sans-serif; font-size: .88rem; font-weight: 700;
+      text-decoration: none; margin-bottom: 9px;
+      box-shadow: 0 4px 18px rgba(37,211,102,.32);
+      transition: all .3s;
+    }
+    .btn-form-wa:hover { color: #fff; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,.45); }
+
+    .form-divider { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
+    .form-divider hr { flex: 1; border-color: #e0d4f8; opacity: 1; }
+    .form-divider span { font-family: 'DM Sans', sans-serif; font-size: .7rem; color: #bbb; white-space: nowrap; }
+
+    .form-guarantee {
+      text-align: center;
+      font-family: 'DM Sans', sans-serif; font-size: .7rem; color: #ccc; margin: 0;
+    }
+
+    /* ── HIGHLIGHT STRIP ────────────────────────────────── */
+    .strip {
+      background: linear-gradient(95deg, #04000e 0%, #100330 35%, #26104e 65%, #140228 100%);
+      border-top:    1px solid rgba(200,150,30,.18);
+      border-bottom: 1px solid rgba(200,150,30,.18);
+      padding: 24px 0;
+    }
+    .strip-inner {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 20px; flex-wrap: wrap;
+    }
+    .strip-q {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .72rem; font-weight: 600;
+      background: var(--grad-gold);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 9px;
+    }
+    .strip-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .strip-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.11);
+      color: rgba(255,255,255,.84);
+      font-family: 'DM Sans', sans-serif; font-size: .82rem;
+      padding: 6px 13px; border-radius: 25px;
+      backdrop-filter: blur(4px);
+    }
+    .strip-tag i { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .strip-tag .hn { font-size: .84rem; }
+
+    .strip-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-s-wa {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: linear-gradient(135deg, #1db954, #25D366);
+      color: #fff; border-radius: 11px; padding: 11px 20px;
+      font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 700;
+      text-decoration: none; white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(37,211,102,.3);
+      transition: all .3s;
+    }
+    .btn-s-wa:hover { color: #fff; transform: translateY(-2px); box-shadow: 0 8px 22px rgba(37,211,102,.45); }
+    .btn-s-call {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
+      border: 1.5px solid rgba(255,255,255,.28);
+      color: #fff; border-radius: 11px; padding: 9px 18px;
+      font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 600;
+      text-decoration: none; white-space: nowrap;
+      backdrop-filter: blur(6px); transition: all .3s;
+    }
+    .btn-s-call:hover { border-color: rgba(255,255,255,.6); color: #fff; background: rgba(255,255,255,.14); }
+
+    /* ── SECTION COMMON ─────────────────────────────────── */
+    .sec-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .72rem; font-weight: 600;
+      background: var(--grad-gold);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 9px;
+    }
+    .sec-title {
+      font-family: 'Noto Serif Devanagari', serif;
+      font-size: clamp(1.65rem, 4vw, 2.4rem);
+      font-weight: 700; color: #1e0848; margin-bottom: 10px;
+    }
+    .sec-title .en { font-family: 'Cormorant Garamond', serif; font-size: 1.1em; font-style: italic; }
+    .sec-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .92rem; color: #6b7280;
+      max-width: 580px; margin: 0 auto 44px; line-height: 1.78;
+    }
+    .gold-bar {
+      width: 50px; height: 3px;
+      background: var(--grad-gold);
+      border-radius: 2px; margin: 0 auto 13px;
+    }
+
+    /* ── PROBLEMS ───────────────────────────────────────── */
+    .problems {
+      background: linear-gradient(155deg, #06001a 0%, #130438 40%, #2a1060 70%, #0e0225 100%);
+      padding: 92px 0;
+    }
+    .problems .sec-title { color: #fff; }
+    .problems .sec-sub  { color: rgba(255,255,255,.58); }
+    .prob-card {
+      background: linear-gradient(135deg, rgba(255,255,255,.055), rgba(255,255,255,.025));
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 16px; padding: 22px 18px; height: 100%;
+      backdrop-filter: blur(6px);
+      transition: all .3s;
+    }
+    .prob-card:hover {
+      background: linear-gradient(135deg, rgba(200,150,30,.12), rgba(200,150,30,.05));
+      border-color: rgba(200,150,30,.45);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,.3);
+    }
+    .prob-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, rgba(200,150,30,.18), rgba(200,150,30,.08));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 11px;
+    }
+    .prob-icon i { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 1.1rem; }
+    .prob-text {
+      font-family: 'DM Sans', sans-serif; font-size: .85rem;
+      color: rgba(255,255,255,.8); line-height: 1.6;
+    }
+    .prob-text .hn { font-family: 'Noto Serif Devanagari', serif; font-size: .88rem; }
+
+    /* ── SOLUTIONS ──────────────────────────────────────── */
+    .solutions { background: var(--warm-white); padding: 92px 0; }
+    .sol-card {
+      background: #fff; border-radius: 18px; padding: 26px 22px;
+      box-shadow: 0 6px 28px rgba(42,16,96,.08);
+      border: 1px solid transparent; height: 100%;
+      transition: all .3s;
+    }
+    .sol-card:hover {
+      transform: translateY(-5px); border-color: rgba(91,44,131,.25);
+      box-shadow: 0 14px 40px rgba(42,16,96,.14);
+    }
+    .sol-icon {
+      width: 50px; height: 50px;
+      background: linear-gradient(135deg, #1e0848, #5B2C83, #7a3aaa);
+      border-radius: 13px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 13px;
+    }
+    .sol-icon i { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 1.25rem; }
+    .sol-title {
+      font-family: 'DM Sans', sans-serif; font-size: .92rem; font-weight: 600;
+      color: #1e0848; margin-bottom: 6px;
+    }
+    .sol-text { font-size: .84rem; color: #6b7280; line-height: 1.65; }
+
+    /* ── WHY US ─────────────────────────────────────────── */
+    .why {
+      background: linear-gradient(155deg, #1a0840 0%, #2d1265 50%, #4a1e80 75%, #1a0840 100%);
+      padding: 92px 0; position: relative; overflow: hidden;
+    }
+    .why::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 60% 50% at 80% 20%, rgba(160,60,240,.2) 0%, transparent 55%);
+    }
+    .why .sec-title { color: #fff; }
+    .why-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 19px; }
+    .why-tick {
+      width: 28px; height: 28px; min-width: 28px;
+      background: var(--grad-gold);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--bg-deep); font-size: .78rem; font-weight: 800;
+    }
+    .why-txt {
+      font-family: 'DM Sans', sans-serif; font-size: .9rem;
+      color: rgba(255,255,255,.86); line-height: 1.62;
+    }
+    .why-txt strong { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .why-panel {
+      background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      border: 1px solid rgba(200,150,30,.2);
+      border-radius: 22px; padding: 34px 28px; text-align: center;
+      backdrop-filter: blur(8px);
+    }
+    .why-emoji { font-size: 3.8rem; margin-bottom: 14px; display: block; }
+    .why-panel h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: #fff; margin-bottom: 6px; }
+    .why-panel p { font-family: 'DM Sans', sans-serif; font-size: .82rem; color: rgba(255,255,255,.55); margin-bottom: 24px; }
+    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
+    .stat-box {
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px; padding: 14px; text-align: left;
+    }
+    .stat-box .big {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; font-weight: 700;
+      background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      line-height: 1;
+    }
+    .stat-box .sml { font-family: 'DM Sans', sans-serif; font-size: .7rem; color: rgba(255,255,255,.5); margin-top: 3px; }
+
+    /* ── TESTIMONIALS ───────────────────────────────────── */
+    .testimonials { background: var(--warm-white); padding: 92px 0; }
+    .tcard {
+      background: #fff; border-radius: 20px; padding: 30px 24px;
+      box-shadow: 0 6px 28px rgba(42,16,96,.08);
+      position: relative; height: 100%;
+      border: 1px solid #ede8f8; transition: all .3s;
+    }
+    .tcard:hover { transform: translateY(-5px); box-shadow: 0 14px 38px rgba(42,16,96,.13); }
+    .tcard::before {
+      content: '"'; font-family: 'Cormorant Garamond', serif;
+      font-size: 6rem; line-height: 1;
+      background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      opacity: .2; position: absolute; top: -14px; left: 16px;
+    }
+    .stars { font-size: .88rem; margin-bottom: 12px; background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .ttext { font-family: 'DM Sans', sans-serif; font-size: .87rem; color: #555; line-height: 1.75; font-style: italic; margin-bottom: 18px; }
+    .tauthor { display: flex; align-items: center; gap: 10px; }
+    .avatar {
+      width: 42px; height: 42px; min-width: 42px;
+      background: linear-gradient(135deg, #1e0848, #5B2C83);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 700;
+      background-clip: var(--grad-purple);
+    }
+    .avatar span { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .aname { font-family: 'DM Sans', sans-serif; font-size: .85rem; font-weight: 600; color: #1e0848; }
+    .arole { font-family: 'DM Sans', sans-serif; font-size: .72rem; color: #9ca3af; }
+
+    /* ── REAL PHOTO IMAGES ──────────────────────────────── */
+    /* Hero yoga photo */
+    .hero-yogi-photo {
+      width: 100%; border-radius: 18px;
+      object-fit: cover; height: 280px; display: block;
+      transition: transform .5s ease;
+    }
+    .hero-img-card:hover .hero-yogi-photo { transform: scale(1.03); }
+    .hero-img-card { overflow: hidden; }
+
+    /* Testimonial avatar photo */
+    .avatar { overflow: hidden; }
+    .avatar img {
+      width: 100%; height: 100%;
+      object-fit: cover; border-radius: 50%;
+      display: block;
+    }
+
+    /* Gallery section */
+    .yogi-gallery {
+      background: var(--warm-white);
+      padding: 0 0 80px;
+    }
+    .gallery-item {
+      position: relative; overflow: hidden;
+      border-radius: 20px; height: 240px;
+      box-shadow: 0 8px 30px rgba(42,16,96,.12);
+      cursor: pointer;
+    }
+    .gallery-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .5s ease;
+      display: block;
+    }
+    .gallery-item:hover img { transform: scale(1.07); }
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(6,0,26,.75) 0%, rgba(6,0,26,.1) 55%, transparent 100%);
+      display: flex; align-items: flex-end; padding: 16px;
+      opacity: 0; transition: opacity .3s;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-cap {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .82rem; color: #fff; font-weight: 500;
+    }
+
+    /* Why-us yoga image */
+    .why-yoga-photo {
+      width: 100%; height: 190px;
+      object-fit: cover; border-radius: 14px;
+      margin-bottom: 18px; display: block;
+    }
+
+    /* ── PRICING ────────────────────────────────────────── */
+    .pricing {
+      background: linear-gradient(155deg, #06001a 0%, #130438 30%, #2a1060 60%, #0e0225 100%);
+      padding: 92px 0;
+    }
+    .pricing .sec-title { color: #fff; }
+    .pricing .sec-sub  { color: rgba(255,255,255,.58); }
+    .pcard {
+      background: linear-gradient(145deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid rgba(255,255,255,.11);
+      border-radius: 24px; padding: 36px 30px; height: 100%;
+      position: relative; backdrop-filter: blur(8px);
+      transition: transform .3s;
+    }
+    .pcard:hover { transform: translateY(-5px); }
+    .pcard.featured {
+      background: linear-gradient(145deg, rgba(200,150,30,.12), rgba(200,150,30,.04));
+      border-color: rgba(200,150,30,.5);
+      transform: scale(1.02);
+      box-shadow: 0 0 60px rgba(200,150,30,.1);
+    }
+    .pcard.featured:hover { transform: scale(1.02) translateY(-5px); }
+    .top-badge {
+      position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+      background: var(--grad-gold); color: var(--bg-deep);
+      font-family: 'Poppins', sans-serif; font-size: .68rem; font-weight: 800;
+      padding: 4px 18px; border-radius: 20px;
+      text-transform: uppercase; letter-spacing: .8px; white-space: nowrap;
+      box-shadow: 0 4px 14px rgba(200,150,30,.4);
+    }
+    .plan-lbl {
+      font-family: 'DM Sans', sans-serif; font-size: .74rem; font-weight: 600;
+      background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;
+    }
+    .plan-name { font-family: 'Cormorant Garamond', serif; font-size: 1.85rem; color: #fff; margin-bottom: 4px; }
+    .plan-desc { font-family: 'DM Sans', sans-serif; font-size: .78rem; color: rgba(255,255,255,.5); margin-bottom: 20px; }
+    .price-row { padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,.09); margin-bottom: 20px; }
+    .price-cur {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;
+      background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      vertical-align: top; margin-top: 8px; display: inline-block;
+    }
+    .price-amt {
+      font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 700; color: #fff; line-height: 1;
+    }
+    .price-per { font-family: 'DM Sans', sans-serif; font-size: .78rem; color: rgba(255,255,255,.45); margin-top: 4px; }
+    .feat-list { list-style: none; padding: 0; margin-bottom: 22px; }
+    .feat-list li {
+      display: flex; align-items: flex-start; gap: 9px;
+      font-family: 'DM Sans', sans-serif; font-size: .83rem;
+      color: rgba(255,255,255,.8); margin-bottom: 9px; line-height: 1.45;
+    }
+    .feat-list li i { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: .84rem; margin-top: 2px; flex-shrink: 0; }
+    .leads-box {
+      background: linear-gradient(135deg, rgba(200,150,30,.12), rgba(200,150,30,.05));
+      border: 1px solid rgba(200,150,30,.28);
+      border-radius: 11px; padding: 11px 13px; margin-bottom: 22px;
+    }
+    .leads-lbl { font-family: 'DM Sans', sans-serif; font-size: .68rem; background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
+    .leads-num { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: #fff; font-weight: 700; }
+    .leads-note { font-family: 'DM Sans'; font-size: .69rem; color: rgba(255,255,255,.4); }
+    .btn-p {
+      width: 100%; border-radius: 12px; padding: 13px;
+      font-family: 'Poppins', sans-serif; font-size: .88rem; font-weight: 700;
+      transition: all .3s; cursor: pointer; border: none; text-decoration: none;
+      display: block; text-align: center;
+    }
+    .btn-outline-p {
+      background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border: 1.5px solid rgba(255,255,255,.3) !important; color: #fff;
+    }
+    .btn-outline-p:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.6) !important; color: #fff; }
+    .btn-gold-p { background: var(--grad-gold); color: var(--bg-deep); }
+    .btn-gold-p:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(200,150,30,.45); color: var(--bg-deep); }
+
+    /* ── FAQ ────────────────────────────────────────────── */
+    .faq { background: var(--warm-white); padding: 92px 0; }
+    .accordion-item {
+      border: 1px solid rgba(91,44,131,.14) !important;
+      border-radius: 13px !important; margin-bottom: 10px; overflow: hidden;
+    }
+    .accordion-button {
+      font-family: 'DM Sans', sans-serif; font-size: .9rem; font-weight: 600;
+      color: #1e0848 !important; background: #fff !important;
+      padding: 17px 21px; box-shadow: none !important;
+    }
+    .accordion-button:not(.collapsed) {
+      background: linear-gradient(135deg, #1a0540, #2d1265, #5B2C83) !important;
+      color: #fff !important;
+    }
+    .accordion-button:not(.collapsed)::after { filter: brightness(0) invert(1); }
+    .accordion-body {
+      font-family: 'DM Sans', sans-serif; font-size: .86rem; color: #555;
+      line-height: 1.78; background: #faf7ff; padding: 17px 21px;
+    }
+
+    /* ── FOOTER ─────────────────────────────────────────── */
+    .footer {
+      background: linear-gradient(155deg, #06001a 0%, #130438 40%, #1e0848 70%, #0a0120 100%);
+      padding: 72px 0 24px;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.85rem; font-weight: 700;
+      background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: 12px;
+    }
+    .footer-logo span { font-family: 'Noto Serif Devanagari', serif; font-size: 1.5rem; background: linear-gradient(to right, #fff, rgba(255,255,255,.75)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .footer-desc { font-family: 'DM Sans', sans-serif; font-size: .83rem; color: rgba(255,255,255,.5); line-height: 1.75; margin-bottom: 20px; }
+    .socials { display: flex; gap: 8px; flex-wrap: wrap; }
+    .soc {
+      width: 36px; height: 36px;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,.6); text-decoration: none;
+      font-size: .9rem; transition: all .3s;
+    }
+    .soc:hover { background: var(--grad-gold); border-color: transparent; color: var(--bg-deep); transform: translateY(-3px); }
+    .f-head {
+      font-family: 'DM Sans', sans-serif; font-size: .75rem; font-weight: 700;
+      background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px;
+    }
+    .f-links { list-style: none; padding: 0; }
+    .f-links li { margin-bottom: 8px; }
+    .f-links a { font-family: 'DM Sans', sans-serif; font-size: .82rem; color: rgba(255,255,255,.5); text-decoration: none; transition: color .25s; }
+    .f-links a:hover { color: var(--gold-b); }
+    .contact-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+    .contact-row i { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: .9rem; margin-top: 2px; }
+    .contact-row span { font-family: 'DM Sans', sans-serif; font-size: .82rem; color: rgba(255,255,255,.5); line-height: 1.55; }
+    .footer-bottom {
+      margin-top: 52px; padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 9px;
+    }
+    .footer-bottom p { font-family: 'DM Sans', sans-serif; font-size: .76rem; color: rgba(255,255,255,.3); margin: 0; }
+
+    /* ── FLOATING WA ────────────────────────────────────── */
+    .float-wa { position: fixed; bottom: 24px; right: 24px; z-index: 1000; }
+    .btn-float {
+      display: flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg, #1db954, #25D366);
+      color: #fff; border: none; border-radius: 50px;
+      padding: 13px 20px;
+      font-family: 'Poppins', sans-serif; font-size: .85rem; font-weight: 700;
+      box-shadow: 0 8px 28px rgba(37,211,102,.5); text-decoration: none;
+      animation: pulseWa 2.8s infinite;
+      transition: transform .3s;
+    }
+    .btn-float:hover { color: #fff; transform: translateY(-3px); }
+    @keyframes pulseWa {
+      0%,100% { box-shadow: 0 8px 28px rgba(37,211,102,.5); }
+      50%      { box-shadow: 0 8px 40px rgba(37,211,102,.75); }
+    }
+
+    /* ── MODAL ──────────────────────────────────────────── */
+    .modal-content { border-radius: 20px; border: none; }
+    .modal-body { padding: 38px; text-align: center; }
+    .success-ico {
+      width: 70px; height: 70px;
+      background: linear-gradient(135deg, #1a0540, #5B2C83);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 15px;
+    }
+    .success-ico i { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 1.8rem; }
+
+    /* ── MOBILE FIRST ───────────────────────────────────── */
+    /* ── STICKY FLOATING CTA (centered pill) ───────────── */
+    .sticky-cta {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(calc(100% + 50px));
+      z-index: 999;
+      background: linear-gradient(135deg, #0d0225 0%, #2d1265 55%, #1a0540 100%);
+      border: 1px solid rgba(200,150,30,.35);
+      border-radius: 60px;
+      padding: 6px;
+      display: inline-flex;
+      gap: 5px;
+      align-items: center;
+      box-shadow:
+        0 14px 44px rgba(0,0,0,.55),
+        0  0   0 1px rgba(255,255,255,.06),
+        0  0  28px rgba(200,150,30,.1);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      opacity: 0;
+      transition: transform .42s cubic-bezier(.4,0,.2,1), opacity .38s ease;
+      white-space: nowrap;
+    }
+    .sticky-cta.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .sticky-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      border-radius: 50px;
+      padding: 11px 20px;
+      font-family: 'Poppins', sans-serif;
+      font-size: .82rem; font-weight: 700;
+      text-decoration: none; border: none;
+      cursor: pointer; min-height: 46px;
+      transition: all .22s; white-space: nowrap;
+    }
+    .sticky-btn i { font-size: .95rem; }
+
+    .s-call {
+      background: rgba(255,255,255,.09);
+      border: 1.5px solid rgba(255,255,255,.2);
+      color: #fff;
+    }
+    .s-call:hover { background: rgba(255,255,255,.16); color: #fff; }
+
+    .s-wa {
+      background: linear-gradient(135deg, #17a84a, #25D366);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(37,211,102,.3);
+    }
+    .s-wa:hover { color: #fff; filter: brightness(1.1); box-shadow: 0 6px 20px rgba(37,211,102,.45); }
+
+    .s-submit {
+      background: linear-gradient(135deg, var(--gold-a), var(--gold-b), var(--gold-c));
+      color: var(--bg-deep);
+      box-shadow: 0 4px 14px rgba(200,150,30,.3);
+    }
+    .s-submit:hover { color: var(--bg-deep); filter: brightness(1.08); box-shadow: 0 6px 20px rgba(200,150,30,.45); }
+
+    @media (max-width: 767px) {
+      .hero { padding: 82px 0 44px; min-height: auto; }
+
+      /* Hide image column on mobile - save vertical space */
+      .hero-img-col { display: none !important; }
+
+      /* Full-width content */
+      .hero-content-col { text-align: center; }
+      .hero-chip { justify-content: center; margin-bottom: 14px; }
+      .hero-h1 { font-size: 2.15rem; }
+      .hero-p { font-size: .93rem; }
+
+      .pain-row { justify-content: center; }
+      .hero-btns { justify-content: center; }
+      .btn-wa-hero, .btn-call-hero {
+        flex: 1; min-width: 140px;
+        padding: 15px 14px; min-height: 52px;
+      }
+
+      /* Form full width */
+      .hero-form-col { margin-top: 32px; }
+      .form-card { padding: 28px 22px; }
+
+      /* Strip stacked */
+      .strip-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
+      .strip-btns { width: 100%; }
+      .btn-s-wa, .btn-s-call { flex: 1; justify-content: center; }
+
+      /* Pricing */
+      .pcard.featured { transform: scale(1); }
+
+      /* Float */
+      .float-wa { bottom: 14px; right: 14px; }
+      .btn-float .float-lbl { display: none; }
+      .btn-float { padding: 15px; border-radius: 50%; }
+
+      /* Footer */
+      .footer-bottom { justify-content: center; text-align: center; }
+    }
+
+    @media (min-width: 768px) and (max-width: 991px) {
+      .hero-h1 { font-size: 2.4rem; }
+      .pcard.featured { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════ NAVBAR -->
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="#">Grow<span>योगी</span></a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <i class="bi bi-list text-white fs-3"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item"><a class="nav-link" href="#problems">Problems</a></li>
+        <li class="nav-item"><a class="nav-link" href="#solutions">Solutions</a></li>
+        <li class="nav-item"><a class="nav-link" href="#why-us">Why Us</a></li>
+        <li class="nav-item"><a class="nav-link" href="#feedback">Reviews</a></li>
+        <li class="nav-item"><a class="nav-link" href="#plans">Plans</a></li>
+        <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
+        <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+        <li class="nav-item ms-2">
+          <a class="nav-link btn-nav" href="https://wa.me/91XXXXXXXXXX" target="_blank">
+            <i class="bi bi-whatsapp me-1"></i> Free Consultation
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════ HERO BANNER -->
+<section class="hero" id="home">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="row align-items-center g-4 g-xl-5" style="min-height:86vh;">
+
+      <!-- IMAGE COL — desktop only -->
+      <div class="col-md-3 d-none d-md-block hero-img-col" data-aos="fade-right" data-aos-duration="800">
+        <div class="hero-img-card">
+          <div class="img-badge">⭐ 4.9 / 5</div>
+          <img
+            src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=380&h=300&q=80"
+            alt="Yoga Teacher"
+            class="hero-yogi-photo"
+            onerror="this.src='https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=380&h=300&q=80'"
+          />
+          <div class="img-bottom-strip">
+            <div class="img-stat"><span class="num">500+</span><span class="lbl">Brands</span></div>
+            <div class="img-stat"><span class="num">50K+</span><span class="lbl">Leads</span></div>
+            <div class="img-stat"><span class="num">98%</span><span class="lbl">Happy</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTENT COL -->
+      <div class="col-12 col-md-5 col-lg-4 hero-content-col" data-aos="fade-up" data-aos-duration="700">
+
+        <div class="hero-chip">🏆 India's #1 Yoga Growth Partner</div>
+
+        <h1 class="hero-h1">
+          <span class="hn">आप</span> <em class="en">Yoga</em> <span class="hn">में</span><br>
+          <span class="en grad-gold">Expert</span> <span class="hn">हो…</span><br>
+          <span class="hn">फिर भी</span> <em class="en">batches</em><br>
+          <span class="hn ul-gold">full नहीं?</span>
+        </h1>
+
+        <p class="hero-p">
+          <span class="hn">आपका problem yoga नहीं —</span><br>
+          <strong><span class="hn">digital strategy नहीं है।</span></strong><br>
+          <span class="hn">हम वो gap बंद करते हैं।</span>
+        </p>
+
+        <div class="pain-row">
+          <div class="pain-pill"><span class="dot-red"></span><span class="hn">Reach नहीं आ रही</span></div>
+          <div class="pain-pill"><span class="dot-red"></span><span class="hn">Ads waste हो रहे</span></div>
+          <div class="pain-pill"><span class="dot-red"></span><span class="hn">Students convert नहीं</span></div>
+        </div>
+
+        <div class="hero-btns">
+          <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="btn-wa-hero">
+            <i class="bi bi-whatsapp"></i>
+            <span>Book Free Consultation</span>
+          </a>
+          <a href="tel:+91XXXXXXXXXX" class="btn-call-hero">
+            <i class="bi bi-telephone-fill"></i>
+            <span>Call Now</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- FORM COL -->
+      <div class="col-12 col-md-4 col-lg-4 ms-lg-auto hero-form-col" data-aos="fade-left" data-aos-duration="700" data-aos-delay="100" id="contact">
+        <div class="form-card">
+          <div class="form-top-badge">🚀 FREE Strategy Session</div>
+          <h3 class="form-title">अपना Free Growth Plan लें</h3>
+          <p class="form-sub"><span class="hn">हमारी team 24 hrs में WhatsApp पर contact करेगी</span></p>
+          <form id="heroForm" novalidate>
+            <div class="mb-3">
+              <input type="text" class="form-control" placeholder="आपका नाम *" required/>
+            </div>
+            <div class="mb-3">
+              <input type="tel" class="form-control" placeholder="WhatsApp Number *" required/>
+            </div>
+            <div class="mb-3">
+              <input type="text" class="form-control" placeholder="आपका शहर *" required/>
+            </div>
+            <div class="mb-3">
+              <select class="form-select" required>
+                <option value="" disabled selected>आप कौन हैं? *</option>
+                <option>Yoga Teacher (Individual)</option>
+                <option>Yoga Studio Owner</option>
+                <option>Yoga Institute</option>
+                <option>Online Yoga Trainer</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <select class="form-select">
+                <option value="" disabled selected>Interested Plan</option>
+                <option>Brand Boost — ₹25,000/month</option>
+                <option>Elite Scale — ₹60,000/month</option>
+                <option>Want to Discuss</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-form-submit">
+              <i class="bi bi-send-fill me-2"></i>Submit &amp; Get My Plan
+            </button>
+            <div class="form-divider">
+              <hr/><span>या फिर</span><hr/>
+            </div>
+            <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="btn-form-wa">
+              <i class="bi bi-whatsapp"></i> Book Free Consultation on WhatsApp
+            </a>
+            <p class="form-guarantee">🔒 <span class="hn">No spam · 100% Free · Quick Response</span></p>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ HIGHLIGHT STRIP -->
+<section class="strip" id="highlight">
+  <div class="container">
+    <div class="strip-inner">
+      <div>
+        <p class="strip-q">Confused about…</p>
+        <div class="strip-tags">
+          <span class="strip-tag"><i class="bi bi-bar-chart-fill"></i> <span class="hn">Reach</span></span>
+          <span class="strip-tag"><i class="bi bi-megaphone-fill"></i> <span class="hn">Ads</span></span>
+          <span class="strip-tag"><i class="bi bi-funnel-fill"></i> <span class="hn">Lead Generation</span></span>
+          <span class="strip-tag"><i class="bi bi-camera-reels-fill"></i> <span class="hn">Content Marketing</span></span>
+        </div>
+      </div>
+      <div class="strip-btns">
+        <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="btn-s-wa">
+          <i class="bi bi-whatsapp"></i> Book Free Consulting
+        </a>
+        <a href="tel:+91XXXXXXXXXX" class="btn-s-call">
+          <i class="bi bi-telephone-fill"></i> Call Us
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ PROBLEMS -->
+<section class="problems" id="problems">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <div class="sec-label">The Real Struggle</div>
+      <h2 class="sec-title" style="color:#fff"><span class="hn">क्या आप भी इन Problems से गुज़र रहे हैं?</span></h2>
+      <div class="gold-bar"></div>
+      <p class="sec-sub"><span class="hn">यह sirf आपकी नहीं — हर yoga teacher की struggle है। पर अब solution है।</span></p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="0"><div class="prob-card"><div class="prob-icon"><i class="bi bi-eye-slash"></i></div><p class="prob-text"><span class="hn">Instagram पर reach ही नहीं आ रही</span></p></div></div>
+      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="60"><div class="prob-card"><div class="prob-icon"><i class="bi bi-chat-square-x"></i></div><p class="prob-text"><span class="hn">Regular content के बाद भी enquiries नहीं आती</span></p></div></div>
+      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="120"><div class="prob-card"><div class="prob-icon"><i class="bi bi-cash-coin"></i></div><p class="prob-text"><span class="hn">Ads पर पैसे खर्च होते हैं… results नहीं</span></p></div></div>
+      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="180"><div class="prob-card"><div class="prob-icon"><i class="bi bi-person-x"></i></div><p class="prob-text"><span class="hn">Students demo लेते हैं, join नहीं करते</span></p></div></div>
+      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="240"><div class="prob-card"><div class="prob-icon"><i class="bi bi-door-open"></i></div><p class="prob-text"><span class="hn">एक month बाद students classes छोड़ देते हैं</span></p></div></div>
+      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="300"><div class="prob-card"><div class="prob-icon"><i class="bi bi-whatsapp"></i></div><p class="prob-text"><span class="hn">WhatsApp पर enquiries ghost हो जाती हैं</span></p></div></div>
+      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="0"><div class="prob-card"><div class="prob-icon"><i class="bi bi-google"></i></div><p class="prob-text"><span class="hn">Google पर brand properly visible नहीं</span></p></div></div>
+      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="60"><div class="prob-card"><div class="prob-icon"><i class="bi bi-trophy"></i></div><p class="prob-text"><span class="hn">Competitors online ज़्यादा visible लगते हैं</span></p></div></div>
+      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="120"><div class="prob-card"><div class="prob-icon"><i class="bi bi-graph-down-arrow"></i></div><p class="prob-text"><span class="hn">Consistent admissions नहीं — सिर्फ referrals पर depend</span></p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ SOLUTIONS -->
+<section class="solutions" id="solutions">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <div class="sec-label">Our Solutions</div>
+      <h2 class="sec-title"><span class="hn">आपकी Growth की</span> <span class="en">Complete Planning</span></h2>
+      <div class="gold-bar"></div>
+      <p class="sec-sub"><span class="hn">हर एक problem का solution है — हम सिर्फ marketing नहीं, complete yoga brand growth देते हैं।</span></p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0"><div class="sol-card"><div class="sol-icon"><i class="bi bi-stars"></i></div><h5 class="sol-title">Digital Presence Build करेंगे</h5><p class="sol-text"><span class="hn">आपकी digital presence को strong &amp; professional बनायेंगे।</span></p></div></div>
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="60"><div class="sol-card"><div class="sol-icon"><i class="bi bi-funnel-fill"></i></div><h5 class="sol-title">Consistent Student Enquiries</h5><p class="sol-text"><span class="hn">सिर्फ followers नहीं — real paying leads generate करने की complete funnel strategy।</span></p></div></div>
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="120"><div class="sol-card"><div class="sol-icon"><i class="bi bi-megaphone-fill"></i></div><h5 class="sol-title">Content Strategy जो काम करे</h5><p class="sol-text"><span class="hn">Reach और trust दोनों बढ़ाने वाली content strategy।</span></p></div></div>
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="180"><div class="sol-card"><div class="sol-icon"><i class="bi bi-globe2"></i></div><h5 class="sol-title">Website &amp; Landing Pages</h5><p class="sol-text"><span class="hn">High-converting landing pages जो visitors को paid students में convert करे।</span></p></div></div>
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="240"><div class="sol-card"><div class="sol-icon"><i class="bi bi-person-badge-fill"></i></div><h5 class="sol-title">Personal Branding</h5><p class="sol-text"><span class="hn">आप सिर्फ teacher नहीं — एक trusted premium brand हो।</span></p></div></div>
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300"><div class="sol-card"><div class="sol-icon"><i class="bi bi-graph-up-arrow"></i></div><h5 class="sol-title">Smart Marketing System</h5><p class="sol-text"><span class="hn">Organic + paid marketing दोनों का smart system — auto-pilot पर growth।</span></p></div></div>
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0"><div class="sol-card"><div class="sol-icon"><i class="bi bi-heart-fill"></i></div><h5 class="sol-title">Student Retention Strategy</h5><p class="sol-text"><span class="hn">Students को long-term retain करने की strategy।</span></p></div></div>
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="60"><div class="sol-card"><div class="sol-icon"><i class="bi bi-currency-rupee"></i></div><h5 class="sol-title">Demo-to-Paid Conversion</h5><p class="sol-text"><span class="hn">Demo students को paid clients में convert करने का proven framework।</span></p></div></div>
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="120"><div class="sol-card"><div class="sol-icon"><i class="bi bi-award-fill"></i></div><h5 class="sol-title">Premium Brand Transformation</h5><p class="sol-text"><span class="hn">आपकी yoga skill को premium brand में transform करेंगे।</span></p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ YOGI GALLERY -->
+<section class="yogi-gallery">
+  <div class="container">
+    <div class="text-center mb-4" data-aos="fade-up">
+      <div class="sec-label">Real Yogis · Real Growth</div>
+      <h2 class="sec-title"><span class="hn">हमारे Yogis</span> <span class="en">in Action</span></h2>
+      <div class="gold-bar"></div>
+    </div>
+    <div class="row g-3">
+      <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?auto=format&fit=crop&w=400&h=280&q=80"
+               alt="Yoga Group Class"
+               onerror="this.src='https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&h=280&q=80'"/>
+          <div class="gallery-overlay"><div class="gallery-cap"><span class="hn">Group Yoga Class</span></div></div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="80">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=400&h=280&q=80"
+               alt="Meditation Session"
+               onerror="this.src='https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=400&h=280&q=80'"/>
+          <div class="gallery-overlay"><div class="gallery-cap"><span class="hn">Meditation Session</span></div></div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="160">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1588286840104-8957b019727f?auto=format&fit=crop&w=400&h=280&q=80"
+               alt="Outdoor Yoga"
+               onerror="this.src='https://images.unsplash.com/photo-1552196563-55cd4e45efb3?auto=format&fit=crop&w=400&h=280&q=80'"/>
+          <div class="gallery-overlay"><div class="gallery-cap"><span class="hn">Outdoor Yoga</span></div></div>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="240">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&h=280&q=80"
+               alt="Online Yoga Class"
+               onerror="this.src='https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=400&h=280&q=80'"/>
+          <div class="gallery-overlay"><div class="gallery-cap"><span class="hn">Studio / Online Class</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ WHY US -->
+<section class="why" id="why-us">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6" data-aos="fade-right">
+        <div class="sec-label">Why Choose Us</div>
+        <h2 class="sec-title"><span class="hn">सिर्फ Marketing नहीं —</span><br><span class="en grad-gold">Complete Growth</span></h2>
+        <div class="gold-bar" style="margin:0 0 24px"></div>
+        <div class="why-item"><div class="why-tick"><i class="bi bi-check-lg"></i></div><p class="why-txt"><strong>Built specially for Yoga Teachers &amp; Studios</strong> — <span class="hn">हम सिर्फ yoga brands के साथ काम करते हैं</span></p></div>
+        <div class="why-item"><div class="why-tick"><i class="bi bi-check-lg"></i></div><p class="why-txt"><strong>More visibility. More student enquiries.</strong> — <span class="hn">Real results, not just likes</span></p></div>
+        <div class="why-item"><div class="why-tick"><i class="bi bi-check-lg"></i></div><p class="why-txt"><strong>Premium branding</strong> — <span class="hn">जो आपको online professional और trusted दिखाए</span></p></div>
+        <div class="why-item"><div class="why-tick"><i class="bi bi-check-lg"></i></div><p class="why-txt"><strong>Content + Ads designed for real growth</strong> — <span class="hn">नहीं सिर्फ engagement के लिए</span></p></div>
+        <div class="why-item"><div class="why-tick"><i class="bi bi-check-lg"></i></div><p class="why-txt"><strong>Turn followers into paying students</strong> — <span class="hn">हम complete funnel बनाते हैं</span></p></div>
+        <div class="why-item"><div class="why-tick"><i class="bi bi-check-lg"></i></div><p class="why-txt"><strong>Simple strategies that actually work</strong> — <span class="hn">No jargon, just results 🚀</span></p></div>
+      </div>
+      <div class="col-lg-6" data-aos="fade-left">
+        <div class="why-panel">
+          <img
+            src="https://images.unsplash.com/photo-1552196563-55cd4e45efb3?auto=format&fit=crop&w=600&h=200&q=80"
+            alt="Yoga Teacher with Students"
+            class="why-yoga-photo"
+            onerror="this.src='https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&h=200&q=80'"
+          />
+          <h3>Helping Yogis Grow Digitally</h3>
+          <p><span class="hn">India's only digital growth agency built exclusively for Yoga professionals</span></p>
+          <div class="stat-grid">
+            <div class="stat-box"><div class="big">500+</div><div class="sml">Yoga Brands Helped</div></div>
+            <div class="stat-box"><div class="big">50K+</div><div class="sml">Leads Generated</div></div>
+            <div class="stat-box"><div class="big">3X</div><div class="sml">Avg Growth Rate</div></div>
+            <div class="stat-box"><div class="big">98%</div><div class="sml">Client Satisfaction</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ TESTIMONIALS -->
+<section class="testimonials" id="feedback">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <div class="sec-label">Client Feedback</div>
+      <h2 class="sec-title"><span class="hn">Yoga Teachers जो हमसे Grow किये</span></h2>
+      <div class="gold-bar"></div>
+      <p class="sec-sub"><span class="hn">Real yoga professionals के real results</span></p>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="0"><div class="tcard"><div class="stars">★★★★★</div><p class="ttext"><span class="hn">"GrowYogi से पहले सिर्फ 5–6 students थे। अब पहले month में ही 40+ enquiries आयी और 12 नये students join किये। Best investment था!"</span></p><div class="tauthor"><div class="avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya Sharma"/></div><div><div class="aname">Priya Sharma</div><div class="arole">Yoga Teacher · Delhi</div></div></div></div></div>
+      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="80"><div class="tcard"><div class="stars">★★★★★</div><p class="ttext"><span class="hn">"मेरा studio 3 साल से चल रहा था पर online visibility zero थी। GrowYogi ने 2 महीने में Google पर rank करवा दिया — अब daily enquiries आती हैं।"</span></p><div class="tauthor"><div class="avatar"><img src="https://randomuser.me/api/portraits/men/43.jpg" alt="Rajesh Gupta"/></div><div><div class="aname">Rajesh Gupta</div><div class="arole">Studio Owner · Mumbai</div></div></div></div></div>
+      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="160"><div class="tcard"><div class="stars">★★★★★</div><p class="ttext"><span class="hn">"Content quality और reels editing top-notch है। मेरी reels viral होती हैं अब। Brand premium लग रहा है — premium clients भी आने लगे हैं!"</span></p><div class="tauthor"><div class="avatar"><img src="https://randomuser.me/api/portraits/women/52.jpg" alt="Ananya Verma"/></div><div><div class="aname">Ananya Verma</div><div class="arole">Online Trainer · Pune</div></div></div></div></div>
+      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="0"><div class="tcard"><div class="stars">★★★★★</div><p class="ttext"><span class="hn">"Ads का ROI mind-blowing है। ₹10,000 ads budget पे 80+ enquiries आयी — 15 conversions। पहले same budget में 5 भी नहीं आते थे।"</span></p><div class="tauthor"><div class="avatar"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Suresh Patel"/></div><div><div class="aname">Suresh Patel</div><div class="arole">Institute Owner · Ahmedabad</div></div></div></div></div>
+      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="80"><div class="tcard"><div class="stars">★★★★★</div><p class="ttext"><span class="hn">"Online classes GrowYogi की help से scale की। पूरी दुनिया से students आने लगे। WhatsApp automation से follow-ups भी automatic — life easy हो गई!"</span></p><div class="tauthor"><div class="avatar"><img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Meera Joshi"/></div><div><div class="aname">Meera Joshi</div><div class="arole">Online Teacher · Bangalore</div></div></div></div></div>
+      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="160"><div class="tcard"><div class="stars">★★★★★</div><p class="ttext"><span class="hn">"Monthly growth reports से हमेशा update रहता हूँ। 3 months में students 20 से 75 हो गये। यही नहीं सोचता था इतनी जल्दी होगा।"</span></p><div class="tauthor"><div class="avatar"><img src="https://randomuser.me/api/portraits/men/86.jpg" alt="Vikram Singh"/></div><div><div class="aname">Vikram Singh</div><div class="arole">Studio Owner · Jaipur</div></div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ PRICING -->
+<section class="pricing" id="plans">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <div class="sec-label">Our Plans</div>
+      <h2 class="sec-title" style="color:#fff"><span class="hn">Choose Your</span> <span class="en">Growth Plan</span></h2>
+      <div class="gold-bar"></div>
+      <p class="sec-sub"><span class="hn">दोनों plans में ads का budget अलग होगा — directly Meta/Google को जायेगा</span></p>
+    </div>
+    <div class="row justify-content-center g-4 align-items-start">
+      <div class="col-lg-5 col-md-10" data-aos="fade-right">
+        <div class="pcard">
+          <div class="plan-lbl">Brand Boost Plan</div>
+          <h3 class="plan-name">🚀 Brand Boost</h3>
+          <p class="plan-desc"><span class="hn">Growing Yoga Studios &amp; Trainers के लिए</span></p>
+          <div class="price-row"><span class="price-cur">₹</span><span class="price-amt">25,000</span><div class="price-per">per month + GST</div></div>
+          <ul class="feat-list">
+            <li><i class="bi bi-check-circle-fill"></i>Meta Ads Management – Up to 5 campaigns</li>
+            <li><i class="bi bi-check-circle-fill"></i>Google Ads – Search + Local enquiry campaigns</li>
+            <li><i class="bi bi-check-circle-fill"></i>2 High-Converting Landing Pages</li>
+            <li><i class="bi bi-check-circle-fill"></i>Social Media Management</li>
+            <li><i class="bi bi-check-circle-fill"></i>Content Creation – Reels scripts, ad creatives</li>
+            <li><i class="bi bi-check-circle-fill"></i>Video Editing – 20 reels/month</li>
+            <li><i class="bi bi-check-circle-fill"></i>Social Media Designs – 20 posts/month</li>
+            <li><i class="bi bi-check-circle-fill"></i>Student Conversion Guidance</li>
+            <li><i class="bi bi-check-circle-fill"></i>Monthly Strategy Master Class</li>
+            <li><i class="bi bi-check-circle-fill"></i>Monthly Growth Audit Report</li>
+            <li><i class="bi bi-check-circle-fill"></i>Priority Support</li>
+          </ul>
+          <div class="leads-box"><div class="leads-lbl">📈 Estimated Leads</div><div class="leads-num">50–150 enquiries/month</div><div class="leads-note">Depends on city, offer &amp; ad budget</div></div>
+          <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="btn-p btn-outline-p">Get Started Now</a>
+        </div>
+      </div>
+      <div class="col-lg-5 col-md-10" data-aos="fade-left">
+        <div class="pcard featured">
+          <div class="top-badge">👑 Most Popular</div>
+          <div class="plan-lbl">Elite Scale Plan</div>
+          <h3 class="plan-name">👑 Elite Scale</h3>
+          <p class="plan-desc"><span class="hn">Serious Yoga Brands ready to scale big</span></p>
+          <div class="price-row"><span class="price-cur">₹</span><span class="price-amt">60,000</span><div class="price-per">per month + GST</div></div>
+          <ul class="feat-list">
+            <li><i class="bi bi-check-circle-fill"></i>Advanced Meta Ads Scaling</li>
+            <li><i class="bi bi-check-circle-fill"></i>Google Ads – Search, Local &amp; Remarketing</li>
+            <li><i class="bi bi-check-circle-fill"></i>Premium Landing Funnel Creation</li>
+            <li><i class="bi bi-check-circle-fill"></i>Complete Social Media Management</li>
+            <li><i class="bi bi-check-circle-fill"></i>High-Level Content Strategy</li>
+            <li><i class="bi bi-check-circle-fill"></i>Video Editing – 30 premium reels/month</li>
+            <li><i class="bi bi-check-circle-fill"></i>Social Media Designs – 30 premium posts/month</li>
+            <li><i class="bi bi-check-circle-fill"></i>Website Development Support</li>
+            <li><i class="bi bi-check-circle-fill"></i>SEO Optimization</li>
+            <li><i class="bi bi-check-circle-fill"></i>Personal Branding Strategy</li>
+            <li><i class="bi bi-check-circle-fill"></i>Automation &amp; CRM Funnel Setup</li>
+            <li><i class="bi bi-check-circle-fill"></i>Student Retention Strategy</li>
+            <li><i class="bi bi-check-circle-fill"></i>Online Class Growth Support</li>
+            <li><i class="bi bi-check-circle-fill"></i>Content &amp; Design for all marketing materials (pamphlet, banner, standee)</li>
+            <li><i class="bi bi-check-circle-fill"></i>Weekly Growth Calls</li>
+            <li><i class="bi bi-check-circle-fill"></i>Dedicated Expert Team Support</li>
+            <li><i class="bi bi-check-circle-fill"></i>Detailed Analytics &amp; Performance Reports</li>
+          </ul>
+          <div class="leads-box"><div class="leads-lbl">📈 Estimated Leads</div><div class="leads-num">150–500+ enquiries/month</div><div class="leads-note">Depends on ad budget, location &amp; conversion system</div></div>
+          <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="btn-p btn-gold-p">Start Elite Growth →</a>
+        </div>
+      </div>
+    </div>
+    <p class="text-center mt-4" style="font-family:'DM Sans';font-size:.78rem;color:rgba(255,255,255,.35)">
+      <i class="bi bi-info-circle"></i> <span class="hn">Ads budget अलग होगा — directly Meta/Google को जायेगा।</span>
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════ OUR TEAM -->
+<section id="team" style="background:linear-gradient(155deg,#06001a 0%,#130438 30%,#2a1060 60%,#0e0225 100%);padding:92px 0;">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <div class="sec-label">The People Behind GrowYogi</div>
+      <h2 class="sec-title" style="color:#fff;"><span class="hn">हमारी</span> <span class="en">Team</span></h2>
+      <div class="gold-bar"></div>
+      <p class="sec-sub"><span class="hn">Yoga industry के लिए passionate experts की team</span></p>
+    </div>
+    <div class="row g-4 justify-content-center">
+
+      <!-- Sarvesh Kumar Mishra -->
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0">
+        <div style="background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.03));border:1px solid rgba(200,150,30,.35);border-radius:24px;padding:36px 28px;text-align:center;transition:transform .3s,box-shadow .3s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 20px 50px rgba(200,150,30,.15)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
+          <div style="width:110px;height:110px;border-radius:50%;margin:0 auto 20px;border:2px solid rgba(200,150,30,.5);overflow:hidden;box-shadow:0 0 30px rgba(200,150,30,.2);">
+            <img src="images/team/Sarvesh Mishra.jpeg" alt="Sarvesh Kumar Mishra" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:#fff;margin-bottom:4px;">Sarvesh Kumar Mishra</h3>
+          <p style="font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;background:linear-gradient(135deg,#c8961e,#f0c84a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Founder</p>
+          <p style="font-family:'DM Sans',sans-serif;font-size:.83rem;color:rgba(255,255,255,.6);line-height:1.65;"><span class="hn">7 Years of Experience in Marketing &amp; Lead Generation in Yoga Industry</span></p>
+        </div>
+      </div>
+
+      <!-- Monu Dwivedi -->
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+        <div style="background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.03));border:1px solid rgba(200,150,30,.35);border-radius:24px;padding:36px 28px;text-align:center;transition:transform .3s,box-shadow .3s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 20px 50px rgba(200,150,30,.15)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
+          <div style="width:110px;height:110px;border-radius:50%;margin:0 auto 20px;border:2px solid rgba(200,150,30,.5);overflow:hidden;box-shadow:0 0 30px rgba(200,150,30,.2);">
+            <img src="images/team/modi dwivedi.jpeg" alt="Monu Dwivedi" style="width:100%;height:100%;object-fit:cover;display:block;object-position:top;">
+          </div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:#fff;margin-bottom:4px;">Monu Dwivedi</h3>
+          <p style="font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;background:linear-gradient(135deg,#c8961e,#f0c84a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Content Marketing</p>
+          <p style="font-family:'DM Sans',sans-serif;font-size:.83rem;color:rgba(255,255,255,.6);line-height:1.65;"><span class="hn">Crafting compelling content strategies to grow the GrowYogi brand</span></p>
+        </div>
+      </div>
+
+      <!-- Suraj Jaiswal -->
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+        <div style="background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.03));border:1px solid rgba(200,150,30,.35);border-radius:24px;padding:36px 28px;text-align:center;transition:transform .3s,box-shadow .3s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 20px 50px rgba(200,150,30,.15)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
+          <div style="width:110px;height:110px;border-radius:50%;margin:0 auto 20px;border:2px solid rgba(200,150,30,.5);overflow:hidden;box-shadow:0 0 30px rgba(200,150,30,.2);">
+            <img src="images/team/Suraj Jaiswal.jpeg" alt="Suraj Jaiswal" style="width:100%;height:100%;object-fit:cover;display:block;object-position:top;">
+          </div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:#fff;margin-bottom:4px;">Suraj Jaiswal</h3>
+          <p style="font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;background:linear-gradient(135deg,#c8961e,#f0c84a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Performance Marketing Head</p>
+          <p style="font-family:'DM Sans',sans-serif;font-size:.83rem;color:rgba(255,255,255,.6);line-height:1.65;"><span class="hn">Driving results through data-driven performance marketing campaigns</span></p>
+        </div>
+      </div>
+
+      <!-- Ritesh Tripathi -->
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+        <div style="background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.03));border:1px solid rgba(200,150,30,.35);border-radius:24px;padding:36px 28px;text-align:center;transition:transform .3s,box-shadow .3s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 20px 50px rgba(200,150,30,.15)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
+          <div style="width:110px;height:110px;border-radius:50%;margin:0 auto 20px;border:2px solid rgba(200,150,30,.5);overflow:hidden;box-shadow:0 0 30px rgba(200,150,30,.2);">
+            <img src="images/team/ritesh tripathi.jpeg" alt="Ritesh Tripathi" style="width:100%;height:100%;object-fit:cover;display:block;object-position:top;">
+          </div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:#fff;margin-bottom:4px;">Ritesh Tripathi</h3>
+          <p style="font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;background:linear-gradient(135deg,#c8961e,#f0c84a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Graphics Designer</p>
+          <p style="font-family:'DM Sans',sans-serif;font-size:.83rem;color:rgba(255,255,255,.6);line-height:1.65;"><span class="hn">Creating visually stunning designs that bring the GrowYogi vision to life</span></p>
+        </div>
+      </div>
+
+      <!-- Ravishankar Mishra -->
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+        <div style="background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.03));border:1px solid rgba(200,150,30,.35);border-radius:24px;padding:36px 28px;text-align:center;transition:transform .3s,box-shadow .3s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 20px 50px rgba(200,150,30,.15)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
+          <div style="width:110px;height:110px;border-radius:50%;margin:0 auto 20px;border:2px solid rgba(200,150,30,.5);overflow:hidden;box-shadow:0 0 30px rgba(200,150,30,.2);">
+            <img src="images/team/Ravishankar Mishra.jpeg" alt="Ravishankar Mishra" style="width:100%;height:100%;object-fit:cover;display:block;object-position:top;">
+          </div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:#fff;margin-bottom:4px;">Ravishankar Mishra</h3>
+          <p style="font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;background:linear-gradient(135deg,#c8961e,#f0c84a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Team Member</p>
+          <p style="font-family:'DM Sans',sans-serif;font-size:.83rem;color:rgba(255,255,255,.6);line-height:1.65;"><span class="hn">Dedicated team member contributing to GrowYogi's mission</span></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <div class="sec-label">FAQs</div>
+      <h2 class="sec-title"><span class="hn">Frequently Asked</span> <span class="en">Questions</span></h2>
+      <div class="gold-bar"></div>
+      <p class="sec-sub"><span class="hn">आपके common questions के जवाब — सीधे और simple</span></p>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-8" data-aos="fade-up">
+        <div class="accordion" id="faqAcc">
+          <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q1"><span class="hn">क्या आप सिर्फ Yoga brands के साथ काम करते हैं?</span></button></h2><div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faqAcc"><div class="accordion-body"><span class="hn">Yes. GrowYogi specially Yoga Teachers, Studios &amp; Institutes के लिए built है।</span></div></div></div>
+          <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2"><span class="hn">क्या ads का budget package में included है?</span></button></h2><div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body"><span class="hn">No. Ads budget अलग होता है और directly Meta/Google को जाता है।</span></div></div></div>
+          <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q3"><span class="hn">क्या आप student enquiries लाने में help करते हैं?</span></button></h2><div id="q3" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body"><span class="hn">Yes. हमारा main focus ही consistent student enquiries &amp; admissions growth पर है।</span></div></div></div>
+          <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q4"><span class="hn">क्या beginners भी यह service ले सकते हैं?</span></button></h2><div id="q4" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body"><span class="hn">Absolutely. हम beginner Yoga Teachers से लेकर large institutes तक सबके लिए strategy बनाते हैं।</span></div></div></div>
+          <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q5"><span class="hn">क्या आप content भी provide करते हैं?</span></button></h2><div id="q5" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body"><span class="hn">Yes. Reels scripts, post ideas, ad creatives, banners &amp; marketing content सब provide किया जाता है।</span></div></div></div>
+          <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q6"><span class="hn">Results कितने time में आते हैं?</span></button></h2><div id="q6" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body"><span class="hn">Usually ads से initial enquiries few days में start हो सकती हैं। Brand growth 2–3 महीने में clearly visible होती है।</span></div></div></div>
+          <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q7"><span class="hn">क्या monthly reports मिलेंगी?</span></button></h2><div id="q7" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body"><span class="hn">Yes. हर month detailed audit &amp; growth performance report share की जाती है।</span></div></div></div>
+          <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q8"><span class="hn">क्या support available रहेगा?</span></button></h2><div id="q8" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body"><span class="hn">Yes. Plans के according dedicated support &amp; guidance available रहेगी।</span></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════ FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        <div class="footer-logo">Grow<span>योगी</span></div>
+        <p class="footer-desc"><span class="hn">Helping Yogis Grow Digitally.<br>India's only digital growth agency built exclusively for Yoga Teachers, Studios &amp; Institutes.</span></p>
+        <div class="socials">
+          <a href="#" class="soc"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="soc"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="soc"><i class="bi bi-youtube"></i></a>
+          <a href="#" class="soc"><i class="bi bi-linkedin"></i></a>
+          <a href="#" class="soc"><i class="bi bi-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-4">
+        <div class="f-head">Quick Links</div>
+        <ul class="f-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#problems">Problems</a></li>
+          <li><a href="#solutions">Solutions</a></li>
+          <li><a href="#why-us">Why GrowYogi</a></li>
+          <li><a href="#feedback">Testimonials</a></li>
+          <li><a href="#plans">Plans</a></li>
+          <li><a href="#faq">FAQs</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-md-4">
+        <div class="f-head">Our Services</div>
+        <ul class="f-links">
+          <li><a href="#">Meta Ads Management</a></li>
+          <li><a href="#">Google Ads Management</a></li>
+          <li><a href="#">Social Media Marketing</a></li>
+          <li><a href="#">Content Creation</a></li>
+          <li><a href="#">Reels &amp; Video Editing</a></li>
+          <li><a href="#">Landing Page Design</a></li>
+          <li><a href="#">SEO Optimization</a></li>
+          <li><a href="#">Personal Branding</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-3 col-md-4">
+        <div class="f-head">Contact Us</div>
+        <div class="contact-row"><i class="bi bi-whatsapp"></i><span>+91 XXXXX XXXXX<br>(WhatsApp Available)</span></div>
+        <div class="contact-row"><i class="bi bi-envelope"></i><span>hello@growyogi.in</span></div>
+        <div class="contact-row"><i class="bi bi-geo-alt"></i><span>India — Serving Yoga Brands Across the Country</span></div>
+        <a href="https://wa.me/91XXXXXXXXXX" target="_blank"
+           style="display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:linear-gradient(135deg,#c8961e,#f0c84a);color:#06001a;border-radius:10px;padding:10px 20px;font-family:'Poppins';font-size:.82rem;font-weight:700;text-decoration:none;box-shadow:0 4px 16px rgba(200,150,30,.35);">
+          Free Consultation →
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 GrowYogi. All rights reserved.</p>
+      <p>Made with ❤️ for Yoga Professionals across India</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════════════ FLOATING WA -->
+<div class="float-wa">
+  <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="btn-float">
+    <i class="bi bi-whatsapp fs-5"></i>
+    <span class="float-lbl">Chat on WhatsApp</span>
+  </a>
+</div>
+
+<!-- ══════════════════════════ STICKY BOTTOM CTA -->
+<div class="sticky-cta" id="stickyCta" role="navigation" aria-label="Quick actions">
+
+  <!-- Call -->
+  <a href="tel:+91XXXXXXXXXX" class="sticky-btn s-call">
+    <i class="bi bi-telephone-fill"></i>
+    <span>Call</span>
+  </a>
+
+  <!-- WhatsApp -->
+  <a href="https://wa.me/91XXXXXXXXXX" target="_blank" rel="noopener" class="sticky-btn s-wa">
+    <i class="bi bi-whatsapp"></i>
+    <span>WhatsApp</span>
+  </a>
+
+  <!-- Scroll to form & submit -->
+  <button class="sticky-btn s-submit" id="stickySubmit">
+    <i class="bi bi-send-fill"></i>
+    <span>Get Free Plan</span>
+  </button>
+
+</div>
+
+<!-- ══════════════════════════ SUCCESS MODAL -->
+<div class="modal fade" id="successModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="success-ico"><i class="bi bi-check-lg"></i></div>
+        <h3 style="font-family:'Cormorant Garamond',serif;color:#1e0848;margin-bottom:9px;font-size:1.6rem">Thank You! 🙏</h3>
+        <p style="font-family:'DM Sans',sans-serif;font-size:.85rem;color:#666;margin-bottom:20px">
+          <span class="hn">आपकी inquiry submit हो गई।<br>हमारी team 24 hrs में WhatsApp पर contact करेगी।</span>
+        </p>
+        <button class="btn-form-submit" style="width:auto;padding:11px 28px;display:inline-block" data-bs-dismiss="modal">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 680, easing: 'ease-out-cubic', once: true, offset: 60 });
+
+  window.addEventListener('scroll', () => {
+    document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  /* ── Sticky CTA ── */
+  const stickyCta   = document.getElementById('stickyCta');
+  const heroSection = document.getElementById('home');
+
+  function updateSticky() {
+    const heroBottom = heroSection.getBoundingClientRect().bottom;
+    const show = heroBottom < 0;          // show after hero scrolls out of view
+    stickyCta.classList.toggle('show', show);
+    document.body.classList.toggle('cta-active', show);
+  }
+  window.addEventListener('scroll', updateSticky, { passive: true });
+  updateSticky();
+
+  /* "Get Free Plan" — scroll to form then auto-focus first field */
+  document.getElementById('stickySubmit').addEventListener('click', function() {
+    const contactSection = document.getElementById('contact');
+    contactSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => {
+      const firstInput = contactSection.querySelector('input, select');
+      if (firstInput) firstInput.focus();
+    }, 600);
+  });
+
+  document.getElementById('heroForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('.btn-form-submit');
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Submitting…';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.innerHTML = '<i class="bi bi-send-fill me-2"></i>Submit & Get My Plan';
+      btn.disabled = false;
+      this.reset();
+      new bootstrap.Modal(document.getElementById('successModal')).show();
+    }, 1400);
+  });
+</script>
+</body>
+</html>

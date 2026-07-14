@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/Saurabh/tutorsetu/public/assets/css/**)",
+      "Read(//c/Users/Saurabh/tutorsetu/routes/**)",
+      "PowerShell(New-Item -ItemType Directory -Force \"C:\\\\Users\\\\Saurabh\\\\tutorsetu\\\\views\\\\admin\\\\crm\")",
+      "Read(//c/Users/Saurabh/tutorsetu/**)",
+      "Read(//c/Users/Saurabh/tutorsetu/views/**)",
+      "Bash(ls \"C:\\\\Users\\\\Saurabh\\\\\" 2>/dev/null)",
+      "Read(//c/Users/Saurabh\" 2>/dev/**)",
+      "Read(//c/Users/Saurabh/**)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\Saurabh\\tutorsetu\\models",
+      "C:\\Users\\Saurabh\\tutorsetu",
+      "C:\\Users\\Saurabh\\tutorsetu\\mark1"
+    ]
+  }
+}
