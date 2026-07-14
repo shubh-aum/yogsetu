@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>YogKulam – Hire Certified Yoga Teachers · Book 1-on-1 Sessions</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ─── DESIGN TOKENS ─── */
+:root{
+  --cream:#FAF7F9; --parchment:#F3EAF2; --lavender:#F0E6EF; --lav-mid:#E2C9DF;
+  --primary:#83467E; --primary-dk:#4D2832; --primary-md:#B58AB1;
+  --primary-bg:#F3EAF2; --primary-light:#FAF7F9;
+  /* legacy aliases so unchanged HTML vars still resolve */
+  --purple:#83467E; --purple-dk:#4D2832; --purple-md:#B58AB1;
+  --gold-hi:#FFD040; --gold-mid:#E09918; --gold-dk:#83467E; --gold-bg:#F3EAF2;
+  --ink:#1A1020; --ink2:#3D1A38; --muted:#5C4A58; --bdr:rgba(131,70,126,0.09);
+  /* typography */
+  --f-display:'El Messiri',serif;
+  --f-head:'El Messiri',serif;
+  --f-body:'Plus Jakarta Sans',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+html{overflow-x:hidden}
+body{font-family:var(--f-body);background:var(--cream);color:var(--ink);overflow-x:hidden}
+
+/* ─── TYPOGRAPHY HIERARCHY ─── */
+.display-font{font-family:var(--f-display)}
+h1,h2,h3{font-family:var(--f-head)}
+p,span,a,li,label,small{font-family:var(--f-body)}
+
+/* HIGHLIGHT CLASSES */
+.hl-gold{
+  background:linear-gradient(135deg,#FFD040 0%,#E09918 60%,#C07810 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  font-weight:800;
+}
+.hl-purple{color:var(--purple);font-weight:700}
+.hl-underline{
+  text-decoration:underline;text-underline-offset:4px;
+  text-decoration-color:var(--gold-mid);text-decoration-thickness:2px;
+}
+.hl-mark{
+  background:linear-gradient(transparent 50%,rgba(255,208,64,0.5) 50%);
+  padding:0 3px;
+  font-weight:600;
+}
+
+/* ─── BUTTONS ─── */
+.btn-g{
+  background:#83467E;
+  color:#fff;font-family:var(--f-body);font-size:0.9rem;font-weight:700;
+  padding:11px 26px;border-radius:50px;text-decoration:none;border:none;cursor:pointer;
+  transition:all 0.25s;box-shadow:0 4px 20px rgba(131,70,126,0.35);white-space:nowrap;
+  display:inline-flex;align-items:center;gap:7px;letter-spacing:0.2px;
+}
+.btn-g:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(131,70,126,0.5);color:#fff}
+.btn-g-lg{padding:14px 38px;font-size:1rem}
+.btn-op{background:transparent;color:var(--primary);font-family:var(--f-body);font-size:0.88rem;font-weight:600;padding:10px 24px;border-radius:50px;text-decoration:none;border:1.5px solid rgba(131,70,126,0.28);cursor:pointer;transition:all 0.22s;display:inline-flex;align-items:center}
+.btn-op:hover{background:var(--primary-bg);border-color:var(--primary);color:var(--primary)}
+.btn-gw{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.88);font-family:var(--f-body);font-size:0.9rem;font-weight:600;padding:10px 24px;border-radius:50px;border:1.5px solid rgba(255,255,255,0.22);text-decoration:none;cursor:pointer;transition:all 0.22s;display:inline-flex;align-items:center}
+.btn-gw:hover{background:rgba(255,255,255,0.16);border-color:rgba(255,255,255,0.4);color:#fff}
+
+/* ─── NAV ─── */
+.yk-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:14px 0;transition:all .3s}
+.yk-nav.solid{background:rgba(253,250,245,.97);backdrop-filter:blur(18px);border-bottom:1px solid var(--bdr);padding:9px 0;box-shadow:0 2px 16px rgba(30,13,78,.06)}
+.yk-brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
+.yk-logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#83467E,#B58AB1);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--f-display);font-weight:700;font-size:.95rem;box-shadow:0 3px 10px rgba(131,70,126,.3)}
+.yk-bname{font-family:var(--f-display);font-size:1.2rem;font-weight:700;color:var(--ink2)}
+.yk-bname em{color:var(--primary);font-style:normal}
+.yk-nl a{font-size:.88rem;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 12px;border-radius:8px;transition:all .2s;font-family:var(--f-body)}
+.yk-nl a:hover{color:var(--ink2);background:var(--primary-bg)}
+.mob-btn{display:none;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;padding:5px;border:none;background:transparent}
+.mob-btn span{display:block;width:21px;height:2px;background:var(--ink2);border-radius:2px;transition:transform .32s cubic-bezier(.23,1,.32,1),opacity .22s}
+.mob-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.mob-btn.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.mob-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.yk-mob-nav{position:fixed;inset:0;z-index:199;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 24px 40px;background:rgba(253,250,245,.98);backdrop-filter:blur(22px);opacity:0;visibility:hidden;transform:translateY(-12px);transition:opacity .3s,transform .34s cubic-bezier(.23,1,.32,1),visibility .3s}
+.yk-mob-nav.open{opacity:1;visibility:visible;transform:none}
+.mob-lnk{font-family:var(--f-head);font-size:1.45rem;font-weight:600;color:var(--ink2);padding:13px 0;text-decoration:none;opacity:0;transform:translateY(10px);transition:opacity .28s,transform .28s}
+.yk-mob-nav.open .mob-lnk{opacity:1;transform:none}
+.yk-mob-nav.open .mob-lnk:nth-child(1){transition-delay:.05s}
+.yk-mob-nav.open .mob-lnk:nth-child(2){transition-delay:.09s}
+.yk-mob-nav.open .mob-lnk:nth-child(3){transition-delay:.13s}
+.yk-mob-nav.open .mob-lnk:nth-child(4){transition-delay:.17s}
+.mob-act{display:flex;gap:10px;margin-top:22px}
+@media(max-width:991px){.mob-btn{display:flex}.yk-nav .yk-nl{display:none!important}}
+
+/* ─── HERO ─── */
+.hero{min-height:90vh;background:linear-gradient(150deg,#F3EAF2 0%,#FAF7F9 45%,#F3EAF2 100%);display:flex;align-items:center;padding-top:88px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-200px;top:-200px;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,rgba(181,138,177,0.12),transparent 65%);pointer-events:none}
+.hero::after{content:'';position:absolute;left:-150px;bottom:-150px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(131,70,126,0.06),transparent 65%);pointer-events:none}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:0.78rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--primary);margin-bottom:16px;font-family:var(--f-body)}
+.eyebrow::before{content:'';width:20px;height:1.5px;background:linear-gradient(90deg,var(--primary),var(--primary-md))}
+.hero-title{font-family:var(--f-display);font-size:clamp(2.4rem,4.5vw,4.4rem);font-weight:700;line-height:1.2;letter-spacing:0;margin-bottom:8px;color:var(--ink)}
+.hero-sub-head{font-family:var(--f-head);font-size:clamp(1.1rem,2.5vw,1.55rem);font-weight:500;font-style:italic;color:var(--muted);margin-bottom:22px;line-height:1.45}
+.hero-body{font-size:1.05rem;color:var(--muted);line-height:1.88;max-width:460px;margin-bottom:28px;font-weight:400}
+
+/* BADGE CHIPS */
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--bdr);border-radius:50px;padding:6px 13px;box-shadow:0 2px 8px rgba(30,13,78,0.05)}
+.chip-dot{width:14px;height:14px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.55rem;color:#fff;font-weight:700;flex-shrink:0}
+.chip-lbl{font-size:0.85rem;font-weight:600;color:var(--ink2)}
+
+/* SEARCH */
+.s-box{background:#fff;border-radius:16px;padding:6px 6px 6px 16px;display:flex;align-items:center;gap:8px;border:1px solid var(--bdr);box-shadow:0 5px 24px rgba(30,13,78,0.07);max-width:520px;width:100%}
+.s-box input{flex:1;border:none;outline:none;font-family:var(--f-body);font-size:0.93rem;color:var(--ink);background:transparent;min-width:0;padding:6px 0}
+.s-box input.s-city{flex:0 0 110px}
+.s-box input::placeholder{color:#B0A4C5}
+.s-sep{width:1px;height:22px;background:var(--bdr);flex-shrink:0}
+.s-btn{border-radius:12px!important;padding:9px 18px!important;font-size:0.85rem!important;white-space:nowrap;flex-shrink:0}
+.trust-r{display:flex;align-items:center;gap:18px;margin-top:18px;flex-wrap:wrap}
+.ti{display:flex;align-items:center;gap:6px;font-size:0.88rem;color:var(--muted);font-weight:500}
+.td{width:5px;height:5px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-md));flex-shrink:0}
+
+/* FLOAT BADGES */
+.img-wrap{position:relative;width:460px;max-width:100%}
+.hero-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(0,0,0,0.22);transition:transform .22s,box-shadow .22s;z-index:2}
+.hero-play:hover{transform:translate(-50%,-50%) scale(1.1);box-shadow:0 14px 40px rgba(0,0,0,0.28)}
+.hero-play svg{width:22px;height:22px;fill:#83467E;margin-left:3px}
+.fb{position:absolute;background:rgba(255,255,255,0.96);border-radius:14px;padding:10px 14px;box-shadow:0 6px 24px rgba(30,13,78,0.12);display:flex;align-items:center;gap:9px;border:1px solid rgba(255,208,64,0.22);animation:yf 5s ease-in-out infinite;backdrop-filter:blur(6px)}
+.fb-ico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;overflow:hidden}
+.fb-ico img{width:100%;height:100%;object-fit:cover}
+.fb-lbl{font-size:0.7rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.4px;font-family:var(--f-body)}
+.fb-val{font-size:0.95rem;font-weight:700;color:var(--ink2);font-family:var(--f-body)}
+@keyframes yf{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+/* ─── STRIP ─── */
+.strip{padding:14px 0;background:linear-gradient(90deg,#4D2832 0%,#83467E 50%,#4D2832 100%);overflow:hidden}
+.strip-track{display:flex;animation:sc 24s linear infinite;white-space:nowrap;width:max-content}
+.si{display:inline-flex;align-items:center;gap:8px;padding:8px 24px;font-size:0.72rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.42);border-right:1px solid rgba(255,255,255,0.07);font-family:var(--f-body)}
+.sd{color:rgba(255,255,255,0.6);font-size:0.5rem}
+@keyframes sc{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ─── PLAN SLIDER ─── */
+.plan-slider-outer{display:flex;align-items:center;gap:12px}
+.plan-track{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:12px 0 28px;scroll-behavior:smooth;flex:1}
+.plan-track::-webkit-scrollbar{display:none}
+.plan-arrow{flex-shrink:0;width:52px;height:52px;border-radius:50%;border:2px solid rgba(61,23,133,.2);background:#fff;color:var(--purple);font-size:1.7rem;font-weight:300;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s;box-shadow:0 4px 18px rgba(30,13,78,.1);line-height:1;align-self:center}
+.plan-arrow:hover:not([disabled]){background:var(--primary);color:#fff;border-color:var(--primary);transform:scale(1.08);box-shadow:0 6px 24px rgba(131,70,126,.28)}
+.plan-arrow[disabled]{opacity:.28;cursor:default}
+.plan-card{flex:0 0 340px;scroll-snap-align:center;background:#fff;border-radius:24px;border:1.5px solid var(--bdr);overflow:hidden;box-shadow:0 4px 24px rgba(30,13,78,.08);transition:transform .3s,box-shadow .3s;display:flex;flex-direction:column}
+.plan-card:hover{transform:translateY(-6px);box-shadow:0 18px 50px rgba(30,13,78,.14)}
+.plan-card.featured{border-color:var(--purple);box-shadow:0 6px 32px rgba(61,23,133,.16)}
+.plan-popular{background:#83467E;color:#fff;font-size:.7rem;font-weight:800;padding:5px 14px;font-family:var(--f-body);letter-spacing:.5px;text-align:center;display:block}
+.plan-img{height:205px;overflow:hidden;position:relative;flex-shrink:0}
+.plan-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.plan-card:hover .plan-img img{transform:scale(1.05)}
+.plan-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 18%,rgba(18,8,42,.78) 100%)}
+.plan-badge{position:absolute;top:14px;left:14px;background:rgba(255,255,255,.18);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:50px;font-family:var(--f-body);letter-spacing:.4px}
+.plan-price-overlay{position:absolute;bottom:16px;left:18px;right:18px}
+.plan-name{font-family:var(--f-head);font-size:1.3rem;font-weight:700;color:#fff;line-height:1.2;margin-bottom:5px;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.plan-price{font-family:var(--f-display);font-size:1.75rem;font-weight:700;color:#F0C8EC;line-height:1}
+.plan-price sub{font-size:.88rem;font-weight:500;color:rgba(255,255,255,.78);vertical-align:baseline;margin-left:2px}
+.plan-body{padding:22px 22px 26px;flex:1;display:flex;flex-direction:column}
+.plan-tagline{font-size:.9rem;color:var(--muted);line-height:1.72;margin-bottom:16px}
+.plan-features{list-style:none;padding:0;margin:0 0 22px;flex:1}
+.plan-features li{font-size:.93rem;padding:7px 0;display:flex;align-items:flex-start;gap:10px;color:var(--ink);border-bottom:1px solid rgba(61,23,133,.05)}
+.plan-features li:last-child{border-bottom:none}
+.plan-check{color:#0D9488;font-weight:800;flex-shrink:0;font-size:.72rem;margin-top:3px;background:rgba(13,148,136,.1);border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center}
+.plan-dots{display:flex;justify-content:center;gap:7px;margin-top:6px}
+.plan-dot{width:7px;height:7px;border-radius:50%;background:var(--bdr);transition:all .3s;cursor:pointer;border:none;padding:0;background-color:rgba(61,23,133,.18)}
+.plan-dot.active{background-color:var(--primary);width:22px;border-radius:4px}
+
+/* ─── PAIN POINTS ─── */
+.prob-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.prob-card{background:linear-gradient(160deg,#ffffff 0%,#fdfbff 100%);border:1px solid rgba(0,0,0,0.07);border-radius:16px;padding:36px 32px 32px;display:flex;flex-direction:column;transition:box-shadow .25s,transform .25s;position:relative;overflow:hidden}
+.prob-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--pc),transparent 70%);border-radius:16px 16px 0 0}
+.prob-card:hover{box-shadow:0 12px 40px rgba(30,13,78,0.1);transform:translateY(-3px)}
+.prob-head{display:flex;align-items:center;gap:7px;margin-bottom:22px}
+.prob-dot{width:7px;height:7px;border-radius:50%;background:var(--pc);box-shadow:0 0 0 2.5px rgba(0,0,0,0.06);flex-shrink:0}
+.prob-idx{font-size:0.67rem;font-weight:700;letter-spacing:1.8px;color:var(--muted);font-family:var(--f-body);text-transform:uppercase}
+.prob-stat{display:flex;align-items:baseline;gap:9px;margin-bottom:6px}
+.prob-stat-n{font-family:var(--f-head);font-size:2.6rem;font-weight:700;line-height:1;background:linear-gradient(135deg,var(--pc) 30%,var(--primary-md));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.prob-stat-l{font-size:0.75rem;color:var(--muted);font-family:var(--f-body);line-height:1.5;max-width:130px}
+.prob-rule{border:none;height:1px;background:linear-gradient(90deg,var(--pc) 0%,rgba(0,0,0,0.05) 40%,transparent 100%);margin:22px 0}
+.prob-title{font-family:var(--f-head);font-size:1.28rem;font-weight:700;color:var(--ink2);line-height:1.3;margin-bottom:12px}
+.prob-quote{font-family:var(--f-head);font-size:0.9rem;font-style:italic;color:rgba(30,13,78,0.42);line-height:1.72;padding-left:12px;border-left:2px solid var(--pc);margin:0}
+
+/* ─── WHY – feature card grid ─── */
+.why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.why-card{background:#fff;border-radius:20px;padding:26px 24px;border:1px solid var(--bdr);box-shadow:0 3px 18px rgba(30,13,78,.06);transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column}
+.why-card:hover{transform:translateY(-6px);box-shadow:0 16px 46px rgba(30,13,78,.12)}
+.why-icon{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:16px;flex-shrink:0}
+.why-solves{font-size:.61rem;font-weight:800;text-transform:uppercase;letter-spacing:1.3px;margin-bottom:9px;font-family:var(--f-body);display:flex;align-items:center;gap:5px}
+.why-arr{opacity:.4;font-size:.68rem;font-weight:700}
+.why-card-title{font-family:var(--f-head);font-size:1.1rem;font-weight:700;color:var(--ink2);margin-bottom:10px;line-height:1.28}
+.why-card-desc{font-size:.88rem;color:var(--muted);line-height:1.86;flex:1}
+.why-card-pill{display:inline-flex;align-items:center;gap:5px;margin-top:16px;font-size:.73rem;font-weight:600;padding:4px 13px;border-radius:50px;font-family:var(--f-body)}
+
+/* ─── TIMELINE ─── */
+.tl-item{display:flex;gap:24px;padding-bottom:36px;position:relative}
+.tl-item:not(:last-child)::before{content:'';position:absolute;left:28px;top:58px;bottom:0;width:2px;background:linear-gradient(to bottom,rgba(131,70,126,0.4),transparent)}
+.tl-img{width:56px;height:56px;border-radius:50%;overflow:hidden;flex-shrink:0;box-shadow:0 4px 16px rgba(30,13,78,0.15);border:2px solid rgba(131,70,126,0.3)}
+.tl-img img{width:100%;height:100%;object-fit:cover}
+.tl-num{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--primary);background:rgba(131,70,126,.12);border:1px solid rgba(131,70,126,.3);padding:3px 11px;border-radius:50px;margin-bottom:8px;font-family:var(--f-body)}
+.tl-body{background:#fff;border-radius:14px;padding:16px 18px;border:1px solid var(--bdr);box-shadow:0 2px 10px rgba(30,13,78,.04);flex:1}
+.tl-h{font-family:var(--f-head);font-size:1.15rem;font-weight:700;color:var(--ink2);margin-bottom:6px}
+.tl-p{font-size:0.98rem;color:var(--muted);line-height:1.82;font-weight:400}
+
+/* ─── TEACHER CARDS ─── */
+.tc{background:#fff;border-radius:22px;border:1px solid var(--bdr);overflow:hidden;transition:all 0.3s;height:100%}
+.tc:hover{transform:translateY(-7px);box-shadow:0 18px 50px rgba(30,13,78,0.12)}
+.tc-top{height:180px;position:relative;overflow:hidden}
+.tc-top img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform 0.4s}
+.tc:hover .tc-top img{transform:scale(1.04)}
+.tc-top-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(18,8,42,0.7) 100%)}
+.tc-av{position:absolute;bottom:-22px;left:18px;width:56px;height:56px;border-radius:50%;border:3px solid #fff;overflow:hidden;box-shadow:0 3px 12px rgba(30,13,78,0.2)}
+.tc-av img{width:100%;height:100%;object-fit:cover}
+.tc-bdg{position:absolute;bottom:14px;right:14px;background:#83467E;color:#fff;font-size:0.7rem;font-weight:700;padding:4px 12px;border-radius:50px;font-family:var(--f-body)}
+.tc-body{padding:34px 16px 18px}
+.tc-name{font-family:var(--f-head);font-size:1.12rem;font-weight:700;color:var(--ink);margin-bottom:2px}
+.tc-style{font-size:0.8rem;font-weight:700;color:var(--purple-md);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;font-family:var(--f-body)}
+.tc-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.tc-m{font-size:0.82rem;color:var(--muted);font-family:var(--f-body);font-weight:500}
+.tg-r{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}
+.tg{background:var(--primary-bg);color:var(--primary);font-size:0.76rem;font-weight:600;padding:4px 10px;border-radius:6px;font-family:var(--f-body)}
+.tc-foot{display:flex;justify-content:space-between;align-items:center;padding-top:11px;border-top:1px solid var(--bdr)}
+.tc-rate{font-family:var(--f-head);font-size:1.15rem;font-weight:700;color:var(--ink2)}
+.tc-rate small{font-family:var(--f-body);font-size:0.78rem;font-weight:500;color:var(--muted)}
+.stars{color:#D97706;font-size:0.82rem}
+
+/* FILTER TABS */
+.ftab{background:#fff;border:1px solid var(--bdr);border-radius:50px;padding:8px 18px;font-family:var(--f-body);font-size:0.88rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all 0.2s}
+.ftab:hover,.ftab.active{background:#83467E;color:#fff;border-color:transparent;box-shadow:0 3px 12px rgba(131,70,126,0.35)}
+
+/* ─── VIDEO CARDS ─── */
+.vid-card{background:#fff;border-radius:20px;overflow:hidden;border:1px solid var(--bdr);transition:all 0.3s;height:100%}
+.vid-card:hover{transform:translateY(-5px);box-shadow:0 14px 40px rgba(30,13,78,0.1)}
+.vid-thumb{position:relative;cursor:pointer;overflow:hidden}
+.vid-thumb img{width:100%;height:200px;object-fit:cover;display:block;transition:transform 0.4s}
+.vid-card:hover .vid-thumb img{transform:scale(1.05)}
+.play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(30,13,78,0.35);transition:background 0.3s}
+.vid-card:hover .play-btn{background:rgba(30,13,78,0.18)}
+.play-circle{width:54px;height:54px;border-radius:50%;background:#83467E;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(131,70,126,0.4);transition:transform 0.3s}
+.vid-card:hover .play-circle{transform:scale(1.1)}
+.vid-info{padding:18px}
+.vid-name{font-family:var(--f-head);font-size:1.05rem;font-weight:700;color:var(--ink2);margin-bottom:2px}
+.vid-role{font-size:0.84rem;color:var(--muted);margin-bottom:8px;font-family:var(--f-body);font-weight:500}
+.vid-quote{font-family:var(--f-head);font-size:1rem;color:var(--ink);line-height:1.72;font-style:italic}
+
+/* ─── TESTIMONIALS ─── */
+.testi-bg{padding:100px 0;background:linear-gradient(155deg,#4D2832 0%,#83467E 55%,#4D2832 100%);position:relative;overflow:hidden}
+.testi-bg::before{content:'';position:absolute;right:-180px;top:-180px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,0.06),transparent 65%);pointer-events:none}
+.tq-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.09);border-radius:20px;padding:28px;height:100%;backdrop-filter:blur(8px);transition:all 0.3s}
+.tq-card:hover{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2)}
+.tq-mark{font-family:var(--f-head);font-size:4rem;color:rgba(255,255,255,0.5);line-height:0.7;margin-bottom:14px;display:block;font-style:italic}
+.tq-text{font-family:var(--f-head);font-size:1.05rem;color:rgba(255,255,255,0.88);line-height:1.85;font-style:italic;margin-bottom:18px}
+.tq-author{display:flex;align-items:center;gap:10px}
+.tq-av{width:42px;height:42px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid rgba(255,255,255,0.25)}
+.tq-av img{width:100%;height:100%;object-fit:cover}
+.tq-name{font-family:var(--f-head);font-size:1rem;font-weight:600;color:#fff}
+.tq-role{font-size:0.82rem;color:rgba(255,255,255,0.55);font-family:var(--f-body);font-weight:500}
+
+/* ─── FAQ ─── */
+.faq-section{padding:100px 0;background:var(--primary-bg)}
+.accordion-item{border:1px solid rgba(61,23,133,0.1)!important;border-radius:14px!important;margin-bottom:10px;overflow:hidden;box-shadow:0 2px 8px rgba(30,13,78,0.04)}
+.accordion-button{font-family:var(--f-body);font-size:1rem;font-weight:600;color:var(--ink2)!important;background:#fff!important;border-radius:14px!important;padding:18px 22px}
+.accordion-button:not(.collapsed){color:var(--primary)!important;box-shadow:none!important}
+.accordion-button:focus{box-shadow:none}
+.accordion-collapse .accordion-body{font-size:0.98rem;color:var(--muted);line-height:1.85;background:#fff;padding:0 22px 20px}
+
+/* ─── CTA BOX ─── */
+.cta-band{padding:100px 0;background:var(--parchment)}
+.cta-box{background:#fff;border-radius:26px;padding:58px 50px;border:1px solid rgba(131,70,126,0.15);box-shadow:0 14px 50px rgba(30,13,78,0.07);position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(131,70,126,0.08),transparent 65%)}
+.cta-box h2{font-family:var(--f-head);font-size:clamp(1.8rem,3vw,2.75rem);font-weight:700;color:var(--ink2);line-height:1.12;margin-bottom:14px}
+.cta-box p{font-size:0.94rem;color:var(--muted);max-width:400px;margin-bottom:26px;line-height:1.78}
+
+/* ─── STATS BAR ─── */
+.stat-val{font-family:var(--f-display);font-size:2.6rem;font-weight:700;color:var(--ink2);line-height:1}
+.stat-lbl{font-size:0.92rem;color:var(--muted);font-weight:500;margin-top:4px;font-family:var(--f-body)}
+
+/* ─── FOOTER ─── */
+footer{background:var(--ink);padding:58px 0 24px;color:rgba(255,255,255,0.45)}
+.f-bn{font-family:var(--f-display);font-size:1.25rem;font-weight:700;color:#fff}
+.f-bn em{color:var(--gold-hi);font-style:normal}
+.f-desc{font-size:0.92rem;line-height:1.78;max-width:210px;margin-bottom:18px;font-family:var(--f-body)}
+footer h6{font-size:0.76rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:14px;font-family:var(--f-body)}
+footer a{color:rgba(255,255,255,0.55);text-decoration:none;font-size:0.92rem;display:block;margin-bottom:8px;transition:color 0.2s;font-family:var(--f-body)}
+footer a:hover{color:var(--gold-hi)}
+.soc{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.44);font-size:0.8rem;text-decoration:none;transition:all 0.2s;margin-right:5px}
+.soc:hover{background:var(--primary);color:#fff}
+
+/* ─── SECTION LABELS ─── */
+.sec-lbl{font-size:0.78rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--primary);margin-bottom:10px;font-family:var(--f-body)}
+.sec-h{font-family:var(--f-head);font-size:clamp(1.85rem,3.2vw,2.75rem);font-weight:700;color:var(--ink2);line-height:1.15;margin-bottom:14px}
+
+/* ─── COMPARISON ─── */
+.comp-strip{background:var(--ink2);border-radius:22px;padding:40px 36px;position:relative;overflow:hidden}
+.comp-strip::before{content:'';position:absolute;right:-60px;bottom:-60px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(255,208,64,0.1),transparent 65%)}
+
+/* ─── UTILS ─── */
+.fade-in{opacity:0;transform:translateY(22px);transition:opacity 0.55s ease,transform 0.55s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* ─── HIGHLIGHT UTILITIES ─── */
+/* Gold gradient underline via pseudo-element */
+.hl-uline{position:relative;display:inline}
+.hl-uline::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:3px;background:linear-gradient(90deg,#FFD040,#E09918,#C07810);border-radius:2px}
+/* Purple gradient underline */
+.hl-uline-p{position:relative;display:inline}
+.hl-uline-p::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:3px;background:linear-gradient(90deg,var(--purple),var(--purple-md));border-radius:2px}
+/* Teal underline */
+.hl-uline-t{position:relative;display:inline}
+.hl-uline-t::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:3px;background:linear-gradient(90deg,#0D9488,#22D3EE);border-radius:2px}
+/* Gradient highlight – gold (replaces wavy) */
+.hl-wave{background:linear-gradient(120deg,rgba(255,208,64,0.35) 0%,rgba(255,208,64,0.55) 100%);padding:1px 4px;border-radius:4px;font-weight:600}
+/* Red accent – pain points (replaces wavy red) */
+.hl-wave-r{color:#C81C3A;font-weight:700;background:rgba(225,29,72,0.08);padding:1px 5px;border-radius:4px}
+/* Highlighter / marker pen — gold */
+.hl-marker{background:linear-gradient(transparent 48%,rgba(255,208,64,0.55) 48%);padding:0 3px}
+/* Highlighter — purple */
+.hl-marker-p{background:linear-gradient(transparent 48%,rgba(61,23,133,0.14) 48%);padding:0 3px}
+/* Highlighter — green */
+.hl-marker-g{background:linear-gradient(transparent 48%,rgba(13,148,136,0.22) 48%);padding:0 3px}
+/* Inline gold pill badge */
+.hl-pill{background:linear-gradient(135deg,#FFD040,#E09918);color:#18100A;font-weight:800;padding:2px 11px;border-radius:50px;white-space:nowrap;font-size:0.95em;box-shadow:0 2px 8px rgba(224,153,24,0.35)}
+/* Inline purple pill badge */
+.hl-pill-p{background:var(--lavender);color:var(--purple);font-weight:700;padding:2px 10px;border-radius:50px;white-space:nowrap;font-size:0.95em;border:1px solid rgba(61,23,133,0.18)}
+/* Gold border box around text */
+.hl-box{border:2px solid var(--gold-mid);border-radius:7px;padding:1px 9px 2px;background:var(--gold-bg);font-weight:700;color:var(--gold-dk);display:inline}
+/* Red strikethrough — for "others" comparison */
+.hl-cross{text-decoration:line-through;text-decoration-color:#E11D48;text-decoration-thickness:2px;opacity:0.72}
+/* Double underline */
+.hl-dbl{border-bottom:3px double var(--gold-mid);padding-bottom:1px}
+
+
+/* ─── BOOKING MODAL ─── */
+.bm-overlay{position:fixed;inset:0;z-index:3000;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(18,8,42,0.78);backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity 0.3s,visibility 0.3s}
+.bm-overlay.open{opacity:1;visibility:visible}
+.bm-modal{background:#fff;border-radius:24px;width:100%;max-width:580px;max-height:92vh;overflow-y:auto;padding:36px 36px 28px;position:relative;transform:translateY(36px) scale(0.96);transition:transform 0.38s cubic-bezier(0.34,1.46,0.64,1);box-shadow:0 32px 80px rgba(18,8,42,0.38)}
+.bm-overlay.open .bm-modal{transform:translateY(0) scale(1)}
+.bm-close{position:absolute;top:14px;right:16px;background:rgba(61,23,133,0.08);border:none;width:34px;height:34px;border-radius:50%;font-size:1.3rem;cursor:pointer;color:var(--muted);display:flex;align-items:center;justify-content:center;transition:all 0.2s;line-height:1}
+.bm-close:hover{background:rgba(61,23,133,0.16);color:var(--ink)}
+/* Header */
+.bm-header{text-align:center;margin-bottom:22px}
+.bm-logo-badge{display:inline-flex;align-items:center;gap:6px;background:var(--primary-bg);border-radius:50px;padding:4px 14px;margin-bottom:10px}
+.bm-logo-badge span{font-family:var(--f-display);font-size:0.88rem;font-weight:700;color:var(--ink2)}
+.bm-logo-badge em{color:var(--primary);font-style:normal}
+.bm-header h3{font-family:var(--f-head);font-size:1.4rem;font-weight:700;color:var(--ink2);margin:0 0 5px}
+.bm-header p{font-size:0.86rem;color:var(--muted);margin:0}
+/* Progress */
+.bm-progress-wrap{display:flex;align-items:center;justify-content:center;margin-bottom:5px}
+.bm-step-dot{width:32px;height:32px;border-radius:50%;background:var(--lavender);display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;color:var(--purple);flex-shrink:0;transition:all 0.3s}
+.bm-step-dot.active{background:#83467E;color:#fff;box-shadow:0 3px 10px rgba(131,70,126,0.35)}
+.bm-step-dot.done{background:var(--primary);color:#fff}
+.bm-prog-line{flex:1;height:2px;background:var(--lavender);max-width:56px;transition:background 0.3s}
+.bm-prog-line.done{background:var(--primary)}
+.bm-label-row{display:flex;justify-content:space-between;margin-bottom:22px;padding:0 2px}
+.bm-label-row span{font-size:0.66rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;text-align:center;flex:1;transition:color 0.3s}
+.bm-label-row span.active{color:var(--primary)}
+/* Panels */
+.bm-panel{display:none}
+.bm-panel.active{display:block;animation:bmSlideIn 0.3s ease}
+@keyframes bmSlideIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:translateX(0)}}
+.bm-panel h4{font-family:var(--f-head);font-size:1.12rem;font-weight:700;color:var(--ink2);margin-bottom:16px}
+.bm-step-sub{font-size:0.87rem;color:var(--muted);margin:-6px 0 16px;line-height:1.7}
+/* Fields */
+.bm-field{margin-bottom:14px}
+.bm-field label{display:block;font-size:0.82rem;font-weight:600;color:var(--ink2);margin-bottom:6px}
+.bm-field input,.bm-field textarea,.bm-field select{width:100%;border:1.5px solid rgba(61,23,133,0.15);border-radius:10px;padding:10px 14px;font-family:var(--f-body);font-size:0.93rem;color:var(--ink);background:#f9f8ff;transition:border-color 0.2s,box-shadow 0.2s;outline:none}
+.bm-field input:focus,.bm-field textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(131,70,126,0.09);background:#fff}
+.bm-field textarea{resize:vertical;min-height:80px}
+.bm-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+/* Option pills */
+.bm-options{display:flex;flex-wrap:wrap;gap:7px}
+.bm-opt{background:#fff;border:1.5px solid rgba(61,23,133,0.14);border-radius:50px;padding:7px 14px;font-family:var(--f-body);font-size:0.82rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all 0.2s}
+.bm-opt:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-bg)}
+.bm-opt.selected{background:#83467E;color:#fff;border-color:transparent;font-weight:700;box-shadow:0 2px 8px rgba(131,70,126,0.25)}
+/* Guarantee */
+.bm-guarantee{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;padding:11px 14px;background:linear-gradient(135deg,var(--primary-bg),#fff);border-radius:12px;border:1px solid rgba(131,70,126,0.2)}
+.bm-guarantee span{font-size:0.8rem;font-weight:600;color:var(--primary)}
+/* Success */
+.bm-success{display:none;text-align:center;padding:24px 0 8px}
+.bm-success.show{display:block}
+.bm-success-icon{font-size:3.5rem;display:block;margin-bottom:12px}
+.bm-success h3{font-family:var(--f-head);font-size:1.5rem;font-weight:700;color:var(--ink2);margin:0 0 10px}
+.bm-success p{font-size:0.94rem;color:var(--muted);line-height:1.75;margin:0 0 22px}
+/* Footer */
+.bm-footer{display:flex;align-items:center;justify-content:flex-end;gap:12px;margin-top:20px;padding-top:16px;border-top:1px solid rgba(61,23,133,0.07)}
+.bm-back{background:none;border:1.5px solid rgba(61,23,133,0.2);border-radius:50px;padding:9px 22px;font-family:var(--f-body);font-size:0.9rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all 0.2s}
+.bm-back:hover{background:var(--primary-bg);color:var(--primary);border-color:var(--primary)}
+@media(max-width:600px){
+  .bm-modal{padding:24px 18px 20px;border-radius:18px;max-height:94vh}
+  .bm-row{grid-template-columns:1fr}
+  .bm-header h3{font-size:1.2rem}
+  .bm-panel h4{font-size:1rem}
+  .bm-opt{font-size:0.8rem;padding:6px 12px}
+}
+
+/* ─── TABLET (≤ 991px) ─── */
+@media(max-width:991px){
+  .fb{display:none}
+  .why-grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* ─── MOBILE (≤ 767px) ─── */
+@media(max-width:767px){
+  /* Section paddings */
+  section{padding-top:56px!important;padding-bottom:56px!important}
+  .testi-bg{padding:60px 0!important}
+  .faq-section{padding:60px 0!important}
+  .cta-band{padding:60px 0!important}
+  .strip{padding:10px 0}
+  .si{font-size:.86rem;letter-spacing:.8px}
+
+  /* Container side padding — more breathing room */
+  .container{padding-left:20px!important;padding-right:20px!important}
+
+  /* Nav */
+  .yk-nav{padding:10px 0}
+  .yk-nav.solid{padding:7px 0}
+
+  /* Hero */
+  .hero{padding-top:80px!important;padding-bottom:52px!important;min-height:auto}
+  .eyebrow{font-size:0.8rem;letter-spacing:2px;margin-bottom:14px}
+  .hero-title{font-size:2.25rem;line-height:1.18;margin-bottom:12px}
+  .hero-sub-head{font-size:1.18rem;line-height:1.5;margin-bottom:18px}
+  .hero-body{font-size:1.06rem;line-height:1.88;margin-bottom:22px}
+  .chip-row{gap:7px;margin-bottom:20px}
+  .chip{padding:6px 13px}
+  .chip-lbl{font-size:0.88rem;font-weight:600}
+  .hero-img-col{margin-top:28px}
+  .hero-img-col .fb{display:none!important}
+  .hero-img-col .img-wrap{width:100%}
+  .hero-img-col img{height:240px!important}
+
+  /* Search box */
+  .s-box{flex-direction:column;padding:10px;gap:8px;border-radius:14px;max-width:100%}
+  .s-box input,.s-box input.s-city{width:100%;flex:unset;padding:11px 14px;font-size:1rem;border:1px solid var(--bdr);border-radius:10px;background:#f9f7ff}
+  .s-box .s-btn{width:100%;border-radius:10px!important;justify-content:center;padding:13px!important;font-size:1rem!important;display:flex}
+  .s-sep,.s-box svg{display:none}
+
+  /* Trust row */
+  .trust-r{gap:10px;margin-top:16px;flex-wrap:wrap}
+  .ti{font-size:0.9rem}
+
+  /* Section headings */
+  .sec-h{font-size:1.85rem;line-height:1.18}
+  .sec-lbl{font-size:0.78rem;letter-spacing:2px}
+
+  /* Plan slider */
+  .plan-slider-outer{gap:8px}
+  .plan-arrow{width:42px;height:42px;font-size:1.4rem}
+  .plan-card{flex:0 0 calc(100vw - 90px)}
+  .plan-img{height:188px}
+  .plan-name{font-size:1.18rem}
+  .plan-price{font-size:1.55rem}
+  .plan-body{padding:18px 18px 22px}
+  .plan-features li{font-size:.97rem}
+
+  /* Pain section */
+  .prob-grid{grid-template-columns:1fr}
+  .prob-card{padding:30px 26px 28px}
+  .prob-stat-n{font-size:2.2rem}
+  .prob-title{font-size:1.2rem}
+
+  /* Why section */
+  .why-grid{grid-template-columns:1fr}
+  .why-card{padding:22px 20px}
+  .why-card-title{font-size:1.1rem}
+  .why-card-desc{font-size:.97rem;line-height:1.86}
+
+  /* Comparison strip */
+  .comp-strip{padding:28px 20px;border-radius:16px}
+  .comp-strip h3{font-size:1.5rem!important;line-height:1.28!important}
+  .comp-strip p{font-size:0.95rem!important;line-height:1.78!important}
+
+  /* Teachers */
+  .tc-top{height:165px}
+  .tc-name{font-size:1.1rem}
+  .tc-style{font-size:0.82rem}
+  .tc-m{font-size:0.85rem}
+  .tg{font-size:0.78rem;padding:4px 9px}
+  .ftab{padding:8px 15px;font-size:0.88rem}
+
+  /* Timeline */
+  .tl-item{gap:12px;padding-bottom:18px}
+  .tl-item::before{display:none}
+  .tl-img{width:46px;height:46px}
+  .tl-body{padding:13px 14px}
+  .tl-h{font-size:1.12rem}
+  .tl-p{font-size:1rem;line-height:1.82}
+
+  /* Video cards */
+  .vid-quote{font-size:1.04rem;line-height:1.78}
+  .vid-name{font-size:1.05rem}
+  .vid-role{font-size:0.86rem}
+
+  /* Testimonials */
+  .tq-card{padding:24px 20px}
+  .tq-text{font-size:1.08rem;line-height:1.88}
+  .tq-name{font-size:1rem}
+  .tq-role{font-size:0.84rem}
+  .testi-bg::before{display:none}
+
+  /* Stats */
+  .stat-val{font-size:2.1rem}
+  .stat-lbl{font-size:0.9rem}
+
+  /* FAQ */
+  .accordion-button{font-size:1.02rem;padding:16px 18px;line-height:1.5}
+  .accordion-collapse .accordion-body{font-size:1rem;padding:0 18px 18px;line-height:1.82}
+
+  /* CTA */
+  .cta-box{padding:36px 22px;border-radius:18px}
+  .cta-box h2{font-size:1.85rem!important;line-height:1.15!important}
+  .cta-box p{font-size:1.04rem;line-height:1.82;max-width:100%}
+  .cta-cta-btn-row{flex-direction:column;gap:12px!important}
+  .cta-cta-btn-row .btn-g-lg,.cta-cta-btn-row .btn-op{width:100%;justify-content:center}
+
+  /* Footer */
+  footer{padding:48px 0 24px}
+  .f-desc{max-width:100%;font-size:0.95rem;line-height:1.8}
+  footer a{font-size:0.92rem}
+
+  /* Sticky CTA */
+  #stickyCta{padding:10px 14px;gap:8px;flex-wrap:nowrap}
+  #stickyCta div[style*="font-family"]{font-size:0.95rem}
+  #stickyCta .btn-op{display:none!important}
+  #stickyCta .btn-g{font-size:0.9rem;padding:10px 16px}
+}
+
+/* ─── SMALL MOBILE (≤ 480px) ─── */
+@media(max-width:480px){
+  .container{padding-left:16px!important;padding-right:16px!important}
+  .hero-title{font-size:2.05rem;line-height:1.16}
+  .hero-sub-head{font-size:1.18rem}
+  .hero-body{font-size:1.04rem}
+  .sec-h{font-size:1.75rem;line-height:1.18}
+  .sec-lbl{font-size:0.8rem}
+  .pain-q{font-size:1.08rem;line-height:1.65}
+  .why-card-title{font-size:1.08rem}
+  .why-card-desc{font-size:1.01rem}
+  .stat-val{font-size:1.95rem}
+  .comp-strip h3{font-size:1.42rem!important}
+  .comp-strip p{font-size:1rem!important}
+  .cta-box h2{font-size:1.72rem!important}
+  .cta-box p{font-size:1.04rem}
+  .plan-arrow{width:38px;height:38px;font-size:1.25rem}
+  .plan-card{flex:0 0 calc(100vw - 80px)}
+  .chip-lbl{font-size:0.9rem}
+  .ftab{padding:7px 13px;font-size:0.92rem}
+  .tq-text{font-size:1.06rem}
+  .accordion-button{font-size:1.04rem;padding:14px 16px}
+  .accordion-collapse .accordion-body{font-size:1.02rem;padding:0 16px 16px}
+  .tl-h{font-size:1.12rem}
+  .tl-p{font-size:1.02rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="yk-nav" id="ykNav">
+  <div class="container d-flex align-items-center justify-content-between">
+    <a href="/" class="yk-brand">
+      <div class="yk-logo">YK</div>
+      <span class="yk-bname">Yog<em>Kulam</em></span>
+    </a>
+    <div class="yk-nl d-none d-lg-flex align-items-center gap-1">
+      <a href="/yoga-teachers">Find Teachers</a>
+      <a href="/jobs">Jobs</a>
+      <a href="/join-teacher">Become a Teacher</a>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <a href="/teacher-login" class="btn-op d-none d-md-inline-flex" style="font-size:.82rem;padding:8px 16px">Login</a>
+      <a href="/join-teacher" class="btn-g d-none d-md-inline-flex" style="font-size:.85rem;padding:9px 20px">Post a Job</a>
+      <button class="mob-btn" id="mobBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="yk-mob-nav" id="ykMobNav">
+  <a href="/yoga-teachers" class="mob-lnk">Find Teachers</a>
+  <a href="/jobs" class="mob-lnk">Browse Jobs</a>
+  <a href="/join-teacher" class="mob-lnk">Become a Teacher</a>
+  <a href="/teacher-login" class="mob-lnk">Login</a>
+  <div class="mob-act">
+    <a href="/join-teacher" class="btn-g">Post a Job</a>
+  </div>
+</div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="eyebrow">India's #1 Yoga Teacher Platform</div>
+
+        <h1 class="hero-title"><span class="hl-gold">Hire</span> a Verified<br>Yoga Teacher.</h1>
+        <p class="hero-sub-head">Book <span class="hl-purple">1-on-1 Sessions</span> tailored to your body.</p>
+
+        <div class="s-box">
+          <svg width="15" height="15" fill="none" stroke="#B0A4C5" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" placeholder="Your city…" class="s-city">
+          <div class="s-sep"></div>
+          <input type="text" placeholder="Yoga style or goal…">
+          <a href="#" class="btn-g s-btn">Find Teacher 🔍</a>
+        </div>
+        <div class="trust-r">
+          <div class="ti"><span class="td"></span><strong style="color:var(--ink2)">2,800+</strong> Certified Teachers</div>
+          <div class="ti"><span class="td"></span><span class="hl-marker">First Session Free</span></div>
+          <div class="ti"><span class="td"></span><strong style="color:var(--ink2)">30+</strong> Cities</div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 d-flex justify-content-center hero-img-col">
+        <div class="img-wrap">
+          <div style="border-radius:24px;overflow:hidden;box-shadow:0 26px 66px rgba(30,13,78,0.2);animation:yf 5s ease-in-out infinite;">
+            <img src="https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=640&h=480&fit=crop"
+              alt="Yoga teacher with student in a personal session"
+              style="width:100%;height:360px;object-fit:cover;object-position:center;display:block;border-radius:24px;"
+              onerror="this.src='https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=640'">
+          </div>
+          <button class="hero-play" aria-label="Watch how YogSetu works">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <!-- Float badges -->
+          <div class="fb" style="top:20px;left:-14px">
+            <div class="fb-ico" style="background:var(--gold-bg)">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&h=60&fit=crop&crop=face" alt="Rating">
+            </div>
+            <div><div class="fb-lbl">Avg Rating</div><div class="fb-val">⭐ 4.9 / 5.0</div></div>
+          </div>
+          <div class="fb" style="top:16px;right:-14px;animation-delay:1.6s">
+            <div class="fb-ico" style="background:var(--lavender)">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&fit=crop&crop=face" alt="Students">
+            </div>
+            <div><div class="fb-lbl">Active Students</div><div class="fb-val">9,200+</div></div>
+          </div>
+          <div class="fb" style="bottom:22px;right:-14px;animation-delay:0.9s">
+            <div class="fb-ico" style="background:#ECFDF5">
+              <img src="https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=60&h=60&fit=crop" alt="Live">
+            </div>
+            <div><div class="fb-lbl">Live Now</div><div class="fb-val">64 Sessions</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-track">
+    <div class="si"><span class="sd">◆</span>Hatha Yoga</div><div class="si"><span class="sd">◆</span>Vinyasa Flow</div><div class="si"><span class="sd">◆</span>Ashtanga</div><div class="si"><span class="sd">◆</span>Yin Yoga</div><div class="si"><span class="sd">◆</span>Kundalini</div><div class="si"><span class="sd">◆</span>Power Yoga</div><div class="si"><span class="sd">◆</span>Restorative</div><div class="si"><span class="sd">◆</span>Pranayama</div><div class="si"><span class="sd">◆</span>Meditation</div><div class="si"><span class="sd">◆</span>Prenatal Yoga</div>
+    <div class="si"><span class="sd">◆</span>Hatha Yoga</div><div class="si"><span class="sd">◆</span>Vinyasa Flow</div><div class="si"><span class="sd">◆</span>Ashtanga</div><div class="si"><span class="sd">◆</span>Yin Yoga</div><div class="si"><span class="sd">◆</span>Kundalini</div><div class="si"><span class="sd">◆</span>Power Yoga</div><div class="si"><span class="sd">◆</span>Restorative</div><div class="si"><span class="sd">◆</span>Pranayama</div><div class="si"><span class="sd">◆</span>Meditation</div><div class="si"><span class="sd">◆</span>Prenatal Yoga</div>
+  </div>
+</div>
+
+<!-- ── CHOOSE YOUR PLAN ── -->
+<section id="offer" style="padding:100px 0;background:#fff">
+  <div class="container">
+    <div class="text-center mb-5 fade-in">
+      <div class="sec-lbl">Choose Your Plan</div>
+      <h2 class="sec-h">Start Your Yoga Journey <span class="hl-gold">Today</span></h2>
+      <p style="font-size:0.94rem;color:var(--muted);max-width:440px;margin:0 auto;line-height:1.82">Every plan includes a <strong style="color:var(--ink2)">free first session</strong> – no commitment, no card needed. Pick what fits your life.</p>
+    </div>
+
+    <!-- Slider -->
+    <div class="plan-slider-outer fade-in">
+      <button class="plan-arrow" id="planPrev" aria-label="Previous plan" disabled>&#8249;</button>
+
+      <div class="plan-track" id="planTrack">
+
+        <!-- ── Plan 1: Single Session ── -->
+        <div class="plan-card">
+          <div class="plan-img">
+            <img src="https://images.pexels.com/photos/4327139/pexels-photo-4327139.jpeg?auto=compress&cs=tinysrgb&w=640&h=400&fit=crop" alt="Book a single yoga session" onerror="this.src='https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=640'">
+            <div class="plan-img-overlay"></div>
+            <div class="plan-badge">Flexible</div>
+            <div class="plan-price-overlay">
+              <div class="plan-name">Single Session</div>
+              <div class="plan-price">&#8377;299<sub>/class</sub></div>
+            </div>
+          </div>
+          <div class="plan-body">
+            <p class="plan-tagline">One focused class with a certified teacher. Online or at your home — anytime.</p>
+            <ul class="plan-features">
+              <li><span class="plan-check">&#10003;</span><span>Book same-day or in advance</span></li>
+              <li><span class="plan-check">&#10003;</span><span>Choose style, duration &amp; language</span></li>
+              <li><span class="plan-check">&#10003;</span><span>Online (Zoom) or home visit</span></li>
+              <li><span class="plan-check">&#10003;</span><span><strong style="color:var(--ink2)">First class completely free</strong></span></li>
+            </ul>
+            <a href="#" class="btn-g" data-book="1" style="width:100%;justify-content:center">Book a Session &#8594;</a>
+          </div>
+        </div>
+
+        <!-- ── Plan 2: Monthly Personal — FEATURED ── -->
+        <div class="plan-card featured">
+          <span class="plan-popular">&#9733; Most Popular</span>
+          <div class="plan-img">
+            <img src="https://images.pexels.com/photos/3822862/pexels-photo-3822862.jpeg?auto=compress&cs=tinysrgb&w=640&h=400&fit=crop" alt="Personal yoga teacher" onerror="this.src='https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=640'">
+            <div class="plan-img-overlay"></div>
+            <div class="plan-badge">Best Value</div>
+            <div class="plan-price-overlay">
+              <div class="plan-name">Monthly Plan</div>
+              <div class="plan-price">&#8377;1,500<sub>/month</sub></div>
+            </div>
+          </div>
+          <div class="plan-body">
+            <p class="plan-tagline">A dedicated personal teacher on a regular schedule — built around your health goals.</p>
+            <ul class="plan-features">
+              <li><span class="plan-check">&#10003;</span><span>Daily or weekly schedule</span></li>
+              <li><span class="plan-check">&#10003;</span><span>Custom curriculum for your body</span></li>
+              <li><span class="plan-check">&#10003;</span><span>Health &amp; injuries fully considered</span></li>
+              <li><span class="plan-check">&#10003;</span><span>Weekly progress reports sent to you</span></li>
+            </ul>
+            <a href="#" class="btn-g" data-book="1" style="width:100%;justify-content:center">Hire a Teacher &#8594;</a>
+          </div>
+        </div>
+
+        <!-- ── Plan 3: Group / Corporate ── -->
+        <div class="plan-card">
+          <div class="plan-img">
+            <img src="https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=640&h=400&fit=crop" alt="Group yoga for corporates" onerror="this.src='https://images.pexels.com/photos/3822862/pexels-photo-3822862.jpeg?auto=compress&cs=tinysrgb&w=640'">
+            <div class="plan-img-overlay"></div>
+            <div class="plan-badge">For Teams</div>
+            <div class="plan-price-overlay">
+              <div class="plan-name">Group / Corporate</div>
+              <div class="plan-price">&#8377;499<sub>/person</sub></div>
+            </div>
+          </div>
+          <div class="plan-body">
+            <p class="plan-tagline">Bring wellness to your team. Live group sessions for companies, studios &amp; schools.</p>
+            <ul class="plan-features">
+              <li><span class="plan-check">&#10003;</span><span>5–50 participants per session</span></li>
+              <li><span class="plan-check">&#10003;</span><span>Online or on-site delivery</span></li>
+              <li><span class="plan-check">&#10003;</span><span>Custom wellness programme</span></li>
+              <li><span class="plan-check">&#10003;</span><span>Monthly invoicing available</span></li>
+            </ul>
+            <a href="#" class="btn-g" data-book="1" style="width:100%;justify-content:center">Get a Quote &#8594;</a>
+          </div>
+        </div>
+
+      </div><!-- /plan-track -->
+
+      <button class="plan-arrow" id="planNext" aria-label="Next plan">&#8250;</button>
+    </div><!-- /plan-slider-outer -->
+
+    <!-- Dots indicator -->
+    <div class="plan-dots" id="planDotsWrap">
+      <button class="plan-dot active" data-plan="0" aria-label="Plan 1"></button>
+      <button class="plan-dot" data-plan="1" aria-label="Plan 2"></button>
+      <button class="plan-dot" data-plan="2" aria-label="Plan 3"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ── PAIN POINTS ── -->
+<section style="padding:96px 0;background:linear-gradient(160deg,#F4F0F8 0%,#FAF8FC 45%,#EDE5F0 100%)">
+  <div class="container">
+
+    <div class="text-center mb-5 fade-in" style="max-width:480px;margin-left:auto;margin-right:auto">
+      <div class="sec-lbl">The Real Problems</div>
+      <h2 class="sec-h" style="margin-bottom:10px">Why Good Yoga Is<br>Hard to Find</h2>
+      <p style="font-size:0.9rem;color:var(--muted);line-height:1.8"><strong style="color:var(--ink2)">500+ students.</strong> Four problems. Every single time.</p>
+    </div>
+
+    <div class="prob-grid fade-in">
+
+      <!-- Card 1 -->
+      <div class="prob-card" style="--pc:#83467E">
+        <div class="prob-head">
+          <span class="prob-dot"></span>
+          <span class="prob-idx">01 &nbsp;·&nbsp; Unqualified Teachers</span>
+        </div>
+        <div class="prob-stat">
+          <span class="prob-stat-n">1 in 3</span>
+          <span class="prob-stat-l">injured by unqualified teachers</span>
+        </div>
+        <hr class="prob-rule">
+        <div class="prob-title">No Credentials. No Verification.</div>
+        <p class="prob-quote">"I injured my back in the second class and couldn't practice for weeks."</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="prob-card" style="--pc:#B7860B">
+        <div class="prob-head">
+          <span class="prob-dot"></span>
+          <span class="prob-idx">02 &nbsp;·&nbsp; No Style Matching</span>
+        </div>
+        <div class="prob-stat">
+          <span class="prob-stat-n">7 in 10</span>
+          <span class="prob-stat-l">never asked about health</span>
+        </div>
+        <hr class="prob-rule">
+        <div class="prob-title">Wrong Yoga for Your Body</div>
+        <p class="prob-quote">"I needed therapeutic yoga. Nobody asked about my condition."</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="prob-card" style="--pc:#0D9488">
+        <div class="prob-head">
+          <span class="prob-dot"></span>
+          <span class="prob-idx">03 &nbsp;·&nbsp; Zero Progress Tracking</span>
+        </div>
+        <div class="prob-stat">
+          <span class="prob-stat-n">4 months</span>
+          <span class="prob-stat-l">before motivation disappears</span>
+        </div>
+        <hr class="prob-rule">
+        <div class="prob-title">No Way to Know If You're Improving</div>
+        <p class="prob-quote">"After 4 months I still don't know if I'm getting better."</p>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="prob-card" style="--pc:#2563EB">
+        <div class="prob-head">
+          <span class="prob-dot"></span>
+          <span class="prob-idx">04 &nbsp;·&nbsp; Unreliable Teachers</span>
+        </div>
+        <div class="prob-stat">
+          <span class="prob-stat-n">3×</span>
+          <span class="prob-stat-l">more likely to quit yoga</span>
+        </div>
+        <hr class="prob-rule">
+        <div class="prob-title">Cancelled. No Notice. No Refund.</div>
+        <p class="prob-quote">"6 cancellations in 2 months. I lost ₹4,000 and all motivation."</p>
+      </div>
+
+    </div>
+
+    <div class="text-center mt-5 fade-in">
+      <a href="#why" class="btn-g">How We Fix Every One of These →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── WHY YOGSETU – alternating image rows ── -->
+<section id="why" style="padding:100px 0;background:#fff">
+  <div class="container">
+    <div class="text-center mb-5 fade-in">
+      <div class="sec-lbl">Why YogSetu</div>
+      <h2 class="sec-h">Built to Fix <span class="hl-gold">Every Single Problem</span></h2>
+      <p style="font-size:0.94rem;color:var(--muted);max-width:440px;margin:0 auto;line-height:1.82">Every frustration above has a <strong style="color:var(--ink2)">specific solution</strong> baked into YogSetu.</p>
+    </div>
+
+    <div class="why-grid fade-in">
+
+      <!-- Card 1 -->
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(61,23,133,.1)">🛡️</div>
+        <div class="why-solves" style="color:#3D1785">Solves <span class="why-arr">›</span> Unqualified Teachers</div>
+        <div class="why-card-title">Every Teacher Verified &amp; Certified</div>
+        <p class="why-card-desc">Before listing on YogSetu, teachers must submit their Yoga Alliance (RYT 200/500) or AYUSH certification. We verify every document manually. No exceptions, no shortcuts.</p>
+        <div class="why-card-pill" style="background:rgba(61,23,133,.08);color:#3D1785">✦ Zero unverified listings</div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(192,120,16,.1)">🎯</div>
+        <div class="why-solves" style="color:#9A6C0E">Solves <span class="why-arr">›</span> No Style Matching</div>
+        <div class="why-card-title">Health-First Teacher Matching</div>
+        <p class="why-card-desc">We ask about your health conditions, injuries and goals before matching. A student with spondylitis is never sent a Power Yoga teacher. Your health comes first, always.</p>
+        <div class="why-card-pill" style="background:rgba(192,120,16,.08);color:#9A6C0E">✦ Match in under 2 minutes</div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(13,148,136,.1)">📈</div>
+        <div class="why-solves" style="color:#0D9488">Solves <span class="why-arr">›</span> Zero Progress Tracking</div>
+        <div class="why-card-title">Weekly Progress Reports, Always</div>
+        <p class="why-card-desc">Your teacher logs posture improvements, milestones and session notes after every class. You get a detailed weekly report — see your growth, every single week.</p>
+        <div class="why-card-pill" style="background:rgba(13,148,136,.08);color:#0D9488">✦ Never guess your progress again</div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="why-card">
+        <div class="why-icon" style="background:rgba(59,130,246,.1)">✅</div>
+        <div class="why-solves" style="color:#2563EB">Solves <span class="why-arr">›</span> Unreliable Teachers</div>
+        <div class="why-card-title">Full Session Accountability</div>
+        <p class="why-card-desc">Every session is logged and you're notified when class starts and ends. More than 2 cancellations and the teacher is removed from the platform. Zero tolerance, always.</p>
+        <div class="why-card-pill" style="background:rgba(59,130,246,.08);color:#2563EB">✦ Zero-tolerance policy</div>
+      </div>
+
+    </div>
+
+    <!-- Comparison strip -->
+    <div class="row mt-5 fade-in">
+      <div class="col-12">
+        <div class="comp-strip">
+          <div class="row align-items-center g-4">
+            <div class="col-lg-5" style="position:relative;z-index:1">
+              <p style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,0.3);margin:0 0 10px;font-family:var(--f-body)">The difference is clear</p>
+              <h3 style="font-family:var(--f-head);font-size:1.85rem;font-weight:700;color:#fff;margin:0 0 12px;line-height:1.25">Others just list teachers.<br><span class="hl-gold">YogSetu builds your practice.</span></h3>
+              <p style="font-size:0.88rem;color:rgba(255,255,255,0.5);margin:0 0 22px;line-height:1.78;font-family:var(--f-body)">Verified matching, health adaptation, weekly progress reports and full accountability – all in one platform.</p>
+              <a href="#" class="btn-g" data-book="1">Book Free Session →</a>
+            </div>
+            <div class="col-lg-7" style="position:relative;z-index:1">
+              <div class="row g-3">
+                <div class="col-6"><div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:18px 15px"><p style="font-size:0.68rem;font-weight:600;color:rgba(255,255,255,0.28);text-transform:uppercase;letter-spacing:0.8px;margin:0 0 8px;font-family:var(--f-body)">Other platforms</p><p style="font-size:0.85rem;color:rgba(255,255,255,0.44);margin:0;line-height:1.95;font-family:var(--f-body)"><span class="hl-cross">Anyone can list</span><br><span class="hl-cross">No health intake</span><br><span class="hl-cross">No progress reports</span><br><span class="hl-cross">Group classes only</span></p></div></div>
+                <div class="col-6"><div style="background:rgba(255,208,64,0.1);border:1px solid rgba(255,208,64,0.3);border-radius:14px;padding:18px 15px"><p style="font-size:0.68rem;font-weight:600;color:var(--gold-hi);text-transform:uppercase;letter-spacing:0.8px;margin:0 0 8px;font-family:var(--f-body)">YogSetu</p><p style="font-size:0.85rem;color:rgba(255,255,255,0.78);margin:0;line-height:1.75;font-family:var(--f-body)">✓ &nbsp;RYT/AYUSH verified<br>✓ &nbsp;Health-adapted plans<br>✓ &nbsp;Weekly reports<br>✓ &nbsp;1-on-1 only</p></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TEACHERS ── -->
+<section id="teachers" style="padding:100px 0;background:var(--primary-bg)">
+  <div class="container">
+    <div class="text-center mb-5 fade-in">
+      <div class="sec-lbl">Top Rated</div>
+      <h2 class="sec-h">Meet Our <span class="hl-gold">Star Teachers</span></h2>
+      <p style="font-size:0.94rem;color:var(--muted);max-width:400px;margin:0 auto">RYT/AYUSH certified. Background-verified. Loved by students across India.</p>
+    </div>
+    <div class="row mb-4 fade-in"><div class="col-12 d-flex gap-2 flex-wrap justify-content-center">
+      <button class="ftab active">All Styles</button>
+      <button class="ftab">Hatha</button>
+      <button class="ftab">Vinyasa</button>
+      <button class="ftab">Yin</button>
+      <button class="ftab">Kundalini</button>
+      <button class="ftab">Meditation</button>
+      <button class="ftab">Therapeutic</button>
+    </div></div>
+    <div class="row g-4">
+
+      <div class="col-sm-6 col-lg-4 col-xl-3 fade-in"><div class="tc">
+        <div class="tc-top"><img src="https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" alt="Kavya Iyer teaching yoga" onerror="this.src='https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=400'"><div class="tc-top-overlay"></div><div class="tc-av"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face" alt="Kavya Iyer"></div><div class="tc-bdg">✓ RYT 500</div></div>
+        <div class="tc-body"><div class="tc-name">Kavya Iyer</div><div class="tc-style">Hatha · Pranayama</div><div class="tc-meta"><span class="tc-m"><span class="stars">★★★★★</span> 4.9 (142)</span><span class="tc-m">⏱ 10 yrs</span><span class="tc-m">📍 Lucknow</span></div><div class="tg-r"><span class="tg">Hatha</span><span class="tg">Breathing</span><span class="tg">Seniors</span></div><div class="tc-foot"><div class="tc-rate">₹350 <small>/session</small></div><a href="#" class="btn-g" data-book="1" style="padding:7px 13px;font-size:0.74rem;border-radius:9px">Book Now</a></div></div>
+      </div></div>
+
+      <div class="col-sm-6 col-lg-4 col-xl-3 fade-in"><div class="tc">
+        <div class="tc-top"><img src="https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" alt="Aryan Mehta vinyasa yoga" onerror="this.src='https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=400'"><div class="tc-top-overlay"></div><div class="tc-av"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="Aryan Mehta"></div><div class="tc-bdg">✓ RYT 200</div></div>
+        <div class="tc-body"><div class="tc-name">Aryan Mehta</div><div class="tc-style">Vinyasa · Power Yoga</div><div class="tc-meta"><span class="tc-m"><span class="stars">★★★★★</span> 4.8 (98)</span><span class="tc-m">⏱ 7 yrs</span><span class="tc-m">📍 Delhi</span></div><div class="tg-r"><span class="tg">Vinyasa</span><span class="tg">Strength</span><span class="tg">Flow</span></div><div class="tc-foot"><div class="tc-rate">₹450 <small>/session</small></div><a href="#" class="btn-g" data-book="1" style="padding:7px 13px;font-size:0.74rem;border-radius:9px">Book Now</a></div></div>
+      </div></div>
+
+      <div class="col-sm-6 col-lg-4 col-xl-3 fade-in"><div class="tc">
+        <div class="tc-top"><img src="https://images.pexels.com/photos/4327139/pexels-photo-4327139.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" alt="Priya Nair yin yoga" onerror="this.src='https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=400'"><div class="tc-top-overlay"></div><div class="tc-av"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="Priya Nair"></div><div class="tc-bdg">✓ AYUSH</div></div>
+        <div class="tc-body"><div class="tc-name">Priya Nair</div><div class="tc-style">Yin · Restorative</div><div class="tc-meta"><span class="tc-m"><span class="stars">★★★★★</span> 5.0 (187)</span><span class="tc-m">⏱ 12 yrs</span><span class="tc-m">📍 Mumbai</span></div><div class="tg-r"><span class="tg">Yin</span><span class="tg">Flexibility</span><span class="tg">Healing</span></div><div class="tc-foot"><div class="tc-rate">₹299 <small>/session</small></div><a href="#" class="btn-g" data-book="1" style="padding:7px 13px;font-size:0.74rem;border-radius:9px">Book Now</a></div></div>
+      </div></div>
+
+      <div class="col-sm-6 col-lg-4 col-xl-3 fade-in"><div class="tc">
+        <div class="tc-top"><img src="https://images.pexels.com/photos/3822862/pexels-photo-3822862.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" alt="Ravi Shankar kundalini" onerror="this.src='https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=400'"><div class="tc-top-overlay"></div><div class="tc-av"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face" alt="Ravi Shankar"></div><div class="tc-bdg">✓ RYT 500</div></div>
+        <div class="tc-body"><div class="tc-name">Ravi Shankar</div><div class="tc-style">Kundalini · Meditation</div><div class="tc-meta"><span class="tc-m"><span class="stars">★★★★★</span> 4.9 (203)</span><span class="tc-m">⏱ 15 yrs</span><span class="tc-m">📍 Rishikesh</span></div><div class="tg-r"><span class="tg">Kundalini</span><span class="tg">Mantra</span><span class="tg">Spiritual</span></div><div class="tc-foot"><div class="tc-rate">₹550 <small>/session</small></div><a href="#" class="btn-g" data-book="1" style="padding:7px 13px;font-size:0.74rem;border-radius:9px">Book Now</a></div></div>
+      </div></div>
+
+      <div class="col-sm-6 col-lg-4 col-xl-3 fade-in"><div class="tc">
+        <div class="tc-top"><img src="https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" alt="Meera Gupta prenatal yoga" onerror="this.src='https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=400'"><div class="tc-top-overlay"></div><div class="tc-av"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=face" alt="Meera Gupta"></div><div class="tc-bdg">✓ RYT 200</div></div>
+        <div class="tc-body"><div class="tc-name">Meera Gupta</div><div class="tc-style">Prenatal · Postnatal</div><div class="tc-meta"><span class="tc-m"><span class="stars">★★★★★</span> 5.0 (94)</span><span class="tc-m">⏱ 8 yrs</span><span class="tc-m">📍 Bangalore</span></div><div class="tg-r"><span class="tg">Prenatal</span><span class="tg">Women</span><span class="tg">Gentle</span></div><div class="tc-foot"><div class="tc-rate">₹400 <small>/session</small></div><a href="#" class="btn-g" data-book="1" style="padding:7px 13px;font-size:0.74rem;border-radius:9px">Book Now</a></div></div>
+      </div></div>
+
+      <div class="col-sm-6 col-lg-4 col-xl-3 fade-in"><div class="tc">
+        <div class="tc-top"><img src="https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" alt="Dev Sharma ashtanga" onerror="this.src='https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=400'"><div class="tc-top-overlay"></div><div class="tc-av"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face" alt="Dev Sharma"></div><div class="tc-bdg">✓ AYUSH</div></div>
+        <div class="tc-body"><div class="tc-name">Dev Sharma</div><div class="tc-style">Ashtanga · Advanced</div><div class="tc-meta"><span class="tc-m"><span class="stars">★★★★★</span> 4.8 (76)</span><span class="tc-m">⏱ 9 yrs</span><span class="tc-m">📍 Pune</span></div><div class="tg-r"><span class="tg">Ashtanga</span><span class="tg">Core</span><span class="tg">Advanced</span></div><div class="tc-foot"><div class="tc-rate">₹499 <small>/session</small></div><a href="#" class="btn-g" data-book="1" style="padding:7px 13px;font-size:0.74rem;border-radius:9px">Book Now</a></div></div>
+      </div></div>
+
+      <div class="col-sm-6 col-lg-4 col-xl-3 fade-in"><div class="tc">
+        <div class="tc-top"><img src="https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" alt="Ananya Das therapeutic yoga" onerror="this.src='https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=400'"><div class="tc-top-overlay"></div><div class="tc-av"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80&h=80&fit=crop&crop=face" alt="Ananya Das"></div><div class="tc-bdg">✓ RYT 300</div></div>
+        <div class="tc-body"><div class="tc-name">Ananya Das</div><div class="tc-style">Therapeutic · Back Care</div><div class="tc-meta"><span class="tc-m"><span class="stars">★★★★★</span> 4.9 (118)</span><span class="tc-m">⏱ 6 yrs</span><span class="tc-m">📍 Kolkata</span></div><div class="tg-r"><span class="tg">Therapeutic</span><span class="tg">Back Care</span><span class="tg">Spondylitis</span></div><div class="tc-foot"><div class="tc-rate">₹380 <small>/session</small></div><a href="#" class="btn-g" data-book="1" style="padding:7px 13px;font-size:0.74rem;border-radius:9px">Book Now</a></div></div>
+      </div></div>
+
+      <div class="col-sm-6 col-lg-4 col-xl-3 fade-in"><div class="tc">
+        <div class="tc-top"><img src="https://images.pexels.com/photos/4327139/pexels-photo-4327139.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop" alt="Rohit Singh meditation" onerror="this.src='https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=400'"><div class="tc-top-overlay"></div><div class="tc-av"><img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=80&h=80&fit=crop&crop=face" alt="Rohit Singh"></div><div class="tc-bdg">✓ RYT 200</div></div>
+        <div class="tc-body"><div class="tc-name">Rohit Singh</div><div class="tc-style">Meditation · Mindfulness</div><div class="tc-meta"><span class="tc-m"><span class="stars">★★★★★</span> 4.7 (85)</span><span class="tc-m">⏱ 11 yrs</span><span class="tc-m">📍 Agra</span></div><div class="tg-r"><span class="tg">Meditation</span><span class="tg">Stress Relief</span><span class="tg">Breathing</span></div><div class="tc-foot"><div class="tc-rate">₹320 <small>/session</small></div><a href="#" class="btn-g" data-book="1" style="padding:7px 13px;font-size:0.74rem;border-radius:9px">Book Now</a></div></div>
+      </div></div>
+    </div>
+    <div class="text-center mt-5 fade-in"><a href="#" class="btn-g btn-g-lg">Browse All 2,800+ Teachers →</a></div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS – vertical timeline ── -->
+<section style="padding:100px 0;background:var(--cream)">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-5 fade-in">
+        <div class="sec-lbl">Simple Process</div>
+        <h2 class="sec-h">From Search to <span class="hl-gold">First Session</span><br>in Minutes</h2>
+        <p style="font-size:0.92rem;color:var(--muted);line-height:1.82;margin-bottom:24px">No lengthy sign-ups. Answer <strong style="color:var(--ink2)"><span class="hl-uline">5 quick questions</span></strong> and we match you instantly.</p>
+        <div style="background:linear-gradient(135deg,var(--primary-bg),#fff);border:1px solid rgba(131,70,126,0.2);border-radius:18px;padding:22px 24px;max-width:280px">
+          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--primary);margin-bottom:6px;font-family:var(--f-body)">⚡ Average match time</div>
+          <div class="display-font" style="font-size:2.2rem;font-weight:700;color:var(--ink2);line-height:1">8 min</div>
+          <div style="font-size:0.82rem;color:var(--muted);margin-top:4px;font-family:var(--f-body)">from first visit to session booked</div>
+        </div>
+      </div>
+      <div class="col-lg-7 fade-in">
+        <div class="tl-item">
+          <div class="tl-img"><img src="https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=60&h=60&fit=crop" alt="Step 1"></div>
+          <div class="tl-body"><div class="tl-num">Step 01</div><div class="tl-h">Tell Us About <span class="hl-purple">Yourself</span></div><p class="tl-p">Share your yoga experience, health conditions, goals, preferred schedule, and whether you want home, studio, or online sessions. Takes 2 minutes.</p></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-img"><img src="https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=60&h=60&fit=crop" alt="Step 2"></div>
+          <div class="tl-body"><div class="tl-num">Step 02</div><div class="tl-h">Get <span class="hl-purple">Matched Instantly</span></div><p class="tl-p">Our system finds certified teachers who match your style, location, health needs, and budget. Browse profiles, ratings, and session recordings before deciding.</p></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-img"><img src="https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=60&h=60&fit=crop" alt="Step 3"></div>
+          <div class="tl-body"><div class="tl-num">Step 03</div><div class="tl-h"><span class="hl-purple">Free</span> First Session</div><p class="tl-p">Book your first session <span class="hl-marker">completely free</span>. Experience the teacher's style, posture corrections, and approach before paying a single rupee. <span class="hl-pill-p">No commitment needed.</span></p></div>
+        </div>
+        <div class="tl-item" style="padding-bottom:0">
+          <div class="tl-img"><img src="https://images.pexels.com/photos/4327139/pexels-photo-4327139.jpeg?auto=compress&cs=tinysrgb&w=60&h=60&fit=crop" alt="Step 4"></div>
+          <div class="tl-body"><div class="tl-num">Step 04</div><div class="tl-h">Begin Your <span class="hl-purple">Journey</span></div><p class="tl-p">Happy? Book a monthly plan or pay per session. Get your personalised curriculum, weekly reports, and start growing your practice consistently.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VIDEO TESTIMONIALS ── -->
+<section style="padding:100px 0;background:var(--parchment)">
+  <div class="container">
+    <div class="text-center mb-5 fade-in">
+      <div class="sec-lbl">Real Stories</div>
+      <h2 class="sec-h">Hear It From <span class="hl-gold">Real Students</span></h2>
+      <p style="font-size:0.94rem;color:var(--muted);max-width:400px;margin:0 auto">Watch how YogSetu changed their relationship with yoga.</p>
+    </div>
+    <div class="row g-4 fade-in">
+      <div class="col-md-4">
+        <div class="vid-card">
+          <div class="vid-thumb">
+            <img src="https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop" alt="Student testimonial 1" onerror="this.src='https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=500'">
+            <div class="play-btn"><div class="play-circle"><svg width="18" height="18" viewBox="0 0 24 24" fill="#18100A"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+          </div>
+          <div class="vid-info">
+            <div class="vid-name">Sunita Arora · Lucknow</div>
+            <div class="vid-role">Hired for Therapeutic Yoga – 3 months</div>
+            <p class="vid-quote">"My chronic back pain is <strong><span class="hl-marker-g">gone after 6 weeks</span></strong> of 1-on-1 sessions. I couldn't believe the transformation."</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="vid-card">
+          <div class="vid-thumb">
+            <img src="https://images.pexels.com/photos/3822864/pexels-photo-3822864.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop" alt="Student testimonial 2" onerror="this.src='https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=500'">
+            <div class="play-btn"><div class="play-circle"><svg width="18" height="18" viewBox="0 0 24 24" fill="#18100A"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+          </div>
+          <div class="vid-info">
+            <div class="vid-name">Vishal Kapoor · Delhi</div>
+            <div class="vid-role">Books weekly 1-on-1 Kundalini sessions</div>
+            <p class="vid-quote">"Booked a Kundalini session on a whim. It changed how I handle stress. <strong><span class="hl-uline">Now I book weekly.</span></strong>"</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="vid-card">
+          <div class="vid-thumb">
+            <img src="https://images.pexels.com/photos/4327139/pexels-photo-4327139.jpeg?auto=compress&cs=tinysrgb&w=500&h=280&fit=crop" alt="Student testimonial 3" onerror="this.src='https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=500'">
+            <div class="play-btn"><div class="play-circle"><svg width="18" height="18" viewBox="0 0 24 24" fill="#18100A"><polygon points="5,3 19,12 5,21"/></svg></div></div>
+          </div>
+          <div class="vid-info">
+            <div class="vid-name">Anita Sharma · Mumbai</div>
+            <div class="vid-role">Prenatal Yoga – full 9 months</div>
+            <p class="vid-quote">"Meera adapted <strong>every class to my pregnancy stage.</strong> I felt safe, supported, and strong throughout."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TEXT TESTIMONIALS ── -->
+<section id="reviews" class="testi-bg">
+  <div class="container">
+    <div class="text-center mb-5 fade-in">
+      <div class="sec-lbl" style="color:rgba(255,255,255,0.7)">Student Reviews</div>
+      <h2 class="sec-h" style="color:#fff;font-family:var(--f-head)">What Students <em style="color:var(--primary-md)">Say About Us</em></h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4 fade-in"><div class="tq-card"><span class="tq-mark">"</span><p class="tq-text">The <strong style="color:rgba(255,255,255,0.95)"><span class="hl-dbl" style="border-bottom-color:var(--gold-hi)">weekly progress report</span></strong> blew me away. I could see my flexibility improving week by week, pose by pose. No other platform does this.</p><div class="tq-author"><div class="tq-av"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=60&h=60&fit=crop&crop=face" alt="Pooja Mehta"></div><div><div class="tq-name">Pooja Mehta</div><div class="tq-role">Student · Bangalore</div></div></div></div></div>
+      <div class="col-md-4 fade-in"><div class="tq-card"><span class="tq-mark">"</span><p class="tq-text">I tried 3 platforms before YogSetu. Only here was I asked about my <strong style="color:rgba(255,255,255,0.95)"><span class="hl-wave" style="text-decoration-color:var(--gold-hi)">spondylitis before matching.</span></strong> First class in – my teacher already knew all my limitations.</p><div class="tq-author"><div class="tq-av"><img src="https://images.unsplash.com/photo-1488161628813-04466f872be2?w=60&h=60&fit=crop&crop=face" alt="Rajiv Kumar"></div><div><div class="tq-name">Rajiv Kumar</div><div class="tq-role">Student · Lucknow</div></div></div></div></div>
+      <div class="col-md-4 fade-in"><div class="tq-card"><span class="tq-mark">"</span><p class="tq-text">As a teacher, this is the only platform that treats us professionally. My credentials were <strong style="color:rgba(255,255,255,0.95)"><span class="hl-uline" style="--uline-color:var(--gold-hi)">verified, profile is premium,</span></strong> and students who come are serious.</p><div class="tq-author"><div class="tq-av"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=60&h=60&fit=crop&crop=face" alt="Kavya Iyer"></div><div><div class="tq-name">Kavya Iyer</div><div class="tq-role">Yoga Teacher · Lucknow</div></div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS BAR ── -->
+<section style="padding:56px 0;background:#fff;border-bottom:1px solid var(--bdr)">
+  <div class="container">
+    <div class="row g-0 text-center fade-in">
+      <div class="col-6 col-md-3" style="padding:18px;border-right:1px solid var(--bdr)">
+        <div class="stat-val">2,800<span style="color:var(--primary-md);font-size:1.4rem">+</span></div>
+        <div class="stat-lbl">Certified Teachers</div>
+      </div>
+      <div class="col-6 col-md-3" style="padding:18px;border-right:1px solid var(--bdr)">
+        <div class="stat-val">9,200<span style="color:var(--primary-md);font-size:1.4rem">+</span></div>
+        <div class="stat-lbl">Students Served</div>
+      </div>
+      <div class="col-6 col-md-3" style="padding:18px;border-right:1px solid var(--bdr)">
+        <div class="stat-val">30<span style="color:var(--primary-md);font-size:1.4rem">+</span></div>
+        <div class="stat-lbl">Cities Covered</div>
+      </div>
+      <div class="col-6 col-md-3" style="padding:18px">
+        <div class="stat-val">4.9<span style="color:var(--primary-md);font-size:1.4rem">★</span></div>
+        <div class="stat-lbl">Average Rating</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FAQ ── -->
+<section id="faq" class="faq-section">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-4 fade-in">
+        <div class="sec-lbl">Common Questions</div>
+        <h2 class="sec-h">Frequently <span class="hl-gold">Asked Questions</span></h2>
+        <p style="font-size:0.88rem;color:var(--muted);line-height:1.82;margin-bottom:22px">Everything you need to know before booking your <strong style="color:var(--ink2)">first session.</strong></p>
+        <a href="#" class="btn-g">Still Confused? Chat With Us →</a>
+      </div>
+      <div class="col-lg-8 fade-in">
+        <div class="accordion" id="faqAcc">
+          <div class="accordion-item">
+            <h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#f1">How are yoga teachers verified on YogSetu?</button></h2>
+            <div id="f1" class="accordion-collapse collapse show" data-bs-parent="#faqAcc"><div class="accordion-body">Every teacher must submit their Yoga Alliance (RYT 200/500) or Ministry of AYUSH certification before listing. Our team manually verifies each document. Teachers with expired or invalid certifications are immediately delisted. We also conduct background checks and verify government ID.</div></div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f2">What is the difference between Hiring a Teacher and Booking a Session?</button></h2>
+            <div id="f2" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Hiring a teacher means a regular weekly or daily schedule on a monthly plan – the teacher builds a personalised curriculum for you over time. Booking a session is a one-time 1-on-1 class – great if you want to try different teachers, have a specific goal, or practice occasionally without commitment.</div></div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f3">I have back pain / spondylitis / PCOS. Can I still practice?</button></h2>
+            <div id="f3" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Absolutely – and this is where YogSetu shines most. During matching, you share your health conditions. We only show teachers trained in therapeutic and health-adapted yoga. Your teacher receives your full health profile before session one so every class is designed around your body's needs.</div></div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f4">Is the first session really free? What's the catch?</button></h2>
+            <div id="f4" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Yes – completely free. No credit card required. No hidden fees. If you're happy, you continue. If not, try a different teacher – also free for the first session. We want you to find the right match before spending any money.</div></div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f5">What if my teacher cancels or I'm not satisfied?</button></h2>
+            <div id="f5" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body">Cancellation without 24-hour notice = no charge and a replacement found within 2 hours. More than 2 unexplained cancellations = teacher removed. If you're not satisfied with your teacher at any point, switch for free. Your satisfaction is 100% guaranteed.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-band">
+  <div class="container">
+    <div class="cta-box">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6" style="position:relative;z-index:1">
+          <div class="sec-lbl">Start Today</div>
+          <h2 style="font-family:var(--f-head)">Your First Session<br>is <span class="hl-gold">Completely Free.</span></h2>
+          <p>Join <strong style="color:var(--ink2)"><span class="hl-marker">9,200+ students</span></strong> who found their perfect yoga teacher on YogSetu. No commitment. No credit card. Just yoga.</p>
+          <div class="d-flex gap-3 flex-wrap align-items-center cta-cta-btn-row">
+            <a href="#" class="btn-g btn-g-lg" data-book="1">Hire a Teacher 🧘</a>
+            <a href="#" class="btn-op" data-book="1" style="padding:13px 28px">Book a Session →</a>
+          </div>
+          <p style="font-size:0.75rem;color:var(--muted);margin-top:14px">✓ Free first session &nbsp;·&nbsp; ✓ No credit card &nbsp;·&nbsp; ✓ Match in 2 minutes</p>
+        </div>
+        <div class="col-lg-6 d-flex justify-content-center" style="position:relative;z-index:1">
+          <div style="position:relative;width:100%;max-width:390px">
+            <div style="border-radius:20px;overflow:hidden;box-shadow:0 14px 46px rgba(30,13,78,0.12)">
+              <img src="https://images.pexels.com/photos/3822862/pexels-photo-3822862.jpeg?auto=compress&cs=tinysrgb&w=420&h=300&fit=crop" alt="Personal yoga session" style="width:100%;height:260px;object-fit:cover;display:block" onerror="this.src='https://images.pexels.com/photos/4056723/pexels-photo-4056723.jpeg?auto=compress&cs=tinysrgb&w=420'">
+            </div>
+            <div style="position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);background:#fff;border-radius:50px;padding:9px 20px;box-shadow:0 5px 20px rgba(30,13,78,0.1);display:flex;align-items:center;gap:7px;white-space:nowrap;border:1px solid rgba(131,70,126,0.15)">
+              <span style="font-size:0.95rem">🎉</span>
+              <span style="font-family:var(--f-body);font-size:0.82rem;font-weight:700;color:var(--ink2)">Free first session – always</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="row g-4 mb-5">
+      <div class="col-md-4 col-lg-3">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <div style="width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--primary-md));display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="https://images.pexels.com/photos/3822906/pexels-photo-3822906.jpeg?auto=compress&cs=tinysrgb&w=60" style="width:100%;height:100%;object-fit:cover" alt="YogSetu"></div>
+          <span class="f-bn"><span class="display-font">Yog<em style="color:var(--primary-md)">Setu</em></span></span>
+        </div>
+        <p class="f-desc">India's most trusted platform for hiring certified yoga teachers and booking 1-on-1 sessions.</p>
+        <div><a href="#" class="soc">f</a><a href="#" class="soc">in</a><a href="#" class="soc">ig</a><a href="#" class="soc">yt</a></div>
+      </div>
+      <div class="col-6 col-md-2 offset-md-1"><h6>For Students</h6><a href="#">Hire a Teacher</a><a href="#">Book a Session</a><a href="#">Browse Styles</a><a href="#">Online Classes</a></div>
+      <div class="col-6 col-md-2"><h6>For Teachers</h6><a href="#">Join YogSetu</a><a href="#">Pricing Plans</a><a href="#">Teacher Resources</a><a href="#">Teacher Blog</a></div>
+      <div class="col-6 col-md-2"><h6>Company</h6><a href="#">About Us</a><a href="#">Careers</a><a href="#">Blog</a><a href="#">Contact</a></div>
+      <div class="col-6 col-md-2"><h6>Support</h6><a href="#">Help Center</a><a href="#">Privacy Policy</a><a href="#">Terms of Use</a><a href="#">Safety</a></div>
+    </div>
+    <hr style="border-color:rgba(255,255,255,0.07)">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center pt-3 pb-2" style="font-size:0.8rem">
+      <span>© 2024 YogSetu · Made with ❤️ in India</span>
+      <span class="mt-2 mt-md-0"><a href="mailto:hello@yogsetu.com" style="color:var(--gold-hi);text-decoration:none">hello@yogsetu.com</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- STICKY CTA -->
+<div id="stickyCta" style="position:fixed;bottom:0;left:0;right:0;z-index:999;background:#fff;border-top:1px solid var(--bdr);box-shadow:0 -3px 18px rgba(30,13,78,0.07);padding:11px 18px;display:none;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+  <div style="font-family:var(--f-head);font-size:1rem;color:var(--ink2);font-weight:700;font-style:italic">Find your perfect yoga teacher</div>
+  <div class="d-flex gap-2">
+    <a href="#teachers" class="btn-op" style="font-size:0.82rem;padding:8px 18px">Browse Teachers</a>
+    <a href="#" class="btn-g" data-book="1" style="font-size:0.84rem;padding:9px 20px">Book Free Session 🧘</a>
+  </div>
+</div>
+
+<!-- ── BOOKING POPUP ── -->
+<div id="bookingModal" class="bm-overlay">
+  <div class="bm-modal">
+    <button class="bm-close" id="bmClose" aria-label="Close">✕</button>
+    <div class="bm-header">
+      <div class="bm-logo-badge"><span>Yog<em>Setu</em></span></div>
+      <h3>Book Your Free Demo Session</h3>
+      <p>Tell us about yourself — we'll match you with the perfect teacher</p>
+    </div>
+    <!-- Progress dots -->
+    <div class="bm-progress-wrap">
+      <div class="bm-step-dot active" id="bd1">1</div>
+      <div class="bm-prog-line" id="bl1"></div>
+      <div class="bm-step-dot" id="bd2">2</div>
+      <div class="bm-prog-line" id="bl2"></div>
+      <div class="bm-step-dot" id="bd3">3</div>
+      <div class="bm-prog-line" id="bl3"></div>
+      <div class="bm-step-dot" id="bd4">4</div>
+    </div>
+    <div class="bm-label-row">
+      <span class="active">You</span><span>Preferences</span><span>Goals</span><span>Schedule</span>
+    </div>
+    <form id="bookingForm" autocomplete="off">
+      <!-- Step 1 -->
+      <div class="bm-panel active" data-panel="1">
+        <h4>Tell us about yourself 👋</h4>
+        <div class="bm-field"><label>Full Name *</label><input type="text" name="name" placeholder="Your full name" required></div>
+        <div class="bm-row">
+          <div class="bm-field"><label>Phone Number *</label><input type="tel" name="phone" placeholder="+91 XXXXX XXXXX" required></div>
+          <div class="bm-field"><label>Email Address *</label><input type="email" name="email" placeholder="you@email.com" required></div>
+        </div>
+        <div class="bm-field"><label>Your City / Location *</label><input type="text" name="location" placeholder="e.g. Lucknow, Delhi, Mumbai…" required></div>
+      </div>
+      <!-- Step 2 -->
+      <div class="bm-panel" data-panel="2">
+        <h4>Your yoga preferences 🧘</h4>
+        <div class="bm-field">
+          <label>Monthly Budget / Fees Range</label>
+          <div class="bm-options" data-name="budget" data-single="true">
+            <button type="button" class="bm-opt" data-val="Under ₹1,500">Under ₹1,500</button>
+            <button type="button" class="bm-opt" data-val="₹1,500–3,000">₹1,500–3,000</button>
+            <button type="button" class="bm-opt" data-val="₹3,000–6,000">₹3,000–6,000</button>
+            <button type="button" class="bm-opt" data-val="₹6,000+">₹6,000+</button>
+          </div>
+        </div>
+        <div class="bm-field">
+          <label>Type of Yoga Teacher Preferred</label>
+          <div class="bm-options" data-name="yogaType" data-single="true">
+            <button type="button" class="bm-opt" data-val="Hatha">Hatha</button>
+            <button type="button" class="bm-opt" data-val="Vinyasa">Vinyasa</button>
+            <button type="button" class="bm-opt" data-val="Yin / Restorative">Yin / Restorative</button>
+            <button type="button" class="bm-opt" data-val="Kundalini">Kundalini</button>
+            <button type="button" class="bm-opt" data-val="Therapeutic">Therapeutic</button>
+            <button type="button" class="bm-opt" data-val="Prenatal">Prenatal</button>
+            <button type="button" class="bm-opt" data-val="Ashtanga">Ashtanga</button>
+            <button type="button" class="bm-opt" data-val="Any / Don't Know">Any / Don't Know</button>
+          </div>
+        </div>
+        <div class="bm-field">
+          <label>Certification Required</label>
+          <div class="bm-options" data-name="certification" data-single="true">
+            <button type="button" class="bm-opt" data-val="RYT 200">RYT 200</button>
+            <button type="button" class="bm-opt" data-val="RYT 500">RYT 500</button>
+            <button type="button" class="bm-opt" data-val="AYUSH">AYUSH</button>
+            <button type="button" class="bm-opt" data-val="Any Certified">Any Certified</button>
+            <button type="button" class="bm-opt" data-val="No Preference">No Preference</button>
+          </div>
+        </div>
+      </div>
+      <!-- Step 3 -->
+      <div class="bm-panel" data-panel="3">
+        <h4>Your goals &amp; health 🎯</h4>
+        <div class="bm-field">
+          <label>Purpose of Yoga <small style="font-weight:400;color:var(--muted)">(select all that apply)</small></label>
+          <div class="bm-options" data-name="purpose">
+            <button type="button" class="bm-opt" data-val="Fitness">💪 Fitness</button>
+            <button type="button" class="bm-opt" data-val="Weight Loss">⚖️ Weight Loss</button>
+            <button type="button" class="bm-opt" data-val="Flexibility">🤸 Flexibility</button>
+            <button type="button" class="bm-opt" data-val="Stress Relief">😌 Stress Relief</button>
+            <button type="button" class="bm-opt" data-val="Therapeutic / Medical">🏥 Therapeutic / Medical</button>
+            <button type="button" class="bm-opt" data-val="Spiritual Growth">🙏 Spiritual Growth</button>
+            <button type="button" class="bm-opt" data-val="Pregnancy">🤰 Pregnancy</button>
+            <button type="button" class="bm-opt" data-val="Mental Health">🧠 Mental Health</button>
+          </div>
+        </div>
+        <div class="bm-field">
+          <label>Health conditions, injuries or anything to mention?</label>
+          <textarea name="message" placeholder="e.g. Lower back pain, spondylitis, PCOS, beginner… or leave blank if none"></textarea>
+        </div>
+      </div>
+      <!-- Step 4 -->
+      <div class="bm-panel" data-panel="4">
+        <h4>Pick your free demo slot 📅</h4>
+        <p class="bm-step-sub">Your first session is <strong>completely free</strong>. Choose a convenient time and we'll confirm within 2 hours.</p>
+        <div class="bm-row">
+          <div class="bm-field"><label>Preferred Date *</label><input type="date" name="demoDate" required></div>
+          <div class="bm-field"><label>Preferred Time *</label><input type="time" name="demoTime" required></div>
+        </div>
+        <div class="bm-field">
+          <label>Session Mode</label>
+          <div class="bm-options" data-name="sessionMode" data-single="true">
+            <button type="button" class="bm-opt" data-val="Online (Video Call)">🎥 Online (Video Call)</button>
+            <button type="button" class="bm-opt" data-val="Home Visit">🏠 Home Visit</button>
+          </div>
+        </div>
+        <div class="bm-guarantee">
+          <span>✓ Free first session</span>
+          <span>✓ No credit card</span>
+          <span>✓ Confirmed in 2 hrs</span>
+        </div>
+      </div>
+    </form>
+    <!-- Success state -->
+    <div class="bm-success" id="bmSuccess">
+      <span class="bm-success-icon">🎉</span>
+      <h3>You're all set!</h3>
+      <p>We've received your request and will confirm your <strong>free demo session within 2 hours</strong> via WhatsApp & email.</p>
+      <button class="btn-g" id="bmSuccessClose">Close</button>
+    </div>
+    <!-- Footer nav -->
+    <div class="bm-footer" id="bmFooter">
+      <button type="button" class="bm-back" id="bmBack">← Back</button>
+      <button type="button" class="btn-g" id="bmNext">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ── Scroll nav + sticky CTA ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('ykNav').classList.toggle('solid',scrollY>30);
+  document.getElementById('stickyCta').style.display=scrollY>500?'flex':'none';
+});
+
+// ── Hamburger menu ──
+const mobBtn=document.getElementById('mobBtn');
+const ykMobNav=document.getElementById('ykMobNav');
+function closeMobNav(){
+  mobBtn.classList.remove('open');
+  ykMobNav.classList.remove('open');
+  document.body.style.overflow='';
+}
+mobBtn.addEventListener('click',()=>{
+  const isOpen=ykMobNav.classList.toggle('open');
+  mobBtn.classList.toggle('open',isOpen);
+  document.body.style.overflow=isOpen?'hidden':'';
+});
+ykMobNav.querySelectorAll('.mob-lnk').forEach(link=>link.addEventListener('click',closeMobNav));
+ykMobNav.querySelectorAll('.mob-act a').forEach(btn=>btn.addEventListener('click',closeMobNav));
+
+// ── Filter tabs ──
+document.querySelectorAll('.ftab').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// ── Scroll fade-in ──
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
+},{threshold:0.08});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+// ── Video play placeholder ──
+document.querySelectorAll('.play-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>alert('Video testimonial would play here in production 🎬'));
+});
+
+// ── BOOKING MODAL ──
+const modal=document.getElementById('bookingModal');
+let curStep=1;
+const STEPS=4;
+
+function openModal(){
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+  resetModal();
+}
+function closeModal(){
+  modal.classList.remove('open');
+  document.body.style.overflow='';
+}
+function resetModal(){
+  goToStep(1);
+  document.getElementById('bookingForm').style.display='block';
+  document.getElementById('bmFooter').style.display='flex';
+  document.getElementById('bmSuccess').classList.remove('show');
+  // Clear selections
+  document.querySelectorAll('.bm-opt.selected').forEach(o=>o.classList.remove('selected'));
+  document.getElementById('bookingForm').reset();
+}
+
+function goToStep(step){
+  curStep=step;
+  // Panels
+  document.querySelectorAll('.bm-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`.bm-panel[data-panel="${step}"]`).classList.add('active');
+  // Dots
+  ['bd1','bd2','bd3','bd4'].forEach((id,i)=>{
+    const d=document.getElementById(id);
+    d.classList.remove('active','done');
+    if(i+1===step) d.classList.add('active');
+    else if(i+1<step) d.classList.add('done');
+  });
+  // Lines
+  ['bl1','bl2','bl3'].forEach((id,i)=>{
+    document.getElementById(id).classList.toggle('done',i+1<step);
+  });
+  // Labels
+  document.querySelectorAll('.bm-label-row span').forEach((s,i)=>{
+    s.classList.toggle('active',i+1===step);
+  });
+  // Buttons
+  const back=document.getElementById('bmBack');
+  const next=document.getElementById('bmNext');
+  back.style.visibility=step>1?'visible':'hidden';
+  next.textContent=step===STEPS?'Book Free Session 🧘':'Next →';
+}
+
+// Option pill selection (single or multi)
+document.querySelectorAll('.bm-options').forEach(group=>{
+  const isSingle=group.dataset.single==='true';
+  group.querySelectorAll('.bm-opt').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(isSingle) group.querySelectorAll('.bm-opt').forEach(b=>b.classList.remove('selected'));
+      btn.classList.toggle('selected');
+    });
+  });
+});
+
+// Next / submit
+document.getElementById('bmNext').addEventListener('click',()=>{
+  // Basic validation for step 1 required fields
+  if(curStep===1){
+    const inputs=document.querySelector('.bm-panel[data-panel="1"]').querySelectorAll('[required]');
+    let valid=true;
+    inputs.forEach(inp=>{
+      if(!inp.value.trim()){inp.style.borderColor='#E11D48';valid=false;}
+      else inp.style.borderColor='';
+    });
+    if(!valid) return;
+  }
+  if(curStep<STEPS){
+    goToStep(curStep+1);
+  } else {
+    document.getElementById('bookingForm').style.display='none';
+    document.getElementById('bmFooter').style.display='none';
+    document.getElementById('bmSuccess').classList.add('show');
+  }
+});
+
+document.getElementById('bmBack').addEventListener('click',()=>{
+  if(curStep>1) goToStep(curStep-1);
+});
+
+document.getElementById('bmClose').addEventListener('click',closeModal);
+document.getElementById('bmSuccessClose').addEventListener('click',closeModal);
+modal.addEventListener('click',e=>{if(e.target===modal) closeModal();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape') closeModal();});
+
+// Wire up all booking buttons
+document.querySelectorAll('[data-book]').forEach(btn=>{
+  btn.addEventListener('click',e=>{e.preventDefault();openModal();});
+});
+
+// ── Plan Slider ──
+(function(){
+  const track = document.getElementById('planTrack');
+  const btnPrev = document.getElementById('planPrev');
+  const btnNext = document.getElementById('planNext');
+  const dots = document.querySelectorAll('#planDotsWrap .plan-dot');
+  const cards = track ? track.querySelectorAll('.plan-card') : [];
+  const total = cards.length;
+  let current = 0;
+
+  function goTo(idx){
+    current = Math.max(0, Math.min(total - 1, idx));
+    if(cards[current]){
+      cards[current].scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+    }
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current === total - 1;
+    dots.forEach((d,i) => d.classList.toggle('active', i === current));
+  }
+
+  if(!track) return;
+  btnPrev.addEventListener('click', () => goTo(current - 1));
+  btnNext.addEventListener('click', () => goTo(current + 1));
+  dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.plan)));
+
+  track.addEventListener('scroll', () => {
+    let minDist = Infinity;
+    cards.forEach((card, i) => {
+      const cr = card.getBoundingClientRect();
+      const tr = track.getBoundingClientRect();
+      const dist = Math.abs((cr.left + cr.width / 2) - (tr.left + tr.width / 2));
+      if(dist < minDist){ minDist = dist; current = i; }
+    });
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current === total - 1;
+    dots.forEach((d,i) => d.classList.toggle('active', i === current));
+  }, {passive: true});
+})();
+</script>
+</body>
+</html>

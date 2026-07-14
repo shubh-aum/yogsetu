@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Join as a Yoga Teacher | YogKulam</title>
+<meta name="description" content="Register as a certified yoga teacher on YogKulam. Reach thousands of students across India. Free to join, easy setup.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+<style>
+:root{
+  --cream:#FDFAF5;--purple:#3D1785;--purple-lt:#7C3AED;--purple-bg:#F5F3FF;
+  --gold-mid:#FFD700;--gold-dk:#B7860B;--gold-bg:rgba(255,208,64,.12);
+  --ink:#2D1B69;--ink2:#1E0D4E;--muted:#6B5A9A;--bdr:rgba(61,23,133,.1);
+  --f-display:'El Messiri',serif;--f-head:'El Messiri',serif;--f-body:'Plus Jakarta Sans',sans-serif;
+  --shadow:0 4px 20px rgba(61,23,133,.08);--r:16px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:var(--f-body);background:var(--cream);color:var(--ink);min-height:100vh}
+/* NAV */
+.yk-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:14px 0;transition:all .3s}
+.yk-nav.solid{background:rgba(253,250,245,.97);backdrop-filter:blur(18px);border-bottom:1px solid var(--bdr);padding:9px 0;box-shadow:0 2px 16px rgba(30,13,78,.06)}
+.mob-btn{display:none;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;padding:5px;border:none;background:transparent}
+.mob-btn span{display:block;width:21px;height:2px;background:var(--ink2);border-radius:2px;transition:transform .32s cubic-bezier(.23,1,.32,1),opacity .22s}
+.mob-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.mob-btn.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.mob-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.yk-mob-nav{position:fixed;inset:0;z-index:199;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 24px 40px;background:rgba(253,250,245,.98);backdrop-filter:blur(22px);opacity:0;visibility:hidden;transform:translateY(-12px);transition:opacity .3s,transform .34s cubic-bezier(.23,1,.32,1),visibility .3s}
+.yk-mob-nav.open{opacity:1;visibility:visible;transform:none}
+.mob-lnk{font-family:var(--f-head);font-size:1.45rem;font-weight:600;color:var(--ink2);padding:13px 0;opacity:0;transform:translateY(10px);transition:opacity .28s,transform .28s}
+.yk-mob-nav.open .mob-lnk{opacity:1;transform:none}
+.yk-mob-nav.open .mob-lnk:nth-child(1){transition-delay:.05s}
+.yk-mob-nav.open .mob-lnk:nth-child(2){transition-delay:.09s}
+.yk-mob-nav.open .mob-lnk:nth-child(3){transition-delay:.13s}
+.yk-mob-nav.open .mob-lnk:nth-child(4){transition-delay:.17s}
+.mob-act{display:flex;gap:10px;margin-top:22px}
+@media(max-width:991px){.mob-btn{display:flex}.yk-nav .yk-links{display:none!important}}
+.yk-brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
+.yk-logo{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,#3D1785,#7C3AED);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--f-display);font-weight:700;font-size:.95rem;box-shadow:0 3px 10px rgba(61,23,133,.3)}
+.yk-bname{font-family:var(--f-display);font-size:1.2rem;font-weight:700;color:var(--ink2)}
+.yk-bname em{color:var(--gold-dk);font-style:normal}
+.btn-g{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;background:linear-gradient(135deg,var(--purple),var(--purple-lt));color:#fff;border-radius:12px;font-weight:600;font-size:.88rem;font-family:var(--f-body);text-decoration:none;border:none;cursor:pointer;transition:all .25s;box-shadow:0 4px 14px rgba(61,23,133,.3)}
+.btn-g:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(61,23,133,.4);color:#fff}
+.btn-op{display:inline-flex;align-items:center;padding:9px 20px;background:transparent;color:var(--purple);border:1.5px solid rgba(61,23,133,.25);border-radius:12px;font-weight:600;font-size:.88rem;font-family:var(--f-body);text-decoration:none;transition:all .25s}
+.btn-op:hover{background:#F5F3FF;border-color:var(--purple);color:var(--purple)}
+/* PAGE LAYOUT */
+.jt-page{min-height:100vh;padding:100px 0 60px;background:linear-gradient(150deg,#EDE9FF 0%,var(--cream) 50%,#FBF4DE 100%)}
+/* PROGRESS BAR */
+.prog-wrap{margin-bottom:36px}
+.prog-steps{display:flex;align-items:center;gap:0;margin-bottom:16px}
+.prog-step{display:flex;flex-direction:column;align-items:center;flex:1;position:relative}
+.prog-step:not(:last-child)::after{content:'';position:absolute;top:18px;left:calc(50% + 18px);right:calc(-50% + 18px);height:2px;background:var(--bdr);z-index:0;transition:background .5s}
+.prog-step.done::after,.prog-step.active::after{background:var(--purple-lt)}
+.prog-dot{width:36px;height:36px;border-radius:50%;border:2px solid var(--bdr);background:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--f-body);font-size:.8rem;font-weight:700;color:var(--muted);transition:all .4s;z-index:1;position:relative}
+.prog-step.active .prog-dot{border-color:var(--purple);background:var(--purple);color:#fff;box-shadow:0 0 0 4px rgba(61,23,133,.15)}
+.prog-step.done .prog-dot{border-color:var(--purple-lt);background:var(--purple-lt);color:#fff}
+.prog-label{font-size:.7rem;font-weight:600;color:var(--muted);margin-top:6px;text-align:center;font-family:var(--f-body);line-height:1.2}
+.prog-step.active .prog-label{color:var(--purple)}
+.prog-step.done .prog-label{color:var(--purple-lt)}
+.prog-bar-wrap{height:4px;background:var(--bdr);border-radius:2px;overflow:hidden}
+.prog-bar-fill{height:100%;background:linear-gradient(90deg,var(--purple),var(--purple-lt));border-radius:2px;transition:width .5s ease}
+/* CARD */
+.jt-card{background:#fff;border-radius:24px;box-shadow:0 8px 40px rgba(61,23,133,.1);padding:40px;max-width:640px;margin:0 auto}
+.step-title{font-family:var(--f-display);font-size:1.55rem;font-weight:700;color:var(--ink2);margin-bottom:6px}
+.step-sub{font-size:.9rem;color:var(--muted);margin-bottom:28px}
+/* FORM ELEMENTS */
+.form-panel{display:none}
+.form-panel.active{display:block}
+.fgroup{margin-bottom:20px}
+.fgroup label{display:block;font-size:.82rem;font-weight:700;color:var(--ink2);margin-bottom:6px;font-family:var(--f-body)}
+.fgroup label span{color:#E11D48}
+.finput,.fselect,.ftextarea{width:100%;padding:11px 14px;border:1.5px solid var(--bdr);border-radius:12px;font-family:var(--f-body);font-size:.9rem;color:var(--ink);background:#fff;outline:none;transition:border .2s}
+.finput:focus,.fselect:focus,.ftextarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(61,23,133,.08)}
+.finput.error,.fselect.error{border-color:#E11D48}
+.ftextarea{resize:vertical;min-height:110px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ferr{font-size:.75rem;color:#E11D48;margin-top:4px;display:none}
+.ferr.show{display:block}
+/* RADIO / CHECKBOX GRID */
+.fopts{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:6px}
+.fopt{position:relative}
+.fopt input{position:absolute;opacity:0;width:0;height:0}
+.fopt label{display:flex;align-items:center;gap:7px;padding:9px 12px;border:1.5px solid var(--bdr);border-radius:10px;cursor:pointer;font-size:.82rem;font-weight:500;color:var(--muted);transition:all .2s;background:#fff}
+.fopt input:checked+label{border-color:var(--purple);background:#F5F3FF;color:var(--purple);font-weight:600}
+/* FILE UPLOAD */
+.fupload{border:2px dashed var(--bdr);border-radius:14px;padding:28px;text-align:center;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.fupload:hover{border-color:var(--purple);background:#F5F3FF}
+.fupload input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.fupload-icon{font-size:2rem;margin-bottom:8px}
+.fupload h5{font-family:var(--f-head);font-size:.95rem;color:var(--ink2);margin-bottom:4px}
+.fupload p{font-size:.8rem;color:var(--muted)}
+/* OTP */
+.otp-row{display:flex;gap:10px;justify-content:center;margin:20px 0}
+.otp-digit{width:52px;height:60px;border:2px solid var(--bdr);border-radius:12px;text-align:center;font-size:1.4rem;font-weight:700;font-family:var(--f-body);color:var(--ink2);outline:none;transition:border .2s}
+.otp-digit:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(61,23,133,.1)}
+/* TERMS */
+.terms-row{display:flex;align-items:flex-start;gap:10px;padding:14px;background:#F5F3FF;border-radius:12px}
+.terms-row input[type=checkbox]{width:18px;height:18px;margin-top:2px;accent-color:var(--purple);flex-shrink:0}
+.terms-row label{font-size:.85rem;color:var(--muted);line-height:1.7}
+.terms-row a{color:var(--purple);text-decoration:underline}
+/* NAV BUTTONS */
+.step-nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px;padding-top:24px;border-top:1px solid var(--bdr)}
+.btn-back{background:none;border:1.5px solid var(--bdr);color:var(--muted);border-radius:12px;padding:10px 22px;font-family:var(--f-body);font-size:.88rem;font-weight:600;cursor:pointer;transition:all .2s}
+.btn-back:hover{border-color:var(--purple);color:var(--purple)}
+/* SUCCESS */
+#successPanel{display:none;text-align:center;padding:20px 0}
+.success-circle{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#2ECC71,#1aaa5c);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:2.2rem;box-shadow:0 8px 30px rgba(46,204,113,.35);animation:popIn .6s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+.success-title{font-family:var(--f-display);font-size:1.75rem;font-weight:700;color:var(--ink2);margin-bottom:10px}
+.success-sub{font-size:.95rem;color:var(--muted);line-height:1.8;margin-bottom:28px}
+.status-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(46,204,113,.1);border:1px solid rgba(46,204,113,.3);border-radius:50px;padding:8px 18px;font-size:.85rem;font-weight:600;color:#1aaa5c;margin-bottom:22px}
+/* DRAFT BANNER */
+.draft-banner{display:none;background:var(--gold-bg);border:1px solid rgba(255,208,64,.4);border-radius:10px;padding:9px 14px;font-size:.8rem;color:var(--gold-dk);margin-bottom:18px;align-items:center;gap:8px;font-weight:600}
+/* FOOTER (minimal) */
+.jt-footer{background:var(--ink2);padding:28px 0;text-align:center;font-size:.82rem;color:rgba(255,255,255,.4);font-family:var(--f-body)}
+.jt-footer a{color:rgba(255,255,255,.6);text-decoration:none;margin:0 10px}
+/* RESPONSIVE */
+@media(max-width:767px){
+  .container{padding-left:20px!important;padding-right:20px!important}
+  .jt-page{padding-top:88px!important}
+  /* Hero text */
+  .step-title{font-size:1.52rem;line-height:1.26}
+  .step-sub{font-size:1.02rem;line-height:1.78;margin-bottom:24px}
+  /* Form */
+  .fgroup label{font-size:.94rem}
+  .finput,.fselect,.ftextarea{font-size:1.04rem;padding:12px 14px}
+  .fopt label{font-size:.96rem;padding:10px 12px}
+  /* Terms */
+  .terms-row label{font-size:.98rem;line-height:1.82}
+  /* Success */
+  .success-title{font-size:1.68rem}
+  .success-sub{font-size:1.04rem;line-height:1.85}
+  /* Nav buttons */
+  .btn-back{font-size:.96rem}
+}
+@media(max-width:640px){
+  .jt-card{padding:24px 18px;border-radius:18px}
+  .frow{grid-template-columns:1fr}
+  .prog-label{display:none}
+  .fopts{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .container{padding-left:16px!important;padding-right:16px!important}
+  .step-title{font-size:1.42rem}
+  .step-sub{font-size:.96rem}
+  .finput,.fselect,.ftextarea{font-size:1.02rem;padding:11px 12px}
+  .fopt label{font-size:.94rem}
+  .terms-row label{font-size:.94rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="yk-nav solid" id="ykNav">
+  <div class="container d-flex align-items-center justify-content-between">
+    <a href="/" class="yk-brand">
+      <div class="yk-logo">YK</div>
+      <span class="yk-bname">Yog<em>Kulam</em></span>
+    </a>
+    <div class="yk-links d-none d-lg-flex align-items-center gap-1">
+      <a href="/yoga-teachers" style="font-size:.88rem;font-weight:500;color:var(--muted);padding:6px 12px;border-radius:8px;transition:background .2s">Find Teachers</a>
+      <a href="/jobs" style="font-size:.88rem;font-weight:500;color:var(--muted);padding:6px 12px;border-radius:8px;transition:background .2s">Jobs</a>
+      <a href="/join-teacher" style="font-size:.88rem;font-weight:600;color:var(--purple);padding:6px 12px;border-radius:8px;background:var(--purple-bg)">Become a Teacher</a>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <a href="/teacher-login" class="btn-op d-none d-md-inline-flex" style="font-size:.82rem;padding:8px 16px">Login</a>
+      <button class="mob-btn" id="mobBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="yk-mob-nav" id="ykMobNav">
+  <a href="/yoga-teachers" class="mob-lnk">Find Teachers</a>
+  <a href="/jobs" class="mob-lnk">Browse Jobs</a>
+  <a href="/join-teacher" class="mob-lnk">Become a Teacher</a>
+  <a href="/teacher-login" class="mob-lnk">Login</a>
+  <div class="mob-act"><a href="/teacher-login" class="btn-g">Login</a></div>
+</div>
+
+<!-- MAIN -->
+<main class="jt-page">
+  <div class="container">
+
+    <!-- Hero text -->
+    <div class="text-center mb-5">
+      <div style="display:inline-flex;align-items:center;gap:7px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1.6px;color:var(--gold-dk);background:var(--gold-bg);padding:5px 14px;border-radius:50px;margin-bottom:14px;font-family:var(--f-body)">🧘 Join 2,800+ Teachers</div>
+      <h1 style="font-family:var(--f-display);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;color:var(--ink2);margin-bottom:10px">Join as a Yoga Teacher</h1>
+      <p style="font-size:1rem;color:var(--muted);max-width:480px;margin:0 auto">Create your free profile and connect with thousands of students across India</p>
+    </div>
+
+    <!-- Progress -->
+    <div class="prog-wrap" style="max-width:640px;margin:0 auto 28px">
+      <div class="prog-steps" id="progSteps">
+        <div class="prog-step active" data-s="1"><div class="prog-dot">1</div><div class="prog-label">Personal</div></div>
+        <div class="prog-step" data-s="2"><div class="prog-dot">2</div><div class="prog-label">Location</div></div>
+        <div class="prog-step" data-s="3"><div class="prog-dot">3</div><div class="prog-label">Professional</div></div>
+        <div class="prog-step" data-s="4"><div class="prog-dot">4</div><div class="prog-label">Profile</div></div>
+        <div class="prog-step" data-s="5"><div class="prog-dot">5</div><div class="prog-label">Verify</div></div>
+      </div>
+      <div class="prog-bar-wrap"><div class="prog-bar-fill" id="progFill" style="width:10%"></div></div>
+    </div>
+
+    <!-- CARD -->
+    <div class="jt-card">
+
+      <!-- Draft banner -->
+      <div class="draft-banner" id="draftBanner">💾 Draft saved automatically</div>
+
+      <!-- ─── STEP 1: Personal Details ─── -->
+      <div class="form-panel active" id="panel1">
+        <h2 class="step-title">Personal Details</h2>
+        <p class="step-sub">Let us start with your basic information</p>
+        <div class="frow">
+          <div class="fgroup">
+            <label>Full Name <span>*</span></label>
+            <input type="text" class="finput" id="p1Name" placeholder="Priya Sharma" autocomplete="name">
+            <div class="ferr" id="errP1Name">Please enter your full name</div>
+          </div>
+          <div class="fgroup">
+            <label>Mobile Number <span>*</span></label>
+            <input type="tel" class="finput" id="p1Mobile" placeholder="+91 98765 43210" maxlength="15">
+            <div class="ferr" id="errP1Mobile">Enter a valid mobile number</div>
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fgroup">
+            <label>Email Address <span>*</span></label>
+            <input type="email" class="finput" id="p1Email" placeholder="you@email.com" autocomplete="email">
+            <div class="ferr" id="errP1Email">Enter a valid email address</div>
+          </div>
+          <div class="fgroup">
+            <label>Gender <span>*</span></label>
+            <select class="fselect" id="p1Gender">
+              <option value="">Select gender</option>
+              <option>Female</option><option>Male</option><option>Non-binary</option><option>Prefer not to say</option>
+            </select>
+            <div class="ferr" id="errP1Gender">Please select your gender</div>
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fgroup">
+            <label>Date of Birth <span>*</span></label>
+            <input type="date" class="finput" id="p1Dob">
+            <div class="ferr" id="errP1Dob">Please enter your date of birth</div>
+          </div>
+          <div class="fgroup">
+            <label>Password <span>*</span></label>
+            <input type="password" class="finput" id="p1Pass" placeholder="Min 8 characters">
+            <div class="ferr" id="errP1Pass">Password must be at least 8 characters</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── STEP 2: Location ─── -->
+      <div class="form-panel" id="panel2">
+        <h2 class="step-title">Your Location</h2>
+        <p class="step-sub">Tell us where you are based</p>
+        <div class="frow">
+          <div class="fgroup">
+            <label>City <span>*</span></label>
+            <input type="text" class="finput" id="p2City" placeholder="e.g. New Delhi">
+            <div class="ferr" id="errP2City">Please enter your city</div>
+          </div>
+          <div class="fgroup">
+            <label>State <span>*</span></label>
+            <select class="fselect" id="p2State">
+              <option value="">Select State</option>
+              <option>Delhi NCR</option><option>Maharashtra</option><option>Karnataka</option>
+              <option>Tamil Nadu</option><option>Telangana</option><option>Rajasthan</option>
+              <option>West Bengal</option><option>Gujarat</option><option>Uttar Pradesh</option>
+              <option>Uttarakhand</option><option>Madhya Pradesh</option><option>Punjab</option>
+              <option>Haryana</option><option>Kerala</option><option>Odisha</option>
+            </select>
+            <div class="ferr" id="errP2State">Please select your state</div>
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fgroup">
+            <label>Country</label>
+            <select class="fselect" id="p2Country">
+              <option>India</option><option>UAE</option><option>USA</option><option>UK</option><option>Canada</option><option>Australia</option>
+            </select>
+          </div>
+          <div class="fgroup">
+            <label>Pincode <span>*</span></label>
+            <input type="text" class="finput" id="p2Pin" placeholder="110001" maxlength="6" pattern="[0-9]{6}">
+            <div class="ferr" id="errP2Pin">Enter a valid 6-digit pincode</div>
+          </div>
+        </div>
+        <div class="fgroup">
+          <label>Full Address</label>
+          <textarea class="ftextarea" id="p2Addr" placeholder="Flat / Street / Locality (optional)" style="min-height:80px"></textarea>
+        </div>
+      </div>
+
+      <!-- ─── STEP 3: Professional Info ─── -->
+      <div class="form-panel" id="panel3">
+        <h2 class="step-title">Professional Information</h2>
+        <p class="step-sub">Your yoga expertise and teaching experience</p>
+        <div class="fgroup">
+          <label>Yoga Styles Taught <span>*</span></label>
+          <div class="fopts" id="yogaStyleOpts">
+            <div class="fopt"><input type="checkbox" id="ys1" value="Hatha"><label for="ys1">🧘 Hatha</label></div>
+            <div class="fopt"><input type="checkbox" id="ys2" value="Vinyasa"><label for="ys2">🌊 Vinyasa</label></div>
+            <div class="fopt"><input type="checkbox" id="ys3" value="Ashtanga"><label for="ys3">⚡ Ashtanga</label></div>
+            <div class="fopt"><input type="checkbox" id="ys4" value="Kundalini"><label for="ys4">🔮 Kundalini</label></div>
+            <div class="fopt"><input type="checkbox" id="ys5" value="Yin Yoga"><label for="ys5">🌙 Yin Yoga</label></div>
+            <div class="fopt"><input type="checkbox" id="ys6" value="Prenatal"><label for="ys6">🤱 Prenatal</label></div>
+            <div class="fopt"><input type="checkbox" id="ys7" value="Restorative"><label for="ys7">🌿 Restorative</label></div>
+            <div class="fopt"><input type="checkbox" id="ys8" value="Meditation"><label for="ys8">🧠 Meditation</label></div>
+            <div class="fopt"><input type="checkbox" id="ys9" value="Therapy"><label for="ys9">💚 Therapy</label></div>
+            <div class="fopt"><input type="checkbox" id="ys10" value="Kids Yoga"><label for="ys10">🎉 Kids</label></div>
+            <div class="fopt"><input type="checkbox" id="ys11" value="Corporate"><label for="ys11">🏢 Corporate</label></div>
+            <div class="fopt"><input type="checkbox" id="ys12" value="Pranayama"><label for="ys12">💨 Pranayama</label></div>
+          </div>
+          <div class="ferr" id="errYogaStyle">Please select at least one yoga style</div>
+        </div>
+        <div class="frow">
+          <div class="fgroup">
+            <label>Years of Experience <span>*</span></label>
+            <select class="fselect" id="p3Exp">
+              <option value="">Select experience</option>
+              <option>Less than 1 year</option><option>1–2 years</option>
+              <option>3–5 years</option><option>6–10 years</option>
+              <option>11–15 years</option><option>15+ years</option>
+            </select>
+            <div class="ferr" id="errP3Exp">Please select your experience</div>
+          </div>
+          <div class="fgroup">
+            <label>Primary Certification <span>*</span></label>
+            <select class="fselect" id="p3Cert">
+              <option value="">Select certification</option>
+              <option>RYT 200 (Yoga Alliance)</option><option>RYT 500 (Yoga Alliance)</option>
+              <option>AYUSH Certified</option><option>E-RYT 200</option>
+              <option>E-RYT 500</option><option>YACEP</option>
+              <option>State Yoga Board</option><option>Other</option>
+            </select>
+            <div class="ferr" id="errP3Cert">Please select your certification</div>
+          </div>
+        </div>
+        <div class="fgroup">
+          <label>Languages Spoken</label>
+          <div class="fopts">
+            <div class="fopt"><input type="checkbox" id="l1" value="Hindi"><label for="l1">Hindi</label></div>
+            <div class="fopt"><input type="checkbox" id="l2" value="English"><label for="l2">English</label></div>
+            <div class="fopt"><input type="checkbox" id="l3" value="Marathi"><label for="l3">Marathi</label></div>
+            <div class="fopt"><input type="checkbox" id="l4" value="Tamil"><label for="l4">Tamil</label></div>
+            <div class="fopt"><input type="checkbox" id="l5" value="Telugu"><label for="l5">Telugu</label></div>
+            <div class="fopt"><input type="checkbox" id="l6" value="Kannada"><label for="l6">Kannada</label></div>
+            <div class="fopt"><input type="checkbox" id="l7" value="Bengali"><label for="l7">Bengali</label></div>
+            <div class="fopt"><input type="checkbox" id="l8" value="Gujarati"><label for="l8">Gujarati</label></div>
+          </div>
+        </div>
+        <div class="fgroup">
+          <label>Class Formats Available</label>
+          <div class="fopts" style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr))">
+            <div class="fopt"><input type="checkbox" id="cf1" value="Online"><label for="cf1">🟢 Online Classes</label></div>
+            <div class="fopt"><input type="checkbox" id="cf2" value="Home"><label for="cf2">🏠 Home Visits</label></div>
+            <div class="fopt"><input type="checkbox" id="cf3" value="Studio"><label for="cf3">🏛 Studio Classes</label></div>
+            <div class="fopt"><input type="checkbox" id="cf4" value="Corporate"><label for="cf4">🏢 Corporate</label></div>
+            <div class="fopt"><input type="checkbox" id="cf5" value="Workshops"><label for="cf5">🎓 Workshops</label></div>
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fgroup">
+            <label>Per Session Fee (₹)</label>
+            <input type="number" class="finput" id="p3Fee" placeholder="e.g. 500" min="0">
+          </div>
+          <div class="fgroup">
+            <label>Monthly Package (₹)</label>
+            <input type="number" class="finput" id="p3Pkg" placeholder="e.g. 3500" min="0">
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── STEP 4: Profile Info ─── -->
+      <div class="form-panel" id="panel4">
+        <h2 class="step-title">Your Profile</h2>
+        <p class="step-sub">Help students know who you are</p>
+        <div class="fgroup">
+          <label>About Me <span>*</span></label>
+          <textarea class="ftextarea" id="p4Bio" placeholder="Tell students about your yoga journey, teaching philosophy, and what makes your classes unique..." style="min-height:130px"></textarea>
+          <div style="text-align:right;font-size:.75rem;color:var(--muted);margin-top:4px"><span id="bioCount">0</span>/500</div>
+          <div class="ferr" id="errP4Bio">Please write a short bio (min 50 characters)</div>
+        </div>
+        <div class="fgroup">
+          <label>Profile Photo <span>*</span></label>
+          <div class="fupload" id="photoUpload">
+            <input type="file" id="p4Photo" accept="image/*">
+            <div class="fupload-icon">📸</div>
+            <h5>Upload Profile Photo</h5>
+            <p>JPG, PNG · Max 5MB · Minimum 400×400px</p>
+          </div>
+        </div>
+        <div class="fgroup">
+          <label>Certification Documents</label>
+          <div class="fupload">
+            <input type="file" id="p4Certs" accept="image/*,.pdf" multiple>
+            <div class="fupload-icon">📄</div>
+            <h5>Upload Certificates</h5>
+            <p>PDF, JPG, PNG · Multiple allowed · Max 10MB each</p>
+          </div>
+        </div>
+        <div class="fgroup">
+          <label>Introduction Video (optional)</label>
+          <div class="fupload">
+            <input type="file" id="p4Video" accept="video/*">
+            <div class="fupload-icon">🎬</div>
+            <h5>Upload Intro Video</h5>
+            <p>MP4, MOV · Max 100MB · Up to 2 minutes</p>
+          </div>
+        </div>
+        <div class="fgroup">
+          <label>Teaching Philosophy</label>
+          <textarea class="ftextarea" id="p4Philosophy" placeholder="What do you believe about yoga? What transformation do you want to bring to your students?" style="min-height:90px"></textarea>
+        </div>
+      </div>
+
+      <!-- ─── STEP 5: Verification ─── -->
+      <div class="form-panel" id="panel5">
+        <h2 class="step-title">Verify Your Account</h2>
+        <p class="step-sub">We have sent a 6-digit OTP to your mobile number</p>
+
+        <div style="background:#F5F3FF;border-radius:14px;padding:16px;text-align:center;margin-bottom:24px">
+          <div style="font-size:.82rem;color:var(--muted);margin-bottom:4px">OTP sent to</div>
+          <div style="font-family:var(--f-head);font-size:1.1rem;font-weight:700;color:var(--ink2)" id="displayMobile">+91 XXXXXXXXXX</div>
+          <a href="#" style="font-size:.78rem;color:var(--purple);margin-top:6px;display:inline-block" id="changeMobileLink">Change number</a>
+        </div>
+
+        <div class="otp-row" id="otpRow">
+          <input type="text" class="otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+          <input type="text" class="otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+          <input type="text" class="otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+          <input type="text" class="otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+          <input type="text" class="otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+          <input type="text" class="otp-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+        </div>
+        <div class="ferr" id="errOtp" style="text-align:center">Invalid OTP. Please try again.</div>
+
+        <div style="text-align:center;font-size:.82rem;color:var(--muted);margin-bottom:20px">
+          Didn't receive? <a href="#" id="resendOtp" style="color:var(--purple);font-weight:600">Resend OTP</a>
+          <span id="otpTimer" style="color:var(--muted);margin-left:4px">(60s)</span>
+        </div>
+
+        <div class="terms-row">
+          <input type="checkbox" id="termsChk">
+          <label for="termsChk">I agree to YogKulam's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. I confirm that all information provided is accurate and my certifications are valid.</label>
+        </div>
+        <div class="ferr" id="errTerms">Please accept the terms and conditions</div>
+      </div>
+
+      <!-- ─── SUCCESS PANEL ─── -->
+      <div id="successPanel">
+        <div class="success-circle">✓</div>
+        <h2 class="success-title">Application Submitted!</h2>
+        <div class="status-pill">🔍 Profile Under Review</div>
+        <p class="success-sub">Thank you for joining YogKulam! Our team will verify your profile within <strong>24–48 hours</strong>. You will receive an email and SMS once your profile is live.</p>
+        <div style="background:#F5F3FF;border-radius:14px;padding:18px;margin-bottom:24px;text-align:left">
+          <div style="font-size:.82rem;font-weight:700;color:var(--ink2);margin-bottom:10px">📋 Next Steps</div>
+          <div style="font-size:.85rem;color:var(--muted);line-height:2">
+            ✓ &nbsp;Profile submitted for review<br>
+            ⏳ &nbsp;Certification verification (24–48 hrs)<br>
+            ⏳ &nbsp;Profile goes live on YogKulam<br>
+            ⏳ &nbsp;Start receiving student bookings
+          </div>
+        </div>
+        <a href="/yoga-teachers" class="btn-g" style="width:100%;justify-content:center;font-size:.95rem;padding:13px">View Teacher Directory →</a>
+      </div>
+
+      <!-- Step nav buttons -->
+      <div class="step-nav" id="stepNav">
+        <button class="btn-back" id="btnBack" style="visibility:hidden">← Back</button>
+        <div style="font-size:.8rem;color:var(--muted)">Step <span id="curStepNum">1</span> of 5</div>
+        <button class="btn-g" id="btnNext">Continue →</button>
+      </div>
+
+    </div><!-- /jt-card -->
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="jt-footer">
+  <span>© 2026 YogKulam</span>
+  <a href="/yoga-teachers">Find Teachers</a>
+  <a href="#">Privacy Policy</a>
+  <a href="#">Terms</a>
+</footer>
+
+<script>
+/* Mobile menu */
+const mobBtn=document.getElementById('mobBtn'),mobNav=document.getElementById('ykMobNav');
+if(mobBtn&&mobNav){
+  mobBtn.addEventListener('click',()=>{const o=mobNav.classList.toggle('open');mobBtn.classList.toggle('open',o);document.body.style.overflow=o?'hidden':'';});
+  mobNav.querySelectorAll('.mob-lnk,.mob-act a').forEach(l=>l.addEventListener('click',()=>{mobBtn.classList.remove('open');mobNav.classList.remove('open');document.body.style.overflow='';}));
+}
+
+let curStep=1;
+const TOTAL=5;
+const PROG_WIDTHS=['10%','30%','54%','74%','92%'];
+
+function goTo(step){
+  document.getElementById('panel'+curStep).classList.remove('active');
+  curStep=step;
+  document.getElementById('panel'+curStep).classList.add('active');
+  updateProgress();
+  updateNavBtns();
+  saveDraft();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateProgress(){
+  // Dots
+  document.querySelectorAll('.prog-step').forEach(s=>{
+    const n=parseInt(s.dataset.s);
+    s.classList.remove('active','done');
+    if(n===curStep) s.classList.add('active');
+    else if(n<curStep) s.classList.add('done');
+    if(s.classList.contains('done')) s.querySelector('.prog-dot').textContent='✓';
+    else s.querySelector('.prog-dot').textContent=n;
+  });
+  document.getElementById('progFill').style.width=PROG_WIDTHS[curStep-1];
+  document.getElementById('curStepNum').textContent=curStep;
+}
+
+function updateNavBtns(){
+  const back=document.getElementById('btnBack');
+  const next=document.getElementById('btnNext');
+  back.style.visibility=curStep>1?'visible':'hidden';
+  next.textContent=curStep===TOTAL?'Submit Application ✓':'Continue →';
+  if(curStep===TOTAL) next.style.background='linear-gradient(135deg,#2ECC71,#1aaa5c)';
+  else next.style.background='';
+}
+
+// Validation per step
+function validateStep(step){
+  let ok=true;
+  function req(id,errId,check){
+    const el=document.getElementById(id);
+    const err=document.getElementById(errId);
+    if(!check(el)){el.classList.add('error');err.classList.add('show');ok=false;}
+    else{el.classList.remove('error');err.classList.remove('show');}
+  }
+  if(step===1){
+    req('p1Name','errP1Name',el=>el.value.trim().length>1);
+    req('p1Mobile','errP1Mobile',el=>/^[6-9]\d{9}$/.test(el.value.replace(/\D/g,'')));
+    req('p1Email','errP1Email',el=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value));
+    req('p1Gender','errP1Gender',el=>el.value!=='');
+    req('p1Dob','errP1Dob',el=>el.value!=='');
+    req('p1Pass','errP1Pass',el=>el.value.length>=8);
+  }
+  if(step===2){
+    req('p2City','errP2City',el=>el.value.trim().length>1);
+    req('p2State','errP2State',el=>el.value!=='');
+    req('p2Pin','errP2Pin',el=>/^\d{6}$/.test(el.value.trim()));
+  }
+  if(step===3){
+    const checked=[...document.querySelectorAll('#yogaStyleOpts input:checked')];
+    const e=document.getElementById('errYogaStyle');
+    if(!checked.length){e.classList.add('show');ok=false;}else e.classList.remove('show');
+    req('p3Exp','errP3Exp',el=>el.value!=='');
+    req('p3Cert','errP3Cert',el=>el.value!=='');
+  }
+  if(step===4){
+    req('p4Bio','errP4Bio',el=>el.value.trim().length>=50);
+  }
+  if(step===5){
+    const otp=[...document.querySelectorAll('.otp-digit')].map(d=>d.value).join('');
+    const e=document.getElementById('errOtp');
+    if(otp.length<6){e.classList.add('show');ok=false;}else e.classList.remove('show');
+    const terms=document.getElementById('termsChk');
+    const et=document.getElementById('errTerms');
+    if(!terms.checked){et.classList.add('show');ok=false;}else et.classList.remove('show');
+  }
+  return ok;
+}
+
+document.getElementById('btnNext').addEventListener('click',()=>{
+  if(!validateStep(curStep)) return;
+  if(curStep===TOTAL){
+    submitForm(); return;
+  }
+  goTo(curStep+1);
+  if(curStep===5) displayMobile();
+});
+
+document.getElementById('btnBack').addEventListener('click',()=>{if(curStep>1) goTo(curStep-1);});
+
+function displayMobile(){
+  const mob=document.getElementById('p1Mobile').value;
+  document.getElementById('displayMobile').textContent=mob||'+91 XXXXXXXXXX';
+}
+
+function submitForm(){
+  document.getElementById('stepNav').style.display='none';
+  document.getElementById('panel5').classList.remove('active');
+  document.getElementById('successPanel').style.display='block';
+  document.getElementById('progFill').style.width='100%';
+  localStorage.removeItem('ykTeacherDraft');
+}
+
+// OTP inputs auto-advance
+document.querySelectorAll('.otp-digit').forEach((inp,i,all)=>{
+  inp.addEventListener('input',()=>{if(inp.value&&i<all.length-1)all[i+1].focus();});
+  inp.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!inp.value&&i>0)all[i-1].focus();});
+});
+
+// Bio counter
+document.getElementById('p4Bio').addEventListener('input',function(){
+  document.getElementById('bioCount').textContent=Math.min(this.value.length,500);
+});
+
+// OTP timer
+let timer=60;
+const timerEl=document.getElementById('otpTimer');
+function runTimer(){
+  const iv=setInterval(()=>{
+    timer--;timerEl.textContent=`(${timer}s)`;
+    if(timer<=0){clearInterval(iv);timerEl.textContent='';document.getElementById('resendOtp').style.opacity='1';}
+  },1000);
+}
+runTimer();
+document.getElementById('resendOtp').addEventListener('click',e=>{e.preventDefault();timer=60;runTimer();});
+
+// Draft save / restore
+function saveDraft(){
+  const data={step:curStep,name:document.getElementById('p1Name').value,email:document.getElementById('p1Email').value,city:document.getElementById('p2City').value};
+  localStorage.setItem('ykTeacherDraft',JSON.stringify(data));
+  const b=document.getElementById('draftBanner');
+  b.style.display='flex';setTimeout(()=>b.style.display='none',2500);
+}
+function restoreDraft(){
+  const d=localStorage.getItem('ykTeacherDraft');
+  if(!d) return;
+  try{
+    const data=JSON.parse(d);
+    if(data.name) document.getElementById('p1Name').value=data.name;
+    if(data.email) document.getElementById('p1Email').value=data.email;
+    if(data.city) document.getElementById('p2City').value=data.city;
+  }catch(e){}
+}
+restoreDraft();
+</script>
+</body>
+</html>
