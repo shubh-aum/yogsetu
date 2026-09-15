@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Browse Verified Yoga Teachers | YogSetu</title>
+<meta name="description" content="Filter verified yoga teachers by city, style, certification, experience and price. Every profile is credential-checked with the issuing body.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body class="inner-page">
+
+<header class="site-header-fixed is-visible force-visible" id="siteHeaderFixed">
+  <a href="index.html" class="logo" aria-label="YogSetu home">
+    <span class="mark" aria-hidden="true"></span>
+    <span>
+      <span class="word">Yog<em>Setu</em></span>
+    </span>
+  </a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="teachers.html" class="active">Browse teachers</a>
+    <a href="requirements.html">Job board</a>
+    <a href="teacher-benefits.html">For teachers</a>
+    <a href="about.html">About</a>
+  </nav>
+  <div class="header-actions">
+    <a href="login.html" class="hdr-link">Log in</a>
+    <a href="signup.html" class="btn btn-primary btn-small">Sign up</a>
+  </div>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
+    <a href="teachers.html">Browse teachers</a>
+    <a href="requirements.html">Job board</a>
+    <a href="teacher-benefits.html">For teachers</a>
+    <a href="about.html">About</a>
+  <a href="login.html">Log in</a>
+  <a href="signup.html">Sign up</a>
+</nav>
+
+<main>
+<section class="page-hero">
+  <div class="ph-inner">
+    <div class="kicker mono"><span class="rule" aria-hidden="true"></span><span>Browse teachers</span></div>
+    <h1 class="ph-title">Find a <em>verified</em> yoga teacher</h1>
+    <p class="ph-lede">Every profile below is credential-checked directly with the issuing body. Filter by city, style, experience and price to find your match.</p>
+    
+  </div>
+</section>
+
+<div class="listing-layout">
+  <aside class="filters-panel">
+    <h3>Filters</h3>
+
+    <div class="filter-group">
+      <h4>Location</h4>
+      <select><option>All cities</option><option>Lucknow</option><option>Delhi</option><option>Mumbai</option><option>Pune</option><option>Bengaluru</option><option>Jaipur</option><option>Gurugram</option></select>
+    </div>
+
+    <div class="filter-group">
+      <h4>Yoga style</h4>
+      <label class="filter-opt"><input type="checkbox"> Hatha</label>
+      <label class="filter-opt"><input type="checkbox"> Ashtanga / Power</label>
+      <label class="filter-opt"><input type="checkbox"> Vinyasa</label>
+      <label class="filter-opt"><input type="checkbox"> Prenatal</label>
+      <label class="filter-opt"><input type="checkbox"> Therapeutic</label>
+      <label class="filter-opt"><input type="checkbox"> Meditation</label>
+      <label class="filter-opt"><input type="checkbox"> Yoga for Seniors</label>
+      <label class="filter-opt"><input type="checkbox"> Corporate Wellness</label>
+    </div>
+
+    <div class="filter-group">
+      <h4>Certification</h4>
+      <label class="filter-opt"><input type="checkbox" checked> Verified only</label>
+      <label class="filter-opt"><input type="checkbox"> Yoga Alliance</label>
+      <label class="filter-opt"><input type="checkbox"> AYUSH</label>
+      <label class="filter-opt"><input type="checkbox"> YTTAI</label>
+    </div>
+
+    <div class="filter-group">
+      <h4>Experience</h4>
+      <label class="filter-opt"><input type="radio" name="exp"> 0&ndash;3 years</label>
+      <label class="filter-opt"><input type="radio" name="exp"> 3&ndash;7 years</label>
+      <label class="filter-opt"><input type="radio" name="exp"> 7+ years</label>
+    </div>
+
+    <div class="filter-group">
+      <h4>Mode</h4>
+      <label class="filter-opt"><input type="checkbox"> Online</label>
+      <label class="filter-opt"><input type="checkbox"> In-studio</label>
+    </div>
+
+    <div class="filter-group">
+      <h4>Price per session (&#8377;)</h4>
+      <div class="range-row">
+        <input type="number" placeholder="Min" style="width:50%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--sand);">
+        <span style="color:var(--ink-faint);">&ndash;</span>
+        <input type="number" placeholder="Max" style="width:50%;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--sand);">
+      </div>
+    </div>
+
+    <button class="btn-clear-filters">Clear all filters</button>
+  </aside>
+
+  <div>
+    <div class="results-bar">
+      <button class="filters-toggle" data-filters-toggle><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg> Filters</button>
+      <span class="count"><strong>7</strong> verified teachers found</span>
+      <select class="sort-select"><option>Sort: Recommended</option><option>Rating: high to low</option><option>Price: low to high</option><option>Price: high to low</option><option>Most experienced</option></select>
+    </div>
+
+    <div class="tgrid">
+        <article class="tcard">
+          <a href="teacher-profile.html?t=shikhar-mehrotra" class="shot" style="display:block;">
+            <img src="https://storage.googleapis.com/yogkulam/landing-page/teacher/Shikhar-Mehrotra.jpg" alt="Shikhar Mehrotra, verified yoga teacher"
+                 loading="lazy" decoding="async"
+                 onerror="this.closest('.shot').classList.add('missing')">
+            <span class="fallback" aria-hidden="true">SM</span>
+            <span class="rating"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>4.9 <span class="count">(128)</span></span>
+            <span class="vbadge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Verified</span>
+          </a>
+          <div class="info">
+            <h3><a href="teacher-profile.html?t=shikhar-mehrotra">Shikhar Mehrotra</a></h3>
+            <p class="meta">Hatha & Ashtanga &middot; Lucknow</p>
+            <div class="tags"><span>Hatha</span><span>Ashtanga</span><span>Beginners</span></div>
+            <a class="book" href="teacher-profile.html?t=shikhar-mehrotra">Book slot <span class="arrow" aria-hidden="true">&rarr;</span></a>
+          </div>
+        </article>
+        <article class="tcard">
+          <a href="teacher-profile.html?t=amrita-gupta" class="shot" style="display:block;">
+            <img src="https://storage.googleapis.com/yogkulam/landing-page/teacher/Amrita-Gupta.jpg" alt="Amrita Gupta, verified yoga teacher"
+                 loading="lazy" decoding="async"
+                 onerror="this.closest('.shot').classList.add('missing')">
+            <span class="fallback" aria-hidden="true">AG</span>
+            <span class="rating"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>4.8 <span class="count">(94)</span></span>
+            <span class="vbadge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Verified</span>
+          </a>
+          <div class="info">
+            <h3><a href="teacher-profile.html?t=amrita-gupta">Amrita Gupta</a></h3>
+            <p class="meta">Prenatal & Therapeutic &middot; Delhi</p>
+            <div class="tags"><span>Prenatal</span><span>Therapeutic</span></div>
+            <a class="book" href="teacher-profile.html?t=amrita-gupta">Book slot <span class="arrow" aria-hidden="true">&rarr;</span></a>
+          </div>
+        </article>
+        <article class="tcard">
+          <a href="teacher-profile.html?t=vikas-singh-rajput" class="shot" style="display:block;">
+            <img src="https://storage.googleapis.com/yogkulam/landing-page/teacher/VIkas-Singh-Rajput.jpg" alt="Vikas Singh Rajput, verified yoga teacher"
+                 loading="lazy" decoding="async"
+                 onerror="this.closest('.shot').classList.add('missing')">
+            <span class="fallback" aria-hidden="true">VS</span>
+            <span class="rating"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>4.9 <span class="count">(156)</span></span>
+            <span class="vbadge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Verified</span>
+          </a>
+          <div class="info">
+            <h3><a href="teacher-profile.html?t=vikas-singh-rajput">Vikas Singh Rajput</a></h3>
+            <p class="meta">Ashtanga & Pranayama &middot; Mumbai</p>
+            <div class="tags"><span>Ashtanga</span><span>Pranayama</span></div>
+            <a class="book" href="teacher-profile.html?t=vikas-singh-rajput">Book slot <span class="arrow" aria-hidden="true">&rarr;</span></a>
+          </div>
+        </article>
+        <article class="tcard">
+          <a href="teacher-profile.html?t=shamli-joshi" class="shot" style="display:block;">
+            <img src="https://storage.googleapis.com/yogkulam/landing-page/teacher/Shamli-Joshi.jpg" alt="Shamli Joshi, verified yoga teacher"
+                 loading="lazy" decoding="async"
+                 onerror="this.closest('.shot').classList.add('missing')">
+            <span class="fallback" aria-hidden="true">SJ</span>
+            <span class="rating"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>4.7 <span class="count">(71)</span></span>
+            <span class="vbadge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Verified</span>
+          </a>
+          <div class="info">
+            <h3><a href="teacher-profile.html?t=shamli-joshi">Shamli Joshi</a></h3>
+            <p class="meta">Vinyasa & Meditation &middot; Pune</p>
+            <div class="tags"><span>Vinyasa</span><span>Meditation</span></div>
+            <a class="book" href="teacher-profile.html?t=shamli-joshi">Book slot <span class="arrow" aria-hidden="true">&rarr;</span></a>
+          </div>
+        </article>
+        <article class="tcard">
+          <a href="teacher-profile.html?t=shachi-khemuka" class="shot" style="display:block;">
+            <img src="https://storage.googleapis.com/yogkulam/landing-page/teacher/Shachi-Khemuka.jpg" alt="Shachi Khemuka, verified yoga teacher"
+                 loading="lazy" decoding="async"
+                 onerror="this.closest('.shot').classList.add('missing')">
+            <span class="fallback" aria-hidden="true">SK</span>
+            <span class="rating"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>5.0 <span class="count">(62)</span></span>
+            <span class="vbadge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Verified</span>
+          </a>
+          <div class="info">
+            <h3><a href="teacher-profile.html?t=shachi-khemuka">Shachi Khemuka</a></h3>
+            <p class="meta">Hatha & Yoga Therapy &middot; Bengaluru</p>
+            <div class="tags"><span>Hatha</span><span>Therapeutic</span></div>
+            <a class="book" href="teacher-profile.html?t=shachi-khemuka">Book slot <span class="arrow" aria-hidden="true">&rarr;</span></a>
+          </div>
+        </article>
+        <article class="tcard">
+          <a href="teacher-profile.html?t=shweta-shukla" class="shot" style="display:block;">
+            <img src="https://storage.googleapis.com/yogkulam/landing-page/teacher/Shweta-Shukla.jpg" alt="Shweta Shukla, verified yoga teacher"
+                 loading="lazy" decoding="async"
+                 onerror="this.closest('.shot').classList.add('missing')">
+            <span class="fallback" aria-hidden="true">SS</span>
+            <span class="rating"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>4.8 <span class="count">(110)</span></span>
+            <span class="vbadge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Verified</span>
+          </a>
+          <div class="info">
+            <h3><a href="teacher-profile.html?t=shweta-shukla">Shweta Shukla</a></h3>
+            <p class="meta">Yoga for Seniors &middot; Jaipur</p>
+            <div class="tags"><span>Seniors</span><span>Gentle</span></div>
+            <a class="book" href="teacher-profile.html?t=shweta-shukla">Book slot <span class="arrow" aria-hidden="true">&rarr;</span></a>
+          </div>
+        </article>
+        <article class="tcard">
+          <a href="teacher-profile.html?t=disha-nehra" class="shot" style="display:block;">
+            <img src="https://storage.googleapis.com/yogkulam/landing-page/teacher/Disha-Nehra.jpg" alt="Disha Nehra, verified yoga teacher"
+                 loading="lazy" decoding="async"
+                 onerror="this.closest('.shot').classList.add('missing')">
+            <span class="fallback" aria-hidden="true">DN</span>
+            <span class="rating"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>4.9 <span class="count">(83)</span></span>
+            <span class="vbadge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Verified</span>
+          </a>
+          <div class="info">
+            <h3><a href="teacher-profile.html?t=disha-nehra">Disha Nehra</a></h3>
+            <p class="meta">Corporate Wellness &middot; Gurugram</p>
+            <div class="tags"><span>Corporate</span><span>Beginners</span></div>
+            <a class="book" href="teacher-profile.html?t=disha-nehra">Book slot <span class="arrow" aria-hidden="true">&rarr;</span></a>
+          </div>
+        </article>
+    </div>
+
+    <nav class="pagination" aria-label="Pagination">
+      <span class="is-active">1</span>
+      <a href="#">2</a>
+      <a href="#">3</a>
+      <a href="#">&rarr;</a>
+    </nav>
+  </div>
+</div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+
+      <div class="footer-brand">
+        <span class="logo"><span class="dot" aria-hidden="true"></span>YogSetu</span>
+        <p>A verified yoga teacher directory &mdash; powered by YogKulam's credentialing infrastructure.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="mono">For students</h4>
+        <ul>
+          <li><a href="teachers.html">Browse teachers</a></li>
+          <li><a href="requirements.html">Post a requirement</a></li>
+          <li><a href="index.html#verification">Verification process</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="mono">For teachers</h4>
+        <ul>
+          <li><a href="signup.html?role=teacher">Create your profile</a></li>
+          <li><a href="teacher-benefits.html">Become verified</a></li>
+          <li><a href="requirements.html">Browse requirements</a></li>
+          <li><a href="login.html">Teacher login</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="mono">Company</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="https://www.yogkulam.com" target="_blank" rel="noopener">YogKulam</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="terms.html">Terms &amp; conditions</a></li>
+          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="refund.html">Refund policy</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>YogSetu is a <a href="https://www.yogkulam.com" target="_blank" rel="noopener">YogKulam</a> initiative</span>
+      <span><span class="dot" aria-hidden="true">&middot;</span>yogsetu.com</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+</body>
+</html>

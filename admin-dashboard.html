@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | YogSetu</title>
+<meta name="description" content="YogSetu admin dashboard &mdash; design preview with sample data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/dashboard.css">
+<style>
+  /* --- Account area: lives inside the normal site header/page frame, not a separate shell --- */
+
+  .profile-menu{ position:relative; }
+  .profile-trigger{
+    display:flex; align-items:center; gap:6px;
+    background:none; border:none; cursor:pointer;
+    padding:4px 8px 4px 4px;
+    border-radius:var(--radius-pill,999px);
+  }
+  .profile-trigger:hover{ background:var(--sand,#FAF5EA); }
+  .avatar-chip{
+    width:32px; height:32px; flex-shrink:0;
+    border-radius:50%; overflow:hidden;
+    background:var(--pine,#1A1A18); color:var(--paper,#fff);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; letter-spacing:.02em;
+  }
+  .profile-trigger .chev{ color:var(--ink-soft,#55524A); transition:transform .15s ease; flex-shrink:0; }
+  .profile-menu.open .chev{ transform:rotate(180deg); }
+
+  .profile-dropdown{
+    position:absolute; top:calc(100% + 10px); right:0;
+    width:250px; max-height:82vh; overflow-y:auto;
+    background:var(--paper,#fff);
+    border:1px solid var(--line,#E4DBC5);
+    border-radius:var(--radius,16px);
+    box-shadow:0 14px 34px rgba(23,22,20,.16);
+    padding:8px;
+    z-index:80;
+  }
+  .profile-dropdown-head{
+    padding:9px 12px 11px;
+    border-bottom:1px solid var(--line-soft,#EFE8D8);
+    margin-bottom:6px;
+    display:flex; flex-direction:column; gap:1px;
+  }
+  .profile-dropdown-head .nm{ font-weight:600; color:var(--ink,#1C1B18); font-size:14px; }
+  .profile-dropdown-head .rl{ font-size:12px; color:var(--ink-faint,#8C887D); }
+  .profile-dropdown-group{
+    padding:10px 12px 4px; font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:700;
+    letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint,#8C887D);
+  }
+  .profile-dropdown-item{
+    display:flex; align-items:center; gap:10px;
+    width:100%; text-align:left; text-decoration:none;
+    padding:8px 12px; border:none; background:none; border-radius:10px;
+    font-family:'Inter',sans-serif; font-size:13px; font-weight:500;
+    color:var(--ink-soft,#55524A); cursor:pointer;
+  }
+  .profile-dropdown-item svg{ width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; flex-shrink:0; }
+  .profile-dropdown-item:hover{ background:var(--sand,#FAF5EA); color:var(--ink,#1C1B18); }
+  .profile-dropdown-item.active{ background:var(--sand,#FAF5EA); color:var(--pine,#1A1A18); font-weight:600; }
+  .profile-dropdown-divider{ height:1px; background:var(--line-soft,#EFE8D8); margin:6px 4px; }
+  .profile-dropdown-item.logout{ color:var(--marigold-deep,#A65032); }
+  .profile-dropdown-item.logout:hover{ background:#FBEFE9; }
+
+  .mobile-menu-divider{ height:1px; background:var(--line-soft,#EFE8D8); margin:10px 20px; }
+
+  /* --- Page frame --- */
+  .dash-page-wrap{ max-width:1180px; margin:0 auto; padding:118px 24px 80px; }
+  .dash-intro{ margin-bottom:22px; }
+  .dash-intro h1{ font-family:'Fraunces',serif; font-weight:500; font-size:30px; color:var(--ink,#1C1B18); margin:0 0 4px; }
+  .dash-intro .sub{ margin:0; color:var(--ink-soft,#55524A); font-size:14.5px; }
+
+  .dash-tabs{
+    display:flex; gap:4px; flex-wrap:wrap;
+    border-bottom:1px solid var(--line,#E4DBC5);
+    margin-bottom:30px;
+  }
+  .dash-tab{
+    display:flex; align-items:center; gap:7px;
+    padding:10px 14px; border:none; background:none;
+    font-family:'Inter',sans-serif; font-size:13px; font-weight:600;
+    color:var(--ink-faint,#8C887D); cursor:pointer;
+    border-bottom:2px solid transparent; margin-bottom:-1px;
+    white-space:nowrap;
+  }
+  .dash-tab:hover{ color:var(--ink,#1C1B18); }
+  .dash-tab[aria-selected="true"]{ color:var(--pine,#1A1A18); border-bottom-color:var(--marigold,#D97757); }
+  .dash-tab .count{
+    background:var(--sand,#FAF5EA); color:var(--ink-soft,#55524A);
+    font-size:11px; font-weight:700; padding:1px 7px; border-radius:var(--radius-pill,999px);
+  }
+
+  /* Reset dashboard.css's legacy "hidden unless .active" rule for sections */
+  .dash-section{ display:block; }
+  .dash-section[hidden]{ display:none; }
+
+  .sub-tabs{ display:flex; gap:8px; margin-bottom:18px; }
+  .sub-tab{
+    padding:7px 14px; border:1px solid var(--line,#E4DBC5); border-radius:var(--radius-pill,999px);
+    background:var(--paper,#fff); font-family:'Inter',sans-serif; font-size:12.5px; font-weight:600;
+    color:var(--ink-soft,#55524A); cursor:pointer;
+  }
+  .sub-tab:hover{ color:var(--ink,#1C1B18); }
+  .sub-tab[aria-selected="true"]{ background:var(--pine,#1A1A18); border-color:var(--pine,#1A1A18); color:var(--paper,#fff); }
+  [data-subsection-panel][hidden]{ display:none; }
+
+  /* Modal insurance */
+  .modal-backdrop{
+    display:none; position:fixed; inset:0; z-index:100;
+    align-items:center; justify-content:center;
+    background:rgba(23,22,20,.5); padding:20px;
+  }
+  .modal-backdrop.open{ display:flex; }
+  .modal-box{
+    width:100%; max-width:440px; max-height:80vh; overflow-y:auto;
+    background:var(--paper,#fff);
+    border-radius:var(--radius-card,26px);
+    padding:26px; box-shadow:0 24px 60px rgba(23,22,20,.28);
+  }
+  .modal-box h3{ font-family:'Fraunces',serif; font-weight:500; margin:0 0 4px; color:var(--ink,#1C1B18); }
+  .modal-box .desc{ margin:0 0 16px; font-size:13.5px; color:var(--ink-soft,#55524A); }
+  .modal-actions{ display:flex; justify-content:flex-end; gap:10px; margin-top:16px; }
+  .doc-list{ display:flex; flex-direction:column; gap:8px; margin-top:4px; }
+
+  /* Creative "today's focus" callout */
+  .focus-card{
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:18px;
+    background:var(--paper,#fff);
+    border:1px solid var(--line,#E4DBC5);
+    border-left:5px solid var(--marigold-deep,#A65032);
+    border-radius:var(--radius,16px);
+    padding:20px 22px;
+    margin-bottom:26px;
+  }
+  .focus-text{ max-width:600px; }
+  .focus-kicker{
+    display:block; font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:700;
+    letter-spacing:.08em; color:var(--marigold-deep,#A65032); margin-bottom:6px;
+  }
+  .focus-card h2{ font-family:'Fraunces',serif; font-weight:500; font-size:19px; color:var(--ink,#1C1B18); margin:0; }
+  .focus-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+
+  /* Team rating input */
+  .team-rating-cell{ display:flex; align-items:center; gap:6px; }
+  .team-rating-input{
+    width:60px; padding:6px 8px; border:1px solid var(--line,#E4DBC5); border-radius:8px;
+    font-family:'IBM Plex Mono',monospace; font-size:13px; text-align:center; background:var(--paper,#fff);
+  }
+  .rating-saved-flash{
+    font-size:11px; color:var(--marigold-deep,#A65032); font-weight:600; opacity:0; transition:opacity .3s ease;
+  }
+  .rating-saved-flash.show{ opacity:1; }
+
+  @media (max-width:720px){
+    .dash-page-wrap{ padding-top:104px; }
+    .dash-intro h1{ font-size:24px; }
+    .focus-card{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body class="inner-page">
+
+<header class="site-header-fixed is-visible force-visible" id="siteHeaderFixed">
+  <a href="index.html" class="logo" aria-label="YogSetu home">
+    <span class="mark" aria-hidden="true"></span>
+    <span>
+      <span class="word">Yog<em>Setu</em></span>
+    </span>
+  </a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="teachers.html">Browse teachers</a>
+    <a href="requirements.html">Job board</a>
+    <a href="teacher-benefits.html">For teachers</a>
+    <a href="about.html">About</a>
+  </nav>
+  <div class="header-actions">
+    <div class="profile-menu" id="profileMenu">
+      <button class="profile-trigger" id="profileTrigger" aria-haspopup="true" aria-expanded="false">
+        <span class="avatar-chip" id="headerAvatarChip">AD</span>
+        <svg class="chev" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="profile-dropdown" id="profileDropdown" hidden>
+        <div class="profile-dropdown-head"><span class="nm">Admin</span><span class="rl">Administrator</span></div>
+
+        <div class="profile-dropdown-group">Overview</div>
+        <button class="profile-dropdown-item" data-section="overview"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>Dashboard</button>
+
+        <div class="profile-dropdown-group">Teachers</div>
+        <button class="profile-dropdown-item" data-section="teachers"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.3 2.9-5.6 6.5-5.6s6.5 2.3 6.5 5.6"/><circle cx="17.5" cy="9" r="2.6"/><path d="M15.8 14.7c2.7.4 4.7 2.3 4.7 5.3"/></svg>Teacher Directory</button>
+        <button class="profile-dropdown-item" data-section="verification"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 7.7-8 9-4.8-1.3-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>Verification Queue</button>
+
+        <div class="profile-dropdown-group">Clients</div>
+        <button class="profile-dropdown-item" data-section="clients"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>Client Directory</button>
+
+        <div class="profile-dropdown-group">Connections</div>
+        <button class="profile-dropdown-item" data-section="connection-logs"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Connection Logs</button>
+
+        <div class="profile-dropdown-group">Monetization</div>
+        <button class="profile-dropdown-item" data-section="platform-fee"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h13a1 1 0 0 1 1 1v2M3 7v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1H5a2 2 0 0 1-2-2z"/><circle cx="16" cy="14" r="1.4"/></svg>Platform Fee &amp; Pricing</button>
+
+        <div class="profile-dropdown-group">Content</div>
+        <button class="profile-dropdown-item" data-section="ratings"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5-4.8-4.6 6.6-.9z"/></svg>Ratings Moderation</button>
+        <button class="profile-dropdown-item" data-section="cms"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg>CMS Content Editor</button>
+
+        <div class="profile-dropdown-group">Tools</div>
+        <button class="profile-dropdown-item" data-section="post-for-client"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Post for a Client</button>
+
+        <div class="profile-dropdown-group">Access control</div>
+        <button class="profile-dropdown-item" data-section="subadmins"><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Subadmins</button>
+
+        <div class="profile-dropdown-divider"></div>
+        <a href="login.html" class="profile-dropdown-item logout"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>Logout</a>
+      </div>
+    </div>
+  </div>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
+  <a href="teachers.html">Browse teachers</a>
+  <a href="requirements.html">Job board</a>
+  <a href="teacher-benefits.html">For teachers</a>
+  <a href="about.html">About</a>
+  <div class="mobile-menu-divider"></div>
+  <a href="#" data-section="overview">Dashboard</a>
+  <a href="#" data-section="teachers">Teacher Directory</a>
+  <a href="#" data-section="clients">Client Directory</a>
+  <a href="#" data-section="connection-logs">Connection Logs</a>
+  <a href="#" data-section="verification">Verification Queue</a>
+  <a href="#" data-section="platform-fee">Platform Fee &amp; Pricing</a>
+  <a href="#" data-section="ratings">Ratings Moderation</a>
+  <a href="#" data-section="cms">CMS Content Editor</a>
+  <a href="#" data-section="post-for-client">Post for a Client</a>
+  <a href="#" data-section="subadmins">Subadmins</a>
+  <a href="login.html">Logout</a>
+</nav>
+
+<main>
+<div class="dash-page-wrap">
+
+  <div class="dash-intro">
+    <h1 id="dashTitle">Dashboard</h1>
+    <p class="sub" id="dashSub">7 verified teachers, 3 client accounts, and a community averaging 4.9 stars</p>
+  </div>
+
+  <div class="dash-tabs" role="tablist" aria-label="Admin sections">
+    <button class="dash-tab" data-section="overview" aria-selected="true">Dashboard</button>
+    <button class="dash-tab" data-section="teachers" aria-selected="false">Teacher Directory</button>
+    <button class="dash-tab" data-section="clients" aria-selected="false">Client Directory</button>
+    <button class="dash-tab" data-section="connection-logs" aria-selected="false">Connection Logs</button>
+    <button class="dash-tab" data-section="verification" aria-selected="false">Verification Queue <span class="count">2</span></button>
+    <button class="dash-tab" data-section="platform-fee" aria-selected="false">Platform Fee &amp; Pricing</button>
+    <button class="dash-tab" data-section="ratings" aria-selected="false">Ratings Moderation <span class="count">1</span></button>
+    <button class="dash-tab" data-section="cms" aria-selected="false">CMS Content Editor</button>
+    <button class="dash-tab" data-section="post-for-client" aria-selected="false">Post for a Client</button>
+    <button class="dash-tab" data-section="subadmins" aria-selected="false">Subadmins</button>
+  </div>
+
+  <div class="dash-content">
+
+<section class="dash-section" data-section-panel="overview">
+  <div class="focus-card">
+    <div class="focus-text">
+      <span class="focus-kicker">Today's focus</span>
+      <h2>Two teachers are waiting on verification, and one review needs a moderation call.</h2>
+    </div>
+    <div class="focus-actions">
+      <button class="btn-xs dark" data-section-jump="verification">Review verifications</button>
+      <button class="btn-xs ghost" data-section-jump="ratings">Moderate flagged review</button>
+    </div>
+  </div>
+
+  <div class="dstat-row">
+    <div class="dstat"><div class="top"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.3 2.9-5.6 6.5-5.6s6.5 2.3 6.5 5.6"/><circle cx="17.5" cy="9" r="2.6"/><path d="M15.8 14.7c2.7.4 4.7 2.3 4.7 5.3"/></svg></span></div><span class="n">7</span><span class="k">Verified teachers on the platform</span></div>
+    <div class="dstat"><div class="top"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 7.7-8 9-4.8-1.3-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span></div><span class="n">2</span><span class="k">Pending verifications awaiting review</span></div>
+    <div class="dstat"><div class="top"><span class="ico"><svg viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="16" rx="2"/><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M9 11h6M9 15h6"/></svg></span></div><span class="n">6</span><span class="k">Requirements posted to date</span></div>
+    <div class="dstat"><div class="top"><span class="ico"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></span></div><span class="n">18</span><span class="k">Connection requests (12 approved, 4 pending, 2 declined)</span></div>
+    <div class="dstat"><div class="top"><span class="ico"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l2-5.4A8.5 8.5 0 1 1 21 11.5z"/><path d="M8.5 9.5c.3 3 2.5 5.2 5.5 5.5"/></svg></span></div><span class="n">12</span><span class="k">WhatsApp handoffs triggered on approval</span></div>
+    <div class="dstat"><div class="top"><span class="ico"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h13a1 1 0 0 1 1 1v2M3 7v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1H5a2 2 0 0 1-2-2z"/><circle cx="16" cy="14" r="1.4"/></svg></span></div><span class="n">&#8377;0</span><span class="k">Platform fee revenue &mdash; fee is currently OFF</span></div>
+  </div>
+
+  <div class="two-col">
+    <div class="dcard">
+      <div class="dcard-head"><h2>Needs your attention</h2><button class="btn-xs ghost" data-section-jump="verification">Go to queue</button></div>
+      <div class="list-row" data-row>
+        <span class="avatar">PN</span>
+        <div class="body">
+          <div class="top-line"><h4>Priya Nair</h4><span class="status-pill pending">Pending</span><span class="time">6 hours ago</span></div>
+          <p>Restorative Yoga &middot; Chennai &middot; missing one document</p>
+        </div>
+      </div>
+      <div class="list-row" data-row>
+        <span class="avatar">KB</span>
+        <div class="body">
+          <div class="top-line"><h4>Karan Bhatia</h4><span class="status-pill pending">Pending</span><span class="time">1 day ago</span></div>
+          <p>Power Yoga &amp; Strength &middot; Hyderabad &middot; documents complete</p>
+        </div>
+      </div>
+      <div class="list-row">
+        <span class="ico" style="width:42px;height:42px;flex-shrink:0;"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5-4.8-4.6 6.6-.9z"/></svg></span>
+        <div class="body">
+          <div class="top-line"><h4>1 review flagged for moderation</h4><span class="status-pill pending">Reported</span></div>
+          <p>A client reported a review on Vikas Singh Rajput&rsquo;s profile.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="dcard">
+      <div class="dcard-head"><h2>Recent connection activity</h2><button class="btn-xs ghost" data-section-jump="connection-logs">View all</button></div>
+      <div class="list-row">
+        <span class="avatar">MJ</span>
+        <div class="body">
+          <div class="top-line"><h4>Meera Joshi &rarr; Shikhar Mehrotra</h4><span class="status-pill approved">Approved</span><span class="time">3 days ago</span></div>
+          <p>WhatsApp handoff shared automatically on approval.</p>
+        </div>
+      </div>
+      <div class="list-row">
+        <span class="avatar">AK</span>
+        <div class="body">
+          <div class="top-line"><h4>Anand Kulkarni &rarr; Disha Nehra</h4><span class="status-pill pending">Pending</span><span class="time">today</span></div>
+          <p>Awaiting Disha&rsquo;s response.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dash-section" data-section-panel="teachers" hidden>
+  <div class="sub-tabs" role="tablist" aria-label="Teacher directory sections">
+    <button class="sub-tab" data-subsection="directory" aria-selected="true">Directory</button>
+    <button class="sub-tab" data-subsection="activity" aria-selected="false">Activity Log</button>
+  </div>
+
+  <div data-subsection-panel="directory">
+    <div class="dcard">
+      <div class="dcard-head"><h2>Teacher directory</h2><p>7 verified teachers &middot; verify documents, set their team rating, or block an account</p></div>
+      <div class="dtable-wrap">
+        <table class="dtable">
+          <thead><tr><th>Name</th><th>Style</th><th>City</th><th>Verification</th><th>Team rating</th><th>Pricing visible</th><th>Account</th></tr></thead>
+          <tbody>
+            <tr data-row>
+              <td class="name">Shikhar Mehrotra</td>
+              <td>Hatha &amp; Ashtanga</td>
+              <td>Lucknow</td>
+              <td><span class="status-pill active">Verified</span><br><button type="button" class="btn-xs ghost" data-docs-teacher="Shikhar Mehrotra" style="margin-top:6px;padding:3px 10px;font-size:11px;">View docs</button></td>
+              <td class="team-rating-cell"><input type="number" class="team-rating-input" min="1" max="5" step="0.1" value="5.0" data-team-rating><span class="rating-saved-flash">Saved</span></td>
+              <td><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Visible" data-off="Hidden"><span class="track"></span><span class="lbl">Visible</span></label></td>
+              <td class="row-actions"><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Active" data-off="Blocked"><span class="track"></span><span class="lbl">Active</span></label></td>
+            </tr>
+            <tr data-row>
+              <td class="name">Amrita Gupta</td>
+              <td>Prenatal &amp; Therapeutic</td>
+              <td>Delhi</td>
+              <td><span class="status-pill active">Verified</span><br><button type="button" class="btn-xs ghost" data-docs-teacher="Amrita Gupta" style="margin-top:6px;padding:3px 10px;font-size:11px;">View docs</button></td>
+              <td class="team-rating-cell"><input type="number" class="team-rating-input" min="1" max="5" step="0.1" value="4.9" data-team-rating><span class="rating-saved-flash">Saved</span></td>
+              <td><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Visible" data-off="Hidden"><span class="track"></span><span class="lbl">Visible</span></label></td>
+              <td class="row-actions"><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Active" data-off="Blocked"><span class="track"></span><span class="lbl">Active</span></label></td>
+            </tr>
+            <tr data-row>
+              <td class="name">Vikas Singh Rajput</td>
+              <td>Ashtanga &amp; Pranayama</td>
+              <td>Mumbai</td>
+              <td><span class="status-pill active">Verified</span><br><button type="button" class="btn-xs ghost" data-docs-teacher="Vikas Singh Rajput" style="margin-top:6px;padding:3px 10px;font-size:11px;">View docs</button></td>
+              <td class="team-rating-cell"><input type="number" class="team-rating-input" min="1" max="5" step="0.1" value="4.6" data-team-rating><span class="rating-saved-flash">Saved</span></td>
+              <td><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Visible" data-off="Hidden"><span class="track"></span><span class="lbl">Visible</span></label></td>
+              <td class="row-actions"><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Active" data-off="Blocked"><span class="track"></span><span class="lbl">Active</span></label></td>
+            </tr>
+            <tr data-row>
+              <td class="name">Shamli Joshi</td>
+              <td>Vinyasa &amp; Meditation</td>
+              <td>Pune</td>
+              <td><span class="status-pill active">Verified</span><br><button type="button" class="btn-xs ghost" data-docs-teacher="Shamli Joshi" style="margin-top:6px;padding:3px 10px;font-size:11px;">View docs</button></td>
+              <td class="team-rating-cell"><input type="number" class="team-rating-input" min="1" max="5" step="0.1" value="4.7" data-team-rating><span class="rating-saved-flash">Saved</span></td>
+              <td><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Visible" data-off="Hidden"><span class="track"></span><span class="lbl">Visible</span></label></td>
+              <td class="row-actions"><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Active" data-off="Blocked"><span class="track"></span><span class="lbl">Active</span></label></td>
+            </tr>
+            <tr data-row>
+              <td class="name">Shachi Khemuka</td>
+              <td>Hatha &amp; Yoga Therapy</td>
+              <td>Bengaluru</td>
+              <td><span class="status-pill active">Verified</span><br><button type="button" class="btn-xs ghost" data-docs-teacher="Shachi Khemuka" style="margin-top:6px;padding:3px 10px;font-size:11px;">View docs</button></td>
+              <td class="team-rating-cell"><input type="number" class="team-rating-input" min="1" max="5" step="0.1" value="4.9" data-team-rating><span class="rating-saved-flash">Saved</span></td>
+              <td><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Visible" data-off="Hidden"><span class="track"></span><span class="lbl">Visible</span></label></td>
+              <td class="row-actions"><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Active" data-off="Blocked"><span class="track"></span><span class="lbl">Active</span></label></td>
+            </tr>
+            <tr data-row>
+              <td class="name">Shweta Shukla</td>
+              <td>Yoga for Seniors</td>
+              <td>Jaipur</td>
+              <td><span class="status-pill active">Verified</span><br><button type="button" class="btn-xs ghost" data-docs-teacher="Shweta Shukla" style="margin-top:6px;padding:3px 10px;font-size:11px;">View docs</button></td>
+              <td class="team-rating-cell"><input type="number" class="team-rating-input" min="1" max="5" step="0.1" value="4.8" data-team-rating><span class="rating-saved-flash">Saved</span></td>
+              <td><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Visible" data-off="Hidden"><span class="track"></span><span class="lbl">Visible</span></label></td>
+              <td class="row-actions"><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Active" data-off="Blocked"><span class="track"></span><span class="lbl">Active</span></label></td>
+            </tr>
+            <tr data-row>
+              <td class="name">Disha Nehra</td>
+              <td>Corporate Wellness</td>
+              <td>Gurugram</td>
+              <td><span class="status-pill active">Verified</span><br><button type="button" class="btn-xs ghost" data-docs-teacher="Disha Nehra" style="margin-top:6px;padding:3px 10px;font-size:11px;">View docs</button></td>
+              <td class="team-rating-cell"><input type="number" class="team-rating-input" min="1" max="5" step="0.1" value="4.7" data-team-rating><span class="rating-saved-flash">Saved</span></td>
+              <td><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Visible" data-off="Hidden"><span class="track"></span><span class="lbl">Visible</span></label></td>
+              <td class="row-actions"><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Active" data-off="Blocked"><span class="track"></span><span class="lbl">Active</span></label></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:12px;color:var(--ink-faint);margin-top:12px;">Team rating blends with each teacher's student reviews (70% student &middot; 30% team) to produce the rating shown on their public profile.</p>
+    </div>
+  </div>
+
+  <div data-subsection-panel="activity" hidden>
+    <div class="dcard">
+      <div class="dcard-head"><h2>Teacher activity log</h2><p>Read-only audit trail, most recent first</p></div>
+      <div class="dtable-wrap">
+        <table class="dtable">
+          <thead><tr><th>Teacher</th><th>Action</th><th>When</th></tr></thead>
+          <tbody>
+            <tr><td class="name">Shikhar Mehrotra</td><td>Updated weekly availability</td><td>2 hours ago</td></tr>
+            <tr><td class="name">Amrita Gupta</td><td>Uploaded new certification (Prenatal L2)</td><td>5 hours ago</td></tr>
+            <tr><td class="name">Vikas Singh Rajput</td><td>Changed session pricing &#8377;699 &rarr; &#8377;749</td><td>yesterday</td></tr>
+            <tr><td class="name">Shamli Joshi</td><td>Declined a connection request</td><td>yesterday</td></tr>
+            <tr><td class="name">Shachi Khemuka</td><td>Logged in</td><td>2 days ago</td></tr>
+            <tr><td class="name">Disha Nehra</td><td>Updated profile bio</td><td>3 days ago</td></tr>
+            <tr><td class="name">Shikhar Mehrotra</td><td>Accepted a connection request</td><td>3 days ago</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal-backdrop" id="docsModal">
+  <div class="modal-box">
+    <h3 id="docsModalTitle">Submitted documents</h3>
+    <p class="desc" id="docsModalSub">Reviewed and verified on account approval.</p>
+    <div class="doc-list" id="docsModalList"></div>
+    <div class="modal-actions">
+      <button class="btn-xs ghost" data-modal-close>Close</button>
+    </div>
+  </div>
+</div>
+
+<section class="dash-section" data-section-panel="clients" hidden>
+  <div class="sub-tabs" role="tablist" aria-label="Client directory sections">
+    <button class="sub-tab" data-subsection="clientlist" aria-selected="true">Clients</button>
+    <button class="sub-tab" data-subsection="clientreqs" aria-selected="false">Requirements</button>
+  </div>
+
+  <div data-subsection-panel="clientlist">
+    <div class="dcard">
+      <div class="dcard-head"><h2>Client accounts</h2><p>3 clients &middot; disable an account to pause its access</p></div>
+      <div class="dtable-wrap">
+        <table class="dtable">
+          <thead><tr><th>Name</th><th>City</th><th>Requirements posted</th><th>Joined</th><th>Status</th><th>Account</th><th></th></tr></thead>
+          <tbody>
+            <tr data-row>
+              <td class="name">Meera Joshi</td>
+              <td>Lucknow</td>
+              <td>3</td>
+              <td>3 weeks ago</td>
+              <td><span class="status-pill active">Active</span></td>
+              <td class="row-actions"><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Active" data-off="Blocked"><span class="track"></span><span class="lbl">Active</span></label></td>
+              <td><button type="button" class="btn-xs ghost" data-subsection-jump="clientreqs">View activity</button></td>
+            </tr>
+            <tr data-row>
+              <td class="name">Ritika Sen</td>
+              <td>Mumbai</td>
+              <td>1</td>
+              <td>4 days ago</td>
+              <td><span class="status-pill active">Active</span></td>
+              <td class="row-actions"><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Active" data-off="Blocked"><span class="track"></span><span class="lbl">Active</span></label></td>
+              <td><button type="button" class="btn-xs ghost" data-subsection-jump="clientreqs">View activity</button></td>
+            </tr>
+            <tr data-row>
+              <td class="name">Anand Kulkarni</td>
+              <td>Gurugram</td>
+              <td>1</td>
+              <td>today</td>
+              <td><span class="status-pill active">Active</span></td>
+              <td class="row-actions"><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Active" data-off="Blocked"><span class="track"></span><span class="lbl">Active</span></label></td>
+              <td><button type="button" class="btn-xs ghost" data-subsection-jump="clientreqs">View activity</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div data-subsection-panel="clientreqs" hidden>
+    <div class="dcard">
+      <div class="dcard-head"><h2>Requirements &amp; job activity</h2><p>Every requirement posted platform-wide &mdash; block one to pull it off the public job board, or view it as teachers see it</p></div>
+      <div class="dtable-wrap">
+        <table class="dtable">
+          <thead><tr><th>Client</th><th>Requirement</th><th>Status</th><th>Posted</th><th>Visible</th><th></th></tr></thead>
+          <tbody>
+            <tr data-row>
+              <td class="name">Meera Joshi</td>
+              <td>Looking for a Hatha yoga teacher for morning sessions</td>
+              <td><span class="status-pill open">Open</span></td>
+              <td>2 days ago</td>
+              <td><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Visible" data-off="Blocked"><span class="track"></span><span class="lbl">Visible</span></label></td>
+              <td><a href="requirement-detail.html" class="btn-xs ghost">View</a></td>
+            </tr>
+            <tr data-row>
+              <td class="name">Meera Joshi</td>
+              <td>Prenatal yoga, second trimester, twice a week</td>
+              <td><span class="status-pill matched">Matched</span></td>
+              <td>1 week ago</td>
+              <td><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Visible" data-off="Blocked"><span class="track"></span><span class="lbl">Visible</span></label></td>
+              <td><a href="requirement-detail.html" class="btn-xs ghost">View</a></td>
+            </tr>
+            <tr data-row>
+              <td class="name">Ritika Sen</td>
+              <td>Online Ashtanga teacher for daily 6 AM practice</td>
+              <td><span class="status-pill open">Open</span></td>
+              <td>4 days ago</td>
+              <td><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Visible" data-off="Blocked"><span class="track"></span><span class="lbl">Visible</span></label></td>
+              <td><a href="requirement-detail.html" class="btn-xs ghost">View</a></td>
+            </tr>
+            <tr data-row>
+              <td class="name">Anand Kulkarni</td>
+              <td>Corporate wellness sessions for a 20-person team</td>
+              <td><span class="status-pill open">Open</span></td>
+              <td>today</td>
+              <td><label class="tswitch"><input type="checkbox" checked data-demo-toggle data-on="Visible" data-off="Blocked"><span class="track"></span><span class="lbl">Visible</span></label></td>
+              <td><a href="requirement-detail.html" class="btn-xs ghost">View</a></td>
+            </tr>
+            <tr data-row>
+              <td class="name">Meera Joshi</td>
+              <td>Weekend meditation sessions for two</td>
+              <td><span class="status-pill closed">Closed</span></td>
+              <td>3 weeks ago</td>
+              <td><label class="tswitch"><input type="checkbox" data-demo-toggle data-on="Visible" data-off="Blocked"><span class="track"></span><span class="lbl">Blocked</span></label></td>
+              <td><a href="requirement-detail.html" class="btn-xs ghost">View</a></td>
+            </tr>
+            <tr data-row>
+              <td class="name">&mdash;</td>
+              <td>Yoga therapy for chronic lower back pain</td>
+              <td><span class="status-pill closed">Closed (no applicants)</span></td>
+              <td>2 weeks ago</td>
+              <td><label class="tswitch"><input type="checkbox" data-demo-toggle data-on="Visible" data-off="Blocked"><span class="track"></span><span class="lbl">Blocked</span></label></td>
+              <td><a href="requirement-detail.html" class="btn-xs ghost">View</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dash-section" data-section-panel="connection-logs" hidden>
+  <div class="dcard">
+    <div class="dcard-head"><h2>Connection request audit trail</h2><p>Full history of every connection request sent on the platform</p></div>
+    <div class="dtable-wrap">
+      <table class="dtable">
+        <thead><tr><th>Client</th><th>Teacher</th><th>Status</th><th>Requested</th><th>Decided</th></tr></thead>
+        <tbody>
+          <tr><td class="name">Meera Joshi</td><td>Shikhar Mehrotra</td><td><span class="status-pill approved">Approved</span></td><td>3 days ago</td><td>3 days ago</td></tr>
+          <tr><td class="name">Meera Joshi</td><td>Amrita Gupta</td><td><span class="status-pill pending">Pending</span></td><td>1 day ago</td><td>&mdash;</td></tr>
+          <tr><td class="name">Meera Joshi</td><td>Shamli Joshi</td><td><span class="status-pill declined">Declined</span></td><td>2 weeks ago</td><td>2 weeks ago</td></tr>
+          <tr><td class="name">Ritika Sen</td><td>Vikas Singh Rajput</td><td><span class="status-pill approved">Approved</span></td><td>5 days ago</td><td>4 days ago</td></tr>
+          <tr><td class="name">Anand Kulkarni</td><td>Disha Nehra</td><td><span class="status-pill pending">Pending</span></td><td>today</td><td>&mdash;</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="dash-section" data-section-panel="verification" hidden>
+  <div class="alert info"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 7.7-8 9-4.8-1.3-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg> New teacher signups are held here until a document review is complete. Approving adds them to the public Teacher Directory immediately.</div>
+
+  <div class="dcard" data-row>
+    <div class="dcard-head">
+      <div class="list-row" style="border:none;padding:0;">
+        <span class="avatar">PN</span>
+        <div class="body">
+          <div class="top-line"><h4>Priya Nair</h4><span class="status-pill pending">Pending</span></div>
+          <p>Restorative Yoga &middot; Chennai &middot; 4 yrs experience &middot; applied 6 hours ago</p>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:12.5px;color:var(--ink-faint);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em;">Submitted documents</p>
+    <div class="doc-item"><span class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></span><div class="meta"><h5>Certification (RYT-200).pdf</h5><div class="sub">Uploaded</div></div></div>
+    <div class="doc-item"><span class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></span><div class="meta"><h5>Government ID.pdf</h5><div class="sub">Uploaded</div></div></div>
+    <div class="doc-item"><span class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></span><div class="meta"><h5>Liability insurance.pdf</h5><div class="sub">Missing</div></div></div>
+    <div class="row-actions" style="margin-top:16px;">
+      <button class="btn-xs accept" data-demo-action="accept"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 7.7-8 9-4.8-1.3-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg> Approve</button>
+      <button class="btn-xs decline" data-modal-open="declineModal1">Reject</button>
+    </div>
+  </div>
+  <div class="modal-backdrop" id="declineModal1">
+    <div class="modal-box">
+      <h3>Reject Priya Nair&rsquo;s application?</h3>
+      <p class="desc">They&rsquo;ll be notified by email with the reason below, and can re-apply once it&rsquo;s addressed.</p>
+      <div class="field"><label>Reason</label><textarea rows="3" placeholder="e.g. Liability insurance document missing"></textarea></div>
+      <div class="modal-actions">
+        <button class="btn-xs ghost" data-modal-close>Cancel</button>
+        <button class="btn-xs decline" data-modal-close data-demo-action="reject">Confirm rejection</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="dcard" data-row>
+    <div class="dcard-head">
+      <div class="list-row" style="border:none;padding:0;">
+        <span class="avatar">KB</span>
+        <div class="body">
+          <div class="top-line"><h4>Karan Bhatia</h4><span class="status-pill pending">Pending</span></div>
+          <p>Power Yoga &amp; Strength &middot; Hyderabad &middot; 6 yrs experience &middot; applied 1 day ago</p>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:12.5px;color:var(--ink-faint);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em;">Submitted documents</p>
+    <div class="doc-item"><span class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></span><div class="meta"><h5>Certification (E-RYT 500).pdf</h5><div class="sub">Uploaded</div></div></div>
+    <div class="doc-item"><span class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></span><div class="meta"><h5>Government ID.pdf</h5><div class="sub">Uploaded</div></div></div>
+    <div class="doc-item"><span class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></span><div class="meta"><h5>Liability insurance.pdf</h5><div class="sub">Uploaded</div></div></div>
+    <div class="row-actions" style="margin-top:16px;">
+      <button class="btn-xs accept" data-demo-action="accept"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 7.7-8 9-4.8-1.3-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg> Approve</button>
+      <button class="btn-xs decline" data-modal-open="declineModal2">Reject</button>
+    </div>
+  </div>
+  <div class="modal-backdrop" id="declineModal2">
+    <div class="modal-box">
+      <h3>Reject Karan Bhatia&rsquo;s application?</h3>
+      <p class="desc">They&rsquo;ll be notified by email with the reason below, and can re-apply once it&rsquo;s addressed.</p>
+      <div class="field"><label>Reason</label><textarea rows="3" placeholder="e.g. Liability insurance document missing"></textarea></div>
+      <div class="modal-actions">
+        <button class="btn-xs ghost" data-modal-close>Cancel</button>
+        <button class="btn-xs decline" data-modal-close data-demo-action="reject">Confirm rejection</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dash-section" data-section-panel="platform-fee" hidden>
+  <div class="dcard">
+    <div class="dcard-head"><h2>Platform access fee</h2><p>Charged to a client only when a teacher approves a connection &mdash; never on a pending or declined request.</p></div>
+    <label class="tswitch" style="margin-bottom:18px;"><input type="checkbox" data-demo-toggle data-on="ON &mdash; fee is being charged" data-off="OFF &mdash; every connection is free"><span class="track"></span><span class="lbl">OFF &mdash; every connection is free</span></label>
+    <div class="two-col">
+      <div class="field"><label>Fee amount (&#8377; per approved connection)</label><input type="number" value="49"></div>
+      <div class="field"><label>First connection per client</label><select><option>Always free</option><option>Free only while fee is OFF</option></select></div>
+    </div>
+    <form data-demo-form>
+      <button type="submit" class="btn btn-primary btn-small">Save fee settings</button>
+      <p data-form-note hidden style="margin-top:10px;color:var(--pine);font-weight:600;font-size:13px;">Saved.</p>
+    </form>
+  </div>
+
+  <div class="dcard">
+    <div class="dcard-head"><h2>Pricing visibility</h2><p>Controls whether session prices show publicly on teacher profiles</p></div>
+    <label class="tswitch" style="margin-bottom:8px;"><input type="checkbox" checked data-demo-toggle data-on="Visible platform-wide" data-off="Hidden platform-wide"><span class="track"></span><span class="lbl">Visible platform-wide</span></label>
+    <p style="font-size:12.5px;color:var(--ink-faint);">Per-teacher overrides are available from the <a href="#" data-section-jump="teachers" style="color:var(--marigold-deep);font-weight:600;">Teacher Directory</a>.</p>
+  </div>
+</section>
+
+<section class="dash-section" data-section-panel="ratings" hidden>
+  <div class="dcard">
+    <div class="dcard-head"><h2>Published reviews</h2></div>
+    <div class="list-row">
+      <span class="avatar">SM</span>
+      <div class="body">
+        <div class="top-line"><h4>Shikhar Mehrotra</h4><span class="time">by Meera Joshi &middot; 3 days ago</span></div>
+        <p>&#9733;&#9733;&#9733;&#9733;&#9733; &ldquo;Calm, patient, and actually explains the why behind each pose.&rdquo;</p>
+        <div class="actions"><button class="btn-xs ghost">View profile</button><button class="btn-xs decline">Remove</button></div>
+      </div>
+    </div>
+    <div class="list-row">
+      <span class="avatar">AG</span>
+      <div class="body">
+        <div class="top-line"><h4>Amrita Gupta</h4><span class="time">by a verified client &middot; 1 week ago</span></div>
+        <p>&#9733;&#9733;&#9733;&#9733;&#9733; &ldquo;Made me feel safe through my whole second trimester. Highly recommend.&rdquo;</p>
+        <div class="actions"><button class="btn-xs ghost">View profile</button><button class="btn-xs decline">Remove</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dcard">
+    <div class="dcard-head"><h2>Flagged for moderation</h2><span class="status-pill pending">1 reported</span></div>
+    <div class="list-row" data-row>
+      <span class="avatar">VS</span>
+      <div class="body">
+        <div class="top-line"><h4>Vikas Singh Rajput</h4><span class="status-pill pending">Reported</span><span class="time">2 days ago</span></div>
+        <p>&#9733;&#9733;&#9730;&#9730;&#9730; &ldquo;Session got rescheduled twice without much notice.&rdquo;</p>
+        <p style="font-size:12px;color:var(--ink-faint);margin-top:4px;">Reported reason: &ldquo;Client says this is a different session than what happened.&rdquo;</p>
+        <div class="row-actions" style="margin-top:10px;">
+          <button class="btn-xs accept" data-demo-action="approve">Keep review</button>
+          <button class="btn-xs decline" data-demo-action="reject">Remove review</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dash-section" data-section-panel="cms" hidden>
+  <div class="dcard">
+    <div class="dcard-head"><h2>Site content</h2><p>Edit copy that lives on the public marketing pages &mdash; no developer needed</p></div>
+    <div class="dtable-wrap">
+      <table class="dtable">
+        <thead><tr><th>Section</th><th>Description</th><th>Last edited</th><th></th></tr></thead>
+        <tbody>
+          <tr data-row><td class="name">Homepage hero headline</td><td>&ldquo;Find your yoga teacher, without the guesswork.&rdquo;</td><td>2 weeks ago</td><td class="row-actions"><button class="btn-xs dark" data-modal-open="cmsModal">Edit</button></td></tr>
+          <tr data-row><td class="name">Homepage hero subtext</td><td>One line under the headline on the landing page.</td><td>2 weeks ago</td><td class="row-actions"><button class="btn-xs dark" data-modal-open="cmsModal">Edit</button></td></tr>
+          <tr data-row><td class="name">About &mdash; mission statement</td><td>The paragraph under &ldquo;Why we exist&rdquo; on the About page.</td><td>1 month ago</td><td class="row-actions"><button class="btn-xs dark" data-modal-open="cmsModal">Edit</button></td></tr>
+          <tr data-row><td class="name">FAQ answers</td><td>6 question/answer pairs shown on the landing page FAQ section.</td><td>3 weeks ago</td><td class="row-actions"><button class="btn-xs dark" data-modal-open="cmsModal">Edit</button></td></tr>
+          <tr data-row><td class="name">Footer contact info</td><td>Email, phone/WhatsApp and city lines shown in the site footer.</td><td>1 month ago</td><td class="row-actions"><button class="btn-xs dark" data-modal-open="cmsModal">Edit</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<div class="modal-backdrop" id="cmsModal">
+  <div class="modal-box">
+    <h3>Edit content block</h3>
+    <p class="desc">Changes go live on the public site immediately after saving.</p>
+    <form data-demo-form>
+      <div class="field"><label>Content</label><textarea rows="4">Find your yoga teacher, without the guesswork.</textarea></div>
+      <div class="modal-actions">
+        <button type="button" class="btn-xs ghost" data-modal-close>Cancel</button>
+        <button type="submit" class="btn-xs dark" data-modal-close>Save changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<section class="dash-section" data-section-panel="post-for-client" hidden>
+  <div class="alert info">Use this for requirements that came in outside the platform &mdash; a phone call, a WhatsApp message, or a walk-in &mdash; so the client doesn't have to sign up just to get matched.</div>
+  <div class="dcard">
+    <div class="dcard-head"><h2>Post a requirement on behalf of a client</h2></div>
+    <form class="dash-form" data-demo-form>
+      <div class="two-col">
+        <div class="field"><label>Client name</label><input type="text" placeholder="e.g. Sunita Rao"></div>
+        <div class="field"><label>Client phone</label><input type="tel" placeholder="+91 XXXXXXXXXX"></div>
+      </div>
+      <div class="field"><label>Title</label><input type="text" placeholder="e.g. Hatha yoga teacher for morning sessions"></div>
+      <div class="two-col">
+        <div class="field"><label>Yoga style needed</label>
+          <select><option>Hatha</option><option>Ashtanga / Power</option><option>Vinyasa</option><option>Prenatal</option><option>Therapeutic</option><option>Meditation</option></select>
+        </div>
+        <div class="field"><label>Mode</label><select><option>Online</option><option>In-studio / on-site</option><option>Either</option></select></div>
+      </div>
+      <div class="two-col">
+        <div class="field"><label>Location</label><input type="text" placeholder="e.g. Lucknow"></div>
+        <div class="field"><label>Source</label><select><option>Phone call</option><option>WhatsApp</option><option>Walk-in</option><option>Referral</option></select></div>
+      </div>
+      <div class="field"><label>Notes</label><textarea placeholder="Anything the client mentioned that would help a teacher decide to apply&hellip;"></textarea></div>
+      <button type="submit" class="btn btn-primary btn-small">Post requirement</button>
+      <p data-form-note hidden style="margin-top:10px;color:var(--pine);font-weight:600;font-size:13px;">Posted &mdash; now visible to teachers on the job board.</p>
+    </form>
+  </div>
+</section>
+
+<section class="dash-section" data-section-panel="subadmins" hidden>
+  <div class="dcard">
+    <div class="dcard-head"><h2>Subadmins</h2><button class="btn-xs dark"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg> Add subadmin</button></div>
+    <div class="dtable-wrap">
+      <table class="dtable">
+        <thead><tr><th>Name</th><th>Role</th><th>Added</th><th></th></tr></thead>
+        <tbody>
+          <tr data-row><td class="name">Ananya Rao</td><td>Support subadmin</td><td>2 months ago</td><td class="row-actions"><button class="btn-xs ghost">Edit permissions</button><button class="btn-xs decline" data-demo-action="disable">Remove</button></td></tr>
+          <tr data-row><td class="name">Vivek Menon</td><td>Content subadmin</td><td>3 weeks ago</td><td class="row-actions"><button class="btn-xs ghost">Edit permissions</button><button class="btn-xs decline" data-demo-action="disable">Remove</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="dcard">
+    <div class="dcard-head"><h2>Permissions matrix</h2><p>Grant or revoke access per module, per subadmin. Full admin access is never delegated.</p></div>
+    <div class="dtable-wrap">
+      <table class="perm-table">
+        <thead><tr><th>Subadmin</th><th>Verification</th><th>Teacher &amp; client accounts</th><th>Pricing &amp; fees</th><th>Ratings</th><th>CMS</th></tr></thead>
+        <tbody>
+          <tr><td>Ananya Rao (Support)</td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td><td><input type="checkbox"></td><td><input type="checkbox"></td><td><input type="checkbox"></td></tr>
+          <tr><td>Vivek Menon (Content)</td><td><input type="checkbox"></td><td><input type="checkbox"></td><td><input type="checkbox"></td><td><input type="checkbox" checked></td><td><input type="checkbox" checked></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <form data-demo-form>
+      <button type="submit" class="btn btn-primary btn-small" style="margin-top:16px;">Save permissions</button>
+      <p data-form-note hidden style="margin-top:10px;color:var(--pine);font-weight:600;font-size:13px;">Saved.</p>
+    </form>
+  </div>
+</section>
+
+  </div>
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+
+      <div class="footer-brand">
+        <span class="logo"><span class="dot" aria-hidden="true"></span>YogSetu</span>
+        <p>A verified yoga teacher directory &mdash; powered by YogKulam's credentialing infrastructure.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="mono">For students</h4>
+        <ul>
+          <li><a href="teachers.html">Browse teachers</a></li>
+          <li><a href="requirements.html">Post a requirement</a></li>
+          <li><a href="index.html#verification">Verification process</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="mono">For teachers</h4>
+        <ul>
+          <li><a href="signup.html?role=teacher">Create your profile</a></li>
+          <li><a href="teacher-benefits.html">Become verified</a></li>
+          <li><a href="requirements.html">Browse requirements</a></li>
+          <li><a href="login.html">Teacher login</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="mono">Company</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="https://www.yogkulam.com" target="_blank" rel="noopener">YogKulam</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="terms.html">Terms &amp; conditions</a></li>
+          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="refund.html">Refund policy</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>YogSetu is a <a href="https://www.yogkulam.com" target="_blank" rel="noopener">YogKulam</a> initiative</span>
+      <span><span class="dot" aria-hidden="true">&middot;</span>yogsetu.com</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+<script>
+(function(){
+  const titles = {
+    overview:          ['Dashboard', "7 verified teachers, 3 client accounts, and a community averaging 4.9 stars"],
+    teachers:          ['Teacher Directory', 'Verify documents, set team ratings, or block an account'],
+    clients:           ['Client Directory', 'Accounts, requirement activity, and job visibility'],
+    'connection-logs': ['Connection Logs', 'Full audit trail with timestamps'],
+    verification:      ['Verification Queue', 'Review new teacher applications'],
+    'platform-fee':    ['Platform Fee & Pricing', 'Access fee toggle & visibility controls'],
+    ratings:           ['Ratings Moderation', 'Moderate or remove reviews'],
+    cms:               ['CMS Content Editor', 'Edit site copy without a deploy'],
+    'post-for-client': ['Post for a Client', 'For phone, WhatsApp or walk-in leads'],
+    subadmins:         ['Subadmins', 'Create subadmins & assign permissions']
+  };
+
+  const dashTitle = document.getElementById('dashTitle');
+  const dashSub   = document.getElementById('dashSub');
+  const profileMenu = document.getElementById('profileMenu');
+  const profileTrigger = document.getElementById('profileTrigger');
+  const profileDropdown = document.getElementById('profileDropdown');
+
+  function closeProfileMenu(){
+    profileMenu.classList.remove('open');
+    profileDropdown.hidden = true;
+    profileTrigger.setAttribute('aria-expanded', 'false');
+  }
+
+  function showSection(name){
+    if(!titles[name]) return;
+    document.querySelectorAll('[data-section-panel]').forEach(function(p){
+      p.hidden = p.getAttribute('data-section-panel') !== name;
+    });
+    document.querySelectorAll('.dash-tab[data-section]').forEach(function(b){
+      b.setAttribute('aria-selected', b.getAttribute('data-section') === name ? 'true' : 'false');
+    });
+    document.querySelectorAll('.profile-dropdown-item[data-section]').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-section') === name);
+    });
+    dashTitle.textContent = titles[name][0];
+    dashSub.textContent = titles[name][1];
+    closeProfileMenu();
+    document.querySelector('.dash-page-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  document.querySelectorAll('[data-section]').forEach(function(el){
+    el.addEventListener('click', function(e){
+      const name = el.getAttribute('data-section');
+      if(name){ e.preventDefault(); showSection(name); }
+    });
+  });
+  document.querySelectorAll('[data-section-jump]').forEach(function(el){
+    el.addEventListener('click', function(){ showSection(el.getAttribute('data-section-jump')); });
+  });
+
+  profileTrigger.addEventListener('click', function(e){
+    e.stopPropagation();
+    const isOpen = profileMenu.classList.toggle('open');
+    profileDropdown.hidden = !isOpen;
+    profileTrigger.setAttribute('aria-expanded', String(isOpen));
+  });
+  document.addEventListener('click', function(e){
+    if(!profileMenu.contains(e.target)){ closeProfileMenu(); }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ closeProfileMenu(); }
+  });
+
+  // --- Sub-tabs (Teacher Directory: Directory/Activity Log, Client Directory: Clients/Requirements) ---
+  function showSubsection(name){
+    document.querySelectorAll('.sub-tab[data-subsection]').forEach(function(b){
+      b.setAttribute('aria-selected', b.getAttribute('data-subsection') === name ? 'true' : 'false');
+    });
+    document.querySelectorAll('[data-subsection-panel]').forEach(function(p){
+      p.hidden = p.getAttribute('data-subsection-panel') !== name;
+    });
+  }
+  document.querySelectorAll('.sub-tab[data-subsection]').forEach(function(b){
+    b.addEventListener('click', function(){ showSubsection(b.getAttribute('data-subsection')); });
+  });
+  document.querySelectorAll('[data-subsection-jump]').forEach(function(el){
+    el.addEventListener('click', function(){ showSubsection(el.getAttribute('data-subsection-jump')); });
+  });
+
+  // --- Modals ---
+  document.addEventListener('click', function(e){
+    const openBtn = e.target.closest('[data-modal-open]');
+    if(openBtn){
+      const modal = document.getElementById(openBtn.getAttribute('data-modal-open'));
+      if(modal){ modal.classList.add('open'); }
+      return;
+    }
+    const closeBtn = e.target.closest('[data-modal-close]');
+    if(closeBtn){
+      const modal = closeBtn.closest('.modal-backdrop');
+      if(modal){ modal.classList.remove('open'); }
+    }
+  });
+
+  // --- Toggle switches: sync visible label to data-on / data-off ---
+  document.querySelectorAll('[data-demo-toggle]').forEach(function(input){
+    const lbl = input.parentElement.querySelector('.lbl');
+    input.addEventListener('change', function(){
+      if(lbl){ lbl.textContent = input.checked ? input.getAttribute('data-on') : input.getAttribute('data-off'); }
+    });
+  });
+
+  // --- Team rating: save flash ---
+  document.querySelectorAll('[data-team-rating]').forEach(function(input){
+    input.addEventListener('change', function(){
+      const flash = input.parentElement.querySelector('.rating-saved-flash');
+      if(flash){
+        flash.classList.add('show');
+        setTimeout(function(){ flash.classList.remove('show'); }, 1200);
+      }
+    });
+  });
+
+  // --- Verification queue: approve / reject demo actions ---
+  document.querySelectorAll('[data-demo-action="accept"]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const card = btn.closest('[data-row]');
+      if(!card) return;
+      const pill = card.querySelector('.status-pill');
+      if(pill){ pill.className = 'status-pill approved'; pill.textContent = 'Approved'; }
+      const actions = btn.closest('.row-actions');
+      if(actions){ actions.innerHTML = '<span style="font-size:12.5px;color:var(--marigold-deep);font-weight:600;">Approved &mdash; now live in the Teacher Directory.</span>'; }
+    });
+  });
+  document.querySelectorAll('[data-demo-action="reject"]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const modal = btn.closest('.modal-backdrop');
+      const card = modal ? document.querySelector('[data-modal-open="' + modal.id + '"]')?.closest('[data-row]') : null;
+      if(card){
+        const pill = card.querySelector('.status-pill');
+        if(pill){ pill.className = 'status-pill declined'; pill.textContent = 'Rejected'; }
+        const actions = card.querySelector('.row-actions');
+        if(actions){ actions.innerHTML = '<span style="font-size:12.5px;color:var(--ink-faint);">Rejected &mdash; applicant notified by email.</span>'; }
+      }
+    });
+  });
+
+  // --- Ratings moderation: keep / remove flagged review ---
+  document.querySelectorAll('[data-demo-action="approve"]').forEach(function(btn){
+    if(btn.getAttribute('data-demo-action') !== 'approve') return;
+    if(btn.closest('.modal-backdrop')) return;
+    btn.addEventListener('click', function(){
+      const row = btn.closest('[data-row]');
+      if(!row) return;
+      const pill = row.querySelector('.status-pill');
+      if(pill){ pill.className = 'status-pill approved'; pill.textContent = 'Kept'; }
+      const actions = btn.closest('.row-actions');
+      if(actions){ actions.innerHTML = '<span style="font-size:12.5px;color:var(--ink-faint);">Review kept live.</span>'; }
+    });
+  });
+  document.querySelectorAll('.dash-section[data-section-panel="ratings"] [data-demo-action="reject"]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const row = btn.closest('[data-row]');
+      if(row){ row.style.opacity = '.4'; row.style.pointerEvents = 'none'; }
+    });
+  });
+
+  // --- Documents modal (Teacher Directory) ---
+  const teacherDocs = {
+    'Shikhar Mehrotra':      [['Hatha & Ashtanga Certification (RYT-200).pdf', 'Verified 14 Mar 2026'], ['Government ID.pdf', 'Verified']],
+    'Amrita Gupta':          [['Prenatal & Therapeutic Certification.pdf', 'Verified 2 Jun 2026'], ['Government ID.pdf', 'Verified']],
+    'Vikas Singh Rajput':    [['Ashtanga & Pranayama Certification.pdf', 'Verified 11 Jan 2026'], ['Government ID.pdf', 'Verified']],
+    'Shamli Joshi':          [['Vinyasa & Meditation Certification.pdf', 'Verified 28 Feb 2026'], ['Government ID.pdf', 'Verified']],
+    'Shachi Khemuka':        [['Hatha & Yoga Therapy Certification.pdf', 'Verified 19 Apr 2026'], ['Government ID.pdf', 'Verified']],
+    'Shweta Shukla':         [['Yoga for Seniors Certification.pdf', 'Verified 7 May 2026'], ['Government ID.pdf', 'Verified']],
+    'Disha Nehra':           [['Corporate Wellness Certification.pdf', 'Verified 22 Mar 2026'], ['Government ID.pdf', 'Verified']]
+  };
+  document.querySelectorAll('[data-docs-teacher]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const name = btn.getAttribute('data-docs-teacher');
+      document.getElementById('docsModalTitle').textContent = name + ' \u2014 documents';
+      const list = document.getElementById('docsModalList');
+      list.innerHTML = '';
+      (teacherDocs[name] || []).forEach(function(d){
+        const row = document.createElement('div');
+        row.className = 'doc-item';
+        row.innerHTML = '<span class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></span><div class="meta"><h5></h5><span class="sub"></span></div><span class="status-pill approved">Verified</span>';
+        row.querySelector('h5').textContent = d[0];
+        row.querySelector('.sub').textContent = d[1];
+        list.appendChild(row);
+      });
+      document.getElementById('docsModal').classList.add('open');
+    });
+  });
+
+  showSection('overview');
+})();
+</script>
+</body>
+</html>
