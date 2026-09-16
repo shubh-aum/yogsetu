@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher Dashboard | YogSetu</title>
+<meta name="description" content="YogSetu teacher dashboard &mdash; design preview with sample data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/dashboard.css">
+<style>
+  /* --- Account area: lives inside the normal site header/page frame, not a separate shell --- */
+
+  .profile-menu{ position:relative; }
+  .profile-trigger{
+    display:flex; align-items:center; gap:6px;
+    background:none; border:none; cursor:pointer;
+    padding:4px 8px 4px 4px;
+    border-radius:var(--radius-pill,999px);
+  }
+  .profile-trigger:hover{ background:var(--sand,#FAF5EA); }
+  .avatar-chip{
+    width:32px; height:32px; flex-shrink:0;
+    border-radius:50%; overflow:hidden;
+    background:var(--pine,#1A1A18); color:var(--paper,#fff);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600; letter-spacing:.02em;
+  }
+  .profile-trigger .chev{ color:var(--ink-soft,#55524A); transition:transform .15s ease; flex-shrink:0; }
+  .profile-menu.open .chev{ transform:rotate(180deg); }
+
+  .profile-dropdown{
+    position:absolute; top:calc(100% + 10px); right:0;
+    width:238px;
+    background:var(--paper,#fff);
+    border:1px solid var(--line,#E4DBC5);
+    border-radius:var(--radius,16px);
+    box-shadow:0 14px 34px rgba(23,22,20,.16);
+    padding:8px;
+    z-index:80;
+  }
+  .profile-dropdown-head{
+    padding:9px 12px 11px;
+    border-bottom:1px solid var(--line-soft,#EFE8D8);
+    margin-bottom:6px;
+    display:flex; flex-direction:column; gap:1px;
+  }
+  .profile-dropdown-head .nm{ font-weight:600; color:var(--ink,#1C1B18); font-size:14px; }
+  .profile-dropdown-head .rl{ font-size:12px; color:var(--ink-faint,#8C887D); }
+  .profile-dropdown-item{
+    display:flex; align-items:center; gap:10px;
+    width:100%; text-align:left; text-decoration:none;
+    padding:9px 12px; border:none; background:none; border-radius:10px;
+    font-family:'Inter',sans-serif; font-size:13.5px; font-weight:500;
+    color:var(--ink-soft,#55524A); cursor:pointer;
+  }
+  .profile-dropdown-item svg{ width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; flex-shrink:0; }
+  .profile-dropdown-item:hover{ background:var(--sand,#FAF5EA); color:var(--ink,#1C1B18); }
+  .profile-dropdown-item.active{ background:var(--sand,#FAF5EA); color:var(--pine,#1A1A18); font-weight:600; }
+  .profile-dropdown-divider{ height:1px; background:var(--line-soft,#EFE8D8); margin:6px 4px; }
+  .profile-dropdown-item.logout{ color:var(--marigold-deep,#A65032); }
+  .profile-dropdown-item.logout:hover{ background:#FBEFE9; }
+
+  .mobile-menu-divider{ height:1px; background:var(--line-soft,#EFE8D8); margin:10px 20px; }
+
+  /* --- Page frame --- */
+  .dash-page-wrap{ max-width:1120px; margin:0 auto; padding:118px 24px 80px; }
+  .dash-intro{ margin-bottom:22px; }
+  .dash-intro h1{ font-family:'Fraunces',serif; font-weight:500; font-size:30px; color:var(--ink,#1C1B18); margin:0 0 4px; }
+  .dash-intro .sub{ margin:0; color:var(--ink-soft,#55524A); font-size:14.5px; }
+
+  .dash-tabs{
+    display:flex; gap:4px; flex-wrap:wrap;
+    border-bottom:1px solid var(--line,#E4DBC5);
+    margin-bottom:30px;
+  }
+  .dash-tab{
+    display:flex; align-items:center; gap:7px;
+    padding:11px 16px; border:none; background:none;
+    font-family:'Inter',sans-serif; font-size:13.5px; font-weight:600;
+    color:var(--ink-faint,#8C887D); cursor:pointer;
+    border-bottom:2px solid transparent; margin-bottom:-1px;
+  }
+  .dash-tab:hover{ color:var(--ink,#1C1B18); }
+  .dash-tab[aria-selected="true"]{ color:var(--pine,#1A1A18); border-bottom-color:var(--marigold,#D97757); }
+  .dash-tab .count{
+    background:var(--sand,#FAF5EA); color:var(--ink-soft,#55524A);
+    font-size:11px; font-weight:700; padding:1px 7px; border-radius:var(--radius-pill,999px);
+  }
+
+  /* Reset dashboard.css's legacy "hidden unless .active" rule for sections — we drive visibility with the native hidden attribute */
+  .dash-section{ display:block; }
+  .dash-section[hidden]{ display:none; }
+
+  .sub-tabs{ display:flex; gap:8px; margin-bottom:18px; }
+  .sub-tab{
+    padding:7px 14px; border:1px solid var(--line,#E4DBC5); border-radius:var(--radius-pill,999px);
+    background:var(--paper,#fff); font-family:'Inter',sans-serif; font-size:12.5px; font-weight:600;
+    color:var(--ink-soft,#55524A); cursor:pointer;
+  }
+  .sub-tab:hover{ color:var(--ink,#1C1B18); }
+  .sub-tab[aria-selected="true"]{ background:var(--pine,#1A1A18); border-color:var(--pine,#1A1A18); color:var(--paper,#fff); }
+  [data-subsection-panel][hidden]{ display:none; }
+
+  /* Modal insurance */
+  .modal-backdrop{
+    display:none; position:fixed; inset:0; z-index:100;
+    align-items:center; justify-content:center;
+    background:rgba(23,22,20,.5); padding:20px;
+  }
+  .modal-backdrop.open{ display:flex; }
+  .modal-box{
+    width:100%; max-width:420px;
+    background:var(--paper,#fff);
+    border-radius:var(--radius-card,26px);
+    padding:26px; box-shadow:0 24px 60px rgba(23,22,20,.28);
+  }
+  .modal-box h3{ font-family:'Fraunces',serif; font-weight:500; margin:0 0 4px; color:var(--ink,#1C1B18); }
+  .modal-box .desc{ margin:0 0 16px; font-size:13.5px; color:var(--ink-soft,#55524A); }
+  .modal-actions{ display:flex; justify-content:flex-end; gap:10px; margin-top:16px; }
+
+  /* Profile wizard (reused pattern from client dashboard, for consistency) */
+  .wizard-progress{ display:flex; align-items:center; margin-bottom:26px; flex-wrap:wrap; row-gap:10px; }
+  .wizard-dot{ display:flex; align-items:center; gap:8px; background:none; border:none; cursor:default; font-family:'Inter',sans-serif; padding:0; }
+  .wizard-dot .num{
+    width:26px; height:26px; border-radius:50%; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:12px; font-weight:700;
+    background:var(--sand,#FAF5EA); color:var(--ink-faint,#8C887D);
+    border:1.5px solid var(--line,#E4DBC5);
+  }
+  .wizard-dot .lbl{ font-size:12.5px; font-weight:600; color:var(--ink-faint,#8C887D); }
+  .wizard-dot.is-active .num{ background:var(--pine,#1A1A18); border-color:var(--pine,#1A1A18); color:var(--paper,#fff); }
+  .wizard-dot.is-active .lbl{ color:var(--ink,#1C1B18); }
+  .wizard-dot.is-done{ cursor:pointer; }
+  .wizard-dot.is-done .num{ background:var(--marigold-deep,#A65032); border-color:var(--marigold-deep,#A65032); color:var(--paper,#fff); }
+  .wizard-connector{ width:22px; height:1.5px; background:var(--line,#E4DBC5); margin:0 6px; }
+  .wizard-nav{ display:flex; align-items:center; margin-top:8px; }
+  .wizard-nav .spacer{ flex:1; }
+
+  /* Profile completion meter */
+  .profile-completion{ margin-bottom:24px; }
+  .pc-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px; }
+  .pc-head .pc-title{ font-family:'Inter',sans-serif; font-size:13px; font-weight:700; color:var(--ink,#1C1B18); }
+  .pc-head .pc-pct{ font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:600; color:var(--marigold-deep,#A65032); }
+  .pc-track{ height:10px; border-radius:var(--radius-pill,999px); background:var(--sand,#FAF5EA); overflow:hidden; }
+  .pc-fill{ height:100%; width:0%; background:var(--marigold,#D97757); border-radius:var(--radius-pill,999px); transition:width .3s ease; }
+  .pc-fill.complete{ background:var(--marigold-deep,#A65032); }
+  .pc-note{
+    margin:12px 0 0; padding:11px 14px; border-radius:var(--radius,16px);
+    background:var(--paper,#fff); border:1px solid var(--marigold-deep,#A65032);
+    color:var(--marigold-deep,#A65032); font-size:13px; font-weight:600;
+  }
+
+  /* Tag chips: add / remove interaction on top of dashboard.css's .tags component */
+  .tags .tag-input{
+    border:1.5px dashed var(--line,#E4DBC5); border-radius:var(--radius-pill,999px);
+    padding:6px 12px; font-family:'Inter',sans-serif; font-size:12.5px;
+    outline:none; min-width:120px;
+  }
+  .tags .tag-input:focus{ border-color:var(--pine,#1A1A18); }
+  .tags span.tag-item{ display:inline-flex; align-items:center; gap:6px; }
+  .tags span.tag-item .tag-remove{ cursor:pointer; color:var(--ink-faint,#8C887D); font-weight:700; line-height:1; }
+  .tags span.tag-item .tag-remove:hover{ color:var(--marigold-deep,#A65032); }
+
+  .doc-list{ display:flex; flex-direction:column; gap:8px; margin-top:12px; }
+  .upload-zone{ cursor:pointer; }
+  .upload-thumb{ width:56px; height:56px; border-radius:50%; object-fit:cover; margin:10px auto 0; display:block; }
+  .upload-row{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+
+  .wallet-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+
+  /* Contact reveal on approved/selected connections */
+  .contact-reveal{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .contact-chip{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:6px 12px; border:1px solid var(--line,#E4DBC5); border-radius:var(--radius-pill,999px);
+    font-family:'Inter',sans-serif; font-size:12px; font-weight:600; color:var(--ink-soft,#55524A); text-decoration:none;
+  }
+  .contact-chip svg{ width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2; }
+  .contact-chip:hover{ border-color:var(--pine,#1A1A18); color:var(--ink,#1C1B18); }
+  .contact-chip.whatsapp{ border-color:var(--marigold-deep,#A65032); color:var(--marigold-deep,#A65032); }
+  .contact-chip.whatsapp:hover{ background:#FBEFE9; }
+
+  /* Rating breakdown: student ratings + backend quality review, combined */
+  .rating-breakdown{ margin:18px 0 22px; padding-top:18px; border-top:1px solid var(--line-soft,#EFE8D8); }
+  .rb-row{ display:grid; grid-template-columns:160px 1fr auto; align-items:center; gap:14px; margin-bottom:12px; }
+  .rb-row:last-child{ margin-bottom:0; }
+  .rb-label{ font-family:'Inter',sans-serif; font-size:13px; font-weight:600; color:var(--ink,#1C1B18); }
+  .rb-bar{ height:8px; border-radius:var(--radius-pill,999px); background:var(--sand,#FAF5EA); overflow:hidden; }
+  .rb-fill{ height:100%; background:var(--marigold,#D97757); border-radius:var(--radius-pill,999px); }
+  .rb-fill.quality{ background:var(--pine,#1A1A18); }
+  .rb-val{ font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:600; color:var(--ink,#1C1B18); white-space:nowrap; }
+  .rb-weight{ font-family:'Inter',sans-serif; font-weight:500; color:var(--ink-faint,#8C887D); }
+  @media (max-width:560px){
+    .rb-row{ grid-template-columns:1fr; row-gap:6px; }
+  }
+  .wallet-card{ border:1px solid var(--line,#E4DBC5); border-radius:var(--radius,16px); padding:16px 18px; background:var(--paper,#fff); }
+  .wallet-card-top{ display:flex; align-items:center; gap:9px; margin-bottom:12px; }
+  .wallet-card-top .ico{ width:30px; height:30px; border-radius:50%; background:var(--sand,#FAF5EA); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .wallet-card-top .ico svg{ width:16px; height:16px; stroke:var(--pine,#1A1A18); fill:none; stroke-width:2; }
+  .wallet-label{ font-family:'Inter',sans-serif; font-size:13.5px; font-weight:600; color:var(--ink,#1C1B18); }
+  .wallet-meter{ height:8px; border-radius:var(--radius-pill,999px); background:var(--sand,#FAF5EA); overflow:hidden; margin-bottom:8px; }
+  .wallet-meter-fill{ height:100%; background:var(--marigold,#D97757); border-radius:var(--radius-pill,999px); }
+  .wallet-meter-fill.used{ background:var(--ink-faint,#8C887D); }
+  .wallet-meta{ margin:0; font-size:12.5px; color:var(--ink-soft,#55524A); }
+
+  /* Contact reveal on approved / selected candidates */
+  .contact-reveal{ display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+  .contact-chip{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:6px 12px; border:1px solid var(--line,#E4DBC5); border-radius:var(--radius-pill,999px);
+    font-family:'Inter',sans-serif; font-size:12px; font-weight:600; color:var(--ink-soft,#55524A); text-decoration:none;
+  }
+  .contact-chip svg{ width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2; }
+  .contact-chip:hover{ border-color:var(--pine,#1A1A18); color:var(--ink,#1C1B18); }
+  .contact-chip.whatsapp{ border-color:var(--marigold-deep,#A65032); color:var(--marigold-deep,#A65032); }
+  .contact-chip.whatsapp:hover{ background:#FBEFE9; }
+
+  /* Rating breakdown */
+  .rating-breakdown{ display:flex; gap:28px; flex-wrap:wrap; margin-top:4px; }
+  .rating-breakdown .rb-item .rb-num{ font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600; color:var(--ink,#1C1B18); }
+  .rating-breakdown .rb-item .rb-lbl{ font-size:12px; color:var(--ink-faint,#8C887D); }
+  .rating-note{ font-size:12.5px; color:var(--ink-soft,#55524A); margin:14px 0 0; padding-top:14px; border-top:1px solid var(--line-soft,#EFE8D8); }
+
+  @media (max-width:720px){
+    .dash-page-wrap{ padding-top:104px; }
+    .dash-intro h1{ font-size:24px; }
+    .wallet-row{ grid-template-columns:1fr; }
+    .upload-row{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body class="inner-page">
+
+<header class="site-header-fixed is-visible force-visible" id="siteHeaderFixed">
+  <a href="index.html" class="logo" aria-label="YogSetu home">
+    <span class="mark" aria-hidden="true"></span>
+    <span>
+      <span class="word">Yog<em>Setu</em></span>
+    </span>
+  </a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="teachers.html">Browse teachers</a>
+    <a href="requirements.html">Job board</a>
+    <a href="teacher-benefits.html">For teachers</a>
+    <a href="about.html">About</a>
+  </nav>
+  <div class="header-actions">
+    <div class="profile-menu" id="profileMenu">
+      <button class="profile-trigger" id="profileTrigger" aria-haspopup="true" aria-expanded="false">
+        <span class="avatar-chip" id="headerAvatarChip">SM</span>
+        <svg class="chev" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="profile-dropdown" id="profileDropdown" hidden>
+        <div class="profile-dropdown-head"><span class="nm">Shikhar Mehrotra</span><span class="rl">Teacher</span></div>
+        <button class="profile-dropdown-item" data-section="overview"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>Overview</button>
+        <button class="profile-dropdown-item" data-section="profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>My Profile</button>
+        <button class="profile-dropdown-item" data-section="ratings"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5-4.8-4.6 6.6-.9z"/></svg>Ratings</button>
+        <button class="profile-dropdown-item" data-section="wallet"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h13a1 1 0 0 1 1 1v2M3 7v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1H5a2 2 0 0 1-2-2z"/><circle cx="16" cy="14" r="1.4"/></svg>My Wallet</button>
+        <button class="profile-dropdown-item" data-section="requests"><svg viewBox="0 0 24 24"><path d="M21 12h-6l-2 3h-2l-2-3H3"/><path d="M5.5 5h13l2.5 7v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-7z"/></svg>Connection Requests</button>
+        <button class="profile-dropdown-item" data-section="jobs"><svg viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="16" rx="2"/><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M9 11h6M9 15h6"/></svg>Job Applied</button>
+        <div class="profile-dropdown-divider"></div>
+        <a href="login.html" class="profile-dropdown-item logout"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>Logout</a>
+      </div>
+    </div>
+  </div>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
+  <a href="teachers.html">Browse teachers</a>
+  <a href="requirements.html">Job board</a>
+  <a href="teacher-benefits.html">For teachers</a>
+  <a href="about.html">About</a>
+  <div class="mobile-menu-divider"></div>
+  <a href="#" data-section="overview">Overview</a>
+  <a href="#" data-section="profile">My Profile</a>
+  <a href="#" data-section="ratings">Ratings</a>
+  <a href="#" data-section="wallet">My Wallet</a>
+  <a href="#" data-section="requests">Connection Requests</a>
+  <a href="#" data-section="jobs">Job Applied</a>
+  <a href="login.html">Logout</a>
+</nav>
+
+<main>
+<div class="dash-page-wrap">
+
+  <div class="dash-intro">
+    <h1 id="dashTitle">Overview</h1>
+    <p class="sub" id="dashSub">Your activity at a glance</p>
+  </div>
+
+  <div class="dash-tabs" role="tablist" aria-label="Account sections">
+    <button class="dash-tab" data-section="overview" aria-selected="true">Overview</button>
+    <button class="dash-tab" data-section="profile" aria-selected="false">My Profile</button>
+    <button class="dash-tab" data-section="ratings" aria-selected="false">Ratings</button>
+    <button class="dash-tab" data-section="wallet" aria-selected="false">My Wallet</button>
+    <button class="dash-tab" data-section="requests" aria-selected="false">Connection Requests <span class="count">2</span></button>
+    <button class="dash-tab" data-section="jobs" aria-selected="false">Job Applied <span class="count">3</span></button>
+  </div>
+
+  <div class="dash-content">
+
+<section class="dash-section" data-section-panel="overview">
+  <div class="dstat-row">
+    <div class="dstat"><div class="top"><span class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg></span><span class="delta">+18%</span></div><span class="n">312</span><span class="k">Profile views (30 days)</span></div>
+    <div class="dstat"><div class="top"><span class="ico"><svg viewBox="0 0 24 24"><path d="M21 12h-6l-2 3h-2l-2-3H3"/><path d="M5.5 5h13l2.5 7v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-7z"/></svg></span></div><span class="n">2</span><span class="k">Pending connection requests</span></div>
+    <div class="dstat"><div class="top"><span class="ico"><svg viewBox="0 0 24 24"><path d="M12 2l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5-4.8-4.6 6.6-.9z"/></svg></span></div><span class="n">4.9</span><span class="k">Blended rating (student + team)</span></div>
+    <div class="dstat"><div class="top"><span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg></span></div><span class="n" id="ovPct">66%</span><span class="k">Profile completion</span></div>
+  </div>
+
+  <div class="two-col">
+    <div class="dcard">
+      <div class="dcard-head"><h2>Pending connection requests</h2><button class="btn-xs ghost" data-section-jump="requests">View all</button></div>
+      <div class="list-row">
+        <span class="avatar">RK</span>
+        <div class="body">
+          <div class="top-line"><h4>Client in Lucknow</h4><span class="status-pill pending">Pending</span><span class="time">2 hours ago</span></div>
+          <p>Interested in morning Hatha sessions for a family of 3, one senior.</p>
+        </div>
+      </div>
+      <div class="list-row">
+        <span class="avatar">PT</span>
+        <div class="body">
+          <div class="top-line"><h4>Client in Kanpur</h4><span class="status-pill pending">Pending</span><span class="time">1 day ago</span></div>
+          <p>Found you via Browse Teachers. Wants a trial Hatha class this weekend.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="dcard">
+      <div class="dcard-head"><h2>Recent job applications</h2><button class="btn-xs ghost" data-section-jump="jobs">View all</button></div>
+      <div class="list-row">
+        <div class="body">
+          <div class="top-line"><h4>Online Ashtanga teacher for daily 6 AM practice</h4><span class="status-pill approved">Selected</span></div>
+          <p>Applied 5 days ago</p>
+        </div>
+      </div>
+      <div class="list-row">
+        <div class="body">
+          <div class="top-line"><h4>Hatha yoga for seniors, twice weekly, Gomti Nagar</h4><span class="status-pill pending">Pending</span></div>
+          <p>Applied 2 days ago</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dash-section" data-section-panel="profile" hidden>
+  <div class="dcard">
+    <div class="dcard-head"><h2>Complete your public profile</h2><p>This is what students see on your Teacher Profile page. Finish every step to unlock a completion bonus.</p></div>
+
+    <div class="profile-completion">
+      <div class="pc-head"><span class="pc-title">Profile completion</span><span class="pc-pct" id="pcPct">0%</span></div>
+      <div class="pc-track"><div class="pc-fill" id="pcFill"></div></div>
+      <p class="pc-note" id="pcNote" hidden>&#127881; Profile 100% complete &mdash; 2 bonus job-application credits have been added to your wallet.</p>
+    </div>
+
+    <div class="wizard-progress" id="wizardProgress">
+      <button type="button" class="wizard-dot is-active" data-dot="1"><span class="num">1</span><span class="lbl">Basics</span></button>
+      <span class="wizard-connector"></span>
+      <button type="button" class="wizard-dot" data-dot="2"><span class="num">2</span><span class="lbl">Teaching</span></button>
+      <span class="wizard-connector"></span>
+      <button type="button" class="wizard-dot" data-dot="3"><span class="num">3</span><span class="lbl">Documents</span></button>
+      <span class="wizard-connector"></span>
+      <button type="button" class="wizard-dot" data-dot="4"><span class="num">4</span><span class="lbl">Location</span></button>
+      <span class="wizard-connector"></span>
+      <button type="button" class="wizard-dot" data-dot="5"><span class="num">5</span><span class="lbl">Availability</span></button>
+      <span class="wizard-connector"></span>
+      <button type="button" class="wizard-dot" data-dot="6"><span class="num">6</span><span class="lbl">Pricing</span></button>
+    </div>
+
+    <form class="dash-form" data-demo-form id="profileWizardForm">
+
+      <div class="wizard-panel" data-wizard-step="1">
+        <div class="two-col">
+          <div>
+            <div class="field"><label>Full name</label><input type="text" value="Shikhar Mehrotra" required></div>
+            <div class="field"><label>Phone</label><input type="tel" value="+91 98123 45678"></div>
+            <div class="field"><label>Email</label><input type="email" value="shikhar.mehrotra@example.com"></div>
+          </div>
+          <div>
+            <div class="field"><label>Profile photo</label>
+              <div class="upload-zone" id="photoZone">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>
+                <p>Drag a photo here or <span class="browse">browse</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wizard-panel" data-wizard-step="2" hidden>
+        <div class="two-col">
+          <div class="field"><label>Years of experience</label><input type="number" min="0" max="50" value="9"></div>
+          <div class="field"><label>Mode of teaching</label>
+            <select><option>Hybrid (Online &amp; in-studio)</option><option>Online only</option><option>Offline / in-studio only</option></select>
+          </div>
+        </div>
+        <div class="field"><label>Expertise (add or remove as needed)</label>
+          <div class="tags" id="expertiseTags"><span>Hatha</span><span>Ashtanga</span><span>Beginners</span><span class="tag-add" style="cursor:pointer;border-style:dashed;">+ Add</span></div>
+        </div>
+        <div class="field"><label>Qualifications</label><textarea>B.A. in Yoga Philosophy &middot; 200-Hour Yoga Teacher Training (Yoga Alliance) &middot; Diploma in Yoga Therapy</textarea></div>
+      </div>
+
+      <div class="wizard-panel" data-wizard-step="3" hidden>
+        <div class="field"><label>Certifications (add or remove as needed)</label>
+          <div class="tags" id="certTags"><span>RYT-200 (Yoga Alliance)</span><span>Ashtanga Advanced (PYC)</span><span class="tag-add" style="cursor:pointer;border-style:dashed;">+ Add</span></div>
+        </div>
+        <div class="field"><label>Upload certification documents (you can select multiple)</label>
+          <div class="upload-zone" id="certZone">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg>
+            <p>Drag certificates here or <span class="browse">browse</span> &mdash; PDF, JPG or PNG</p>
+          </div>
+          <div class="doc-list" id="certDocList">
+            <div class="doc-item">
+              <span class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></span>
+              <div class="meta"><h5>200-Hour Yoga Teacher Training.pdf</h5><span class="sub">Yoga Alliance &middot; Verified 14 Mar 2026 &middot; Renews 14 Mar 2027</span></div>
+              <span class="status-pill approved">Verified</span>
+            </div>
+            <div class="doc-item">
+              <span class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></span>
+              <div class="meta"><h5>Ashtanga Advanced Certification.pdf</h5><span class="sub">PYC &middot; Verified 2 Jun 2026</span></div>
+              <span class="status-pill approved">Verified</span>
+            </div>
+          </div>
+        </div>
+        <div class="field"><label>Upload identity &mdash; Aadhaar</label>
+          <div class="upload-row">
+            <div class="upload-zone" id="aadhaarFrontZone">
+              <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="12" r="2.2"/><path d="M14 10h4M14 14h3"/></svg>
+              <p>Aadhaar &mdash; front &middot; <span class="browse">browse</span></p>
+            </div>
+            <div class="upload-zone" id="aadhaarBackZone">
+              <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M6 9h12M6 13h8"/></svg>
+              <p>Aadhaar &mdash; back &middot; <span class="browse">browse</span></p>
+            </div>
+          </div>
+          <div class="doc-list" id="idDocList"></div>
+        </div>
+      </div>
+
+      <div class="wizard-panel" data-wizard-step="4" hidden>
+        <div class="two-col">
+          <div class="field"><label>Country</label><select><option>India</option><option>Other</option></select></div>
+          <div class="field"><label>State</label>
+            <select>
+              <option>Uttar Pradesh</option><option>Delhi</option><option>Maharashtra</option><option>Karnataka</option>
+              <option>West Bengal</option><option>Punjab</option><option>Rajasthan</option><option>Gujarat</option>
+              <option>Tamil Nadu</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="two-col">
+          <div class="field"><label>City</label><input type="text" value="Lucknow"></div>
+          <div class="field"><label>Pin code</label><input type="text" maxlength="6" value="226010"></div>
+        </div>
+        <div class="field"><label>Bio</label><textarea>Been teaching Hatha and Ashtanga for 9 years across Lucknow and online. Classes are kept small and built around where each student actually is.</textarea></div>
+      </div>
+
+      <div class="wizard-panel" data-wizard-step="5" hidden>
+        <div class="field">
+          <label>Weekly availability</label>
+          <p style="font-size:12.5px;color:var(--ink-soft);margin:-4px 0 10px;">Toggle the slots you're free to teach &mdash; this drives the calendar shown on your public profile.</p>
+          <div class="dtable-wrap">
+            <table class="dtable">
+              <thead><tr><th></th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr></thead>
+              <tbody>
+                <tr><td class="name">7:00 AM</td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox" checked><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox" checked><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox" checked><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox" checked><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox" checked><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td></tr>
+                <tr><td class="name">9:00 AM</td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox" checked><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td></tr>
+                <tr><td class="name">6:00 PM</td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox" checked><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox" checked><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox" checked><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td></tr>
+                <tr><td class="name">8:00 PM</td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td><td><label class="tswitch" style="justify-content:center;"><input type="checkbox"><span class="track"></span></label></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:12.5px;color:var(--ink-soft);margin-top:10px;">7 of 12 available slots currently have a class booked.</p>
+        </div>
+        <div class="field"><label>Locations available for online classes</label>
+          <div class="tags" id="locationTags"><span>Lucknow (in-person)</span><span>Remote / Pan-India</span><span class="tag-add" style="cursor:pointer;border-style:dashed;">+ Add</span></div>
+        </div>
+      </div>
+
+      <div class="wizard-panel" data-wizard-step="6" hidden>
+        <div class="two-col">
+          <div class="field"><label>Per-session price (&#8377;)</label><input type="number" value="799"></div>
+          <div class="field"><label>Trial class price (&#8377;, optional)</label><input type="number" value="0" placeholder="0 = free trial"></div>
+        </div>
+        <div class="dcard-head" style="margin-top:6px;"><h2 style="font-size:15px;">Package pricing (optional)</h2></div>
+        <div id="packageRows">
+          <div class="field-row"><input type="text" value="5 sessions for &#8377;3,500" style="padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--paper);"><button type="button" class="btn-xs ghost" data-remove-package>Remove</button></div>
+          <div class="field-row" style="margin-top:8px;"><input type="text" value="10 sessions for &#8377;6,500" style="padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--paper);"><button type="button" class="btn-xs ghost" data-remove-package>Remove</button></div>
+        </div>
+        <button type="button" class="btn-xs ghost" id="addPackageBtn" style="margin-top:10px;">+ Add package</button>
+      </div>
+
+      <div class="wizard-nav">
+        <button type="button" class="btn-xs ghost" data-wizard-back hidden>Back</button>
+        <span class="spacer"></span>
+        <button type="button" class="btn btn-primary btn-small" data-wizard-next>Continue</button>
+        <button type="submit" class="btn btn-primary btn-small" data-wizard-submit hidden>Save profile</button>
+      </div>
+      <p data-form-note hidden style="margin-top:14px;color:var(--pine);font-weight:600;font-size:13px;">Saved &mdash; changes are reflected on your public profile.</p>
+    </form>
+  </div>
+</section>
+
+<section class="dash-section" data-section-panel="ratings" hidden>
+  <div class="dcard">
+    <div class="dcard-head"><h2>Your ratings</h2><p>Visible on your public Teacher Profile page.</p></div>
+    <div style="display:flex;align-items:center;gap:18px;margin-bottom:14px;flex-wrap:wrap;">
+      <div style="font-family:'Fraunces',serif;font-size:42px;font-weight:500;color:var(--ink);">4.9</div>
+      <div>
+        <div style="color:var(--marigold-deep);font-size:18px;letter-spacing:2px;">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div style="font-size:12.5px;color:var(--ink-soft);">Your public rating &middot; blended score</div>
+      </div>
+    </div>
+    <div class="rating-breakdown">
+      <div class="rb-item"><div class="rb-num">4.8</div><div class="rb-lbl">Student rating &middot; 128 reviews</div></div>
+      <div class="rb-item"><div class="rb-num">5.0</div><div class="rb-lbl">YogSetu team rating &middot; quality assessment</div></div>
+    </div>
+    <p class="rating-note">Your public rating blends student reviews (70%) with YogSetu's internal quality assessment (30%) &mdash; covering things like response time, verification upkeep, and profile completeness.</p>
+    <div class="list-row">
+      <span class="avatar">MJ</span>
+      <div class="body">
+        <div class="top-line"><h4>Meera Joshi</h4><span style="color:var(--marigold-deep);font-size:13px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="time">3 days ago</span></div>
+        <p>Calm, patient, and actually explains the why behind each pose.</p>
+      </div>
+    </div>
+    <div class="list-row">
+      <span class="avatar">RV</span>
+      <div class="body">
+        <div class="top-line"><h4>Rohan Verma</h4><span style="color:var(--marigold-deep);font-size:13px;">&#9733;&#9733;&#9733;&#9733;&#9734;</span><span class="time">2 weeks ago</span></div>
+        <p>Solid sessions, sometimes runs a few minutes late.</p>
+      </div>
+    </div>
+    <div class="list-row">
+      <span class="avatar">KS</span>
+      <div class="body">
+        <div class="top-line"><h4>Kavita Singh</h4><span style="color:var(--marigold-deep);font-size:13px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="time">1 month ago</span></div>
+        <p>Best yoga teacher I've had &mdash; highly recommend for beginners.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dash-section" data-section-panel="wallet" hidden>
+  <div class="dcard">
+    <div class="dcard-head"><h2>Your wallet</h2><p>Credits and platform fee status.</p></div>
+    <div class="wallet-row">
+      <div class="wallet-card">
+        <div class="wallet-card-top">
+          <span class="ico"><svg viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="16" rx="2"/><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M9 11h6M9 15h6"/></svg></span>
+          <span class="wallet-label">Job application credits</span>
+        </div>
+        <div class="wallet-meter"><div class="wallet-meter-fill" style="width:33%"></div></div>
+        <p class="wallet-meta">1 of 3 used &middot; 2 remaining this month</p>
+      </div>
+      <div class="wallet-card">
+        <div class="wallet-card-top">
+          <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg></span>
+          <span class="wallet-label">Bonus credits earned</span>
+        </div>
+        <div class="wallet-meter"><div class="wallet-meter-fill used" style="width:0%"></div></div>
+        <p class="wallet-meta" id="bonusMeta">0 earned so far &middot; complete your profile to earn 2</p>
+      </div>
+    </div>
+    <div class="alert info"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h13a1 1 0 0 1 1 1v2M3 7v11a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1H5a2 2 0 0 1-2-2z"/><circle cx="16" cy="14" r="1.4"/></svg> Platform commission is currently switched OFF site-wide &mdash; you keep 100% of what you charge students.</div>
+  </div>
+</section>
+
+<section class="dash-section" data-section-panel="requests" hidden>
+  <div class="sub-tabs" role="tablist" aria-label="Connection request sections">
+    <button class="sub-tab" data-subsection="requests" aria-selected="true">Requests</button>
+    <button class="sub-tab" data-subsection="messages" aria-selected="false">Messages</button>
+  </div>
+
+  <div data-subsection-panel="requests">
+    <div class="dcard">
+      <div class="dcard-head"><h2>Incoming connection requests</h2><p>Accept to open an email thread, or decline with an optional reason.</p></div>
+
+      <div class="list-row" data-row>
+        <span class="avatar">RK</span>
+        <div class="body">
+          <div class="top-line"><h4>Client in Lucknow</h4><span class="status-pill pending">Pending</span><span class="time">2 hours ago</span></div>
+          <p>Interested in morning Hatha sessions for a family of 3, one senior.</p>
+          <div class="actions">
+            <button class="btn-xs accept" data-demo-action="accept">Accept</button>
+            <button class="btn-xs decline" data-modal-open="declineModal">Decline</button>
+          </div>
+        </div>
+      </div>
+      <div class="list-row" data-row>
+        <span class="avatar">PT</span>
+        <div class="body">
+          <div class="top-line"><h4>Client in Kanpur</h4><span class="status-pill pending">Pending</span><span class="time">1 day ago</span></div>
+          <p>Found you via Browse Teachers. Wants a trial Hatha class this weekend, beginner level.</p>
+          <div class="actions">
+            <button class="btn-xs accept" data-demo-action="accept">Accept</button>
+            <button class="btn-xs decline" data-modal-open="declineModal">Decline</button>
+          </div>
+        </div>
+      </div>
+      <div class="list-row" data-row>
+        <span class="avatar">MJ</span>
+        <div class="body">
+          <div class="top-line"><h4>Meera Joshi</h4><span class="status-pill approved">Approved</span><span class="time">5 days ago</span></div>
+          <p>Approved &mdash; conversation moved to email, then WhatsApp.</p>
+          <div class="contact-reveal">
+            <a class="contact-chip" href="mailto:meera.joshi@example.com"><svg viewBox="0 0 24 24"><path d="M3 6h18v12H3z"/><path d="M3 7l9 6 9-6"/></svg>meera.joshi@example.com</a>
+            <a class="contact-chip" href="tel:+919812345612"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 3a2 2 0 0 1-.4 2.1L8 10.3a16 16 0 0 0 6 6l1.5-1.4a2 2 0 0 1 2.1-.4c1 .3 2 .5 3 .7a2 2 0 0 1 1.7 2z"/></svg>+91 98123 45612</a>
+            <a class="contact-chip whatsapp" href="https://wa.me/919812345612" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l2-5.4A8.5 8.5 0 1 1 21 11.5z"/><path d="M8.5 9.5c.3 3 2.5 5.2 5.5 5.5"/></svg>WhatsApp</a>
+          </div>
+        </div>
+      </div>
+      <div class="list-row" data-row>
+        <span class="avatar">SN</span>
+        <div class="body">
+          <div class="top-line"><h4>Client in Barabanki</h4><span class="status-pill declined">Declined</span><span class="time">1 week ago</span></div>
+          <p>Declined &mdash; reason shared: "Fully booked for evening slots this month."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div data-subsection-panel="messages" hidden>
+    <div class="dcard">
+      <div class="dcard-head"><h2>Conversations</h2><p>Post-approval, email-based threads. Once you both confirm, a WhatsApp link is surfaced.</p></div>
+      <div class="inbox">
+        <div class="inbox-list">
+          <div class="inbox-item active">
+            <h5>Client in Lucknow (Meera J.)</h5>
+            <p>Sounds great, Tuesday 7am works for us!</p>
+          </div>
+          <div class="inbox-item">
+            <h5>Client in Gorakhpur (Sanjay N.)</h5>
+            <p>Thank you for the trial class yesterday.</p>
+          </div>
+        </div>
+        <div class="inbox-thread">
+          <div class="inbox-msg in"><div class="bub">Hi Shikhar, thanks for accepting! We're 3 people including my mother, mornings work best.</div><div class="meta">Meera J. &middot; 3 days ago</div></div>
+          <div class="inbox-msg out"><div class="bub">Happy to have you. Tuesday and Thursday 7 AM both have room &mdash; would that work weekly?</div><div class="meta">You &middot; 3 days ago</div></div>
+          <div class="inbox-msg in"><div class="bub">Sounds great, Tuesday 7am works for us!</div><div class="meta">Meera J. &middot; 1 day ago</div></div>
+          <div class="alert info" style="margin-top:6px;"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l2-5.4A8.5 8.5 0 1 1 21 11.5z"/><path d="M8.5 9.5c.3 3 2.5 5.2 5.5 5.5"/></svg> Both sides confirmed &mdash; a WhatsApp handoff link has been shared to continue coordination.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="modal-backdrop" id="declineModal">
+  <div class="modal-box">
+    <h3>Decline this request?</h3>
+    <p class="desc">The client is notified automatically. A reason is optional but helps them understand.</p>
+    <div class="field"><textarea placeholder="e.g. Fully booked for mornings this month"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn-xs ghost" data-modal-close>Cancel</button>
+      <button class="btn-xs decline" data-modal-close data-demo-action="decline">Confirm decline</button>
+    </div>
+  </div>
+</div>
+
+<section class="dash-section" data-section-panel="jobs" hidden>
+  <div class="dcard">
+    <div class="dcard-head"><h2>Job applications</h2><p>Requirements you've applied to from the job board, and where each stands.</p></div>
+
+    <div class="list-row" data-row>
+      <div class="body">
+        <div class="top-line"><h4>Online Ashtanga teacher for daily 6 AM practice</h4><span class="status-pill approved">Selected</span><span class="time">Applied 5 days ago</span></div>
+        <p>&#8377;500 &ndash; 700 / session &middot; Online &middot; Client: Ananya Bhatt &mdash; conversation moved to email.</p>
+        <div class="contact-reveal">
+          <a class="contact-chip" href="mailto:ananya.bhatt@example.com"><svg viewBox="0 0 24 24"><path d="M3 6h18v12H3z"/><path d="M3 7l9 6 9-6"/></svg>ananya.bhatt@example.com</a>
+          <a class="contact-chip" href="tel:+919988776655"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 3a2 2 0 0 1-.4 2.1L8 10.3a16 16 0 0 0 6 6l1.5-1.4a2 2 0 0 1 2.1-.4c1 .3 2 .5 3 .7a2 2 0 0 1 1.7 2z"/></svg>+91 99887 76655</a>
+          <a class="contact-chip whatsapp" href="https://wa.me/919988776655" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l2-5.4A8.5 8.5 0 1 1 21 11.5z"/><path d="M8.5 9.5c.3 3 2.5 5.2 5.5 5.5"/></svg>WhatsApp</a>
+        </div>
+      </div>
+    </div>
+    <div class="list-row" data-row>
+      <div class="body">
+        <div class="top-line"><h4>Hatha yoga for seniors, twice weekly, Gomti Nagar</h4><span class="status-pill pending">Pending</span><span class="time">Applied 2 days ago</span></div>
+        <p>&#8377;600 &ndash; 800 / session &middot; Lucknow (in-studio) &middot; Awaiting client response.</p>
+      </div>
+    </div>
+    <div class="list-row" data-row>
+      <div class="body">
+        <div class="top-line"><h4>Corporate wellness sessions for a 20-person team</h4><span class="status-pill declined">Rejected</span><span class="time">Applied 1 week ago</span></div>
+        <p>Package pricing preferred &middot; Gurugram (on-site) &middot; Client selected another teacher.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+  </div>
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+
+      <div class="footer-brand">
+        <span class="logo"><span class="dot" aria-hidden="true"></span>YogSetu</span>
+        <p>A verified yoga teacher directory &mdash; powered by YogKulam's credentialing infrastructure.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="mono">For students</h4>
+        <ul>
+          <li><a href="teachers.html">Browse teachers</a></li>
+          <li><a href="requirements.html">Post a requirement</a></li>
+          <li><a href="index.html#verification">Verification process</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="mono">For teachers</h4>
+        <ul>
+          <li><a href="signup.html?role=teacher">Create your profile</a></li>
+          <li><a href="teacher-benefits.html">Become verified</a></li>
+          <li><a href="requirements.html">Browse requirements</a></li>
+          <li><a href="login.html">Teacher login</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="mono">Company</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="https://www.yogkulam.com" target="_blank" rel="noopener">YogKulam</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="terms.html">Terms &amp; conditions</a></li>
+          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="refund.html">Refund policy</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>YogSetu is a <a href="https://www.yogkulam.com" target="_blank" rel="noopener">YogKulam</a> initiative</span>
+      <span><span class="dot" aria-hidden="true">&middot;</span>yogsetu.com</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+<script>
+(function(){
+  const titles = {
+    overview: ['Overview', 'Your activity at a glance'],
+    profile:  ['My Profile', 'Complete your public profile'],
+    ratings:  ['Ratings', 'What students are saying'],
+    wallet:   ['My Wallet', 'Your credits and platform fee status'],
+    requests: ['Connection Requests', 'Accept or decline incoming requests'],
+    jobs:     ['Job Applied', 'Track responses to requirements you applied to']
+  };
+
+  const dashTitle = document.getElementById('dashTitle');
+  const dashSub   = document.getElementById('dashSub');
+  const profileMenu = document.getElementById('profileMenu');
+  const profileTrigger = document.getElementById('profileTrigger');
+  const profileDropdown = document.getElementById('profileDropdown');
+
+  function closeProfileMenu(){
+    profileMenu.classList.remove('open');
+    profileDropdown.hidden = true;
+    profileTrigger.setAttribute('aria-expanded', 'false');
+  }
+
+  function showSection(name){
+    if(!titles[name]) return;
+    document.querySelectorAll('[data-section-panel]').forEach(function(p){
+      p.hidden = p.getAttribute('data-section-panel') !== name;
+    });
+    document.querySelectorAll('.dash-tab[data-section]').forEach(function(b){
+      b.setAttribute('aria-selected', b.getAttribute('data-section') === name ? 'true' : 'false');
+    });
+    document.querySelectorAll('.profile-dropdown-item[data-section]').forEach(function(b){
+      b.classList.toggle('active', b.getAttribute('data-section') === name);
+    });
+    dashTitle.textContent = titles[name][0];
+    dashSub.textContent = titles[name][1];
+    closeProfileMenu();
+    document.querySelector('.dash-page-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  document.querySelectorAll('[data-section]').forEach(function(el){
+    el.addEventListener('click', function(e){
+      const name = el.getAttribute('data-section');
+      if(name){ e.preventDefault(); showSection(name); }
+    });
+  });
+  document.querySelectorAll('[data-section-jump]').forEach(function(el){
+    el.addEventListener('click', function(){ showSection(el.getAttribute('data-section-jump')); });
+  });
+
+  profileTrigger.addEventListener('click', function(e){
+    e.stopPropagation();
+    const isOpen = profileMenu.classList.toggle('open');
+    profileDropdown.hidden = !isOpen;
+    profileTrigger.setAttribute('aria-expanded', String(isOpen));
+  });
+  document.addEventListener('click', function(e){
+    if(!profileMenu.contains(e.target)){ closeProfileMenu(); }
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ closeProfileMenu(); }
+  });
+
+  // Sub-tabs (Connection Requests: Requests / Messages)
+  const subTabs = document.querySelectorAll('.sub-tab[data-subsection]');
+  subTabs.forEach(function(b){
+    b.addEventListener('click', function(){
+      const name = b.getAttribute('data-subsection');
+      subTabs.forEach(function(x){ x.setAttribute('aria-selected', x === b ? 'true' : 'false'); });
+      document.querySelectorAll('[data-subsection-panel]').forEach(function(p){
+        p.hidden = p.getAttribute('data-subsection-panel') !== name;
+      });
+    });
+  });
+
+  // Modals (decline flow tracks which row opened it)
+  let pendingDeclineRow = null;
+  document.addEventListener('click', function(e){
+    const openBtn = e.target.closest('[data-modal-open]');
+    if(openBtn){
+      const modal = document.getElementById(openBtn.getAttribute('data-modal-open'));
+      if(modal){
+        if(openBtn.getAttribute('data-modal-open') === 'declineModal'){
+          pendingDeclineRow = openBtn.closest('[data-row]');
+        }
+        modal.classList.add('open');
+      }
+      return;
+    }
+    const closeBtn = e.target.closest('[data-modal-close]');
+    if(closeBtn){
+      const modal = closeBtn.closest('.modal-backdrop');
+      if(modal){ modal.classList.remove('open'); }
+      if(closeBtn.getAttribute('data-demo-action') === 'decline' && pendingDeclineRow){
+        setRowStatus(pendingDeclineRow, 'declined', 'Declined', 'Declined — reason shared with the client.');
+        pendingDeclineRow = null;
+      }
+    }
+  });
+
+  function setRowStatus(row, pillClass, pillText, bodyText){
+    const pill = row.querySelector('.status-pill');
+    if(pill){ pill.className = 'status-pill ' + pillClass; pill.textContent = pillText; }
+    const p = row.querySelector('.body > p');
+    if(p){ p.textContent = bodyText; }
+    const actions = row.querySelector('.actions');
+    if(actions){ actions.remove(); }
+  }
+
+  const clientDirectory = {
+    RK: { name: 'Rohan Kapoor', email: 'rohan.kapoor@example.com', phone: '+91 91234 56780' },
+    PT: { name: 'Priya Tandon', email: 'priya.tandon@example.com', phone: '+91 91234 56781' }
+  };
+
+  function contactRevealHTML(email, phone){
+    const waNumber = phone.replace(/[^0-9]/g, '');
+    const telHref = 'tel:' + phone.replace(/\s/g, '');
+    return '<div class="contact-reveal">' +
+      '<a class="contact-chip" href="mailto:' + email + '"><svg viewBox="0 0 24 24"><path d="M3 6h18v12H3z"/><path d="M3 7l9 6 9-6"/></svg>' + email + '</a>' +
+      '<a class="contact-chip" href="' + telHref + '"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 3a2 2 0 0 1-.4 2.1L8 10.3a16 16 0 0 0 6 6l1.5-1.4a2 2 0 0 1 2.1-.4c1 .3 2 .5 3 .7a2 2 0 0 1 1.7 2z"/></svg>' + phone + '</a>' +
+      '<a class="contact-chip whatsapp" href="https://wa.me/' + waNumber + '" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.6L3 21l2-5.4A8.5 8.5 0 1 1 21 11.5z"/><path d="M8.5 9.5c.3 3 2.5 5.2 5.5 5.5"/></svg>WhatsApp</a>' +
+      '</div>';
+  }
+
+  document.querySelectorAll('[data-demo-action="accept"]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const row = btn.closest('[data-row]');
+      if(!row) return;
+      setRowStatus(row, 'approved', 'Approved', 'Approved — conversation moved to email, then WhatsApp.');
+      const avatarEl = row.querySelector('.avatar');
+      const initials = avatarEl ? avatarEl.textContent.trim() : '';
+      const info = clientDirectory[initials];
+      if(info){
+        const h4 = row.querySelector('h4');
+        if(h4){ h4.textContent = info.name; }
+        const body = row.querySelector('.body');
+        if(body){ body.insertAdjacentHTML('beforeend', contactRevealHTML(info.email, info.phone)); }
+      }
+    });
+  });
+
+  // Demo forms
+  document.querySelectorAll('form[data-demo-form]').forEach(function(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      const note = form.querySelector('[data-form-note]');
+      if(note){ note.hidden = false; }
+    });
+  });
+
+  // --- Tag groups (Expertise / Certifications / Online locations) ---
+  function initTagGroup(container){
+    if(!container) return;
+    const addTrigger = container.querySelector('.tag-add');
+
+    function wrap(span){
+      if(span.classList.contains('tag-item')) return;
+      span.classList.add('tag-item');
+      const label = document.createTextNode(span.textContent);
+      const remove = document.createElement('span');
+      remove.className = 'tag-remove';
+      remove.textContent = '\u00D7';
+      remove.addEventListener('click', function(){ span.remove(); });
+      span.textContent = '';
+      span.appendChild(label);
+      span.appendChild(remove);
+    }
+    Array.from(container.querySelectorAll('span')).forEach(function(span){
+      if(span !== addTrigger){ wrap(span); }
+    });
+
+    if(!addTrigger) return;
+    addTrigger.addEventListener('click', function(){
+      if(container.querySelector('.tag-input')) return;
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'tag-input';
+      input.placeholder = 'Type and press Enter';
+      addTrigger.hidden = true;
+      container.insertBefore(input, addTrigger);
+      input.focus();
+
+      function commit(){
+        const val = input.value.trim();
+        if(val){
+          const span = document.createElement('span');
+          span.textContent = val;
+          container.insertBefore(span, input);
+          wrap(span);
+        }
+        input.remove();
+        addTrigger.hidden = false;
+      }
+      input.addEventListener('keydown', function(e){
+        if(e.key === 'Enter'){ e.preventDefault(); commit(); }
+        else if(e.key === 'Escape'){ input.value=''; commit(); }
+      });
+      input.addEventListener('blur', commit);
+    });
+  }
+  initTagGroup(document.getElementById('expertiseTags'));
+  initTagGroup(document.getElementById('certTags'));
+  initTagGroup(document.getElementById('locationTags'));
+
+  // --- Upload zones ---
+  function initUploadZone(zone, opts){
+    if(!zone) return;
+    opts = opts || {};
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.hidden = true;
+    input.accept = opts.accept || 'image/*,application/pdf';
+    if(opts.multiple){ input.multiple = true; }
+    zone.appendChild(input);
+    zone.addEventListener('click', function(e){
+      if(e.target === input) return;
+      input.click();
+    });
+    input.addEventListener('change', function(){
+      Array.from(input.files).forEach(function(file){
+        if(opts.onFile){ opts.onFile(file, zone); }
+      });
+      input.value = '';
+    });
+  }
+
+  function addDocItem(listEl, filename, sublabel){
+    if(!listEl) return;
+    const row = document.createElement('div');
+    row.className = 'doc-item';
+    row.innerHTML = '<span class="ico"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></span>' +
+      '<div class="meta"><h5></h5><span class="sub"></span></div>' +
+      '<span class="status-pill pending">Pending review</span>' +
+      '<button type="button" class="btn-xs ghost" style="margin-left:8px;">Remove</button>';
+    row.querySelector('h5').textContent = filename;
+    row.querySelector('.sub').textContent = sublabel;
+    row.querySelector('button').addEventListener('click', function(e){ e.stopPropagation(); row.remove(); });
+    listEl.appendChild(row);
+  }
+
+  initUploadZone(document.getElementById('certZone'), {
+    multiple: true,
+    onFile: function(file){ addDocItem(document.getElementById('certDocList'), file.name, 'Uploaded just now &middot; awaiting review'.replace('&middot;','\u00B7')); }
+  });
+  initUploadZone(document.getElementById('aadhaarFrontZone'), {
+    accept: 'image/*',
+    onFile: function(file){ addDocItem(document.getElementById('idDocList'), file.name, 'Aadhaar \u2014 front \u00B7 awaiting review'); }
+  });
+  initUploadZone(document.getElementById('aadhaarBackZone'), {
+    accept: 'image/*',
+    onFile: function(file){ addDocItem(document.getElementById('idDocList'), file.name, 'Aadhaar \u2014 back \u00B7 awaiting review'); }
+  });
+
+  // Photo zone: preview thumbnail + sync header avatar
+  (function(){
+    const zone = document.getElementById('photoZone');
+    const headerChip = document.getElementById('headerAvatarChip');
+    if(!zone) return;
+    initUploadZone(zone, {
+      accept: 'image/*',
+      onFile: function(file){
+        const reader = new FileReader();
+        reader.onload = function(e){
+          let thumb = zone.querySelector('.upload-thumb');
+          if(!thumb){
+            thumb = document.createElement('img');
+            thumb.className = 'upload-thumb';
+            zone.appendChild(thumb);
+          }
+          thumb.src = e.target.result;
+          if(headerChip){ headerChip.innerHTML = '<img src="' + e.target.result + '" alt="" style="width:100%;height:100%;object-fit:cover;">'; }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  })();
+
+  // --- Package pricing rows ---
+  document.querySelectorAll('[data-remove-package]').forEach(function(btn){
+    btn.addEventListener('click', function(){ btn.closest('.field-row').remove(); });
+  });
+  const addPackageBtn = document.getElementById('addPackageBtn');
+  if(addPackageBtn){
+    addPackageBtn.addEventListener('click', function(){
+      const row = document.createElement('div');
+      row.className = 'field-row';
+      row.style.marginTop = '8px';
+      row.innerHTML = '<input type="text" placeholder="e.g. 8 sessions for &#8377;5,200" style="padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--paper);"><button type="button" class="btn-xs ghost" data-remove-package>Remove</button>';
+      row.querySelector('[data-remove-package]').addEventListener('click', function(){ row.remove(); });
+      document.getElementById('packageRows').appendChild(row);
+    });
+  }
+
+  // --- Profile wizard: step navigation + completion tracking ---
+  (function(){
+    const form = document.getElementById('profileWizardForm');
+    if(!form) return;
+    const panels = Array.from(form.querySelectorAll('.wizard-panel'));
+    const dots = Array.from(document.querySelectorAll('#wizardProgress .wizard-dot'));
+    const backBtn = form.querySelector('[data-wizard-back]');
+    const nextBtn = form.querySelector('[data-wizard-next]');
+    const submitBtn = form.querySelector('[data-wizard-submit]');
+    const totalSteps = panels.length;
+    const doneSteps = new Set();
+    let step = 1;
+    let celebrated = false;
+
+    const pcFill = document.getElementById('pcFill');
+    const pcPct = document.getElementById('pcPct');
+    const pcNote = document.getElementById('pcNote');
+    const ovPct = document.getElementById('ovPct');
+    const bonusMeta = document.getElementById('bonusMeta');
+
+    function updateCompletion(){
+      const pct = Math.round((doneSteps.size / totalSteps) * 100);
+      pcFill.style.width = pct + '%';
+      pcFill.classList.toggle('complete', pct === 100);
+      pcPct.textContent = pct + '%';
+      if(ovPct){ ovPct.textContent = pct + '%'; }
+      if(pct === 100 && !celebrated){
+        celebrated = true;
+        pcNote.hidden = false;
+        if(bonusMeta){ bonusMeta.textContent = '2 earned so far \u00B7 profile 100% complete'; }
+        const meter = bonusMeta ? bonusMeta.previousElementSibling : null;
+        if(meter){ meter.querySelector('.wallet-meter-fill').style.width = '100%'; }
+      }
+    }
+
+    function render(){
+      panels.forEach(function(p){ p.hidden = Number(p.getAttribute('data-wizard-step')) !== step; });
+      dots.forEach(function(d){
+        const n = Number(d.getAttribute('data-dot'));
+        d.classList.toggle('is-active', n === step);
+        d.classList.toggle('is-done', doneSteps.has(n));
+      });
+      backBtn.hidden = step === 1;
+      nextBtn.hidden = step === totalSteps;
+      submitBtn.hidden = step !== totalSteps;
+    }
+
+    function currentPanelValid(){
+      const panel = panels[step - 1];
+      const required = panel.querySelectorAll('[required]');
+      for(let i = 0; i < required.length; i++){
+        if(!required[i].reportValidity()){ return false; }
+      }
+      return true;
+    }
+
+    nextBtn.addEventListener('click', function(){
+      if(!currentPanelValid()) return;
+      doneSteps.add(step);
+      updateCompletion();
+      step = Math.min(totalSteps, step + 1);
+      render();
+    });
+    backBtn.addEventListener('click', function(){
+      step = Math.max(1, step - 1);
+      render();
+    });
+    dots.forEach(function(d){
+      d.addEventListener('click', function(){
+        const n = Number(d.getAttribute('data-dot'));
+        if(doneSteps.has(n) || n === step){ step = n; render(); }
+      });
+    });
+
+    form.addEventListener('submit', function(){
+      doneSteps.add(totalSteps);
+      updateCompletion();
+    });
+
+    render();
+    updateCompletion();
+  })();
+
+  showSection('overview');
+})();
+</script>
+</body>
+</html>

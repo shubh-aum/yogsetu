@@ -1,1372 +1,1894 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GrowYogi — Helping Yogis Grow Digitally</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Noto+Serif+Devanagari:wght@400;500;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet"/>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
-
-  <style>
-    /* ── DESIGN TOKENS ──────────────────────────────────── */
-    :root {
-      /* Dark sections — refined charcoal-indigo (replaces screaming purple) */
-      --bg-deep:    #141220;
-      --bg-mid:     #1E1B34;
-      --bg-rich:    #272455;
-      --purple:     #4E3D80;
-      --purple-lt:  #6E5AAA;
-
-      /* Gold — unchanged, it's the brand */
-      --gold-a:     #C8961E;
-      --gold-b:     #D4AB3A;
-      --gold-c:     #EDD060;
-
-      /* Light surfaces */
-      --warm-white: #FDFAF6;
-      --surface:    #FFFFFF;
-      --surface-alt:#F5F2EC;
-
-      /* Text */
-      --coal:       #1C1930;
-      --body-muted: #5A5570;
-      --wa:         #25D366;
-
-      /* Gradients */
-      --grad-gold:  linear-gradient(135deg, #C8961E 0%, #D4AB3A 50%, #EDD060 100%);
-      --grad-hero:  linear-gradient(155deg, #0E0C1C 0%, #181630 25%, #201D40 50%, #261F4A 65%, #1C1A38 85%, #0E0C1C 100%);
-      --shadow-card: 0 20px 60px rgba(0,0,0,.38), 0 0 0 1px rgba(255,255,255,.04);
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 1rem; line-height: 1.72;
-      color: var(--coal);
-      background: var(--warm-white);
-    }
-
-    .hn { font-family: 'Noto Serif Devanagari', serif; }
-    .en { font-family: 'Cormorant Garamond', serif; }
-
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: var(--warm-white); }
-    ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
-
-    /* ── NAVBAR ─────────────────────────────────────────── */
-    .navbar {
-      background: rgba(14, 12, 28, .94);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      padding: 14px 0;
-      border-bottom: 1px solid rgba(200,150,30,.10);
-      transition: background .3s, box-shadow .3s;
-    }
-    .navbar.scrolled {
-      background: rgba(12, 10, 24, .99);
-      box-shadow: 0 4px 30px rgba(0,0,0,.48);
-    }
-    .navbar-brand {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.9rem; font-weight: 700;
-      background: var(--grad-gold);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: .4px; line-height: 1;
-    }
-    .navbar-brand span {
-      font-family: 'Noto Serif Devanagari', serif;
-      font-size: 1.5rem;
-      background: linear-gradient(to right, #ffffff, rgba(255,255,255,.78));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .nav-link {
-      font-family: 'DM Sans', sans-serif;
-      font-size: .875rem; font-weight: 500;
-      color: rgba(255,255,255,.70) !important;
-      padding: 7px 12px !important;
-      transition: color .2s;
-    }
-    .nav-link:hover { color: var(--gold-b) !important; }
-    .btn-nav {
-      background: var(--grad-gold);
-      color: var(--bg-deep) !important;
-      border-radius: 50px; padding: 8px 22px !important;
-      font-weight: 700; font-family: 'DM Sans', sans-serif;
-      font-size: .82rem;
-      box-shadow: 0 4px 18px rgba(200,150,30,.26);
-      transition: all .25s;
-    }
-    .btn-nav:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(200,150,30,.40); }
-
-    /* ── HERO ───────────────────────────────────────────── */
-    .hero {
-      background: var(--grad-hero);
-      min-height: 100dvh;
-      padding: 96px 0 64px;
-      position: relative;
-      overflow: hidden;
-    }
-    /* Subtle ambient radial light — no distracting animation */
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse 65% 55% at 88% 8%,  rgba(110,90,180,.20) 0%, transparent 55%),
-        radial-gradient(ellipse 50% 45% at 12% 88%, rgba(80,60,150,.12) 0%, transparent 50%),
-        radial-gradient(ellipse 35% 28% at 50% 50%, rgba(60,50,100,.08) 0%, transparent 45%);
-    }
-    /* Faint dot grid */
-    .hero::after {
-      content: '';
-      position: absolute; inset: 0; pointer-events: none;
-      background-image: radial-gradient(rgba(255,255,255,.032) 1px, transparent 1px);
-      background-size: 44px 44px;
-    }
-
-    /* ── HERO IMAGE CARD ────────────────────────────────── */
-    .hero-img-card {
-      background: linear-gradient(145deg,
-        rgba(255,255,255,.08) 0%,
-        rgba(120,90,200,.04) 50%,
-        rgba(255,255,255,.03) 100%);
-      border: 1px solid rgba(200,150,30,.22);
-      border-radius: 24px;
-      padding: 24px 16px 18px;
-      position: relative; text-align: center;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 24px 64px rgba(0,0,0,.50),
-                  inset 0 1px 0 rgba(255,255,255,.09);
-      overflow: hidden;
-    }
-
-    .img-badge {
-      position: absolute; top: -13px; right: -8px;
-      background: var(--grad-gold);
-      color: var(--bg-deep);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .65rem; font-weight: 700;
-      padding: 5px 13px; border-radius: 50px;
-      white-space: nowrap;
-      box-shadow: 0 4px 14px rgba(200,150,30,.42);
-    }
-    .img-bottom-strip {
-      display: flex; justify-content: center; gap: 14px;
-      margin-top: 14px; padding-top: 13px;
-      border-top: 1px solid rgba(255,255,255,.07);
-    }
-    .img-stat .num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem; font-weight: 700;
-      background: var(--grad-gold);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-      display: block; line-height: 1;
-    }
-    .img-stat .lbl {
-      font-family: 'DM Sans', sans-serif;
-      font-size: .6rem; color: rgba(255,255,255,.46);
-      text-transform: uppercase; letter-spacing: .5px;
-    }
-
-    /* ── HERO CONTENT ───────────────────────────────────── */
-    .hero-chip {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: rgba(200,150,30,.11);
-      border: 1px solid rgba(200,150,30,.32);
-      color: var(--gold-b);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .72rem; font-weight: 600;
-      padding: 5px 14px; border-radius: 50px;
-      letter-spacing: .8px; margin-bottom: 20px;
-    }
-
-    .hero-h1 {
-      font-size: clamp(2.2rem, 5vw, 3.4rem);
-      line-height: 1.20; margin-bottom: 20px; color: #fff;
-    }
-    .hero-h1 .hn { font-weight: 700; font-size: 1em; }
-    .hero-h1 .en { font-weight: 700; font-size: 1.1em; font-style: italic; }
-
-    .grad-gold {
-      background: var(--grad-gold);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .ul-gold { position: relative; display: inline; }
-    .ul-gold::after {
-      content: '';
-      position: absolute; bottom: -4px; left: 0; right: 0;
-      height: 3px; background: var(--grad-gold); border-radius: 2px;
-    }
-
-    .hero-p {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 1rem; color: rgba(255,255,255,.62);
-      line-height: 1.80; margin-bottom: 26px;
-    }
-    .hero-p .hn { font-size: .95rem; }
-    .hero-p strong { color: rgba(255,255,255,.90); font-weight: 600; }
-
-    .pain-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
-    .pain-pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(255,255,255,.05);
-      border: 1px solid rgba(255,255,255,.09);
-      color: rgba(255,255,255,.76);
-      font-family: 'DM Sans', sans-serif; font-size: .78rem;
-      padding: 6px 13px; border-radius: 50px;
-    }
-    .pain-pill .hn { font-size: .82rem; }
-    .dot-red { width: 7px; height: 7px; border-radius: 50%; background: #ff6b6b; flex-shrink: 0; }
-
-    .hero-btns { display: flex; gap: 10px; flex-wrap: wrap; }
-    .btn-wa-hero {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      background: linear-gradient(135deg, #1db954, #25D366);
-      color: #fff; border-radius: 14px; padding: 14px 22px;
-      font-family: 'DM Sans', sans-serif; font-size: .9rem; font-weight: 700;
-      text-decoration: none; border: none;
-      box-shadow: 0 6px 22px rgba(37,211,102,.30);
-      transition: all .25s;
-    }
-    .btn-wa-hero:hover { color: #fff; transform: translateY(-2px); box-shadow: 0 10px 28px rgba(37,211,102,.44); }
-    .btn-call-hero {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      background: rgba(255,255,255,.07);
-      border: 1.5px solid rgba(255,255,255,.26);
-      color: #fff; border-radius: 14px; padding: 13px 20px;
-      font-family: 'DM Sans', sans-serif; font-size: .9rem; font-weight: 600;
-      text-decoration: none; backdrop-filter: blur(6px);
-      transition: all .25s;
-    }
-    .btn-call-hero:hover {
-      background: rgba(255,255,255,.13);
-      border-color: rgba(255,255,255,.52); color: #fff;
-      transform: translateY(-2px);
-    }
-
-    /* ── FORM CARD ──────────────────────────────────────── */
-    .form-card {
-      background: #FFFFFF;
-      border-radius: 22px; padding: 32px 28px;
-      border: 1px solid rgba(94,78,130,.09);
-      box-shadow: 0 28px 72px rgba(0,0,0,.40),
-                  0 0 0 1px rgba(255,255,255,.05),
-                  inset 0 2px 0 0 rgba(200,150,30,.42);
-      position: relative; z-index: 2;
-    }
-    .form-top-badge {
-      display: inline-block;
-      background: var(--grad-gold);
-      color: var(--bg-deep);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .68rem; font-weight: 700;
-      padding: 4px 14px; border-radius: 50px; margin-bottom: 12px;
-    }
-    .form-title {
-      font-family: 'Noto Serif Devanagari', serif;
-      font-size: 1.35rem; font-weight: 700;
-      color: var(--coal); margin-bottom: 4px;
-    }
-    .form-sub {
-      font-family: 'DM Sans', sans-serif;
-      font-size: .78rem; color: var(--body-muted); margin-bottom: 18px;
-    }
-    .form-sub .hn { font-size: .8rem; }
-
-    .form-card .form-control,
-    .form-card .form-select {
-      border: 1.5px solid #E8E2F4;
-      border-radius: 10px; padding: 12px 14px;
-      font-family: 'DM Sans', sans-serif; font-size: 16px;
-      background: #FAFAF8; color: var(--coal);
-      transition: all .2s;
-    }
-    .form-card .form-control:focus,
-    .form-card .form-select:focus {
-      border-color: var(--purple);
-      box-shadow: 0 0 0 3px rgba(78,61,128,.10);
-      outline: none; background: #fff;
-    }
-
-    .btn-form-submit {
-      width: 100%;
-      background: linear-gradient(135deg, #141220, #201D3C, #4E3D80);
-      color: #fff; border: none; border-radius: 12px; padding: 14px;
-      font-family: 'DM Sans', sans-serif; font-size: .9rem; font-weight: 700;
-      margin-bottom: 10px; cursor: pointer;
-      box-shadow: 0 6px 20px rgba(20,18,32,.32);
-      transition: all .25s;
-    }
-    .btn-form-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(20,18,32,.46); }
-
-    .btn-form-wa {
-      display: flex; align-items: center; justify-content: center; gap: 7px;
-      width: 100%;
-      background: linear-gradient(135deg, #1db954, #25D366);
-      color: #fff; border-radius: 12px; padding: 13px;
-      font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 700;
-      text-decoration: none; margin-bottom: 9px;
-      box-shadow: 0 4px 16px rgba(37,211,102,.26);
-      transition: all .25s;
-    }
-    .btn-form-wa:hover { color: #fff; transform: translateY(-2px); box-shadow: 0 8px 22px rgba(37,211,102,.40); }
-
-    .form-divider { display: flex; align-items: center; gap: 10px; margin: 8px 0; }
-    .form-divider hr { flex: 1; border-color: #E8E2F4; opacity: 1; }
-    .form-divider span { font-family: 'DM Sans', sans-serif; font-size: .72rem; color: #B0A8C4; white-space: nowrap; }
-
-    .form-guarantee {
-      text-align: center;
-      font-family: 'DM Sans', sans-serif; font-size: .7rem; color: #A8A0BE; margin: 0;
-    }
-
-    /* ── HIGHLIGHT STRIP ────────────────────────────────── */
-    .strip {
-      background: linear-gradient(95deg, #141220 0%, #1E1B34 42%, #272455 66%, #1A1830 100%);
-      border-top:    1px solid rgba(200,150,30,.14);
-      border-bottom: 1px solid rgba(200,150,30,.14);
-      padding: 26px 0;
-    }
-    .strip-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
-    .strip-q {
-      font-family: 'DM Sans', sans-serif; font-size: .72rem; font-weight: 600;
-      background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 9px;
-    }
-    .strip-tags { display: flex; gap: 8px; flex-wrap: wrap; }
-    .strip-tag {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.08);
-      color: rgba(255,255,255,.78);
-      font-family: 'DM Sans', sans-serif; font-size: .82rem;
-      padding: 6px 13px; border-radius: 50px;
-    }
-    .strip-tag i { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .strip-tag .hn { font-size: .84rem; }
-
-    .strip-btns { display: flex; gap: 10px; flex-wrap: wrap; }
-    .btn-s-wa {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: linear-gradient(135deg, #1db954, #25D366);
-      color: #fff; border-radius: 11px; padding: 11px 20px;
-      font-family: 'DM Sans', sans-serif; font-size: .85rem; font-weight: 700;
-      text-decoration: none; white-space: nowrap;
-      box-shadow: 0 4px 14px rgba(37,211,102,.24);
-      transition: all .25s;
-    }
-    .btn-s-wa:hover { color: #fff; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37,211,102,.38); }
-    .btn-s-call {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: rgba(255,255,255,.06);
-      border: 1.5px solid rgba(255,255,255,.20);
-      color: #fff; border-radius: 11px; padding: 9px 18px;
-      font-family: 'DM Sans', sans-serif; font-size: .85rem; font-weight: 600;
-      text-decoration: none; transition: all .25s;
-    }
-    .btn-s-call:hover { border-color: rgba(255,255,255,.50); color: #fff; background: rgba(255,255,255,.11); }
-
-    /* ── SECTION COMMON ─────────────────────────────────── */
-    .sec-label {
-      font-family: 'DM Sans', sans-serif; font-size: .72rem; font-weight: 600;
-      background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;
-    }
-    .sec-title {
-      font-family: 'Noto Serif Devanagari', serif;
-      font-size: clamp(1.75rem, 4vw, 2.55rem);
-      font-weight: 700; color: var(--coal); margin-bottom: 12px; line-height: 1.24;
-    }
-    .sec-title .en {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.14em; font-style: italic;
-    }
-    .sec-sub {
-      font-family: 'DM Sans', sans-serif; font-size: .93rem;
-      color: var(--body-muted); max-width: 580px; margin: 0 auto 48px; line-height: 1.80;
-    }
-    .gold-bar {
-      width: 56px; height: 3px;
-      background: var(--grad-gold); border-radius: 2px; margin: 0 auto 16px;
-    }
-
-    /* ── PROBLEMS ───────────────────────────────────────── */
-    .problems {
-      background: linear-gradient(155deg, #141220 0%, #1C1A38 42%, #242254 70%, #181628 100%);
-      padding: 100px 0;
-    }
-    .problems .sec-title { color: #fff; }
-    .problems .sec-sub  { color: rgba(255,255,255,.52); }
-    .prob-card {
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 16px; padding: 22px 18px; height: 100%;
-      transition: all .28s;
-    }
-    .prob-card:hover {
-      background: linear-gradient(135deg, rgba(200,150,30,.09), rgba(200,150,30,.04));
-      border-color: rgba(200,150,30,.35);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(0,0,0,.26);
-    }
-    .prob-icon {
-      width: 40px; height: 40px;
-      background: rgba(200,150,30,.11);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center; margin-bottom: 12px;
-    }
-    .prob-icon i { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 1.1rem; }
-    .prob-text { font-family: 'DM Sans', sans-serif; font-size: .86rem; color: rgba(255,255,255,.78); line-height: 1.65; }
-    .prob-text .hn { font-family: 'Noto Serif Devanagari', serif; font-size: .88rem; }
-
-    /* ── SOLUTIONS ──────────────────────────────────────── */
-    .solutions { background: var(--warm-white); padding: 100px 0; }
-    .sol-card {
-      background: var(--surface);
-      border-radius: 18px; padding: 26px 22px;
-      box-shadow: 0 4px 20px rgba(28,25,48,.065);
-      border: 1px solid rgba(94,78,130,.08); height: 100%;
-      transition: all .28s;
-    }
-    .sol-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(78,61,128,.20);
-      box-shadow: 0 12px 36px rgba(28,25,48,.11);
-    }
-    .sol-icon {
-      width: 50px; height: 50px;
-      background: linear-gradient(135deg, var(--bg-mid), var(--purple));
-      border-radius: 13px;
-      display: flex; align-items: center; justify-content: center; margin-bottom: 14px;
-    }
-    .sol-icon i { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 1.2rem; }
-    .sol-title { font-family: 'DM Sans', sans-serif; font-size: .93rem; font-weight: 600; color: var(--coal); margin-bottom: 6px; }
-    .sol-text { font-size: .85rem; color: var(--body-muted); line-height: 1.68; }
-
-    /* ── WHY US ─────────────────────────────────────────── */
-    .why {
-      background: linear-gradient(155deg, #161328 0%, #201D3C 44%, #282557 70%, #181530 100%);
-      padding: 100px 0; position: relative; overflow: hidden;
-    }
-    .why::before {
-      content: '';
-      position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(ellipse 55% 45% at 80% 20%, rgba(110,90,170,.16) 0%, transparent 55%);
-    }
-    .why .sec-title { color: #fff; }
-    .why-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 18px; }
-    .why-tick {
-      width: 28px; height: 28px; min-width: 28px;
-      background: var(--grad-gold); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--bg-deep); font-size: .78rem; font-weight: 800;
-    }
-    .why-txt { font-family: 'DM Sans', sans-serif; font-size: .9rem; color: rgba(255,255,255,.82); line-height: 1.65; }
-    .why-txt strong { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .why-panel {
-      background: rgba(255,255,255,.045);
-      border: 1px solid rgba(200,150,30,.17);
-      border-radius: 22px; padding: 32px 26px; text-align: center;
-      backdrop-filter: blur(8px);
-    }
-    .why-emoji { font-size: 3.6rem; margin-bottom: 14px; display: block; }
-    .why-panel h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.55rem; color: #fff; margin-bottom: 6px; }
-    .why-panel p { font-family: 'DM Sans', sans-serif; font-size: .82rem; color: rgba(255,255,255,.48); margin-bottom: 24px; }
-    .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
-    .stat-box {
-      background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08);
-      border-radius: 12px; padding: 14px; text-align: left;
-    }
-    .stat-box .big {
-      font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700;
-      background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      line-height: 1;
-    }
-    .stat-box .sml { font-family: 'DM Sans', sans-serif; font-size: .7rem; color: rgba(255,255,255,.44); margin-top: 3px; }
-
-    /* ── TESTIMONIALS ───────────────────────────────────── */
-    .testimonials { background: var(--surface-alt); padding: 100px 0; }
-    .tcard {
-      background: var(--surface); border-radius: 20px; padding: 30px 24px;
-      box-shadow: 0 4px 20px rgba(28,25,48,.07);
-      position: relative; height: 100%;
-      border: 1px solid rgba(94,78,130,.08); transition: all .28s;
-    }
-    .tcard:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(28,25,48,.11); }
-    .tcard::before {
-      content: '"'; font-family: 'Cormorant Garamond', serif;
-      font-size: 6rem; line-height: 1;
-      background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      opacity: .17; position: absolute; top: -12px; left: 16px;
-    }
-    .stars { font-size: .88rem; margin-bottom: 12px; background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .ttext { font-family: 'DM Sans', sans-serif; font-size: .87rem; color: #6A6482; line-height: 1.78; font-style: italic; margin-bottom: 18px; }
-    .tauthor { display: flex; align-items: center; gap: 10px; }
-    .avatar {
-      width: 44px; height: 44px; min-width: 44px;
-      background: linear-gradient(135deg, var(--bg-mid), var(--purple));
-      border-radius: 50%; overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 700;
-    }
-    .avatar span { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
-    .aname { font-family: 'DM Sans', sans-serif; font-size: .85rem; font-weight: 600; color: var(--coal); }
-    .arole { font-family: 'DM Sans', sans-serif; font-size: .72rem; color: #9A96B0; }
-
-    /* ── REAL PHOTO IMAGES ──────────────────────────────── */
-    .hero-yogi-photo {
-      width: 100%; border-radius: 16px;
-      object-fit: cover; height: 280px; display: block;
-      transition: transform .5s ease;
-    }
-    .hero-img-card:hover .hero-yogi-photo { transform: scale(1.03); }
-
-    /* Gallery section */
-    .yogi-gallery { background: var(--warm-white); padding: 0 0 90px; }
-    .gallery-item {
-      position: relative; overflow: hidden;
-      border-radius: 18px; height: 240px;
-      box-shadow: 0 6px 24px rgba(28,25,48,.10); cursor: pointer;
-    }
-    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; display: block; }
-    .gallery-item:hover img { transform: scale(1.07); }
-    .gallery-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(14,12,28,.78) 0%, transparent 60%);
-      display: flex; align-items: flex-end; padding: 16px;
-      opacity: 0; transition: opacity .3s;
-    }
-    .gallery-item:hover .gallery-overlay { opacity: 1; }
-    .gallery-cap { font-family: 'DM Sans', sans-serif; font-size: .82rem; color: #fff; font-weight: 500; }
-
-    /* Why yoga photo */
-    .why-yoga-photo { width: 100%; height: 190px; object-fit: cover; border-radius: 14px; margin-bottom: 18px; display: block; }
-
-    /* ── PRICING ────────────────────────────────────────── */
-    .pricing {
-      background: linear-gradient(155deg, #141220 0%, #1C1A38 32%, #252248 62%, #181628 100%);
-      padding: 100px 0;
-    }
-    .pricing .sec-title { color: #fff; }
-    .pricing .sec-sub  { color: rgba(255,255,255,.52); }
-    .pcard {
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: 24px; padding: 36px 28px; height: 100%;
-      position: relative; backdrop-filter: blur(8px);
-      transition: transform .3s;
-    }
-    .pcard:hover { transform: translateY(-5px); }
-    .pcard.featured {
-      background: linear-gradient(145deg, rgba(200,150,30,.09), rgba(200,150,30,.04));
-      border-color: rgba(200,150,30,.42);
-      transform: scale(1.02);
-      box-shadow: 0 0 50px rgba(200,150,30,.08);
-    }
-    .pcard.featured:hover { transform: scale(1.02) translateY(-5px); }
-    .top-badge {
-      position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-      background: var(--grad-gold); color: var(--bg-deep);
-      font-family: 'DM Sans', sans-serif; font-size: .68rem; font-weight: 800;
-      padding: 4px 18px; border-radius: 50px;
-      text-transform: uppercase; letter-spacing: .8px; white-space: nowrap;
-      box-shadow: 0 4px 14px rgba(200,150,30,.36);
-    }
-    .plan-lbl { font-family: 'DM Sans', sans-serif; font-size: .74rem; font-weight: 600; background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
-    .plan-name { font-family: 'Cormorant Garamond', serif; font-size: 1.95rem; color: #fff; margin-bottom: 4px; }
-    .plan-desc { font-family: 'DM Sans', sans-serif; font-size: .78rem; color: rgba(255,255,255,.44); margin-bottom: 20px; }
-    .price-row { padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 20px; }
-    .price-cur { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; vertical-align: top; margin-top: 8px; display: inline-block; }
-    .price-amt { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 700; color: #fff; line-height: 1; }
-    .price-per { font-family: 'DM Sans', sans-serif; font-size: .78rem; color: rgba(255,255,255,.38); margin-top: 4px; }
-    .feat-list { list-style: none; padding: 0; margin-bottom: 22px; }
-    .feat-list li { display: flex; align-items: flex-start; gap: 9px; font-family: 'DM Sans', sans-serif; font-size: .84rem; color: rgba(255,255,255,.78); margin-bottom: 9px; line-height: 1.45; }
-    .feat-list li i { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: .84rem; margin-top: 2px; flex-shrink: 0; }
-    .leads-box {
-      background: rgba(200,150,30,.09); border: 1px solid rgba(200,150,30,.24);
-      border-radius: 11px; padding: 11px 13px; margin-bottom: 22px;
-    }
-    .leads-lbl { font-family: 'DM Sans', sans-serif; font-size: .68rem; background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; }
-    .leads-num { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; color: #fff; font-weight: 700; }
-    .leads-note { font-family: 'DM Sans'; font-size: .69rem; color: rgba(255,255,255,.36); }
-    .btn-p { width: 100%; border-radius: 12px; padding: 13px; font-family: 'DM Sans', sans-serif; font-size: .9rem; font-weight: 700; transition: all .28s; cursor: pointer; border: none; text-decoration: none; display: block; text-align: center; }
-    .btn-outline-p { background: rgba(255,255,255,.05); border: 1.5px solid rgba(255,255,255,.26) !important; color: #fff; }
-    .btn-outline-p:hover { background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.52) !important; color: #fff; }
-    .btn-gold-p { background: var(--grad-gold); color: var(--bg-deep); }
-    .btn-gold-p:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(200,150,30,.38); color: var(--bg-deep); }
-
-    /* ── FAQ ────────────────────────────────────────────── */
-    .faq { background: var(--warm-white); padding: 100px 0; }
-    .accordion-item { border: 1px solid rgba(94,78,130,.11) !important; border-radius: 13px !important; margin-bottom: 10px; overflow: hidden; }
-    .accordion-button { font-family: 'DM Sans', sans-serif; font-size: .9rem; font-weight: 600; color: var(--coal) !important; background: var(--surface) !important; padding: 17px 21px; box-shadow: none !important; }
-    .accordion-button:not(.collapsed) { background: linear-gradient(135deg, var(--bg-mid), var(--bg-rich), var(--purple)) !important; color: #fff !important; }
-    .accordion-button:not(.collapsed)::after { filter: brightness(0) invert(1); }
-    .accordion-body { font-family: 'DM Sans', sans-serif; font-size: .86rem; color: var(--body-muted); line-height: 1.78; background: #FAFAF8; padding: 17px 21px; }
-
-    /* ── FOOTER ─────────────────────────────────────────── */
-    .footer {
-      background: linear-gradient(155deg, #0E0C1C 0%, #141220 40%, #1A1830 70%, #0A0918 100%);
-      padding: 80px 0 28px;
-    }
-    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; font-weight: 700; background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
-    .footer-logo span { font-family: 'Noto Serif Devanagari', serif; font-size: 1.5rem; background: linear-gradient(to right, #fff, rgba(255,255,255,.72)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .footer-desc { font-family: 'DM Sans', sans-serif; font-size: .83rem; color: rgba(255,255,255,.44); line-height: 1.78; margin-bottom: 20px; }
-    .socials { display: flex; gap: 8px; flex-wrap: wrap; }
-    .soc { width: 36px; height: 36px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.09); border-radius: 9px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.52); text-decoration: none; font-size: .9rem; transition: all .25s; }
-    .soc:hover { background: var(--grad-gold); border-color: transparent; color: var(--bg-deep); transform: translateY(-3px); }
-    .f-head { font-family: 'DM Sans', sans-serif; font-size: .74rem; font-weight: 700; background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; }
-    .f-links { list-style: none; padding: 0; }
-    .f-links li { margin-bottom: 9px; }
-    .f-links a { font-family: 'DM Sans', sans-serif; font-size: .83rem; color: rgba(255,255,255,.44); text-decoration: none; transition: color .2s; }
-    .f-links a:hover { color: var(--gold-b); }
-    .contact-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
-    .contact-row i { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: .9rem; margin-top: 2px; }
-    .contact-row span { font-family: 'DM Sans', sans-serif; font-size: .82rem; color: rgba(255,255,255,.44); line-height: 1.55; }
-    .footer-bottom {
-      margin-top: 56px; padding-top: 20px;
-      border-top: 1px solid rgba(255,255,255,.07);
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 9px;
-    }
-    .footer-bottom p { font-family: 'DM Sans', sans-serif; font-size: .76rem; color: rgba(255,255,255,.28); margin: 0; }
-
-    /* ── FLOATING WA ────────────────────────────────────── */
-    .float-wa { position: fixed; bottom: 24px; right: 24px; z-index: 1000; }
-    .btn-float {
-      display: flex; align-items: center; gap: 8px;
-      background: linear-gradient(135deg, #1db954, #25D366);
-      color: #fff; border: none; border-radius: 50px; padding: 13px 20px;
-      font-family: 'DM Sans', sans-serif; font-size: .85rem; font-weight: 700;
-      box-shadow: 0 8px 26px rgba(37,211,102,.42); text-decoration: none;
-      animation: pulseWa 3s infinite; transition: transform .25s;
-    }
-    .btn-float:hover { color: #fff; transform: translateY(-3px); }
-    @keyframes pulseWa {
-      0%,100% { box-shadow: 0 8px 26px rgba(37,211,102,.42); }
-      50%      { box-shadow: 0 8px 36px rgba(37,211,102,.64); }
-    }
-
-    /* ── MODAL ──────────────────────────────────────────── */
-    .modal-content { border-radius: 20px; border: none; }
-    .modal-body { padding: 38px; text-align: center; }
-    .success-ico {
-      width: 70px; height: 70px;
-      background: linear-gradient(135deg, var(--bg-mid), var(--purple));
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;
-    }
-    .success-ico i { background: var(--grad-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 1.8rem; }
-
-    /* ── STICKY FLOATING CTA ────────────────────────────── */
-    .sticky-cta {
-      position: fixed; bottom: 28px; left: 50%;
-      transform: translateX(-50%) translateY(calc(100% + 50px));
-      z-index: 999;
-      background: linear-gradient(135deg, #0E0C1C 0%, #1E1B34 55%, #141220 100%);
-      border: 1px solid rgba(200,150,30,.28);
-      border-radius: 60px; padding: 6px;
-      display: inline-flex; gap: 5px; align-items: center;
-      box-shadow: 0 14px 40px rgba(0,0,0,.48), 0 0 0 1px rgba(255,255,255,.05);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      opacity: 0;
-      transition: transform .42s cubic-bezier(.4,0,.2,1), opacity .38s ease;
-      white-space: nowrap;
-    }
-    .sticky-cta.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-    .sticky-btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-      border-radius: 50px; padding: 11px 20px;
-      font-family: 'DM Sans', sans-serif; font-size: .82rem; font-weight: 700;
-      text-decoration: none; border: none; cursor: pointer; min-height: 46px;
-      transition: all .22s; white-space: nowrap;
-    }
-    .sticky-btn i { font-size: .95rem; }
-    .s-call { background: rgba(255,255,255,.07); border: 1.5px solid rgba(255,255,255,.16); color: #fff; }
-    .s-call:hover { background: rgba(255,255,255,.12); color: #fff; }
-    .s-wa { background: linear-gradient(135deg, #17a84a, #25D366); color: #fff; box-shadow: 0 4px 14px rgba(37,211,102,.26); }
-    .s-wa:hover { color: #fff; filter: brightness(1.1); }
-    .s-submit { background: var(--grad-gold); color: var(--bg-deep); box-shadow: 0 4px 14px rgba(200,150,30,.26); }
-    .s-submit:hover { color: var(--bg-deep); filter: brightness(1.06); }
-
-    /* ── RESPONSIVE ─────────────────────────────────────── */
-    @media (max-width: 767px) {
-      .hero { padding: 82px 0 44px; min-height: auto; }
-      .hero-img-col { display: none !important; }
-      .hero-content-col { text-align: center; }
-      .hero-chip { justify-content: center; margin-bottom: 14px; }
-      .hero-h1 { font-size: 2.15rem; }
-      .hero-p { font-size: .93rem; }
-      .pain-row { justify-content: center; }
-      .hero-btns { justify-content: center; }
-      .btn-wa-hero, .btn-call-hero { flex: 1; min-width: 140px; padding: 14px; }
-      .hero-form-col { margin-top: 32px; }
-      .form-card { padding: 26px 20px; }
-      .strip-inner { flex-direction: column; align-items: flex-start; gap: 14px; }
-      .strip-btns { width: 100%; }
-      .btn-s-wa, .btn-s-call { flex: 1; justify-content: center; }
-      .pcard.featured { transform: scale(1); }
-      .float-wa { bottom: 14px; right: 14px; }
-      .btn-float .float-lbl { display: none; }
-      .btn-float { padding: 15px; border-radius: 50%; }
-      .footer-bottom { justify-content: center; text-align: center; }
-    }
-    @media (min-width: 768px) and (max-width: 991px) {
-      .hero-h1 { font-size: 2.4rem; }
-      .pcard.featured { transform: scale(1); }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YogSetu — Verified yoga teachers across India</title>
+<meta name="description" content="Book a credential-checked yoga teacher in 24 hours. Every YogSetu teacher is verified with the issuing body, re-checked yearly, and searchable by style, city and schedule.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+  /* landing-page-only tweaks: give the fixed header real nav actions */
+  .site-header-fixed .header-actions{display:flex;align-items:center;gap:14px;}
+  .site-header-fixed .hdr-link{font-size:14px;font-weight:500;color:var(--ink-soft);}
+  .site-header-fixed .hdr-link:hover{color:var(--pine);}
+  @media (max-width:900px){ .site-header-fixed .header-actions{display:none;} }
+</style>
 </head>
 <body>
 
-<!-- ══════════════════════════ NAVBAR -->
-<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
-  <div class="container">
-    <a class="navbar-brand" href="#">Grow<span>योगी</span></a>
-    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <i class="bi bi-list text-white fs-3"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto align-items-center">
-        <li class="nav-item"><a class="nav-link" href="#problems">Problems</a></li>
-        <li class="nav-item"><a class="nav-link" href="#solutions">Solutions</a></li>
-        <li class="nav-item"><a class="nav-link" href="#why-us">Why Us</a></li>
-        <li class="nav-item"><a class="nav-link" href="#feedback">Reviews</a></li>
-        <li class="nav-item"><a class="nav-link" href="#plans">Plans</a></li>
-        <li class="nav-item"><a class="nav-link" href="#team">Team</a></li>
-        <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
-        <li class="nav-item ms-2">
-          <a class="nav-link btn-nav" href="https://wa.me/91XXXXXXXXXX" target="_blank">
-            <i class="bi bi-whatsapp me-1"></i> Free Consultation
-          </a>
-        </li>
-      </ul>
-    </div>
+<header class="site-header-fixed" id="siteHeaderFixed">
+  <a href="#" class="logo" aria-label="YogSetu home">
+    <span class="mark" aria-hidden="true"></span>
+    <span>
+      <span class="word">Yog<em>Setu</em></span>
+    </span>
+  </a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="teachers.html" class="active">Browse teachers</a>
+    <a href="#how">How it works</a>
+    <a href="#styles">Styles</a>
+    <a href="teacher-benefits.html">For teachers</a>
+  </nav>
+  <div class="header-actions">
+    <a href="login.html" class="hdr-link">Log in</a>
+    <a href="signup.html" class="btn btn-primary btn-small">Sign up</a>
   </div>
-</nav>
+</header>
 
-<!-- ══════════════════════════ HERO BANNER -->
-<section class="hero" id="home">
-  <div class="container" style="position:relative;z-index:1;">
-    <div class="row align-items-center g-4 g-xl-5" style="min-height:86vh;">
+<div class="page">
 
-      <!-- IMAGE COL — desktop only -->
-      <div class="col-md-3 d-none d-md-block hero-img-col" data-aos="fade-right" data-aos-duration="800">
-        <div class="hero-img-card">
-          <div class="img-badge">⭐ 4.9 / 5</div>
-          <img
-            src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=380&h=300&q=80"
-            alt="Yoga Teacher"
-            class="hero-yogi-photo"
-            onerror="this.src='https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=380&h=300&q=80'"
-          />
-          <div class="img-bottom-strip">
-            <div class="img-stat"><span class="num">500+</span><span class="lbl">Brands</span></div>
-            <div class="img-stat"><span class="num">50K+</span><span class="lbl">Leads</span></div>
-            <div class="img-stat"><span class="num">98%</span><span class="lbl">Happy</span></div>
+  <svg class="margin-art left" viewBox="0 0 180 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path d="M180 60 C 60 180, 60 380, 180 500"/>
+    <path d="M180 90 C 50 210, 50 400, 180 530"/>
+    <path d="M180 120 C 40 240, 40 420, 180 560"/>
+    <path d="M180 150 C 30 270, 30 440, 180 590"/>
+    <path d="M180 180 C 20 300, 20 460, 180 620"/>
+    <path d="M180 210 C 10 330, 10 480, 180 650"/>
+    <path d="M180 240 C 0 360, 0 500, 180 680"/>
+  </svg>
+  <svg class="margin-art right" viewBox="0 0 180 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path d="M180 60 C 60 180, 60 380, 180 500"/>
+    <path d="M180 90 C 50 210, 50 400, 180 530"/>
+    <path d="M180 120 C 40 240, 40 420, 180 560"/>
+    <path d="M180 150 C 30 270, 30 440, 180 590"/>
+    <path d="M180 180 C 20 300, 20 460, 180 620"/>
+    <path d="M180 210 C 10 330, 10 480, 180 650"/>
+    <path d="M180 240 C 0 360, 0 500, 180 680"/>
+  </svg>
+
+  <div class="hero-wrap">
+    <div class="hero-card">
+
+      <!-- Background video. Keep vid-web.webm / vid-web.mp4 / vid-poster.jpg in the SAME folder as this HTML file. -->
+      <div class="hero-media-fallback"></div>
+      <video class="hero-media" id="heroVideo"
+             autoplay muted loop playsinline
+             preload="auto"
+             poster="assets/images/vid-poster.jpg"
+             aria-hidden="true" tabindex="-1">
+        <source src="assets/videos/vid-web.webm" type="video/webm">
+        <source src="assets/videos/vid-web.mp4" type="video/mp4">
+        <source src="assets/videos/vid.mp4" type="video/mp4">
+      </video>
+      <div class="hero-scrim"></div>
+
+      <svg class="swoosh" viewBox="0 0 1440 480" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 300 C 300 150, 640 470, 1000 330 C 1200 254, 1330 300, 1440 268 L1440 480 L0 480 Z" fill="#1A1A18" opacity=".62"/>
+        <path d="M0 372 C 280 250, 620 500, 990 386 C 1210 318, 1340 356, 1440 336 L1440 480 L0 480 Z" fill="#171614" opacity=".85"/>
+        <path d="M0 424 C 320 348, 660 500, 1010 440 C 1230 402, 1350 420, 1440 410 L1440 480 L0 480 Z" fill="#D97757" opacity=".16"/>
+      </svg>
+
+      <header class="nav">
+        <a href="#" class="logo" aria-label="YogSetu home">
+          <span class="mark" aria-hidden="true"></span>
+          <span>
+            <span class="word">Yog<em>Setu</em></span>
+            <span class="tag">Verified teachers</span>
+          </span>
+        </a>
+
+        <nav class="nav-links" aria-label="Main">
+          <a href="teachers.html" class="active">Browse teachers</a>
+          <a href="#how">How it works</a>
+          <a href="#styles">Styles</a>
+          <a href="teacher-benefits.html">For teachers</a>
+        </nav>
+
+        <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+          <span></span><span></span><span></span>
+        </button>
+      </header>
+
+      <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
+        <a href="teachers.html">Browse teachers</a>
+        <a href="#how">How it works</a>
+        <a href="#styles">Styles</a>
+        <a href="teacher-benefits.html">For teachers</a>
+      </nav>
+
+      <div class="hero-body">
+
+        <div class="hero-head">
+          <span class="eyebrow"><span class="dot"></span>Every teacher credential-checked</span>
+          <h1>
+            Get a Verified Yoga Teacher
+            <span class="dim">in 24 Hours.</span>
+            <span class="accent">Book a Free Demo Class.</span>
+          </h1>
+        </div>
+
+        <div class="play-zone">
+          <button class="play-btn" id="playToggle" aria-label="Pause background video">
+            <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3l14 9-14 9V3z"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h4v16H7zM13 4h4v16h-4z"/></svg>
+          </button>
+        </div>
+
+        <div class="closing">
+          <div class="facts">
+            <div class="fact">
+              <div class="label">Verification</div>
+              <div class="value">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 4v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+                Credentials checked
+              </div>
+            </div>
+            <div class="fact">
+              <div class="label">Styles</div>
+              <div class="value">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18"/><path d="M5 8h14"/><path d="M7 21c1.5-4 3-6 5-6s3.5 2 5 6"/></svg>
+                Hatha to Ashtanga
+              </div>
+            </div>
+            <div class="fact">
+              <div class="label">Mode</div>
+              <div class="value">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8"/></svg>
+                Online or in-studio
+              </div>
+            </div>
+            <div class="fact">
+              <div class="label">Trial class</div>
+              <div class="value">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                Booked in 24 hrs
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <!-- CONTENT COL -->
-      <div class="col-12 col-md-5 col-lg-4 hero-content-col" data-aos="fade-up" data-aos-duration="700">
+          <div class="trust">
+            <span class="shield">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 4v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6l8-4z"/></svg>
+              Trusted by 12,400+ students
+            </span>
+            <span class="divider" aria-hidden="true"></span>
+            <span><span class="stars" aria-hidden="true">★★★★★</span> 4.9/5 across 6,200 trial classes</span>
+          </div>
 
-        <div class="hero-chip">🏆 India's #1 Yoga Growth Partner</div>
-
-        <h1 class="hero-h1">
-          <span class="hn">आप</span> <em class="en">Yoga</em> <span class="hn">में</span><br>
-          <span class="en grad-gold">Expert</span> <span class="hn">हो…</span><br>
-          <span class="hn">फिर भी</span> <em class="en">batches</em><br>
-          <span class="hn ul-gold">full नहीं?</span>
-        </h1>
-
-        <p class="hero-p">
-          <span class="hn">आपका problem yoga नहीं —</span><br>
-          <strong><span class="hn">digital strategy नहीं है।</span></strong><br>
-          <span class="hn">हम वो gap बंद करते हैं।</span>
-        </p>
-
-        <div class="pain-row">
-          <div class="pain-pill"><span class="dot-red"></span><span class="hn">Reach नहीं आ रही</span></div>
-          <div class="pain-pill"><span class="dot-red"></span><span class="hn">Ads waste हो रहे</span></div>
-          <div class="pain-pill"><span class="dot-red"></span><span class="hn">Students convert नहीं</span></div>
-        </div>
-
-        <div class="hero-btns">
-          <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="btn-wa-hero">
-            <i class="bi bi-whatsapp"></i>
-            <span>Book Free Consultation</span>
-          </a>
-          <a href="tel:+91XXXXXXXXXX" class="btn-call-hero">
-            <i class="bi bi-telephone-fill"></i>
-            <span>Call Now</span>
-          </a>
-        </div>
-
-      </div>
-
-      <!-- FORM COL -->
-      <div class="col-12 col-md-4 col-lg-4 ms-lg-auto hero-form-col" data-aos="fade-left" data-aos-duration="700" data-aos-delay="100" id="contact">
-        <div class="form-card">
-          <div class="form-top-badge">🚀 FREE Strategy Session</div>
-          <h3 class="form-title">अपना Free Growth Plan लें</h3>
-          <p class="form-sub"><span class="hn">हमारी team 24 hrs में WhatsApp पर contact करेगी</span></p>
-          <form id="heroForm" novalidate>
-            <div class="mb-3">
-              <input type="text" name="name" class="form-control" placeholder="आपका नाम *" required/>
-            </div>
-            <div class="mb-3">
-              <input type="tel" name="whatsapp" class="form-control" placeholder="WhatsApp Number *" required/>
-            </div>
-            <div class="mb-3">
-              <input type="text" name="city" class="form-control" placeholder="आपका शहर *" required/>
-            </div>
-            <div class="mb-3">
-              <select name="role" class="form-select" required>
-                <option value="" disabled selected>आप कौन हैं? *</option>
-                <option>Yoga Teacher (Individual)</option>
-                <option>Yoga Studio Owner</option>
-                <option>Yoga Institute</option>
-                <option>Online Yoga Trainer</option>
-                <option>Other</option>
-              </select>
-            </div>
-            <div class="mb-3">
-              <select name="plan" class="form-select">
-                <option value="" disabled selected>Interested Plan</option>
-                <option>Brand Boost — ₹25,000/month</option>
-                <option>Elite Scale — ₹60,000/month</option>
-                <option>Want to Discuss</option>
-              </select>
-            </div>
-            <div id="heroFormError" class="text-danger small mb-2" style="display:none;"></div>
-            <button type="submit" class="btn-form-submit">
-              <i class="bi bi-send-fill me-2"></i>Submit &amp; Get My Plan
-            </button>
-            <div class="form-divider">
-              <hr/><span>या फिर</span><hr/>
-            </div>
-            <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="btn-form-wa">
-              <i class="bi bi-whatsapp"></i> Book Free Consultation on WhatsApp
+          <div class="cta-shell">
+            <a href="#six-months" class="btn btn-secondary">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 11h18"/></svg>
+              Give 6 months
             </a>
-            <p class="form-guarantee">🔒 <span class="hn">No spam · 100% Free · Quick Response</span></p>
-          </form>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════ HIGHLIGHT STRIP -->
-<section class="strip" id="highlight">
-  <div class="container">
-    <div class="strip-inner">
-      <div>
-        <p class="strip-q">Confused about…</p>
-        <div class="strip-tags">
-          <span class="strip-tag"><i class="bi bi-bar-chart-fill"></i> <span class="hn">Reach</span></span>
-          <span class="strip-tag"><i class="bi bi-megaphone-fill"></i> <span class="hn">Ads</span></span>
-          <span class="strip-tag"><i class="bi bi-funnel-fill"></i> <span class="hn">Lead Generation</span></span>
-          <span class="strip-tag"><i class="bi bi-camera-reels-fill"></i> <span class="hn">Content Marketing</span></span>
-        </div>
-      </div>
-      <div class="strip-btns">
-        <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="btn-s-wa">
-          <i class="bi bi-whatsapp"></i> Book Free Consulting
-        </a>
-        <a href="tel:+91XXXXXXXXXX" class="btn-s-call">
-          <i class="bi bi-telephone-fill"></i> Call Us
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════ PROBLEMS -->
-<section class="problems" id="problems">
-  <div class="container">
-    <div class="text-center mb-5" data-aos="fade-up">
-      <div class="sec-label">The Real Struggle</div>
-      <h2 class="sec-title" style="color:#fff"><span class="hn">क्या आप भी इन Problems से गुज़र रहे हैं?</span></h2>
-      <div class="gold-bar"></div>
-      <p class="sec-sub"><span class="hn">यह sirf आपकी नहीं — हर yoga teacher की struggle है। पर अब solution है।</span></p>
-    </div>
-    <div class="row g-4">
-      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="0"><div class="prob-card"><div class="prob-icon"><i class="bi bi-eye-slash"></i></div><p class="prob-text"><span class="hn">Instagram पर reach ही नहीं आ रही</span></p></div></div>
-      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="60"><div class="prob-card"><div class="prob-icon"><i class="bi bi-chat-square-x"></i></div><p class="prob-text"><span class="hn">Regular content के बाद भी enquiries नहीं आती</span></p></div></div>
-      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="120"><div class="prob-card"><div class="prob-icon"><i class="bi bi-cash-coin"></i></div><p class="prob-text"><span class="hn">Ads पर पैसे खर्च होते हैं… results नहीं</span></p></div></div>
-      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="180"><div class="prob-card"><div class="prob-icon"><i class="bi bi-person-x"></i></div><p class="prob-text"><span class="hn">Students demo लेते हैं, join नहीं करते</span></p></div></div>
-      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="240"><div class="prob-card"><div class="prob-icon"><i class="bi bi-door-open"></i></div><p class="prob-text"><span class="hn">एक month बाद students classes छोड़ देते हैं</span></p></div></div>
-      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="300"><div class="prob-card"><div class="prob-icon"><i class="bi bi-whatsapp"></i></div><p class="prob-text"><span class="hn">WhatsApp पर enquiries ghost हो जाती हैं</span></p></div></div>
-      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="0"><div class="prob-card"><div class="prob-icon"><i class="bi bi-google"></i></div><p class="prob-text"><span class="hn">Google पर brand properly visible नहीं</span></p></div></div>
-      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="60"><div class="prob-card"><div class="prob-icon"><i class="bi bi-trophy"></i></div><p class="prob-text"><span class="hn">Competitors online ज़्यादा visible लगते हैं</span></p></div></div>
-      <div class="col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="120"><div class="prob-card"><div class="prob-icon"><i class="bi bi-graph-down-arrow"></i></div><p class="prob-text"><span class="hn">Consistent admissions नहीं — सिर्फ referrals पर depend</span></p></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════ SOLUTIONS -->
-<section class="solutions" id="solutions">
-  <div class="container">
-    <div class="text-center mb-5" data-aos="fade-up">
-      <div class="sec-label">Our Solutions</div>
-      <h2 class="sec-title"><span class="hn">आपकी Growth की</span> <span class="en">Complete Planning</span></h2>
-      <div class="gold-bar"></div>
-      <p class="sec-sub"><span class="hn">हर एक problem का solution है — हम सिर्फ marketing नहीं, complete yoga brand growth देते हैं।</span></p>
-    </div>
-    <div class="row g-4">
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0"><div class="sol-card"><div class="sol-icon"><i class="bi bi-stars"></i></div><h5 class="sol-title">Digital Presence Build करेंगे</h5><p class="sol-text"><span class="hn">आपकी digital presence को strong &amp; professional बनायेंगे।</span></p></div></div>
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="60"><div class="sol-card"><div class="sol-icon"><i class="bi bi-funnel-fill"></i></div><h5 class="sol-title">Consistent Student Enquiries</h5><p class="sol-text"><span class="hn">सिर्फ followers नहीं — real paying leads generate करने की complete funnel strategy।</span></p></div></div>
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="120"><div class="sol-card"><div class="sol-icon"><i class="bi bi-megaphone-fill"></i></div><h5 class="sol-title">Content Strategy जो काम करे</h5><p class="sol-text"><span class="hn">Reach और trust दोनों बढ़ाने वाली content strategy।</span></p></div></div>
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="180"><div class="sol-card"><div class="sol-icon"><i class="bi bi-globe2"></i></div><h5 class="sol-title">Website &amp; Landing Pages</h5><p class="sol-text"><span class="hn">High-converting landing pages जो visitors को paid students में convert करे।</span></p></div></div>
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="240"><div class="sol-card"><div class="sol-icon"><i class="bi bi-person-badge-fill"></i></div><h5 class="sol-title">Personal Branding</h5><p class="sol-text"><span class="hn">आप सिर्फ teacher नहीं — एक trusted premium brand हो।</span></p></div></div>
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300"><div class="sol-card"><div class="sol-icon"><i class="bi bi-graph-up-arrow"></i></div><h5 class="sol-title">Smart Marketing System</h5><p class="sol-text"><span class="hn">Organic + paid marketing दोनों का smart system — auto-pilot पर growth।</span></p></div></div>
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0"><div class="sol-card"><div class="sol-icon"><i class="bi bi-heart-fill"></i></div><h5 class="sol-title">Student Retention Strategy</h5><p class="sol-text"><span class="hn">Students को long-term retain करने की strategy।</span></p></div></div>
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="60"><div class="sol-card"><div class="sol-icon"><i class="bi bi-currency-rupee"></i></div><h5 class="sol-title">Demo-to-Paid Conversion</h5><p class="sol-text"><span class="hn">Demo students को paid clients में convert करने का proven framework।</span></p></div></div>
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="120"><div class="sol-card"><div class="sol-icon"><i class="bi bi-award-fill"></i></div><h5 class="sol-title">Premium Brand Transformation</h5><p class="sol-text"><span class="hn">आपकी yoga skill को premium brand में transform करेंगे।</span></p></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════ YOGI GALLERY -->
-<section class="yogi-gallery">
-  <div class="container">
-    <div class="text-center mb-4" data-aos="fade-up">
-      <div class="sec-label">Real Yogis · Real Growth</div>
-      <h2 class="sec-title"><span class="hn">हमारे Yogis</span> <span class="en">in Action</span></h2>
-      <div class="gold-bar"></div>
-    </div>
-    <div class="row g-3">
-      <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?auto=format&fit=crop&w=400&h=280&q=80"
-               alt="Yoga Group Class"
-               onerror="this.src='https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&h=280&q=80'"/>
-          <div class="gallery-overlay"><div class="gallery-cap"><span class="hn">Group Yoga Class</span></div></div>
-        </div>
-      </div>
-      <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="80">
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=400&h=280&q=80"
-               alt="Meditation Session"
-               onerror="this.src='https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=400&h=280&q=80'"/>
-          <div class="gallery-overlay"><div class="gallery-cap"><span class="hn">Meditation Session</span></div></div>
-        </div>
-      </div>
-      <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="160">
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1588286840104-8957b019727f?auto=format&fit=crop&w=400&h=280&q=80"
-               alt="Outdoor Yoga"
-               onerror="this.src='https://images.unsplash.com/photo-1552196563-55cd4e45efb3?auto=format&fit=crop&w=400&h=280&q=80'"/>
-          <div class="gallery-overlay"><div class="gallery-cap"><span class="hn">Outdoor Yoga</span></div></div>
-        </div>
-      </div>
-      <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="240">
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&h=280&q=80"
-               alt="Online Yoga Class"
-               onerror="this.src='https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=400&h=280&q=80'"/>
-          <div class="gallery-overlay"><div class="gallery-cap"><span class="hn">Studio / Online Class</span></div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════ WHY US -->
-<section class="why" id="why-us">
-  <div class="container">
-    <div class="row align-items-center g-5">
-      <div class="col-lg-6" data-aos="fade-right">
-        <div class="sec-label">Why Choose Us</div>
-        <h2 class="sec-title"><span class="hn">सिर्फ Marketing नहीं —</span><br><span class="en grad-gold">Complete Growth</span></h2>
-        <div class="gold-bar" style="margin:0 0 24px"></div>
-        <div class="why-item"><div class="why-tick"><i class="bi bi-check-lg"></i></div><p class="why-txt"><strong>Built specially for Yoga Teachers &amp; Studios</strong> — <span class="hn">हम सिर्फ yoga brands के साथ काम करते हैं</span></p></div>
-        <div class="why-item"><div class="why-tick"><i class="bi bi-check-lg"></i></div><p class="why-txt"><strong>More visibility. More student enquiries.</strong> — <span class="hn">Real results, not just likes</span></p></div>
-        <div class="why-item"><div class="why-tick"><i class="bi bi-check-lg"></i></div><p class="why-txt"><strong>Premium branding</strong> — <span class="hn">जो आपको online professional और trusted दिखाए</span></p></div>
-        <div class="why-item"><div class="why-tick"><i class="bi bi-check-lg"></i></div><p class="why-txt"><strong>Content + Ads designed for real growth</strong> — <span class="hn">नहीं सिर्फ engagement के लिए</span></p></div>
-        <div class="why-item"><div class="why-tick"><i class="bi bi-check-lg"></i></div><p class="why-txt"><strong>Turn followers into paying students</strong> — <span class="hn">हम complete funnel बनाते हैं</span></p></div>
-        <div class="why-item"><div class="why-tick"><i class="bi bi-check-lg"></i></div><p class="why-txt"><strong>Simple strategies that actually work</strong> — <span class="hn">No jargon, just results 🚀</span></p></div>
-      </div>
-      <div class="col-lg-6" data-aos="fade-left">
-        <div class="why-panel">
-          <img
-            src="https://images.unsplash.com/photo-1552196563-55cd4e45efb3?auto=format&fit=crop&w=600&h=200&q=80"
-            alt="Yoga Teacher with Students"
-            class="why-yoga-photo"
-            onerror="this.src='https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&h=200&q=80'"
-          />
-          <h3>Helping Yogis Grow Digitally</h3>
-          <p><span class="hn">India's only digital growth agency built exclusively for Yoga professionals</span></p>
-          <div class="stat-grid">
-            <div class="stat-box"><div class="big">500+</div><div class="sml">Yoga Brands Helped</div></div>
-            <div class="stat-box"><div class="big">50K+</div><div class="sml">Leads Generated</div></div>
-            <div class="stat-box"><div class="big">3X</div><div class="sml">Avg Growth Rate</div></div>
-            <div class="stat-box"><div class="big">98%</div><div class="sml">Client Satisfaction</div></div>
+            <a href="teachers.html" class="btn btn-primary">
+              Browse teachers
+              <span class="chip">Free</span>
+              <span class="arrow" aria-hidden="true">→</span>
+            </a>
           </div>
         </div>
+
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- ══════════════════════════ TESTIMONIALS -->
-<section class="testimonials" id="feedback">
-  <div class="container">
-    <div class="text-center mb-5" data-aos="fade-up">
-      <div class="sec-label">Client Feedback</div>
-      <h2 class="sec-title"><span class="hn">Yoga Teachers जो हमसे Grow किये</span></h2>
-      <div class="gold-bar"></div>
-      <p class="sec-sub"><span class="hn">Real yoga professionals के real results</span></p>
-    </div>
-    <div class="row g-4">
-      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="0"><div class="tcard"><div class="stars">★★★★★</div><p class="ttext"><span class="hn">"GrowYogi से पहले सिर्फ 5–6 students थे। अब पहले month में ही 40+ enquiries आयी और 12 नये students join किये। Best investment था!"</span></p><div class="tauthor"><div class="avatar"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya Sharma"/></div><div><div class="aname">Priya Sharma</div><div class="arole">Yoga Teacher · Delhi</div></div></div></div></div>
-      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="80"><div class="tcard"><div class="stars">★★★★★</div><p class="ttext"><span class="hn">"मेरा studio 3 साल से चल रहा था पर online visibility zero थी। GrowYogi ने 2 महीने में Google पर rank करवा दिया — अब daily enquiries आती हैं।"</span></p><div class="tauthor"><div class="avatar"><img src="https://randomuser.me/api/portraits/men/43.jpg" alt="Rajesh Gupta"/></div><div><div class="aname">Rajesh Gupta</div><div class="arole">Studio Owner · Mumbai</div></div></div></div></div>
-      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="160"><div class="tcard"><div class="stars">★★★★★</div><p class="ttext"><span class="hn">"Content quality और reels editing top-notch है। मेरी reels viral होती हैं अब। Brand premium लग रहा है — premium clients भी आने लगे हैं!"</span></p><div class="tauthor"><div class="avatar"><img src="https://randomuser.me/api/portraits/women/52.jpg" alt="Ananya Verma"/></div><div><div class="aname">Ananya Verma</div><div class="arole">Online Trainer · Pune</div></div></div></div></div>
-      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="0"><div class="tcard"><div class="stars">★★★★★</div><p class="ttext"><span class="hn">"Ads का ROI mind-blowing है। ₹10,000 ads budget पे 80+ enquiries आयी — 15 conversions। पहले same budget में 5 भी नहीं आते थे।"</span></p><div class="tauthor"><div class="avatar"><img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Suresh Patel"/></div><div><div class="aname">Suresh Patel</div><div class="arole">Institute Owner · Ahmedabad</div></div></div></div></div>
-      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="80"><div class="tcard"><div class="stars">★★★★★</div><p class="ttext"><span class="hn">"Online classes GrowYogi की help से scale की। पूरी दुनिया से students आने लगे। WhatsApp automation से follow-ups भी automatic — life easy हो गई!"</span></p><div class="tauthor"><div class="avatar"><img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Meera Joshi"/></div><div><div class="aname">Meera Joshi</div><div class="arole">Online Teacher · Bangalore</div></div></div></div></div>
-      <div class="col-lg-4" data-aos="fade-up" data-aos-delay="160"><div class="tcard"><div class="stars">★★★★★</div><p class="ttext"><span class="hn">"Monthly growth reports से हमेशा update रहता हूँ। 3 months में students 20 से 75 हो गये। यही नहीं सोचता था इतनी जल्दी होगा।"</span></p><div class="tauthor"><div class="avatar"><img src="https://randomuser.me/api/portraits/men/86.jpg" alt="Vikram Singh"/></div><div><div class="aname">Vikram Singh</div><div class="arole">Studio Owner · Jaipur</div></div></div></div></div>
-    </div>
-  </div>
-</section>
+<section class="section" id="problem" aria-labelledby="problem-title">
 
-<!-- ══════════════════════════ PRICING -->
-<section class="pricing" id="plans">
-  <div class="container">
-    <div class="text-center mb-5" data-aos="fade-up">
-      <div class="sec-label">Our Plans</div>
-      <h2 class="sec-title" style="color:#fff"><span class="hn">Choose Your</span> <span class="en">Growth Plan</span></h2>
-      <div class="gold-bar"></div>
-      <p class="sec-sub"><span class="hn">दोनों plans में ads का budget अलग होगा — directly Meta/Google को जायेगा</span></p>
-    </div>
-    <div class="row justify-content-center g-4 align-items-start">
-      <div class="col-lg-5 col-md-10" data-aos="fade-right">
-        <div class="pcard">
-          <div class="plan-lbl">Brand Boost Plan</div>
-          <h3 class="plan-name">🚀 Brand Boost</h3>
-          <p class="plan-desc"><span class="hn">Growing Yoga Studios &amp; Trainers के लिए</span></p>
-          <div class="price-row"><span class="price-cur">₹</span><span class="price-amt">25,000</span><div class="price-per">per month + GST</div></div>
-          <ul class="feat-list">
-            <li><i class="bi bi-check-circle-fill"></i>Meta Ads Management – Up to 5 campaigns</li>
-            <li><i class="bi bi-check-circle-fill"></i>Google Ads – Search + Local enquiry campaigns</li>
-            <li><i class="bi bi-check-circle-fill"></i>2 High-Converting Landing Pages</li>
-            <li><i class="bi bi-check-circle-fill"></i>Social Media Management</li>
-            <li><i class="bi bi-check-circle-fill"></i>Content Creation – Reels scripts, ad creatives</li>
-            <li><i class="bi bi-check-circle-fill"></i>Video Editing – 20 reels/month</li>
-            <li><i class="bi bi-check-circle-fill"></i>Social Media Designs – 20 posts/month</li>
-            <li><i class="bi bi-check-circle-fill"></i>Student Conversion Guidance</li>
-            <li><i class="bi bi-check-circle-fill"></i>Monthly Strategy Master Class</li>
-            <li><i class="bi bi-check-circle-fill"></i>Monthly Growth Audit Report</li>
-            <li><i class="bi bi-check-circle-fill"></i>Priority Support</li>
-          </ul>
-          <div class="leads-box"><div class="leads-lbl">📈 Estimated Leads</div><div class="leads-num">50–150 enquiries/month</div><div class="leads-note">Depends on city, offer &amp; ad budget</div></div>
-          <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="btn-p btn-outline-p">Get Started Now</a>
-        </div>
+  <div class="head">
+    <div>
+      <div class="kicker mono">
+        <span class="num">02</span>
+        <span class="rule" aria-hidden="true"></span>
+        <span>The problem</span>
       </div>
-      <div class="col-lg-5 col-md-10" data-aos="fade-left">
-        <div class="pcard featured">
-          <div class="top-badge">👑 Most Popular</div>
-          <div class="plan-lbl">Elite Scale Plan</div>
-          <h3 class="plan-name">👑 Elite Scale</h3>
-          <p class="plan-desc"><span class="hn">Serious Yoga Brands ready to scale big</span></p>
-          <div class="price-row"><span class="price-cur">₹</span><span class="price-amt">60,000</span><div class="price-per">per month + GST</div></div>
-          <ul class="feat-list">
-            <li><i class="bi bi-check-circle-fill"></i>Advanced Meta Ads Scaling</li>
-            <li><i class="bi bi-check-circle-fill"></i>Google Ads – Search, Local &amp; Remarketing</li>
-            <li><i class="bi bi-check-circle-fill"></i>Premium Landing Funnel Creation</li>
-            <li><i class="bi bi-check-circle-fill"></i>Complete Social Media Management</li>
-            <li><i class="bi bi-check-circle-fill"></i>High-Level Content Strategy</li>
-            <li><i class="bi bi-check-circle-fill"></i>Video Editing – 30 premium reels/month</li>
-            <li><i class="bi bi-check-circle-fill"></i>Social Media Designs – 30 premium posts/month</li>
-            <li><i class="bi bi-check-circle-fill"></i>Website Development Support</li>
-            <li><i class="bi bi-check-circle-fill"></i>SEO Optimization</li>
-            <li><i class="bi bi-check-circle-fill"></i>Personal Branding Strategy</li>
-            <li><i class="bi bi-check-circle-fill"></i>Automation &amp; CRM Funnel Setup</li>
-            <li><i class="bi bi-check-circle-fill"></i>Student Retention Strategy</li>
-            <li><i class="bi bi-check-circle-fill"></i>Online Class Growth Support</li>
-            <li><i class="bi bi-check-circle-fill"></i>Content &amp; Design for all marketing materials (pamphlet, banner, standee)</li>
-            <li><i class="bi bi-check-circle-fill"></i>Weekly Growth Calls</li>
-            <li><i class="bi bi-check-circle-fill"></i>Dedicated Expert Team Support</li>
-            <li><i class="bi bi-check-circle-fill"></i>Detailed Analytics &amp; Performance Reports</li>
-          </ul>
-          <div class="leads-box"><div class="leads-lbl">📈 Estimated Leads</div><div class="leads-num">150–500+ enquiries/month</div><div class="leads-note">Depends on ad budget, location &amp; conversion system</div></div>
-          <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="btn-p btn-gold-p">Start Elite Growth →</a>
-        </div>
-      </div>
+      <h2 id="problem-title">
+        The teacher is almost always the problem.
+        <span class="not">Not you.</span>
+      </h2>
     </div>
-    <p class="text-center mt-4" style="font-family:'DM Sans';font-size:.78rem;color:rgba(255,255,255,.32)">
-      <i class="bi bi-info-circle"></i> <span class="hn">Ads budget अलग होगा — directly Meta/Google को जायेगा।</span>
+    <p class="lede">
+      Yoga works. What fails is finding a teacher who is <strong>qualified, consistent, and the right fit</strong> for where you are.
     </p>
   </div>
+
+  <p class="swipe-hint mono" aria-hidden="true">← Swipe to compare →</p>
+
+  <div class="diptych">
+
+    <article class="panel panel-story">
+      <div class="photo photo-illus">
+        <!-- SLOT 1 — illustration. Keep Questions-bro.svg in this folder. -->
+        <img class="illus" src="assets/images/Questions-bro.svg" alt="A student surrounded by unanswered questions about which teacher to choose"
+             onerror="this.closest('.photo').classList.add('missing')">
+        <span class="stamp mono">Before YogSetu</span>
+      </div>
+      <div class="panel-body">
+        <span class="label mono">Hiring from a random agency or contacts</span>
+        <h3 class="panel-title">You get whoever's available. No proof of training.</h3>
+        <ul class="failures">
+          <li>
+            <span class="x" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
+            No certification at all
+          </li>
+          <li>
+            <span class="x" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
+            Five styles taught at once, none of them properly
+          </li>
+          <li>
+            <span class="x" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
+            Five classes running at a time, no attention left
+          </li>
+          <li>
+            <span class="x" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
+            Never a class that was actually right for you
+          </li>
+        </ul>
+        <p class="outcome">Result: another dropped-off subscription</p>
+      </div>
+    </article>
+
+    <div class="diptych-vs" aria-hidden="true">VS</div>
+
+    <article class="panel panel-truth">
+      <div class="photo">
+        <!-- SLOT 2 — swap src for photo-truth.jpg once you have a still. -->
+        <video class="slot" data-rate="1" autoplay muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1">
+          <source src="assets/videos/1.mp4" type="video/mp4">
+        </video>
+        <span class="seal" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>
+          <span>VERIFIED</span>
+        </span>
+      </div>
+      <div class="panel-body">
+        <span class="label mono">Hiring through YogSetu</span>
+        <h3 class="panel-title">You get a credential-checked specialist, matched to you.</h3>
+        <ul class="checks">
+          <li>
+            <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            Certificates checked with the issuing body
+          </li>
+          <li>
+            <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            One declared specialism, taught properly
+          </li>
+          <li>
+            <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            Class size and format stated upfront
+          </li>
+          <li>
+            <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            Re-verified every single year
+          </li>
+        </ul>
+        <p class="outcome">Result: a teacher who actually fits — and you stay</p>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="verdict">
+    <p>It was never your discipline that ran out. It was the teaching.</p>
+    <a href="#verification">
+      See how verification works
+      <span aria-hidden="true">→</span>
+    </a>
+  </div>
+
 </section>
 
-<!-- ══════════════════════════ OUR TEAM -->
-<section id="team" style="background:linear-gradient(155deg,#141220 0%,#1C1A38 32%,#252248 62%,#181628 100%);padding:100px 0;">
-  <div class="container">
-    <div class="text-center mb-5" data-aos="fade-up">
-      <div class="sec-label">The People Behind GrowYogi</div>
-      <h2 class="sec-title" style="color:#fff;"><span class="hn">हमारी</span> <span class="en">Team</span></h2>
-      <div class="gold-bar"></div>
-      <p class="sec-sub"><span class="hn">Yoga industry के लिए passionate experts की team</span></p>
+<script>
+(function(){
+  var panels = document.querySelectorAll('#problem .panel');
+  if(!panels.length || window.matchMedia('(pointer: coarse)').matches) return;
+
+  panels.forEach(function(panel){
+    var maxTilt = 6;
+    panel.addEventListener('mousemove', function(e){
+      var rect = panel.getBoundingClientRect();
+      var x = (e.clientX - rect.left) / rect.width;
+      var y = (e.clientY - rect.top) / rect.height;
+      var rotateY = (x - 0.5) * maxTilt * 2;
+      var rotateX = (0.5 - y) * maxTilt * 2;
+      panel.style.transition = 'none';
+      panel.style.transform = 'translateY(-6px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg)';
+    });
+    panel.addEventListener('mouseleave', function(){
+      panel.style.transition = 'transform .5s cubic-bezier(.22,.9,.3,1)';
+      panel.style.transform = 'translateY(0) rotateX(0) rotateY(0)';
+    });
+  });
+})();
+</script>
+
+<section class="how" id="how" aria-labelledby="how-title">
+  <div class="how-inner">
+
+    <div class="how-kicker mono">
+      <span class="rule" aria-hidden="true"></span>
+      <span>How it works</span>
+      <span class="rule" aria-hidden="true"></span>
     </div>
-    <div class="row g-4 justify-content-center">
 
-      <!-- Sarvesh Kumar Mishra -->
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0">
-        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(200,150,30,.30);border-radius:22px;padding:36px 28px;text-align:center;transition:transform .3s,box-shadow .3s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 20px 48px rgba(200,150,30,.12)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
-          <div style="width:110px;height:110px;border-radius:50%;margin:0 auto 20px;border:2px solid rgba(200,150,30,.45);overflow:hidden;box-shadow:0 0 28px rgba(200,150,30,.18);">
-            <img src="images/team/Sarvesh Mishra.jpeg" alt="Sarvesh Kumar Mishra" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <div class="how-card">
+      <h2 id="how-title">
+        Your first class is <span class="three">three steps</span> away
+      </h2>
+
+      <div class="walk-path" id="walkPath">
+        <div class="walk-line" aria-hidden="true"><div class="walk-line-fill" id="walkLineFill"></div></div>
+        <div class="walk-marker" id="walkMarker" aria-hidden="true">
+          <div class="walk-marker-bob">
+            <svg viewBox="0 0 24 24"><path d="M12 2v6"/><path d="M5 22c0-5 3-7 7-7s7 2 7 7"/><circle cx="12" cy="12" r="3"/></svg>
           </div>
-          <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:#fff;margin-bottom:4px;">Sarvesh Kumar Mishra</h3>
-          <p style="font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;background:linear-gradient(135deg,#C8961E,#D4AB3A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Founder</p>
-          <p style="font-family:'DM Sans',sans-serif;font-size:.83rem;color:rgba(255,255,255,.56);line-height:1.65;"><span class="hn">7 Years of Experience in Marketing &amp; Lead Generation in Yoga Industry</span></p>
         </div>
-      </div>
 
-      <!-- Monu Dwivedi -->
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(200,150,30,.30);border-radius:22px;padding:36px 28px;text-align:center;transition:transform .3s,box-shadow .3s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 20px 48px rgba(200,150,30,.12)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
-          <div style="width:110px;height:110px;border-radius:50%;margin:0 auto 20px;border:2px solid rgba(200,150,30,.45);overflow:hidden;box-shadow:0 0 28px rgba(200,150,30,.18);">
-            <img src="images/team/modi dwivedi.jpeg" alt="Monu Dwivedi" style="width:100%;height:100%;object-fit:cover;display:block;object-position:top;">
-          </div>
-          <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:#fff;margin-bottom:4px;">Monu Dwivedi</h3>
-          <p style="font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;background:linear-gradient(135deg,#C8961E,#D4AB3A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Content Marketing</p>
-          <p style="font-family:'DM Sans',sans-serif;font-size:.83rem;color:rgba(255,255,255,.56);line-height:1.65;"><span class="hn">Crafting compelling content strategies to grow the GrowYogi brand</span></p>
-        </div>
-      </div>
+        <ol class="how-flow" id="howFlow">
 
-      <!-- Suraj Jaiswal -->
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(200,150,30,.30);border-radius:22px;padding:36px 28px;text-align:center;transition:transform .3s,box-shadow .3s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 20px 48px rgba(200,150,30,.12)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
-          <div style="width:110px;height:110px;border-radius:50%;margin:0 auto 20px;border:2px solid rgba(200,150,30,.45);overflow:hidden;box-shadow:0 0 28px rgba(200,150,30,.18);">
-            <img src="images/team/Suraj Jaiswal.jpeg" alt="Suraj Jaiswal" style="width:100%;height:100%;object-fit:cover;display:block;object-position:top;">
-          </div>
-          <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:#fff;margin-bottom:4px;">Suraj Jaiswal</h3>
-          <p style="font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;background:linear-gradient(135deg,#C8961E,#D4AB3A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Performance Marketing Head</p>
-          <p style="font-family:'DM Sans',sans-serif;font-size:.83rem;color:rgba(255,255,255,.56);line-height:1.65;"><span class="hn">Driving results through data-driven performance marketing campaigns</span></p>
-        </div>
-      </div>
+          <li class="how-step" data-wp>
+            <span class="how-waypoint" aria-hidden="true"><span class="how-digit">01</span></span>
+            <div class="how-copy">
+              <h3>Filter for exactly what you need</h3>
+              <p>Style, city or online, timing, language.</p>
+              <span class="how-chip"><span class="dot" aria-hidden="true"></span>12+ styles · 40+ cities</span>
+            </div>
+          </li>
 
-      <!-- Ritesh Tripathi -->
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(200,150,30,.30);border-radius:22px;padding:36px 28px;text-align:center;transition:transform .3s,box-shadow .3s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 20px 48px rgba(200,150,30,.12)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
-          <div style="width:110px;height:110px;border-radius:50%;margin:0 auto 20px;border:2px solid rgba(200,150,30,.45);overflow:hidden;box-shadow:0 0 28px rgba(200,150,30,.18);">
-            <img src="images/team/ritesh tripathi.jpeg" alt="Ritesh Tripathi" style="width:100%;height:100%;object-fit:cover;display:block;object-position:top;">
-          </div>
-          <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:#fff;margin-bottom:4px;">Ritesh Tripathi</h3>
-          <p style="font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;background:linear-gradient(135deg,#C8961E,#D4AB3A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Graphics Designer</p>
-          <p style="font-family:'DM Sans',sans-serif;font-size:.83rem;color:rgba(255,255,255,.56);line-height:1.65;"><span class="hn">Creating visually stunning designs that bring the GrowYogi vision to life</span></p>
-        </div>
-      </div>
+          <li class="how-step" data-wp>
+            <span class="how-waypoint" aria-hidden="true"><span class="how-digit">02</span></span>
+            <div class="how-copy">
+              <h3>See the proof before you call</h3>
+              <p>Certificates, accrediting body, years taught, intro video.</p>
+              <span class="how-chip"><span class="dot" aria-hidden="true"></span>Checked with the issuer</span>
+            </div>
+          </li>
 
-      <!-- Ravishankar Mishra -->
-      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
-        <div style="background:rgba(255,255,255,.04);border:1px solid rgba(200,150,30,.30);border-radius:22px;padding:36px 28px;text-align:center;transition:transform .3s,box-shadow .3s;" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 20px 48px rgba(200,150,30,.12)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'">
-          <div style="width:110px;height:110px;border-radius:50%;margin:0 auto 20px;border:2px solid rgba(200,150,30,.45);overflow:hidden;box-shadow:0 0 28px rgba(200,150,30,.18);">
-            <img src="images/team/Ravishankar Mishra.jpeg" alt="Ravishankar Mishra" style="width:100%;height:100%;object-fit:cover;display:block;object-position:top;">
-          </div>
-          <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:#fff;margin-bottom:4px;">Ravishankar Mishra</h3>
-          <p style="font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;background:linear-gradient(135deg,#C8961E,#D4AB3A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">Team Member</p>
-          <p style="font-family:'DM Sans',sans-serif;font-size:.83rem;color:rgba(255,255,255,.56);line-height:1.65;"><span class="hn">Dedicated team member contributing to GrowYogi's mission</span></p>
-        </div>
-      </div>
+          <li class="how-step" data-wp>
+            <span class="how-waypoint" aria-hidden="true"><span class="how-digit">03</span></span>
+            <div class="how-copy">
+              <h3>Book a trial. Straight to them.</h3>
+              <p>Message through the profile. Attend your first class.</p>
+              <span class="how-chip"><span class="dot" aria-hidden="true"></span>0% platform fee</span>
+            </div>
+          </li>
 
+        </ol>
+      </div>
     </div>
+
+    <div class="how-foot">
+      <p>You will know more about your teacher than you did about your last five.</p>
+      <a href="teachers.html">
+        Start with step one
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+
   </div>
 </section>
 
-<!-- ══════════════════════════ FAQ -->
-<section class="faq" id="faq">
-  <div class="container">
-    <div class="text-center mb-5" data-aos="fade-up">
-      <div class="sec-label">FAQs</div>
-      <h2 class="sec-title"><span class="hn">Frequently Asked</span> <span class="en">Questions</span></h2>
-      <div class="gold-bar"></div>
-      <p class="sec-sub"><span class="hn">आपके common questions के जवाब — सीधे और simple</span></p>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-lg-8" data-aos="fade-up">
-        <div class="accordion" id="faqAcc">
-          <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#q1"><span class="hn">क्या आप सिर्फ Yoga brands के साथ काम करते हैं?</span></button></h2><div id="q1" class="accordion-collapse collapse show" data-bs-parent="#faqAcc"><div class="accordion-body"><span class="hn">Yes. GrowYogi specially Yoga Teachers, Studios &amp; Institutes के लिए built है।</span></div></div></div>
-          <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2"><span class="hn">क्या ads का budget package में included है?</span></button></h2><div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body"><span class="hn">No. Ads budget अलग होता है और directly Meta/Google को जाता है।</span></div></div></div>
-          <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q3"><span class="hn">क्या आप student enquiries लाने में help करते हैं?</span></button></h2><div id="q3" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body"><span class="hn">Yes. हमारा main focus ही consistent student enquiries &amp; admissions growth पर है।</span></div></div></div>
-          <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q4"><span class="hn">क्या beginners भी यह service ले सकते हैं?</span></button></h2><div id="q4" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body"><span class="hn">Absolutely. हम beginner Yoga Teachers से लेकर large institutes तक सबके लिए strategy बनाते हैं।</span></div></div></div>
-          <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q5"><span class="hn">क्या आप content भी provide करते हैं?</span></button></h2><div id="q5" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body"><span class="hn">Yes. Reels scripts, post ideas, ad creatives, banners &amp; marketing content सब provide किया जाता है।</span></div></div></div>
-          <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q6"><span class="hn">Results कितने time में आते हैं?</span></button></h2><div id="q6" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body"><span class="hn">Usually ads से initial enquiries few days में start हो सकती हैं। Brand growth 2–3 महीने में clearly visible होती है।</span></div></div></div>
-          <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q7"><span class="hn">क्या monthly reports मिलेंगी?</span></button></h2><div id="q7" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body"><span class="hn">Yes. हर month detailed audit &amp; growth performance report share की जाती है।</span></div></div></div>
-          <div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q8"><span class="hn">क्या support available रहेगा?</span></button></h2><div id="q8" class="accordion-collapse collapse" data-bs-parent="#faqAcc"><div class="accordion-body"><span class="hn">Yes. Plans के according dedicated support &amp; guidance available रहेगी।</span></div></div></div>
-        </div>
+<script>
+(function(){
+  var path = document.getElementById('walkPath');
+  var marker = document.getElementById('walkMarker');
+  var lineFill = document.getElementById('walkLineFill');
+  var steps = document.querySelectorAll('#howFlow .how-step');
+  if(!path || !marker || !steps.length) return;
+
+  var waypoints = document.querySelectorAll('#howFlow .how-waypoint');
+  var firstY = 0, trailHeight = 0, ticking = false;
+
+  function measure(){
+    var pathRect = path.getBoundingClientRect();
+    var firstRect = waypoints[0].getBoundingClientRect();
+    var lastRect = waypoints[waypoints.length - 1].getBoundingClientRect();
+    firstY = (firstRect.top + firstRect.height / 2) - pathRect.top;
+    var lastY = (lastRect.top + lastRect.height / 2) - pathRect.top;
+    trailHeight = lastY - firstY;
+  }
+
+  function update(){
+    ticking = false;
+    var rect = path.getBoundingClientRect();
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var progress = (vh * 0.62 - rect.top) / (rect.height || 1);
+    progress = Math.max(0, Math.min(1, progress));
+
+    var travelled = firstY + trailHeight * progress;
+    marker.style.transform = 'translateY(' + travelled + 'px)';
+    lineFill.style.height = (trailHeight * progress) + 'px';
+
+    steps.forEach(function(step, i){
+      var wp = waypoints[i];
+      var wpRect = wp.getBoundingClientRect();
+      var wpY = (wpRect.top + wpRect.height / 2) - rect.top;
+      step.classList.toggle('is-passed', travelled >= wpY - 6);
+    });
+  }
+
+  function onScroll(){
+    if(!ticking){
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }
+
+  measure();
+  update();
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('resize', function(){ measure(); update(); });
+})();
+</script>
+
+<section class="teachers" id="teachers" aria-labelledby="teachers-title">
+
+  <div class="teachers-head">
+      <div class="album album-left" aria-hidden="true">
+        <img class="album-photo p1" src="https://storage.googleapis.com/yogkulam/landing-page/teacher/Amrita-Gupta.jpg" alt="" loading="lazy" onerror="this.classList.add('is-missing')">
+        <img class="album-photo p2" src="https://storage.googleapis.com/yogkulam/landing-page/teacher/VIkas-Singh-Rajput.jpg" alt="" loading="lazy" onerror="this.classList.add('is-missing')">
       </div>
+
+      <div>
+        <div class="teachers-kicker mono">
+          <span class="num">04</span>
+          <span class="rule" aria-hidden="true"></span>
+          <span>Verified teachers</span>
+        </div>
+        <h2 id="teachers-title">Meet a few who <em>passed the check</em></h2>
+      </div>
+
+      <div class="album album-right" aria-hidden="true">
+        <img class="album-photo p1" src="https://storage.googleapis.com/yogkulam/landing-page/teacher/Shamli-Joshi.jpg" alt="" loading="lazy" onerror="this.classList.add('is-missing')">
+        <img class="album-photo p2" src="https://storage.googleapis.com/yogkulam/landing-page/teacher/Shachi-Khemuka.jpg" alt="" loading="lazy" onerror="this.classList.add('is-missing')">
+      </div>
+  </div>
+
+  <div class="rail" id="teacherRail" role="list">
+        <article class="tcard">
+          <div class="shot">
+            <img src="https://storage.googleapis.com/yogkulam/landing-page/teacher/Shikhar-Mehrotra.jpg" alt="Shikhar Mehrotra, verified yoga teacher"
+                 loading="lazy" decoding="async"
+                 onerror="this.closest('.shot').classList.add('missing')">
+            <span class="fallback" aria-hidden="true">SM</span>
+            <span class="rating"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>4.9 <span class="count">(128)</span></span>
+            <span class="vbadge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Verified</span>
+          </div>
+          <div class="info">
+            <h3>Shikhar Mehrotra</h3>
+            <p class="meta">Hatha & Ashtanga · Lucknow</p>
+            <div class="tags"><span>Hatha</span><span>Ashtanga</span><span>Beginners</span></div>
+            <a class="book" href="#book">Book slot <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <article class="tcard">
+          <div class="shot">
+            <img src="https://storage.googleapis.com/yogkulam/landing-page/teacher/Amrita-Gupta.jpg" alt="Amrita Gupta, verified yoga teacher"
+                 loading="lazy" decoding="async"
+                 onerror="this.closest('.shot').classList.add('missing')">
+            <span class="fallback" aria-hidden="true">AG</span>
+            <span class="rating"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>4.8 <span class="count">(94)</span></span>
+            <span class="vbadge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Verified</span>
+          </div>
+          <div class="info">
+            <h3>Amrita Gupta</h3>
+            <p class="meta">Prenatal & Therapeutic · Delhi</p>
+            <div class="tags"><span>Prenatal</span><span>Therapeutic</span></div>
+            <a class="book" href="#book">Book slot <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <article class="tcard">
+          <div class="shot">
+            <img src="https://storage.googleapis.com/yogkulam/landing-page/teacher/VIkas-Singh-Rajput.jpg" alt="Vikas Singh Rajput, verified yoga teacher"
+                 loading="lazy" decoding="async"
+                 onerror="this.closest('.shot').classList.add('missing')">
+            <span class="fallback" aria-hidden="true">VS</span>
+            <span class="rating"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>4.9 <span class="count">(156)</span></span>
+            <span class="vbadge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Verified</span>
+          </div>
+          <div class="info">
+            <h3>Vikas Singh Rajput</h3>
+            <p class="meta">Ashtanga & Pranayama · Mumbai</p>
+            <div class="tags"><span>Ashtanga</span><span>Pranayama</span></div>
+            <a class="book" href="#book">Book slot <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <article class="tcard">
+          <div class="shot">
+            <img src="https://storage.googleapis.com/yogkulam/landing-page/teacher/Shamli-Joshi.jpg" alt="Shamli Joshi, verified yoga teacher"
+                 loading="lazy" decoding="async"
+                 onerror="this.closest('.shot').classList.add('missing')">
+            <span class="fallback" aria-hidden="true">SJ</span>
+            <span class="rating"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>4.7 <span class="count">(71)</span></span>
+            <span class="vbadge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Verified</span>
+          </div>
+          <div class="info">
+            <h3>Shamli Joshi</h3>
+            <p class="meta">Vinyasa & Meditation · Pune</p>
+            <div class="tags"><span>Vinyasa</span><span>Meditation</span></div>
+            <a class="book" href="#book">Book slot <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <article class="tcard">
+          <div class="shot">
+            <img src="https://storage.googleapis.com/yogkulam/landing-page/teacher/Shachi-Khemuka.jpg" alt="Shachi Khemuka, verified yoga teacher"
+                 loading="lazy" decoding="async"
+                 onerror="this.closest('.shot').classList.add('missing')">
+            <span class="fallback" aria-hidden="true">SK</span>
+            <span class="rating"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>5.0 <span class="count">(62)</span></span>
+            <span class="vbadge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Verified</span>
+          </div>
+          <div class="info">
+            <h3>Shachi Khemuka</h3>
+            <p class="meta">Hatha & Yoga Therapy · Bengaluru</p>
+            <div class="tags"><span>Hatha</span><span>Therapeutic</span></div>
+            <a class="book" href="#book">Book slot <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <article class="tcard">
+          <div class="shot">
+            <img src="https://storage.googleapis.com/yogkulam/landing-page/teacher/Shweta-Shukla.jpg" alt="Shweta Shukla, verified yoga teacher"
+                 loading="lazy" decoding="async"
+                 onerror="this.closest('.shot').classList.add('missing')">
+            <span class="fallback" aria-hidden="true">SS</span>
+            <span class="rating"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>4.8 <span class="count">(110)</span></span>
+            <span class="vbadge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Verified</span>
+          </div>
+          <div class="info">
+            <h3>Shweta Shukla</h3>
+            <p class="meta">Yoga for Seniors · Jaipur</p>
+            <div class="tags"><span>Seniors</span><span>Gentle</span></div>
+            <a class="book" href="#book">Book slot <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <article class="tcard">
+          <div class="shot">
+            <img src="https://storage.googleapis.com/yogkulam/landing-page/teacher/Disha-Nehra.jpg" alt="Disha Nehra, verified yoga teacher"
+                 loading="lazy" decoding="async"
+                 onerror="this.closest('.shot').classList.add('missing')">
+            <span class="fallback" aria-hidden="true">DN</span>
+            <span class="rating"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg>4.9 <span class="count">(83)</span></span>
+            <span class="vbadge"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"/></svg>Verified</span>
+          </div>
+          <div class="info">
+            <h3>Disha Nehra</h3>
+            <p class="meta">Corporate Wellness · Gurugram</p>
+            <div class="tags"><span>Corporate</span><span>Beginners</span></div>
+            <a class="book" href="#book">Book slot <span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </article>
+  </div>
+
+  <div class="teachers-foot">
+    <div class="rail-nav">
+      <button type="button" id="railPrev" aria-label="Previous teachers">
+        <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <button type="button" id="railNext" aria-label="More teachers">
+        <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
     </div>
+    <a class="btn-seeall" href="teachers.html">See all teachers <span class="arrow" aria-hidden="true">→</span></a>
+  </div>
+
+</section>
+
+<section class="styles" id="styles" aria-labelledby="styles-title">
+  <div class="styles-inner">
+
+    <div class="sec-head">
+      <div class="sec-kicker mono">
+        <span class="num">05</span>
+        <span class="rule" aria-hidden="true"></span>
+        <span>Find your style</span>
+      </div>
+      <h2 id="styles-title">What kind of yoga are <em>you</em> looking for?</h2>
+      <p class="sub">Each style has a different goal. Pick one and see only the teachers who actually trained in it.</p>
+    </div>
+
+    <div class="style-grid" id="styleGrid">
+      <div class="pick-card" data-style="Hatha Yoga">
+        <button type="button" class="pick-inner" aria-pressed="false">
+          <span class="pick-face pick-front">
+            <img src="assets/images/hatha.png" alt="" loading="lazy" onerror="this.closest('.pick-card').classList.add('photo-missing')">
+            <span class="pick-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.3"/><path d="M12 8v6M12 14l-4 6M12 14l4 6M6 10.5h12"/></svg></span>
+            <span class="pick-index mono">01</span>
+            <span class="pick-corner" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <span class="pick-title">Hatha Yoga</span>
+            <span class="pick-desc">Traditional posture work. The best place to begin.</span>
+            <span class="pick-tap"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Tap to pick</span>
+          </span>
+          <span class="pick-face pick-back">
+            <span class="pick-index mono">01</span>
+            <span class="check-circle"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <h4>Picked!</h4>
+            <span class="style-name mono">Hatha Yoga</span>
+            <span class="undo"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Tap to undo</span>
+          </span>
+        </button>
+      </div>
+      <div class="pick-card" data-style="Ashtanga / Power">
+        <button type="button" class="pick-inner" aria-pressed="false">
+          <span class="pick-face pick-front">
+            <img src="assets/images/astanga.png" alt="" loading="lazy" onerror="this.closest('.pick-card').classList.add('photo-missing')">
+            <span class="pick-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 17c3-7 5-10 8-10s5 3 8 10"/><path d="M8 20l3-4M16 20l-3-4"/><circle cx="12" cy="4.5" r="1.8"/></svg></span>
+            <span class="pick-index mono">02</span>
+            <span class="pick-corner" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <span class="pick-title">Ashtanga / Power</span>
+            <span class="pick-desc">Flowing sequences tied to breath. Strength and focus.</span>
+            <span class="pick-tap"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Tap to pick</span>
+          </span>
+          <span class="pick-face pick-back">
+            <span class="pick-index mono">02</span>
+            <span class="check-circle"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <h4>Picked!</h4>
+            <span class="style-name mono">Ashtanga / Power</span>
+            <span class="undo"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Tap to undo</span>
+          </span>
+        </button>
+      </div>
+      <div class="pick-card" data-style="Prenatal Yoga">
+        <button type="button" class="pick-inner" aria-pressed="false">
+          <span class="pick-face pick-front">
+            <img src="assets/images/prenatal.png" alt="" loading="lazy" onerror="this.closest('.pick-card').classList.add('photo-missing')">
+            <span class="pick-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.2"/><path d="M12 8v4"/><path d="M9 15.5a4 4 0 118 0 4 4 0 01-8 0z"/><path d="M6 20h4"/></svg></span>
+            <span class="pick-index mono">03</span>
+            <span class="pick-corner" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <span class="pick-title">Prenatal Yoga</span>
+            <span class="pick-desc">Safe, pregnancy-focused practice for mother and baby.</span>
+            <span class="pick-tap"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Tap to pick</span>
+          </span>
+          <span class="pick-face pick-back">
+            <span class="pick-index mono">03</span>
+            <span class="check-circle"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <h4>Picked!</h4>
+            <span class="style-name mono">Prenatal Yoga</span>
+            <span class="undo"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Tap to undo</span>
+          </span>
+        </button>
+      </div>
+      <div class="pick-card" data-style="Therapeutic Yoga">
+        <button type="button" class="pick-inner" aria-pressed="false">
+          <span class="pick-face pick-front">
+            <img src="assets/images/therapy.png" alt="" loading="lazy" onerror="this.closest('.pick-card').classList.add('photo-missing')">
+            <span class="pick-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.2-7-9a4 4 0 017-2.6A4 4 0 0119 11c0 4.8-7 9-7 9z"/><path d="M9 12h2l1-2 1.5 3.5L15 12h1"/></svg></span>
+            <span class="pick-index mono">04</span>
+            <span class="pick-corner" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <span class="pick-title">Therapeutic Yoga</span>
+            <span class="pick-desc">Targeted relief for back pain, injury and chronic stress.</span>
+            <span class="pick-tap"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Tap to pick</span>
+          </span>
+          <span class="pick-face pick-back">
+            <span class="pick-index mono">04</span>
+            <span class="check-circle"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <h4>Picked!</h4>
+            <span class="style-name mono">Therapeutic Yoga</span>
+            <span class="undo"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Tap to undo</span>
+          </span>
+        </button>
+      </div>
+      <div class="pick-card" data-style="Meditation">
+        <button type="button" class="pick-inner" aria-pressed="false">
+          <span class="pick-face pick-front">
+            <img src="assets/images/meditation.png" alt="" loading="lazy" onerror="this.closest('.pick-card').classList.add('photo-missing')">
+            <span class="pick-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="5.5" r="2.2"/><path d="M12 8.5v4.5"/><path d="M5 19c2.5-3 4.6-4.5 7-4.5S16.5 16 19 19z"/><path d="M7.5 19h9"/></svg></span>
+            <span class="pick-index mono">05</span>
+            <span class="pick-corner" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <span class="pick-title">Meditation</span>
+            <span class="pick-desc">Stillness, breathwork and mind training for clarity.</span>
+            <span class="pick-tap"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Tap to pick</span>
+          </span>
+          <span class="pick-face pick-back">
+            <span class="pick-index mono">05</span>
+            <span class="check-circle"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <h4>Picked!</h4>
+            <span class="style-name mono">Meditation</span>
+            <span class="undo"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Tap to undo</span>
+          </span>
+        </button>
+      </div>
+      <div class="pick-card" data-style="Yoga of Education">
+        <button type="button" class="pick-inner" aria-pressed="false">
+          <span class="pick-face pick-front">
+            <img src="assets/images/education.png" alt="" loading="lazy" onerror="this.closest('.pick-card').classList.add('photo-missing')">
+            <span class="pick-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 8.5L12 4.5l9 4-9 4-9-4z"/><path d="M7 11v4.5c0 1.4 2.2 2.5 5 2.5s5-1.1 5-2.5V11"/></svg></span>
+            <span class="pick-index mono">06</span>
+            <span class="pick-corner" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <span class="pick-title">Yoga of Education</span>
+            <span class="pick-desc">Child-safe sequences and mindful tools for schools.</span>
+            <span class="pick-tap"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Tap to pick</span>
+          </span>
+          <span class="pick-face pick-back">
+            <span class="pick-index mono">06</span>
+            <span class="check-circle"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <h4>Picked!</h4>
+            <span class="style-name mono">Yoga of Education</span>
+            <span class="undo"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Tap to undo</span>
+          </span>
+        </button>
+      </div>
+      <div class="pick-card" data-style="Corporate Wellness">
+        <button type="button" class="pick-inner" aria-pressed="false">
+          <span class="pick-face pick-front">
+            <img src="assets/images/corporate.png" alt="" loading="lazy" onerror="this.closest('.pick-card').classList.add('photo-missing')">
+            <span class="pick-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M9 8V6a2 2 0 012-2h2a2 2 0 012 2v2"/><path d="M3 13h18"/></svg></span>
+            <span class="pick-index mono">07</span>
+            <span class="pick-corner" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <span class="pick-title">Corporate Wellness</span>
+            <span class="pick-desc">Desk-friendly programmes for teams and workplaces.</span>
+            <span class="pick-tap"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Tap to pick</span>
+          </span>
+          <span class="pick-face pick-back">
+            <span class="pick-index mono">07</span>
+            <span class="check-circle"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <h4>Picked!</h4>
+            <span class="style-name mono">Corporate Wellness</span>
+            <span class="undo"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Tap to undo</span>
+          </span>
+        </button>
+      </div>
+      <div class="pick-card" data-style="Yoga for Seniors">
+        <button type="button" class="pick-inner" aria-pressed="false">
+          <span class="pick-face pick-front">
+            <img src="assets/images/seniors.png" alt="" loading="lazy" onerror="this.closest('.pick-card').classList.add('photo-missing')">
+            <span class="pick-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.2"/><path d="M12 8v5l-2.5 7"/><path d="M12 13l3 7"/><path d="M17 9v11"/></svg></span>
+            <span class="pick-index mono">08</span>
+            <span class="pick-corner" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <span class="pick-title">Yoga for Seniors</span>
+            <span class="pick-desc">Gentle, low-impact movement for balance and joints.</span>
+            <span class="pick-tap"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Tap to pick</span>
+          </span>
+          <span class="pick-face pick-back">
+            <span class="pick-index mono">08</span>
+            <span class="check-circle"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+            <h4>Picked!</h4>
+            <span class="style-name mono">Yoga for Seniors</span>
+            <span class="undo"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>Tap to undo</span>
+          </span>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="styles-more">
+      <p class="note" id="styleNote">Pick as many as you like — we'll match teachers who teach all of them.</p>
+      <a href="#book" class="btn btn-secondary btn-other">
+        <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-3.2-6.9"/><path d="M21 4v5h-5"/></svg>
+        Don't see your style? Tell us what you need
+      </a>
+    </div>
+
   </div>
 </section>
 
-<!-- ══════════════════════════ FOOTER -->
-<footer class="footer">
-  <div class="container">
-    <div class="row g-5">
-      <div class="col-lg-4">
-        <div class="footer-logo">Grow<span>योगी</span></div>
-        <p class="footer-desc"><span class="hn">Helping Yogis Grow Digitally.<br>India's only digital growth agency built exclusively for Yoga Teachers, Studios &amp; Institutes.</span></p>
-        <div class="socials">
-          <a href="#" class="soc"><i class="bi bi-instagram"></i></a>
-          <a href="#" class="soc"><i class="bi bi-facebook"></i></a>
-          <a href="#" class="soc"><i class="bi bi-youtube"></i></a>
-          <a href="#" class="soc"><i class="bi bi-linkedin"></i></a>
-          <a href="#" class="soc"><i class="bi bi-whatsapp"></i></a>
+<script>
+(function(){
+  var grid = document.getElementById('styleGrid');
+  var note = document.getElementById('styleNote');
+  if(!grid) return;
+  var defaultNote = note ? note.textContent : '';
+  grid.addEventListener('click', function(e){
+    var btn = e.target.closest('.pick-inner');
+    if(!btn) return;
+    var card = btn.closest('.pick-card');
+    card.classList.toggle('is-flipped');
+    var flipped = card.classList.contains('is-flipped');
+    btn.setAttribute('aria-pressed', flipped ? 'true' : 'false');
+    var picked = grid.querySelectorAll('.pick-card.is-flipped');
+    if(!note) return;
+    if(picked.length === 0){
+      note.textContent = defaultNote;
+    } else if(picked.length === 1){
+      note.innerHTML = 'Great choice — <strong>' + picked[0].getAttribute('data-style') + '</strong> it is.';
+    } else {
+      note.innerHTML = '<strong>' + picked.length + ' styles</strong> picked — we\'ll match teachers who cover all of them.';
+    }
+  });
+})();
+</script>
+
+<section class="verified" id="verification" aria-labelledby="verified-title">
+  <div class="verified-inner">
+
+    <div class="sec-head">
+      <div class="sec-kicker mono">
+        <span class="num">06</span>
+        <span class="rule" aria-hidden="true"></span>
+        <span>The standard</span>
+      </div>
+      <h2 id="verified-title">What <em>verified</em> actually means here</h2>
+      <p class="sub">Most directories take a teacher's word for it. We check the paperwork with the people who issued it.</p>
+    </div>
+
+    <div class="vgrid">
+
+      <ol class="vsteps" id="vsteps">
+        <li class="vstep" data-step="1">
+          <span class="ico" aria-hidden="true">
+            <svg class="ico-default" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/></svg>
+            <svg class="ico-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>
+          </span>
+          <div>
+            <h3>Documents, not claims</h3>
+            <p>Every teacher uploads their training certificate and accreditation papers from the college that issued them.</p>
+            <span class="flag mono"><span class="off">Awaiting document</span><span class="on">Stamped ✓</span></span>
+          </div>
+        </li>
+        <li class="vstep" data-step="2">
+          <span class="ico" aria-hidden="true">
+            <svg class="ico-default" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/><path d="M8.2 11l2 2 4-4.2"/></svg>
+            <svg class="ico-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>
+          </span>
+          <div>
+            <h3>Checked with the issuer</h3>
+            <p>Our team confirms each credential directly against the recognised body that awarded it. No self-declared training.</p>
+            <span class="flag mono"><span class="off">Awaiting confirmation</span><span class="on">Stamped ✓</span></span>
+          </div>
+        </li>
+        <li class="vstep" data-step="3">
+          <span class="ico" aria-hidden="true">
+            <svg class="ico-default" viewBox="0 0 24 24"><path d="M20 12a8 8 0 11-2.6-5.9"/><path d="M20 4v4h-4"/></svg>
+            <svg class="ico-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>
+          </span>
+          <div>
+            <h3>Re-checked every year</h3>
+            <p>The badge expires annually. A teacher stays listed only while their certification is current.</p>
+            <span class="flag mono"><span class="off">Awaiting renewal</span><span class="on">Stamped ✓</span></span>
+          </div>
+        </li>
+      </ol>
+
+      <div class="vcert-wrap">
+        <div class="vcert">
+          <div class="vcert-head">
+            <span class="vcert-kicker">Certificate of Verification</span>
+            <span class="vcert-id">No. YS-04821</span>
+          </div>
+          <div class="vcert-id2">
+            <span class="vcert-photo">
+              <img src="https://storage.googleapis.com/yogkulam/landing-page/teacher/Amrita-Gupta.jpg" alt="" loading="lazy" decoding="async">
+            </span>
+            <span class="vcert-name">
+              <span class="nm">Amrita Gupta</span>
+              <span class="rl">Prenatal &amp; Therapeutic · Delhi</span>
+            </span>
+          </div>
+          <div class="vcert-line"></div>
+          <div class="vcert-stamps" id="vcertStamps">
+            <span class="stamp stamp-1" id="stamp1">Documents<br>Verified</span>
+            <span class="stamp stamp-2" id="stamp2">Issuer<br>Confirmed</span>
+            <span class="stamp stamp-3" id="stamp3">Renewed<br>Annually</span>
+            <span class="vcert-seal" id="vcertSeal"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Verified</span>
+          </div>
         </div>
       </div>
-      <div class="col-lg-2 col-md-4">
-        <div class="f-head">Quick Links</div>
-        <ul class="f-links">
-          <li><a href="#home">Home</a></li>
-          <li><a href="#problems">Problems</a></li>
-          <li><a href="#solutions">Solutions</a></li>
-          <li><a href="#why-us">Why GrowYogi</a></li>
-          <li><a href="#feedback">Testimonials</a></li>
-          <li><a href="#plans">Plans</a></li>
-          <li><a href="#faq">FAQs</a></li>
-        </ul>
+
+    </div>
+
+    <div class="vstats">
+      <div class="vstat"><span class="n">40,000+</span><span class="k mono">Teachers trained by YogKulam</span></div>
+      <div class="vstat"><span class="n">60,000+</span><span class="k mono">Students certified</span></div>
+      <div class="vstat"><span class="n">12+ yrs</span><span class="k mono">Running yoga education</span></div>
+      <div class="vstat"><span class="n">4 bodies</span><span class="k mono">Yoga Alliance · PYC · YTTAI · PA</span></div>
+    </div>
+
+    <p class="vnote">
+      YogSetu is built by <strong>YogKulam</strong> — the credentialing infrastructure behind it is the same one used to train and certify teachers for over a decade.
+    </p>
+
+  </div>
+</section>
+
+<script>
+(function(){
+  var steps = document.querySelectorAll('#vsteps .vstep');
+  var stampEls = {
+    1: document.getElementById('stamp1'),
+    2: document.getElementById('stamp2'),
+    3: document.getElementById('stamp3')
+  };
+  var seal = document.getElementById('vcertSeal');
+  if(!steps.length || !('IntersectionObserver' in window)) return;
+
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(!entry.isIntersecting) return;
+      var el = entry.target;
+      var n = el.getAttribute('data-step');
+      if(el.classList.contains('is-stamped')) return;
+      el.classList.add('is-stamped');
+      if(stampEls[n]) stampEls[n].classList.add('is-stamped');
+      if(n === '3') seal.classList.add('is-shown');
+    });
+  }, { root:null, rootMargin:'-42% 0px -42% 0px', threshold:0 });
+
+  steps.forEach(function(el){ observer.observe(el); });
+})();
+</script>
+
+<script>
+(function(){
+  var stepsEl = document.getElementById('vsteps');
+  var fill = document.getElementById('vprogressFill');
+  var txt = document.getElementById('vprogressTxt');
+  var card = document.getElementById('vdemoCard');
+  var pieces = {
+    1: [document.getElementById('piece1')],
+    2: [document.getElementById('piece2ring'), document.getElementById('piece2pills')],
+    3: [document.getElementById('piece3seal'), document.getElementById('piece3renew')]
+  };
+  if(!stepsEl) return;
+
+  function update(){
+    var steps = stepsEl.querySelectorAll('.vstep');
+    var done = stepsEl.querySelectorAll('.vstep.is-done').length;
+    fill.style.width = (done / steps.length * 100) + '%';
+    txt.textContent = done + ' / ' + steps.length + ' confirmed';
+    card.classList.toggle('is-complete', done === steps.length);
+  }
+
+  stepsEl.addEventListener('click', function(e){
+    var btn = e.target.closest('.vstep');
+    if(!btn) return;
+    var n = btn.getAttribute('data-step');
+    var isDone = btn.classList.toggle('is-done');
+    btn.setAttribute('aria-pressed', isDone ? 'true' : 'false');
+    (pieces[n] || []).forEach(function(el){
+      if(!el) return;
+      el.classList.toggle('is-shown', isDone);
+    });
+    update();
+  });
+})();
+</script>
+
+<section class="voices" id="voices" aria-labelledby="voices-title">
+  <div class="voices-inner">
+
+    <div class="voices-grid">
+
+      <div class="voices-copy">
+        <div class="sec-head">
+          <div class="sec-kicker mono">
+            <span class="num">07</span>
+            <span class="rule" aria-hidden="true"></span>
+            <span>Student voices</span>
+          </div>
+          <h2 id="voices-title">What changed once they found <em>the right teacher</em></h2>
+        </div>
+        <p class="voices-lede">Real students, tapping through their own reviews — touch one to read it in full, or tap play to hear it in their own words.</p>
+
+        <div class="voices-foot">
+          <span class="voices-faces" aria-hidden="true">
+          <img src="https://storage.googleapis.com/yogkulam/landing-page/teacher/Varsha-Singh-Rajput.jpg" alt="" loading="lazy" decoding="async">
+          <img src="https://www.yogkulam.com/assets/frontend/img/Teams/Shubh1.png" alt="" loading="lazy" decoding="async">
+          <img src="https://www.yogkulam.com/assets/frontend/img/Teams/deepali-shukla-sales-head%20-yogkulam.png" alt="" loading="lazy" decoding="async">
+          <img src="https://www.yogkulam.com/assets/frontend/img/Teams/sejal-kaakar-team-yogkulam.png" alt="" loading="lazy" decoding="async">
+          <img src="https://www.yogkulam.com/assets/frontend/img/Teams/gauri-singh-customer-relationship-officer.png" alt="" loading="lazy" decoding="async">
+          </span>
+          <span class="lead">Not sure which style suits you?</span>
+          <a class="ask" href="#ask">Ask Chetan your question <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
       </div>
-      <div class="col-lg-3 col-md-4">
-        <div class="f-head">Our Services</div>
-        <ul class="f-links">
-          <li><a href="#">Meta Ads Management</a></li>
-          <li><a href="#">Google Ads Management</a></li>
-          <li><a href="#">Social Media Marketing</a></li>
-          <li><a href="#">Content Creation</a></li>
-          <li><a href="#">Reels &amp; Video Editing</a></li>
-          <li><a href="#">Landing Page Design</a></li>
-          <li><a href="#">SEO Optimization</a></li>
-          <li><a href="#">Personal Branding</a></li>
-        </ul>
+
+      <div class="tablet-stage">
+        <span class="tablet-glow" aria-hidden="true"></span>
+        <div class="tablet">
+          <span class="tablet-cam" aria-hidden="true"></span>
+          <div class="tablet-screen" id="tabletScreen">
+
+            <div class="review-feed" id="reviewFeed">
+              <div class="review-track" id="reviewTrack">
+        <div class="review-item" data-video="review-priya.mp4" data-name="Priya" data-role="Hatha yoga · Bhopal" tabindex="0" role="button" aria-pressed="false">
+          <div class="review-top">
+            <img src="https://www.yogkulam.com/assets/frontend/img/Teams/sejal-kaakar-team-yogkulam.png" alt="" loading="lazy" decoding="async">
+            <span>
+              <span class="nm">Priya</span>
+              <span class="rl">Hatha yoga · Bhopal</span>
+            </span>
+            <span class="stars" aria-label="5 out of 5"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg></span>
+          </div>
+          <p class="review-quote">I had tried two teachers before this. Neither could show me a certificate. The filters put me with someone who actually trained in Hatha.</p>
+          <span class="review-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Watch her story</span>
+        </div>
+        <div class="review-item" data-name="Arjun" data-role="Therapeutic yoga · Bengaluru" tabindex="0" role="button" aria-pressed="false">
+          <div class="review-top">
+            <img src="https://www.yogkulam.com/assets/frontend/img/Teams/eshank-pandey-sales-team-leader-yogkulam.png" alt="" loading="lazy" decoding="async">
+            <span>
+              <span class="nm">Arjun</span>
+              <span class="rl">Therapeutic yoga · Bengaluru</span>
+            </span>
+            <span class="stars" aria-label="5 out of 5"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg></span>
+          </div>
+          <p class="review-quote">I checked the credentials, read the reviews and booked a trial. It took under ten minutes.</p>
+          
+        </div>
+        <div class="review-item" data-video="review-aryan.mp4" data-name="Aryan" data-role="Yoga philosophy · Delhi" tabindex="0" role="button" aria-pressed="false">
+          <div class="review-top">
+            <img src="https://www.yogkulam.com/assets/frontend/img/Teams/gauri-singh-customer-relationship-officer.png" alt="" loading="lazy" decoding="async">
+            <span>
+              <span class="nm">Aryan</span>
+              <span class="rl">Yoga philosophy · Delhi</span>
+            </span>
+            <span class="stars" aria-label="5 out of 5"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg></span>
+          </div>
+          <p class="review-quote">I wanted philosophy, not a fitness class. This is the first place that let me search for exactly that.</p>
+          <span class="review-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Watch her story</span>
+        </div>
+        <div class="review-item" data-video="review-priya.mp4" data-name="Priya" data-role="Hatha yoga · Bhopal" tabindex="0" role="button" aria-pressed="false">
+          <div class="review-top">
+            <img src="https://www.yogkulam.com/assets/frontend/img/Teams/sejal-kaakar-team-yogkulam.png" alt="" loading="lazy" decoding="async">
+            <span>
+              <span class="nm">Priya</span>
+              <span class="rl">Hatha yoga · Bhopal</span>
+            </span>
+            <span class="stars" aria-label="5 out of 5"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg></span>
+          </div>
+          <p class="review-quote">I had tried two teachers before this. Neither could show me a certificate. The filters put me with someone who actually trained in Hatha.</p>
+          <span class="review-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Watch her story</span>
+        </div>
+        <div class="review-item" data-name="Arjun" data-role="Therapeutic yoga · Bengaluru" tabindex="0" role="button" aria-pressed="false">
+          <div class="review-top">
+            <img src="https://www.yogkulam.com/assets/frontend/img/Teams/eshank-pandey-sales-team-leader-yogkulam.png" alt="" loading="lazy" decoding="async">
+            <span>
+              <span class="nm">Arjun</span>
+              <span class="rl">Therapeutic yoga · Bengaluru</span>
+            </span>
+            <span class="stars" aria-label="5 out of 5"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg></span>
+          </div>
+          <p class="review-quote">I checked the credentials, read the reviews and booked a trial. It took under ten minutes.</p>
+          
+        </div>
+        <div class="review-item" data-video="review-aryan.mp4" data-name="Aryan" data-role="Yoga philosophy · Delhi" tabindex="0" role="button" aria-pressed="false">
+          <div class="review-top">
+            <img src="https://www.yogkulam.com/assets/frontend/img/Teams/gauri-singh-customer-relationship-officer.png" alt="" loading="lazy" decoding="async">
+            <span>
+              <span class="nm">Aryan</span>
+              <span class="rl">Yoga philosophy · Delhi</span>
+            </span>
+            <span class="stars" aria-label="5 out of 5"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg></span>
+          </div>
+          <p class="review-quote">I wanted philosophy, not a fitness class. This is the first place that let me search for exactly that.</p>
+          <span class="review-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>Watch her story</span>
+        </div>
+
+              </div>
+            </div>
+
+            <div class="video-stage" id="videoStage" hidden>
+              <button type="button" class="video-close" id="videoClose" aria-label="Close video">&times;</button>
+              <video id="videoPlayer" playsinline muted autoplay></video>
+              <div class="video-fallback" id="videoFallback" hidden>
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                <span>Video coming soon</span>
+              </div>
+              <div class="video-caption" id="videoCaption">
+                <span class="nm"></span>
+                <span class="rl"></span>
+              </div>
+            </div>
+
+          </div>
+          <span class="tablet-home" aria-hidden="true"></span>
+        </div>
       </div>
-      <div class="col-lg-3 col-md-4">
-        <div class="f-head">Contact Us</div>
-        <div class="contact-row"><i class="bi bi-whatsapp"></i><span>+91 XXXXX XXXXX<br>(WhatsApp Available)</span></div>
-        <div class="contact-row"><i class="bi bi-envelope"></i><span>hello@growyogi.in</span></div>
-        <div class="contact-row"><i class="bi bi-geo-alt"></i><span>India — Serving Yoga Brands Across the Country</span></div>
-        <a href="https://wa.me/91XXXXXXXXXX" target="_blank"
-           style="display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:linear-gradient(135deg,#C8961E,#D4AB3A);color:#141220;border-radius:10px;padding:10px 20px;font-family:'DM Sans';font-size:.82rem;font-weight:700;text-decoration:none;box-shadow:0 4px 16px rgba(200,150,30,.30);">
-          Free Consultation →
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function(){
+  var track = document.getElementById('reviewTrack');
+  var feed = document.getElementById('reviewFeed');
+  var screen = document.getElementById('tabletScreen');
+  var videoStage = document.getElementById('videoStage');
+  var videoPlayer = document.getElementById('videoPlayer');
+  var videoFallback = document.getElementById('videoFallback');
+  var videoClose = document.getElementById('videoClose');
+  var videoCaption = document.getElementById('videoCaption');
+  if(!track || !screen) return;
+
+  var items = track.querySelectorAll('.review-item');
+
+  function setActive(item){
+    items.forEach(function(i){ i.classList.remove('is-active'); i.setAttribute('aria-pressed','false'); });
+    item.classList.add('is-active');
+    item.setAttribute('aria-pressed','true');
+  }
+
+  function pauseScroll(){ track.classList.add('is-paused'); }
+  function resumeScroll(){ if(videoStage.hasAttribute('hidden')) track.classList.remove('is-paused'); }
+
+  feed.addEventListener('mouseenter', pauseScroll);
+  feed.addEventListener('mouseleave', resumeScroll);
+
+  items.forEach(function(item){
+    item.addEventListener('click', function(e){
+      setActive(item);
+      pauseScroll();
+      var playChip = e.target.closest('.review-play');
+      var src = item.getAttribute('data-video');
+      if(playChip && src){
+        openVideo(src, item.getAttribute('data-name'), item.getAttribute('data-role'));
+      }
+    });
+    item.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        setActive(item);
+        pauseScroll();
+        var src = item.getAttribute('data-video');
+        if(src) openVideo(src, item.getAttribute('data-name'), item.getAttribute('data-role'));
+      }
+    });
+  });
+
+  function openVideo(src, name, role){
+    videoCaption.querySelector('.nm').textContent = name || '';
+    videoCaption.querySelector('.rl').textContent = role || '';
+    videoFallback.setAttribute('hidden','');
+    videoPlayer.removeAttribute('hidden');
+    videoPlayer.src = src;
+    videoPlayer.currentTime = 0;
+    videoPlayer.play().catch(function(){});
+    videoStage.removeAttribute('hidden');
+  }
+  function closeVideo(){
+    videoStage.setAttribute('hidden','');
+    videoPlayer.pause();
+    videoPlayer.removeAttribute('src');
+    videoPlayer.load();
+    resumeScroll();
+  }
+  videoClose.addEventListener('click', closeVideo);
+  videoPlayer.addEventListener('error', function(){
+    videoPlayer.setAttribute('hidden','');
+    videoFallback.removeAttribute('hidden');
+  });
+})();
+</script>
+
+<section class="proof" id="proof" aria-labelledby="proof-title">
+  <div class="proof-inner">
+
+    <div class="sec-head">
+      <div class="sec-kicker mono">
+        <span class="num">09</span>
+        <span class="rule" aria-hidden="true"></span>
+        <span>What's on YogSetu right now</span>
+      </div>
+      <h2 id="proof-title">See it for yourself — <em>then look at the numbers</em></h2>
+      <p class="sub">A 2-minute look inside YogKulam, and where the platform stands today.</p>
+    </div>
+
+    <div class="cinema">
+      <div class="cinema-glow" aria-hidden="true"></div>
+      <div class="cinema-frame" id="cinemaFrame">
+        <img src="https://i.ytimg.com/vi/wYHuHsVersY/maxresdefault.jpg" alt="" loading="lazy" onerror="this.style.display='none'">
+        <button type="button" class="cinema-play" id="cinemaPlay" aria-label="Play: A 2-minute look inside YogKulam">
+          <span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+        </button>
+      </div>
+
+      <div class="glass-panel" id="glassPanel">
+        <div class="glass-lead">
+          <span class="badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg></span>
+          Backed by the team at <strong>YogKulam</strong> — 13+ years in the yoga industry
+        </div>
+        <div class="glass-stats">
+          <div class="glass-stat" style="--i:0">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 014-4h6a4 4 0 014 4v2"/></svg></span>
+            <span class="n"><span class="count" data-target="500" data-suffix="+">0</span></span><span class="k mono">Verified teachers</span>
+          </div>
+          <div class="glass-stat" style="--i:1">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-4.35-7-11a7 7 0 0114 0c0 6.65-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+            <span class="n"><span class="count" data-target="40" data-suffix="+">0</span></span><span class="k mono">Cities covered</span>
+          </div>
+          <div class="glass-stat" style="--i:2">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="5.5" r="2.2"/><path d="M12 8.5v4.5"/><path d="M5 19c2.5-3 4.6-4.5 7-4.5S16.5 16 19 19z"/><path d="M7.5 19h9"/></svg></span>
+            <span class="n"><span class="count" data-target="12" data-suffix="+">0</span></span><span class="k mono">Yoga styles</span>
+          </div>
+          <div class="glass-stat" style="--i:3">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-5"/></svg></span>
+            <span class="n"><span class="count" data-target="40000" data-suffix="+">0</span></span><span class="k mono">Registered students</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="proof-note">Numbers shown as animated counters. These are live/estimated figures.</p>
+
+  </div>
+</section>
+
+<script>
+(function(){
+  var panel = document.getElementById('glassPanel');
+  var frame = document.getElementById('cinemaFrame');
+  var playBtn = document.getElementById('cinemaPlay');
+  if(!panel) return;
+
+  function formatNumber(n){ return n.toLocaleString('en-IN'); }
+
+  function countUp(el, target, suffix){
+    var duration = 1400;
+    var start = null;
+    function step(ts){
+      if(start === null) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var value = Math.round(target * eased);
+      el.textContent = formatNumber(value) + (suffix || '');
+      if(progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function runCounters(){
+    panel.querySelectorAll('.count').forEach(function(el){
+      var target = parseInt(el.getAttribute('data-target'), 10) || 0;
+      var suffix = el.getAttribute('data-suffix') || '';
+      countUp(el, target, suffix);
+    });
+  }
+
+  if('IntersectionObserver' in window){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(!entry.isIntersecting) return;
+        panel.classList.add('is-in');
+        runCounters();
+        observer.unobserve(panel);
+      });
+    }, { threshold: 0.4 });
+    observer.observe(panel);
+  } else {
+    panel.classList.add('is-in');
+    runCounters();
+  }
+
+  if(playBtn && frame){
+    playBtn.addEventListener('click', function(){
+      var iframe = document.createElement('iframe');
+      iframe.src = 'https://www.youtube.com/embed/wYHuHsVersY?autoplay=1&rel=0&modestbranding=1';
+      iframe.title = 'A 2-minute look inside YogKulam';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.style.position = 'absolute';
+      iframe.style.inset = '0';
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.border = '0';
+      iframe.style.zIndex = '3';
+      frame.appendChild(iframe);
+      frame.classList.add('is-playing');
+    });
+  }
+})();
+</script>
+
+<section class="faq" id="faq" aria-labelledby="faq-title">
+  <div class="faq-inner">
+
+    <div class="sec-head">
+      <div class="sec-kicker mono">
+        <span class="num">10</span>
+        <span class="rule" aria-hidden="true"></span>
+        <span>FAQ</span>
+      </div>
+      <h2 id="faq-title">Answered <em>directly</em></h2>
+    </div>
+
+    <div class="faq-nav">
+      <div class="faq-dots" id="faqDots">
+        <button type="button" class="faq-dot is-active" data-i="0" aria-label="Trial class"></button>
+        <button type="button" class="faq-dot" data-i="1" aria-label="Teacher credentials"></button>
+        <button type="button" class="faq-dot" data-i="2" aria-label="Vs. other platforms"></button>
+        <button type="button" class="faq-dot" data-i="3" aria-label="Mode"></button>
+        <button type="button" class="faq-dot" data-i="4" aria-label="Styles &amp; categories"></button>
+
+      </div>
+    </div>
+
+    <p class="faq-swipe-hint"><svg viewBox="0 0 24 24"><path d="M13 5l7 7-7 7M20 12H4"/></svg>Swipe to browse categories</p>
+
+    <div class="faq-slider" id="faqSlider">
+      <div class="faq-track-wrap">
+        <div class="faq-track" id="faqTrack">
+      <div class="faq-slide" data-i="0">
+        <span class="faq-cat"><span class="idx">01</span> · Trial class</span>
+        <div class="chat-thread">
+          <div class="chat-item">
+            <div class="chat-row q">
+              <div class="bubble q-bubble">Is it free to browse and search?</div>
+            </div>
+            <div class="chat-row a">
+              <span class="chat-avatar" aria-hidden="true">YS</span>
+              <div class="bubble a-bubble">
+                <span class="typing" aria-hidden="true"><span></span><span></span><span></span></span>
+                <p class="a-text">Yes. No account needed, no credit card, no sign-up required to visit teacher profiles. You only sign up when you decide to contact the teacher — not before. YogSetu is a directory first.</p>
+              </div>
+            </div>
+            <div class="chat-tag mono"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Answered directly</div>
+            <div class="chat-followup">
+              <div class="chat-row a followup">
+                <span class="chat-avatar" aria-hidden="true">YS</span>
+                <div class="bubble a-bubble followup-bubble">
+                  <p class="a-text" style="display:block;">Ready to see who's teaching near you?</p>
+                </div>
+              </div>
+              <a href="teachers.html" class="followup-cta">Browse teachers now<span class="arrow" aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="faq-slide" data-i="1">
+        <span class="faq-cat"><span class="idx">02</span> · Teacher credentials</span>
+        <div class="chat-thread">
+          <div class="chat-item">
+            <div class="chat-row q">
+              <div class="bubble q-bubble">How do I know a teacher's credentials are real?</div>
+            </div>
+            <div class="chat-row a">
+              <span class="chat-avatar" aria-hidden="true">YS</span>
+              <div class="bubble a-bubble">
+                <span class="typing" aria-hidden="true"><span></span><span></span><span></span></span>
+                <p class="a-text">We verify each teacher directly with their accreditation body. Our team and 3 leading background agencies — including accreditation by <strong>Yoga Alliance, AYUSH, YTTAI, PYC</strong>, and other recognised certification bodies — perform credential verification. We have extensive experience, with a perfect score across existing students.</p>
+              </div>
+            </div>
+            <div class="chat-tag mono"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Answered directly</div>
+            <div class="chat-followup">
+              <div class="chat-row a followup">
+                <span class="chat-avatar" aria-hidden="true">YS</span>
+                <div class="bubble a-bubble followup-bubble">
+                  <p class="a-text" style="display:block;">Want to see exactly how we check each one?</p>
+                </div>
+              </div>
+              <a href="#verification" class="followup-cta">See how verification works<span class="arrow" aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="faq-slide" data-i="2">
+        <span class="faq-cat"><span class="idx">03</span> · Vs. other platforms</span>
+        <div class="chat-thread">
+          <div class="chat-item">
+            <div class="chat-row q">
+              <div class="bubble q-bubble">How is this different from Urban Company or searching Instagram?</div>
+            </div>
+            <div class="chat-row a">
+              <span class="chat-avatar" aria-hidden="true">YS</span>
+              <div class="bubble a-bubble">
+                <span class="typing" aria-hidden="true"><span></span><span></span><span></span></span>
+                <p class="a-text">YogSetu teachers are verified to a certified standard. There's no shortcut. Urban Company and Instagram list anyone who says they teach yoga — here, we only let in teachers certified by recognised yoga bodies, not someone who attended a 7-day retreat.</p>
+              </div>
+            </div>
+            <div class="chat-tag mono"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Answered directly</div>
+            <div class="chat-followup">
+              <div class="chat-row a followup">
+                <span class="chat-avatar" aria-hidden="true">YS</span>
+                <div class="bubble a-bubble followup-bubble">
+                  <p class="a-text" style="display:block;">Curious what that actually looks like side by side?</p>
+                </div>
+              </div>
+              <a href="#problem" class="followup-cta">See the comparison<span class="arrow" aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="faq-slide" data-i="3">
+        <span class="faq-cat"><span class="idx">04</span> · Mode</span>
+        <div class="chat-thread">
+          <div class="chat-item">
+            <div class="chat-row q">
+              <div class="bubble q-bubble">Does this work for online classes too?</div>
+            </div>
+            <div class="chat-row a">
+              <span class="chat-avatar" aria-hidden="true">YS</span>
+              <div class="bubble a-bubble">
+                <span class="typing" aria-hidden="true"><span></span><span></span><span></span></span>
+                <p class="a-text">Yes. Filter by online classes specifically — both live and asynchronous. Our verified teachers list their formats in full detail on their profile page.</p>
+              </div>
+            </div>
+            <div class="chat-tag mono"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Answered directly</div>
+            <div class="chat-followup">
+              <div class="chat-row a followup">
+                <span class="chat-avatar" aria-hidden="true">YS</span>
+                <div class="bubble a-bubble followup-bubble">
+                  <p class="a-text" style="display:block;">Want to browse the online-only teachers?</p>
+                </div>
+              </div>
+              <a href="teachers.html" class="followup-cta">Browse online teachers<span class="arrow" aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="faq-slide" data-i="4">
+        <span class="faq-cat"><span class="idx">05</span> · Styles &amp; categories</span>
+        <div class="chat-thread">
+          <div class="chat-item">
+            <div class="chat-row q">
+              <div class="bubble q-bubble">I want real yoga — not a fitness class. Will I find that here?</div>
+            </div>
+            <div class="chat-row a">
+              <span class="chat-avatar" aria-hidden="true">YS</span>
+              <div class="bubble a-bubble">
+                <span class="typing" aria-hidden="true"><span></span><span></span><span></span></span>
+                <p class="a-text">Yes. YogSetu is specifically built to surface teachers from the <strong>Bharatiya yoga tradition</strong> — not fitness-first, influencer-style teaching. Search by style including Hatha, Ashtanga, and philosophy-based yoga, filter by traditional vs. modern approach, and find teachers trained in recognised programmes.</p>
+              </div>
+            </div>
+            <div class="chat-tag mono"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg>Answered directly</div>
+            <div class="chat-followup">
+              <div class="chat-row a followup">
+                <span class="chat-avatar" aria-hidden="true">YS</span>
+                <div class="bubble a-bubble followup-bubble">
+                  <p class="a-text" style="display:block;">Want to see every style we cover?</p>
+                </div>
+              </div>
+              <a href="#styles" class="followup-cta">Explore all styles<span class="arrow" aria-hidden="true">→</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function(){
+  var slider = document.getElementById('faqSlider');
+  var track = document.getElementById('faqTrack');
+  var slides = track ? track.querySelectorAll('.faq-slide') : [];
+  var dots = document.querySelectorAll('#faqDots .faq-dot');
+  if(!slider || !slides.length) return;
+
+  var current = 0;
+  var total = slides.length;
+
+  function playSlide(slide){
+    var item = slide.querySelector('.chat-item');
+    if(!item) return;
+    var qRow = item.querySelector('.chat-row.q');
+    var aRow = item.querySelector('.chat-row.a:not(.followup)');
+    var aBubble = aRow.querySelector('.a-bubble');
+    var tag = item.querySelector('.chat-tag');
+    var fuRow = item.querySelector('.chat-row.followup');
+    var fuCta = item.querySelector('.followup-cta');
+    qRow.classList.add('is-in');
+    setTimeout(function(){
+      aRow.classList.add('is-in');
+      setTimeout(function(){
+        aBubble.classList.add('is-typed');
+        if(tag) tag.classList.add('is-shown');
+        setTimeout(function(){
+          if(fuRow) fuRow.classList.add('is-in');
+          setTimeout(function(){
+            if(fuCta) fuCta.classList.add('is-in');
+          }, 350);
+        }, 500);
+      }, 900);
+    }, 350);
+  }
+
+  function resetSlide(slide){
+    var item = slide.querySelector('.chat-item');
+    if(!item) return;
+    item.querySelectorAll('.chat-row').forEach(function(r){ r.classList.remove('is-in'); });
+    item.querySelector('.a-bubble').classList.remove('is-typed');
+    var tag = item.querySelector('.chat-tag');
+    if(tag) tag.classList.remove('is-shown');
+    var fuCta = item.querySelector('.followup-cta');
+    if(fuCta) fuCta.classList.remove('is-in');
+  }
+
+  function goTo(i){
+    var next = (i + total) % total;
+    if(next === current){ return; }
+    resetSlide(slides[current]);
+    current = next;
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    dots.forEach(function(d, idx){ d.classList.toggle('is-active', idx === current); });
+    setTimeout(function(){ playSlide(slides[current]); }, 200);
+  }
+
+  dots.forEach(function(d){
+    d.addEventListener('click', function(){ goTo(parseInt(d.getAttribute('data-i'), 10)); });
+  });
+
+  /* -- finger / mouse drag navigation (no arrow buttons) -- */
+  var startX = null;
+  var dragging = false;
+  var trackWidth = 0;
+
+  function pointerDown(x){
+    startX = x;
+    dragging = true;
+    trackWidth = slider.getBoundingClientRect().width;
+    track.classList.add('is-dragging');
+  }
+  function pointerMove(x){
+    if(!dragging || startX === null) return;
+    var dx = x - startX;
+    var pct = (dx / trackWidth) * 100;
+    track.style.transform = 'translateX(calc(-' + (current * 100) + '% + ' + pct + '%))';
+  }
+  function pointerUp(x){
+    if(!dragging || startX === null) return;
+    var dx = x - startX;
+    dragging = false;
+    track.classList.remove('is-dragging');
+    startX = null;
+    if(Math.abs(dx) > trackWidth * 0.15){
+      goTo(current + (dx < 0 ? 1 : -1));
+    } else {
+      track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    }
+  }
+
+  slider.addEventListener('touchstart', function(e){ pointerDown(e.touches[0].clientX); }, { passive:true });
+  slider.addEventListener('touchmove', function(e){ pointerMove(e.touches[0].clientX); }, { passive:true });
+  slider.addEventListener('touchend', function(e){ pointerUp(e.changedTouches[0].clientX); });
+
+  slider.addEventListener('mousedown', function(e){ e.preventDefault(); pointerDown(e.clientX); });
+  window.addEventListener('mousemove', function(e){ if(dragging) pointerMove(e.clientX); });
+  window.addEventListener('mouseup', function(e){ if(dragging) pointerUp(e.clientX); });
+
+  if('IntersectionObserver' in window){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(!entry.isIntersecting) return;
+        playSlide(slides[current]);
+        observer.unobserve(slider);
+      });
+    }, { threshold: 0.35 });
+    observer.observe(slider);
+  } else {
+    playSlide(slides[current]);
+  }
+})();
+</script>
+
+<section class="final" id="get-started" aria-labelledby="final-title">
+  <div class="final-card">
+    <span class="final-glow" aria-hidden="true"></span>
+    <div class="final-inner">
+      <div class="final-kicker">
+        <span class="dot" aria-hidden="true"></span>
+        Verified teachers · Booking open
+      </div>
+      <h2 id="final-title">You're <em>1 minute away</em> from booking your first class.</h2>
+
+      <div class="final-timer" id="finalTimer">
+        <span class="pulse" aria-hidden="true"></span>
+        <span class="lbl">Time on this page</span>
+        <span class="val" id="finalTimerVal">00:00</span>
+      </div>
+
+      <div class="final-ctas">
+        <a href="teachers.html" class="btn btn-primary">
+          Browse teachers now
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a href="signup.html?role=teacher" class="btn btn-secondary">
+          Are you a yoga teacher? Create your profile
         </a>
       </div>
     </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var section = document.getElementById('get-started');
+  var valEl = document.getElementById('finalTimerVal');
+  if(!section || !valEl) return;
+  var seconds = 0;
+  var interval = null;
+
+  function tick(){
+    seconds++;
+    var m = Math.floor(seconds / 60);
+    var s = seconds % 60;
+    valEl.textContent = (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+  }
+
+  function start(){
+    if(interval) return;
+    interval = setInterval(tick, 1000);
+  }
+
+  if('IntersectionObserver' in window){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){ start(); }
+      });
+    }, { threshold: 0.3 });
+    observer.observe(section);
+  } else {
+    start();
+  }
+})();
+</script>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+
+      <div class="footer-brand">
+        <span class="logo"><span class="dot" aria-hidden="true"></span>YogSetu</span>
+        <p>A verified yoga teacher directory &mdash; powered by YogKulam's credentialing infrastructure.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="mono">For students</h4>
+        <ul>
+          <li><a href="teachers.html">Browse teachers</a></li>
+          <li><a href="requirements.html">Post a requirement</a></li>
+          <li><a href="index.html#verification">Verification process</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="mono">For teachers</h4>
+        <ul>
+          <li><a href="signup.html?role=teacher">Create your profile</a></li>
+          <li><a href="teacher-benefits.html">Become verified</a></li>
+          <li><a href="requirements.html">Browse requirements</a></li>
+          <li><a href="login.html">Teacher login</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="mono">Company</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="https://www.yogkulam.com" target="_blank" rel="noopener">YogKulam</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="terms.html">Terms &amp; conditions</a></li>
+          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="refund.html">Refund policy</a></li>
+        </ul>
+      </div>
+
+    </div>
+
     <div class="footer-bottom">
-      <p>&copy; 2025 GrowYogi. All rights reserved.</p>
-      <p>Made with ❤️ for Yoga Professionals across India</p>
+      <span>YogSetu is a <a href="https://www.yogkulam.com" target="_blank" rel="noopener">YogKulam</a> initiative</span>
+      <span><span class="dot" aria-hidden="true">&middot;</span>yogsetu.com</span>
     </div>
   </div>
 </footer>
 
-<!-- ══════════════════════════ FLOATING WA -->
-<div class="float-wa">
-  <a href="https://wa.me/91XXXXXXXXXX" target="_blank" class="btn-float">
-    <i class="bi bi-whatsapp fs-5"></i>
-    <span class="float-lbl">Chat on WhatsApp</span>
-  </a>
-</div>
 
-<!-- ══════════════════════════ STICKY BOTTOM CTA -->
-<div class="sticky-cta" id="stickyCta" role="navigation" aria-label="Quick actions">
-  <a href="tel:+91XXXXXXXXXX" class="sticky-btn s-call">
-    <i class="bi bi-telephone-fill"></i>
-    <span>Call</span>
-  </a>
-  <a href="https://wa.me/91XXXXXXXXXX" target="_blank" rel="noopener" class="sticky-btn s-wa">
-    <i class="bi bi-whatsapp"></i>
-    <span>WhatsApp</span>
-  </a>
-  <button class="sticky-btn s-submit" id="stickySubmit">
-    <i class="bi bi-send-fill"></i>
-    <span>Get Free Plan</span>
-  </button>
-</div>
-
-<!-- ══════════════════════════ SUCCESS MODAL -->
-<div class="modal fade" id="successModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered modal-sm">
-    <div class="modal-content">
-      <div class="modal-body">
-        <div class="success-ico"><i class="bi bi-check-lg"></i></div>
-        <h3 style="font-family:'Cormorant Garamond',serif;color:var(--coal);margin-bottom:9px;font-size:1.6rem">Thank You! 🙏</h3>
-        <p style="font-family:'DM Sans',sans-serif;font-size:.85rem;color:#6A6482;margin-bottom:20px">
-          <span class="hn">आपकी inquiry submit हो गई।<br>हमारी team 24 hrs में WhatsApp पर contact करेगी।</span>
-        </p>
-        <button class="btn-form-submit" style="width:auto;padding:11px 28px;display:inline-block" data-bs-dismiss="modal">Done</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-  AOS.init({ duration: 680, easing: 'ease-out-cubic', once: true, offset: 60 });
-
-  window.addEventListener('scroll', () => {
-    document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 50);
+  var burger = document.getElementById('burger');
+  var menu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', function(){
+    var open = menu.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  });
+  Array.prototype.forEach.call(menu.querySelectorAll('a'), function(a){
+    a.addEventListener('click', function(){
+      menu.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded','false');
+    });
   });
 
-  const stickyCta   = document.getElementById('stickyCta');
-  const heroSection = document.getElementById('home');
+  var video = document.getElementById('heroVideo');
+  var playToggle = document.getElementById('playToggle');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function updateSticky() {
-    const heroBottom = heroSection.getBoundingClientRect().bottom;
-    stickyCta.classList.toggle('show', heroBottom < 0);
+  function markPaused(paused){
+    playToggle.classList.toggle('is-paused', paused);
+    playToggle.setAttribute('aria-label', paused ? 'Play background video' : 'Pause background video');
   }
-  window.addEventListener('scroll', updateSticky, { passive: true });
-  updateSticky();
 
-  document.getElementById('stickySubmit').addEventListener('click', function() {
-    const contactSection = document.getElementById('contact');
-    contactSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    setTimeout(() => {
-      const firstInput = contactSection.querySelector('input, select');
-      if (firstInput) firstInput.focus();
-    }, 600);
+  video.addEventListener('loadeddata', function(){ video.classList.add('ready'); });
+  if (video.readyState >= 2) { video.classList.add('ready'); }
+
+  if (reduceMotion) {
+    video.removeAttribute('autoplay');
+    video.pause();
+    markPaused(true);
+  } else {
+    var attempt = video.play();
+    if (attempt && attempt.catch) {
+      attempt.catch(function(){ markPaused(true); });
+    }
+  }
+
+  playToggle.addEventListener('click', function(){
+    if (video.paused) {
+      video.play();
+      markPaused(false);
+    } else {
+      video.pause();
+      markPaused(true);
+    }
   });
 
-  document.getElementById('heroForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const form = this;
-    const btn = form.querySelector('.btn-form-submit');
-    const errBox = document.getElementById('heroFormError');
-    errBox.style.display = 'none';
-
-    const payload = Object.fromEntries(new FormData(form).entries());
-
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Submitting…';
-    btn.disabled = true;
-
-    fetch('/api/leads', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    })
-      .then(async (resp) => {
-        const data = await resp.json().catch(() => ({}));
-        if (!resp.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
-        form.reset();
-        new bootstrap.Modal(document.getElementById('successModal')).show();
-      })
-      .catch((err) => {
-        errBox.textContent = err.message;
-        errBox.style.display = 'block';
-      })
-      .finally(() => {
-        btn.innerHTML = '<i class="bi bi-send-fill me-2"></i>Submit & Get My Plan';
-        btn.disabled = false;
-      });
-  });
+  video.addEventListener('play', function(){ markPaused(false); });
+  video.addEventListener('pause', function(){ markPaused(true); });
 </script>
+
+<script>
+(function(){
+  var slots = Array.prototype.slice.call(document.querySelectorAll('video.slot'));
+  if (!slots.length) return;
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var saveData = (navigator.connection && navigator.connection.saveData) === true;
+
+  function flagMissing(v){
+    var box = v.parentNode;
+    if (box.querySelector('.slot-note')) return;
+    v.style.display = 'none';
+    var n = document.createElement('span');
+    n.className = 'slot-note';
+    n.textContent = '1.mp4 not found in this folder';
+    box.appendChild(n);
+  }
+
+  slots.forEach(function(v){
+    var src = v.querySelector('source');
+    if (src) src.addEventListener('error', function(){ flagMissing(v); });
+
+    v.addEventListener('loadedmetadata', function(){
+      var r = parseFloat(v.getAttribute('data-rate'));
+      if (r && !isNaN(r)) { try { v.playbackRate = r; } catch(e){} }
+    });
+
+    if (reduce || saveData) { v.removeAttribute('autoplay'); v.pause(); }
+  });
+
+  if (reduce || saveData) return;
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        var v = e.target;
+        if (e.isIntersecting) {
+          var p = v.play();
+          if (p && p.catch) p.catch(function(){});
+        } else {
+          v.pause();
+        }
+      });
+    }, { rootMargin: '120px 0px', threshold: 0.15 });
+    slots.forEach(function(v){ io.observe(v); });
+  } else {
+    slots.forEach(function(v){
+      var p = v.play();
+      if (p && p.catch) p.catch(function(){});
+    });
+  }
+})();
+</script>
+
+<script>
+(function(){
+  var fixedHeader = document.getElementById('siteHeaderFixed');
+  var origin = document.querySelector('.nav');
+  if(!fixedHeader || !origin) return;
+
+  function setShown(on){
+    fixedHeader.classList.toggle('is-visible', on);
+  }
+
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      setShown(!entries[0].isIntersecting);
+    }, { threshold: 0, rootMargin: '-10px 0px 0px 0px' });
+    io.observe(origin);
+  } else {
+    var onScroll = function(){
+      var r = origin.getBoundingClientRect();
+      setShown(r.bottom < 0);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+})();
+</script>
+
+
+<div class="sticky-cta" id="stickyCta" aria-hidden="true">
+  <a href="teachers.html" class="btn btn-secondary" tabindex="-1">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.2-4.2"/></svg>
+    Browse teachers
+  </a>
+  <a href="#book" class="btn btn-primary" tabindex="-1">
+    Book Free Demo Class
+    <span class="arrow" aria-hidden="true">→</span>
+  </a>
+</div>
+
+<script>
+(function(){
+  var sticky = document.getElementById('stickyCta');
+  var origin = document.querySelector('.hero-body .cta-shell');
+  if (!sticky || !origin) return;
+
+  var links = sticky.querySelectorAll('a');
+
+  function setShown(on){
+    if (sticky.classList.contains('show') === on) return;
+    sticky.classList.toggle('show', on);
+    sticky.setAttribute('aria-hidden', on ? 'false' : 'true');
+    Array.prototype.forEach.call(links, function(a){
+      if (on) { a.removeAttribute('tabindex'); } else { a.setAttribute('tabindex','-1'); }
+    });
+  }
+
+  if ('IntersectionObserver' in window) {
+    // show the sticky bar only once the hero's own CTA has scrolled away
+    var io = new IntersectionObserver(function(entries){
+      setShown(!entries[0].isIntersecting);
+    }, { threshold: 0, rootMargin: '-10px 0px 0px 0px' });
+    io.observe(origin);
+  } else {
+    var onScroll = function(){
+      var r = origin.getBoundingClientRect();
+      setShown(r.bottom < 0);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+})();
+</script>
+
+
+<script>
+(function(){
+  var rail = document.getElementById('teacherRail');
+  var prev = document.getElementById('railPrev');
+  var next = document.getElementById('railNext');
+  if (!rail || !prev || !next) return;
+
+  function step(){
+    var card = rail.querySelector('.tcard');
+    if (!card) return 260;
+    var gap = parseFloat(getComputedStyle(rail).columnGap || getComputedStyle(rail).gap) || 16;
+    return (card.getBoundingClientRect().width + gap) * 2;
+  }
+
+  function sync(){
+    var max = rail.scrollWidth - rail.clientWidth - 2;
+    prev.disabled = rail.scrollLeft <= 2;
+    next.disabled = rail.scrollLeft >= max;
+  }
+
+  prev.addEventListener('click', function(){ rail.scrollBy({ left: -step(), behavior: 'smooth' }); });
+  next.addEventListener('click', function(){ rail.scrollBy({ left:  step(), behavior: 'smooth' }); });
+  rail.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
+})();
+</script>
+
 </body>
 </html>

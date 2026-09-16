@@ -3,8 +3,15 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
+const session = require('express-session');
 
-const apiRouter = require('./routes/api');
+const authRouter = require('./routes/auth');
+const teachersRouter = require('./routes/teachers');
+const requirementsRouter = require('./routes/requirements');
+const connectionsRouter = require('./routes/connections');
+const dashboardRouter = require('./routes/dashboard');
+const lookupsRouter = require('./routes/lookups');
+const adminRouter = require('./routes/admin');
 
 const app = express();
 
@@ -12,11 +19,23 @@ const app = express();
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 }, // 7 days
+}));
 
-// JSON API (leads, contact, etc.) — mounted before static so /api/* never falls through to a file lookup
-app.use('/api', apiRouter);
+// JSON API — mounted before static so /api/* never falls through to a file lookup
+app.use('/api/auth', authRouter);
+app.use('/api/teachers', teachersRouter);
+app.use('/api/requirements', requirementsRouter);
+app.use('/api/connections', connectionsRouter);
+app.use('/api', dashboardRouter);
+app.use('/api/lookups', lookupsRouter);
+app.use('/api/admin', adminRouter);
 
-// Static site (index.html, teacher pages, job listings, images, css, js)
+// Static site (index.html, dashboards, requirement pages, css, js, assets)
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 404 for anything not matched by static files or the API

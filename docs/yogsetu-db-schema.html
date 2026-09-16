@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>YogSetu — Database Schema &amp; Normalization Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<style>
+:root{
+  --bg:#0b0d12; --surface:#12151d; --surface2:#191d28; --surface3:#1f2432;
+  --border:#262b3a; --border-soft:#1c2029;
+  --text:#e6e9f2; --text-dim:#c2c7d6; --muted:#8991a8;
+  --accent:#d98e3f; --accent-soft:rgba(217,142,63,0.14); --accent-border:rgba(217,142,63,0.4);
+  --ok:#4ade80; --ok-soft:rgba(74,222,128,0.12); --ok-border:rgba(74,222,128,0.38);
+  --warn:#fbbf24; --warn-soft:rgba(251,191,36,0.12); --warn-border:rgba(251,191,36,0.38);
+  --bad:#f87171; --bad-soft:rgba(248,113,113,0.12); --bad-border:rgba(248,113,113,0.4);
+  --m-geo:#5b8def; --m-identity:#b98bd6; --m-teacher:#6fa287; --m-req:#c9a24a;
+  --m-conn:#4fb0a8; --m-wallet:#c07b8a; --m-admin:#6b7280;
+  --font-display:'Archivo',sans-serif; --font-body:'IBM Plex Sans',sans-serif; --font-mono:'IBM Plex Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{background:var(--bg);}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:14px;line-height:1.55;min-height:100vh;}
+::selection{background:var(--accent-soft);color:var(--text);}
+a{color:inherit;}
+.wrap{max-width:1520px;margin:0 auto;padding:40px 40px 100px;}
+
+.masthead{margin-bottom:34px;}
+.eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.eyebrow::before{content:"";width:22px;height:1px;background:var(--accent);display:inline-block;}
+h1{font-family:var(--font-display);font-weight:800;font-size:clamp(28px,3.6vw,44px);letter-spacing:-.01em;text-wrap:balance;background:linear-gradient(100deg,var(--text) 40%,var(--accent) 115%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;}
+.masthead p.lede{max-width:780px;color:var(--text-dim);font-size:15px;}
+.masthead p.lede code{font-family:var(--font-mono);font-size:13px;color:var(--accent);}
+
+.legend-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;}
+.leg-pill{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-mono);font-size:11px;padding:6px 12px 6px 10px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--muted);}
+.leg-pill b{color:var(--text);font-weight:500;}
+.leg-dot{width:7px;height:7px;border-radius:50%;flex:none;}
+.dot-ok{background:var(--ok);} .dot-warn{background:var(--warn);} .dot-bad{background:var(--m-req);}
+
+.stat-strip{display:flex;flex-wrap:wrap;gap:14px;margin-top:26px;}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 20px;min-width:140px;border-left:2px solid var(--accent);}
+.stat .n{font-family:var(--font-display);font-weight:800;font-size:26px;line-height:1;font-variant-numeric:tabular-nums;}
+.stat .l{font-family:var(--font-mono);font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:6px;}
+
+section{margin-top:52px;}
+.section-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;flex-wrap:wrap;}
+.section-head h2{font-family:var(--font-display);font-weight:800;font-size:20px;letter-spacing:-.01em;}
+.section-head .sub{color:var(--muted);font-size:12.5px;}
+.prose{max-width:780px;color:var(--text-dim);font-size:14px;}
+.prose + .prose{margin-top:10px;}
+.prose strong{color:var(--text);font-weight:600;}
+.ic{font-family:var(--font-mono);color:var(--accent);}
+
+.arch-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;margin-top:20px;}
+@media (max-width:980px){.arch-grid{grid-template-columns:1fr;}}
+.arch-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px 24px;}
+.arch-card h3{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:12px;}
+.conn-row{display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid var(--border-soft);font-size:13px;}
+.conn-row:last-child{border-bottom:none;}
+.conn-row .k{color:var(--muted);}
+.conn-row .v{font-family:var(--font-mono);font-size:12.5px;color:var(--text);text-align:right;}
+.route-note{font-size:12px;color:var(--muted);margin-top:14px;padding-top:14px;border-top:1px dashed var(--border);}
+
+.module-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px;margin-top:20px;}
+.mod-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;border-left:3px solid var(--mc,var(--accent));cursor:pointer;transition:border-color .15s,transform .1s;text-decoration:none;display:block;}
+.mod-card:hover{border-color:var(--mc,var(--accent));transform:translateY(-1px);}
+.mod-card .mn{font-family:var(--font-display);font-weight:800;font-size:15px;margin-bottom:4px;}
+.mod-card .mc{font-family:var(--font-mono);font-size:16px;font-weight:600;color:var(--mc,var(--accent));float:right;}
+.mod-card .md{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5;}
+
+.tabbar{position:sticky;top:0;z-index:20;display:flex;gap:2px;border-bottom:1px solid var(--border);margin:52px 0 26px;background:var(--bg);padding-top:6px;}
+.tab{padding:11px 20px;font-family:var(--font-mono);font-size:12px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;text-transform:uppercase;letter-spacing:.06em;background:none;border-top:none;border-left:none;border-right:none;}
+.tab:hover{color:var(--text);}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+.panel{display:none;}
+.panel.active{display:block;}
+
+.er-legend{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:18px;}
+.leg2{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border);padding:6px 12px;border-radius:8px;font-size:11px;color:var(--muted);font-family:var(--font-mono);}
+.leg2 .sw{width:11px;height:11px;border-radius:3px;}
+.diagram-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;overflow:auto;}
+.mermaid{min-width:1500px;}
+
+.callout{margin-top:22px;padding:16px 20px;border-radius:10px;border:1px solid var(--ok-border);background:var(--ok-soft);font-size:13px;color:var(--text-dim);}
+.callout b{color:var(--ok);}
+
+.group-header{font-family:var(--font-display);font-size:17px;font-weight:800;margin:44px 0 16px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;scroll-margin-top:64px;}
+.group-header .gc{width:9px;height:9px;border-radius:50%;background:var(--mc,var(--accent));flex:none;}
+.group-header .gcount{font-family:var(--font-mono);font-size:11px;color:var(--muted);font-weight:400;margin-left:auto;}
+
+.tbl-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:14px;}
+.tbl-head{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:11px;flex-wrap:wrap;}
+.tbl-name{font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--text);}
+.tbl-tag{font-family:var(--font-mono);font-size:9.5px;padding:2px 8px;border-radius:8px;text-transform:uppercase;letter-spacing:.04em;}
+.tag-core{background:var(--accent-soft);border:1px solid var(--accent-border);color:var(--accent);}
+.tag-lookup{background:rgba(91,141,239,0.12);border:1px solid rgba(91,141,239,0.4);color:var(--m-geo);}
+.tag-bridge{background:rgba(111,162,135,0.12);border:1px solid rgba(111,162,135,0.4);color:var(--m-teacher);}
+.tag-ext{background:rgba(185,139,214,0.12);border:1px solid rgba(185,139,214,0.4);color:var(--m-identity);}
+.tag-ledger{background:rgba(192,123,138,0.12);border:1px solid rgba(192,123,138,0.4);color:var(--m-wallet);}
+.tbl-desc{font-size:11.5px;color:var(--muted);}
+.tbl-count{margin-left:auto;font-family:var(--font-mono);font-size:11px;color:var(--muted);}
+.tbl-count b{color:var(--text);font-weight:600;}
+
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;}
+thead tr{background:var(--surface2);}
+th{font-family:var(--font-mono);font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding:8px 14px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
+td{padding:7px 14px;border-bottom:1px solid var(--border-soft);font-size:12px;vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(217,142,63,0.025);}
+.c-col{font-family:var(--font-mono);font-size:12px;color:var(--text);}
+.c-type{font-family:var(--font-mono);font-size:10.5px;color:var(--muted);white-space:nowrap;}
+.c-pk{color:var(--accent);font-weight:600;}
+.c-fk{color:var(--m-identity);}
+.c-note{font-size:10.5px;color:var(--muted);font-style:italic;}
+.fk-tag{font-family:var(--font-mono);font-size:9px;padding:1px 6px;border-radius:6px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;}
+.fk-tag.v{background:var(--ok-soft);color:var(--ok);border:1px solid var(--ok-border);}
+.tbl-foot{padding:10px 18px;font-size:11.5px;color:var(--muted);border-top:1px solid var(--border-soft);background:var(--surface2);}
+.tbl-foot b{color:var(--text-dim);}
+
+.flow-diagram{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:22px;}
+.flow-diagram h3{font-family:var(--font-display);font-size:16px;font-weight:800;margin-bottom:6px;}
+.flow-diagram .fsub{font-size:12px;color:var(--muted);margin-bottom:16px;}
+.flow-steps{display:flex;gap:0;align-items:stretch;flex-wrap:wrap;}
+.fstep{flex:1;min-width:190px;background:var(--surface2);border:1px solid var(--border);padding:14px 16px;position:relative;}
+.fstep:first-child{border-radius:9px 0 0 9px;}
+.fstep:last-child{border-radius:0 9px 9px 0;}
+.fstep:not(:last-child){border-right:none;}
+.fstep .fnum{font-family:var(--font-mono);font-size:10px;color:var(--accent);letter-spacing:.06em;}
+.fstep .ftitle{font-family:var(--font-display);font-size:13px;font-weight:800;margin:5px 0 9px;}
+.fstep .ftbl{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);display:block;margin-bottom:2px;}
+.fstep .ftbl b{color:var(--m-identity);}
+@media (max-width:900px){.fstep{border-radius:9px !important;border-right:1px solid var(--border) !important;}}
+
+.finding{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin-bottom:10px;border-left:3px solid var(--ok);}
+.finding .ftitle{font-family:var(--font-mono);font-size:12.5px;font-weight:600;color:var(--text);margin-bottom:5px;}
+.finding .fbody{font-size:12.5px;color:var(--muted);}
+.finding .fbody code{font-family:var(--font-mono);color:var(--text-dim);}
+
+.nf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:14px;margin-top:18px;}
+.nf-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;}
+.nf-card h3{font-family:var(--font-display);font-size:15px;font-weight:800;margin-bottom:8px;color:var(--accent);}
+.nf-card p{font-size:12.5px;color:var(--text-dim);}
+.nf-card code{font-family:var(--font-mono);font-size:11.5px;color:var(--text);}
+
+footer{margin-top:70px;padding-top:24px;border-top:1px solid var(--border);font-size:11.5px;color:var(--muted);}
+footer .fm{font-family:var(--font-mono);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="masthead">
+    <div class="eyebrow">Database Design · Proposed Schema</div>
+    <h1>YogSetu — Database Schema &amp; Normalization Reference</h1>
+    <p class="lede">
+      A relational schema for the platform as it exists today across the public site and all three dashboards
+      (Client, Teacher, Admin) — the signup/profile forms, the job board and applications, direct connection
+      requests, messaging, ratings, wallet credits, and the admin's verification, monetization, content and
+      access-control tools. Designed fresh, not reverse-engineered — normalized to <code>3NF</code>, with
+      <code>BCNF</code>-clean junction tables for every many-to-many relationship, and zero columns that
+      duplicate a value derivable from other rows.
+    </p>
+    <div class="legend-row">
+      <span class="leg-pill"><span class="leg-dot dot-ok"></span>Every FK below is a real <b>DB-enforced</b> constraint — nothing is left to the application layer to keep consistent</span>
+      <span class="leg-pill"><span class="leg-dot dot-warn"></span><b>Computed, not stored</b> — ratings averages, applicant counts, and wallet balances are query results, never cached columns</span>
+    </div>
+    <div class="stat-strip">
+      <div class="stat"><div class="n">26</div><div class="l">Tables</div></div>
+      <div class="stat"><div class="n">7</div><div class="l">Modules</div></div>
+      <div class="stat"><div class="n">23</div><div class="l">Foreign keys</div></div>
+      <div class="stat"><div class="n">14</div><div class="l">Unique constraints</div></div>
+      <div class="stat"><div class="n">5</div><div class="l">Check constraints</div></div>
+      <div class="stat"><div class="n">0</div><div class="l">Stored derived values</div></div>
+    </div>
+  </div>
+
+  <!-- ================= ARCHITECTURE OVERVIEW ================= -->
+  <section>
+    <div class="section-head"><h2>A · Design Principles</h2></div>
+    <p class="prose">
+      Two roles — <span class="ic">client</span> and <span class="ic">teacher</span> — share one <span class="ic">users</span>
+      table for authentication and account status, then extend it through a one-to-one table each
+      (<span class="ic">clients</span>, <span class="ic">teachers</span>). This is class-table inheritance: a client
+      row never carries nullable teacher-only columns like <span class="ic">years_experience</span>, and vice versa —
+      the alternative, one wide <span class="ic">users</span> table with every role's fields bolted on, is exactly the
+      kind of un-normalized design this schema avoids.
+    </p>
+    <p class="prose" style="margin-top:14px">
+      Every place the built dashboards show a <strong>list picked from a fixed set</strong> — a teacher's expertise
+      tags, their certifications, their online-class locations, a requirement's preferred time slots — got its own
+      child table instead of a comma-joined string in a parent column. A delimited string is the single most common
+      normalization bug in schemas like this one, and it's the first thing this design eliminates.
+    </p>
+
+    <div class="arch-grid">
+      <div class="arch-card">
+        <h3>Where the built demo data lands</h3>
+        <div class="conn-row"><span class="k">Teacher Shikhar Mehrotra</span><span class="v">users + teachers row, 2 rows in teacher_expertise</span></div>
+        <div class="conn-row"><span class="k">Client Meera Joshi</span><span class="v">users + clients row, city_id → Lucknow</span></div>
+        <div class="conn-row"><span class="k">Their approved connection</span><span class="v">one row in connections, status='approved'</span></div>
+        <div class="conn-row"><span class="k">Her review of him</span><span class="v">one row in ratings, connection_id UNIQUE</span></div>
+        <div class="conn-row"><span class="k">Teacher's "blended" 4.9 rating</span><span class="v">AVG(ratings.stars)*0.7 + teachers.team_rating*0.3</span></div>
+        <div class="route-note">Nothing here is a special case — every dashboard screen built earlier in this project maps onto this same set of 26 tables.</div>
+      </div>
+      <div class="arch-card">
+        <h3>Deliberately <em>not</em> separate tables</h3>
+        <div class="conn-row"><span class="k">"Connection Logs" (admin)</span><span class="v">SELECT * FROM connections</span></div>
+        <div class="conn-row"><span class="k">"Client &amp; Requirement Logs"</span><span class="v">SELECT * FROM requirements</span></div>
+        <div class="conn-row"><span class="k">Teacher's public rating</span><span class="v">not a column — a query</span></div>
+        <div class="conn-row"><span class="k">Wallet balance</span><span class="v">not a column — SUM() over wallet_transactions</span></div>
+        <div class="conn-row"><span class="k">"2 teachers applied" count</span><span class="v">COUNT() over requirement_applications</span></div>
+        <div class="route-note">Each of these looked like it needed its own table when reading the dashboards top to bottom. All five are just filtered views over data that already exists elsewhere — adding a table for any of them would create a second source of truth that could drift from the first.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= MODULE OVERVIEW ================= -->
+  <section>
+    <div class="section-head">
+      <h2>B · Modules</h2>
+      <span class="sub">click a module to jump to its tables in the Table Reference tab</span>
+    </div>
+    <div class="module-grid">
+      <a class="mod-card" style="--mc:var(--m-geo)" href="#grp-geo" onclick="showPanel('tables')">
+        <span class="mc">3</span><div class="mn">Geography</div>
+        <div class="md">countries → states → cities — one lookup chain, referenced everywhere an address is needed</div>
+      </a>
+      <a class="mod-card" style="--mc:var(--m-identity)" href="#grp-identity" onclick="showPanel('tables')">
+        <span class="mc">3</span><div class="mn">Identity &amp; Access</div>
+        <div class="md">users + one extension table per role (clients, teachers)</div>
+      </a>
+      <a class="mod-card" style="--mc:var(--m-teacher)" href="#grp-teacher" onclick="showPanel('tables')">
+        <span class="mc">7</span><div class="mn">Teacher Profile</div>
+        <div class="md">expertise tags, certifications, ID documents, online locations, package pricing</div>
+      </a>
+      <a class="mod-card" style="--mc:var(--m-req)" href="#grp-req" onclick="showPanel('tables')">
+        <span class="mc">3</span><div class="mn">Requirements &amp; Applications</div>
+        <div class="md">Job-board postings and every teacher who applied to one</div>
+      </a>
+      <a class="mod-card" style="--mc:var(--m-conn)" href="#grp-conn" onclick="showPanel('tables')">
+        <span class="mc">4</span><div class="mn">Connections, Booking &amp; Ratings</div>
+        <div class="md">Direct requests, weekly availability + booking, messages, one review per connection</div>
+      </a>
+      <a class="mod-card" style="--mc:var(--m-wallet)" href="#grp-wallet" onclick="showPanel('tables')">
+        <span class="mc">1</span><div class="mn">Wallet</div>
+        <div class="md">A single append-only credit ledger, shared by client and teacher credit types</div>
+      </a>
+      <a class="mod-card" style="--mc:var(--m-admin)" href="#grp-admin" onclick="showPanel('tables')">
+        <span class="mc">5</span><div class="mn">Platform Administration</div>
+        <div class="md">Fee/pricing settings, CMS copy, subadmin permissions matrix, misc activity log</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ================= TABS ================= -->
+  <div class="tabbar">
+    <button class="tab active" data-t="er" onclick="showPanel('er')">◈ ER Diagram</button>
+    <button class="tab" data-t="tables" onclick="showPanel('tables')">▤ Table Reference</button>
+    <button class="tab" data-t="norm" onclick="showPanel('norm')">✓ Normalization &amp; Constraints</button>
+    <button class="tab" data-t="flows" onclick="showPanel('flows')">→ Key Flows</button>
+  </div>
+
+  <!-- ================= ER DIAGRAM PANEL ================= -->
+  <div class="panel active" id="p-er">
+    <div class="er-legend">
+      <div class="leg2"><span class="sw" style="background:var(--m-geo)"></span>Geography</div>
+      <div class="leg2"><span class="sw" style="background:var(--m-identity)"></span>Identity &amp; Access</div>
+      <div class="leg2"><span class="sw" style="background:var(--m-teacher)"></span>Teacher Profile</div>
+      <div class="leg2"><span class="sw" style="background:var(--m-req)"></span>Requirements</div>
+      <div class="leg2"><span class="sw" style="background:var(--m-conn)"></span>Connections &amp; Ratings</div>
+      <div class="leg2"><span class="sw" style="background:var(--m-wallet)"></span>Wallet</div>
+      <div class="leg2"><span class="sw" style="background:var(--m-admin)"></span>Admin</div>
+    </div>
+
+    <div class="diagram-wrap">
+<pre class="mermaid">
+erDiagram
+    countries ||--o{ states : has
+    states ||--o{ cities : has
+    cities ||--o{ clients : based_in
+    cities ||--o{ teachers : based_in
+    cities ||--o{ requirements : located_in
+
+    users ||--o| clients : extends
+    users ||--o| teachers : extends
+
+    teachers ||--o{ teacher_expertise : tagged
+    yoga_styles ||--o{ teacher_expertise : tag
+    yoga_styles ||--o{ requirements : requested_style
+
+    teachers ||--o{ teacher_certifications : submits
+    certification_types ||--o{ teacher_certifications : of_type
+    certification_types ||--o{ requirements : required_cert
+    teachers ||--o{ teacher_documents : submits
+    teachers ||--o{ teacher_online_locations : lists
+    teachers ||--o{ teacher_pricing_packages : offers
+
+    clients ||--o{ requirements : posts
+    requirements ||--o{ requirement_availability_slots : prefers
+    requirements ||--o{ requirement_applications : receives
+    teachers ||--o{ requirement_applications : applies_to
+
+    clients ||--o{ connections : requests
+    teachers ||--o{ connections : receives
+    requirement_applications ||--o| connections : escalates_to
+
+    teachers ||--o{ teacher_weekly_availability : defines
+    connections ||--o| teacher_weekly_availability : books
+
+    connections ||--o{ messages : contains
+    users ||--o{ messages : sends
+
+    connections ||--o| ratings : rated_once
+    teachers ||--o{ ratings : receives
+    clients ||--o{ ratings : gives
+
+    users ||--o{ wallet_transactions : owns
+
+    users ||--o{ cms_content_blocks : last_edited_by
+    users ||--o{ platform_settings : last_updated_by
+    users ||--o{ subadmin_permissions : granted_to
+    permission_modules ||--o{ subadmin_permissions : covers
+    users ||--o{ audit_logs : acted_by
+
+    countries {
+        bigint id PK
+        varchar name "UNIQUE"
+    }
+    states {
+        bigint id PK
+        bigint country_id FK
+        varchar name
+    }
+    cities {
+        bigint id PK
+        bigint state_id FK
+        varchar name
+    }
+    users {
+        bigint id PK
+        varchar email "UNIQUE"
+        varchar phone
+        varchar password_hash
+        enum role
+        enum status
+    }
+    clients {
+        bigint user_id PK
+        varchar full_name
+        enum gender
+        bigint city_id FK
+        varchar pincode
+        text bio
+    }
+    teachers {
+        bigint user_id PK
+        varchar full_name
+        tinyint years_experience
+        enum teaching_mode
+        bigint city_id FK
+        decimal per_session_price
+        enum verification_status
+        decimal team_rating "admin-assigned, 1.0-5.0"
+    }
+    yoga_styles {
+        bigint id PK
+        varchar name "UNIQUE"
+    }
+    teacher_expertise {
+        bigint teacher_user_id PK
+        bigint style_id PK
+    }
+    certification_types {
+        bigint id PK
+        varchar name "UNIQUE"
+    }
+    teacher_certifications {
+        bigint id PK
+        bigint teacher_user_id FK
+        bigint certification_type_id FK
+        varchar document_url
+        enum status
+    }
+    teacher_documents {
+        bigint id PK
+        bigint teacher_user_id FK
+        enum doc_type
+        enum status
+    }
+    teacher_online_locations {
+        bigint id PK
+        bigint teacher_user_id FK
+        varchar location_label
+    }
+    teacher_pricing_packages {
+        bigint id PK
+        bigint teacher_user_id FK
+        smallint session_count
+        decimal total_price
+    }
+    requirements {
+        bigint id PK
+        bigint client_user_id FK
+        varchar title
+        bigint style_id FK
+        enum purpose
+        bigint certification_required_id FK
+        bigint city_id FK
+        decimal budget_min
+        decimal budget_max
+        enum status
+        boolean is_visible
+    }
+    requirement_availability_slots {
+        bigint id PK
+        bigint requirement_id FK
+        varchar slot_label
+    }
+    requirement_applications {
+        bigint id PK
+        bigint requirement_id FK
+        bigint teacher_user_id FK
+        enum status
+    }
+    connections {
+        bigint id PK
+        bigint client_user_id FK
+        bigint teacher_user_id FK
+        enum origin
+        bigint source_application_id FK
+        enum status
+        decimal fee_charged
+    }
+    teacher_weekly_availability {
+        bigint id PK
+        bigint teacher_user_id FK
+        tinyint day_of_week
+        varchar time_slot
+        boolean is_available
+        bigint booked_connection_id FK
+    }
+    messages {
+        bigint id PK
+        bigint connection_id FK
+        bigint sender_user_id FK
+        text body
+    }
+    ratings {
+        bigint id PK
+        bigint connection_id FK "UNIQUE"
+        bigint teacher_user_id FK
+        bigint client_user_id FK
+        tinyint stars
+        enum status
+    }
+    wallet_transactions {
+        bigint id PK
+        bigint user_id FK
+        enum credit_type
+        smallint delta_amount
+    }
+    platform_settings {
+        varchar setting_key PK
+        varchar setting_value
+        bigint updated_by FK
+    }
+    cms_content_blocks {
+        bigint id PK
+        varchar block_key "UNIQUE"
+        text content
+        bigint last_edited_by FK
+    }
+    permission_modules {
+        bigint id PK
+        varchar module_key "UNIQUE"
+    }
+    subadmin_permissions {
+        bigint subadmin_user_id PK
+        bigint module_id PK
+    }
+    audit_logs {
+        bigint id PK
+        bigint actor_user_id FK
+        varchar action
+    }
+</pre>
+    </div>
+    <div class="callout"><b>Reading the diagram:</b> every relationship line ends in a foreign key in the child entity — there is no relationship on this diagram that isn't backed by a real <code style="font-family:var(--font-mono)">CONSTRAINT ... FOREIGN KEY</code> in the DDL. The full column list, types and constraint names for every entity above are in the Table Reference tab.</div>
+  </div>
+
+  <!-- ================= TABLE REFERENCE PANEL ================= -->
+  <div class="panel" id="p-tables">
+
+    <div class="group-header" id="grp-geo" style="--mc:var(--m-geo)"><span class="gc"></span>Geography<span class="gcount">3 tables</span></div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">countries</span><span class="tbl-tag tag-lookup">Lookup</span><span class="tbl-desc">Top of the geography chain</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col">name</td><td class="c-type">varchar(100)</td><td><span class="c-note">unique</span></td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">states</span><span class="tbl-tag tag-lookup">Lookup</span><span class="tbl-desc">Belongs to one country</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col c-fk">country_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → countries.id</td></tr>
+        <tr><td class="c-col">name</td><td class="c-type">varchar(100)</td><td><span class="c-note">unique per country</span></td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">cities</span><span class="tbl-tag tag-lookup">Lookup</span><span class="tbl-desc">Belongs to one state — referenced by clients, teachers, and requirements alike</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col c-fk">state_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → states.id</td></tr>
+        <tr><td class="c-col">name</td><td class="c-type">varchar(100)</td><td><span class="c-note">unique per state</span></td></tr>
+      </tbody></table></div>
+      <div class="tbl-foot"><b>Why not free-text city columns?</b> Three separate <code style="font-family:var(--font-mono)">varchar</code> columns on clients, teachers and requirements would let "Lucknow" and "lucknow" coexist as different values and break every city filter on the site. One lookup chain fixes that everywhere at once.</div>
+    </div>
+
+    <div class="group-header" id="grp-identity" style="--mc:var(--m-identity)"><span class="gc"></span>Identity &amp; Access<span class="gcount">3 tables</span></div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">users</span><span class="tbl-tag tag-core">★ Core</span><span class="tbl-desc">Shared auth row for every role — client, teacher, admin, subadmin</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col">email</td><td class="c-type">varchar(255)</td><td><span class="c-note">unique</span></td></tr>
+        <tr><td class="c-col">phone, password_hash</td><td class="c-type">varchar</td><td></td></tr>
+        <tr><td class="c-col">role</td><td class="c-type">enum('client','teacher','admin','subadmin')</td><td></td></tr>
+        <tr><td class="c-col">status</td><td class="c-type">enum('active','blocked')</td><td><span class="c-note">the admin "Block" toggle</span></td></tr>
+        <tr><td class="c-col">created_at</td><td class="c-type">timestamp</td><td></td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">clients</span><span class="tbl-tag tag-ext">1:1 Extension</span><span class="tbl-desc">Client Profile tab, fields</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk c-fk">user_id</td><td class="c-type">bigint unsigned</td><td>PK, <span class="fk-tag v">FK</span> → users.id</td></tr>
+        <tr><td class="c-col">full_name, gender</td><td class="c-type">varchar / enum</td><td></td></tr>
+        <tr><td class="c-col c-fk">city_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → cities.id</td></tr>
+        <tr><td class="c-col">pincode, looking_for, bio, profile_photo_url</td><td class="c-type">varchar / text</td><td></td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">teachers</span><span class="tbl-tag tag-ext">1:1 Extension</span><span class="tbl-desc">Teacher Profile — basics, teaching details, pricing, verification &amp; team rating</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk c-fk">user_id</td><td class="c-type">bigint unsigned</td><td>PK, <span class="fk-tag v">FK</span> → users.id</td></tr>
+        <tr><td class="c-col">full_name, gender, years_experience, teaching_mode</td><td class="c-type">varchar / enum / tinyint</td><td></td></tr>
+        <tr><td class="c-col">qualifications, bio, profile_photo_url</td><td class="c-type">text / varchar</td><td></td></tr>
+        <tr><td class="c-col c-fk">city_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → cities.id</td></tr>
+        <tr><td class="c-col">pincode, per_session_price, trial_price</td><td class="c-type">varchar / decimal</td><td></td></tr>
+        <tr><td class="c-col">verification_status</td><td class="c-type">enum('pending','verified','rejected')</td><td></td></tr>
+        <tr><td class="c-col">team_rating</td><td class="c-type">decimal(2,1)</td><td><span class="c-note">1.0–5.0, admin-assigned, CHECK constrained</span></td></tr>
+      </tbody></table></div>
+      <div class="tbl-foot"><b>Blended public rating</b> = <code style="font-family:var(--font-mono)">AVG(ratings.stars) × 0.7 + team_rating × 0.3</code>, computed when the profile page renders. See Normalization tab.</div>
+    </div>
+
+    <div class="group-header" id="grp-teacher" style="--mc:var(--m-teacher)"><span class="gc"></span>Teacher Profile<span class="gcount">7 tables</span></div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">yoga_styles</span><span class="tbl-tag tag-lookup">Lookup</span><span class="tbl-desc">Hatha, Ashtanga, Vinyasa, Prenatal… shared by teacher expertise AND requirement style</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col">name</td><td class="c-type">varchar(100)</td><td><span class="c-note">unique</span></td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">teacher_expertise</span><span class="tbl-tag tag-bridge">Bridge</span><span class="tbl-desc">Many-to-many: the "add/remove" expertise tag chips</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk c-fk">teacher_user_id</td><td class="c-type">bigint unsigned</td><td>PK, <span class="fk-tag v">FK</span> → teachers.user_id</td></tr>
+        <tr><td class="c-col c-pk c-fk">style_id</td><td class="c-type">bigint unsigned</td><td>PK, <span class="fk-tag v">FK</span> → yoga_styles.id</td></tr>
+      </tbody></table></div>
+      <div class="tbl-foot">Composite primary key on both columns — a teacher can't be tagged with the same style twice, and the pairing needs no separate surrogate id.</div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">certification_types</span><span class="tbl-tag tag-lookup">Lookup</span><span class="tbl-desc">RYT-200, RYT-500, E-RYT, state/govt certified…</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col">name</td><td class="c-type">varchar(150)</td><td><span class="c-note">unique</span></td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">teacher_certifications</span><span class="tbl-tag tag-core">★ Core</span><span class="tbl-desc">One row per uploaded certificate — powers both the profile tag AND the Verification Queue doc review</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col c-fk">teacher_user_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → teachers.user_id</td></tr>
+        <tr><td class="c-col c-fk">certification_type_id</td><td class="c-type">bigint unsigned, nullable</td><td><span class="fk-tag v">FK</span> → certification_types.id</td></tr>
+        <tr><td class="c-col">certification_name_other</td><td class="c-type">varchar(150), nullable</td><td><span class="c-note">used only for "Other"; CHECK: one of the two must be set</span></td></tr>
+        <tr><td class="c-col">issuing_body, document_url</td><td class="c-type">varchar</td><td></td></tr>
+        <tr><td class="c-col">status</td><td class="c-type">enum('pending','verified','rejected')</td><td></td></tr>
+        <tr><td class="c-col c-fk">verified_by</td><td class="c-type">bigint unsigned, nullable</td><td><span class="fk-tag v">FK</span> → users.id (an admin)</td></tr>
+      </tbody></table></div>
+      <div class="tbl-foot"><b>Why not just a tag list plus a separate upload list?</b> The site shows each certification as one thing — a name <em>and</em> its supporting document <em>and</em> its verification state. Splitting that across two unrelated tables would let a tag exist with no document, or a document with no tag. One row, one certification, one status.</div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">teacher_documents</span><span class="tbl-tag tag-core">Core</span><span class="tbl-desc">Identity documents — Aadhaar front/back, government ID, liability insurance</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col c-fk">teacher_user_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → teachers.user_id</td></tr>
+        <tr><td class="c-col">doc_type</td><td class="c-type">enum('aadhaar_front','aadhaar_back','government_id','liability_insurance','other')</td><td></td></tr>
+        <tr><td class="c-col">file_url, status, uploaded_at</td><td class="c-type">varchar / enum / timestamp</td><td></td></tr>
+        <tr><td class="c-col c-fk">verified_by</td><td class="c-type">bigint unsigned, nullable</td><td><span class="fk-tag v">FK</span> → users.id</td></tr>
+      </tbody></table></div>
+      <div class="tbl-foot">Kept separate from <code style="font-family:var(--font-mono)">teacher_certifications</code> on purpose: identity docs don't have an issuing body or a certification name, so giving them their own table means no columns sit NULL on every row of the other kind.</div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">teacher_online_locations</span><span class="tbl-tag tag-bridge">1:N child</span><span class="tbl-desc">The "add locations" list for online-class availability</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col c-fk">teacher_user_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → teachers.user_id</td></tr>
+        <tr><td class="c-col">location_label</td><td class="c-type">varchar(150)</td><td><span class="c-note">unique per teacher</span></td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">teacher_pricing_packages</span><span class="tbl-tag tag-bridge">1:N child</span><span class="tbl-desc">"5 sessions for ₹3,500" style addable rows</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col c-fk">teacher_user_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → teachers.user_id</td></tr>
+        <tr><td class="c-col">session_count</td><td class="c-type">smallint unsigned</td><td></td></tr>
+        <tr><td class="c-col">total_price</td><td class="c-type">decimal(10,2)</td><td></td></tr>
+      </tbody></table></div>
+      <div class="tbl-foot">Stored as <code style="font-family:var(--font-mono)">(session_count, total_price)</code>, not the formatted string "5 sessions for ₹3,500" — atomic values the app can sort, filter and re-render in any format, per 1NF.</div>
+    </div>
+
+    <div class="group-header" id="grp-req" style="--mc:var(--m-req)"><span class="gc"></span>Requirements &amp; Applications<span class="gcount">3 tables</span></div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">requirements</span><span class="tbl-tag tag-core">★ Core</span><span class="tbl-desc">Job-board postings — the full multi-step "Post a Requirement" wizard, one row per posting</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col c-fk">client_user_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → clients.user_id</td></tr>
+        <tr><td class="c-col">title</td><td class="c-type">varchar(200)</td><td></td></tr>
+        <tr><td class="c-col c-fk">style_id</td><td class="c-type">bigint unsigned, nullable</td><td><span class="fk-tag v">FK</span> → yoga_styles.id</td></tr>
+        <tr><td class="c-col">purpose, preferred_gender, mode</td><td class="c-type">enum</td><td></td></tr>
+        <tr><td class="c-col c-fk">certification_required_id</td><td class="c-type">bigint unsigned, nullable</td><td><span class="fk-tag v">FK</span> → certification_types.id</td></tr>
+        <tr><td class="c-col">demo_class_time</td><td class="c-type">datetime, nullable</td><td></td></tr>
+        <tr><td class="c-col c-fk">city_id</td><td class="c-type">bigint unsigned, nullable</td><td><span class="fk-tag v">FK</span> → cities.id</td></tr>
+        <tr><td class="c-col">pincode, area</td><td class="c-type">varchar</td><td></td></tr>
+        <tr><td class="c-col">budget_min, budget_max</td><td class="c-type">decimal(10,2)</td><td><span class="c-note">CHECK: min ≤ max</span></td></tr>
+        <tr><td class="c-col">description, status</td><td class="c-type">text / enum('open','matched','closed')</td><td></td></tr>
+        <tr><td class="c-col">is_visible</td><td class="c-type">boolean</td><td><span class="c-note">the admin "Block job" toggle</span></td></tr>
+        <tr><td class="c-col">source</td><td class="c-type">enum('platform','phone_call','whatsapp','walk_in','referral')</td><td></td></tr>
+        <tr><td class="c-col c-fk">posted_by_admin_id</td><td class="c-type">bigint unsigned, nullable</td><td><span class="fk-tag v">FK</span> → users.id, set by "Post for a Client"</td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">requirement_availability_slots</span><span class="tbl-tag tag-bridge">1:N child</span><span class="tbl-desc">The client's checked "time slots you're available" from the wizard</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col c-fk">requirement_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → requirements.id</td></tr>
+        <tr><td class="c-col">slot_label</td><td class="c-type">varchar(50)</td><td><span class="c-note">unique per requirement</span></td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">requirement_applications</span><span class="tbl-tag tag-bridge">Bridge</span><span class="tbl-desc">Every teacher who applied to every requirement — powers the client's applicant timeline AND the teacher's Job Applied tab from the same rows</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col c-fk">requirement_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → requirements.id</td></tr>
+        <tr><td class="c-col c-fk">teacher_user_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → teachers.user_id</td></tr>
+        <tr><td class="c-col">status</td><td class="c-type">enum('pending','approved','rejected')</td><td><span class="c-note">"Selected" in the UI = approved</span></td></tr>
+        <tr><td class="c-col">applied_at, decided_at</td><td class="c-type">timestamp</td><td></td></tr>
+      </tbody></table></div>
+      <div class="tbl-foot">UNIQUE(requirement_id, teacher_user_id) — a teacher can't apply to the same posting twice. "2 teachers applied" on a requirement card = <code style="font-family:var(--font-mono)">COUNT(*)</code> here, never stored on <code style="font-family:var(--font-mono)">requirements</code>.</div>
+    </div>
+
+    <div class="group-header" id="grp-conn" style="--mc:var(--m-conn)"><span class="gc"></span>Connections, Booking &amp; Ratings<span class="gcount">4 tables</span></div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">connections</span><span class="tbl-tag tag-core">★ Core</span><span class="tbl-desc">The single "client and teacher are in touch" edge — whether it started as a direct request or an approved job application</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col c-fk">client_user_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → clients.user_id</td></tr>
+        <tr><td class="c-col c-fk">teacher_user_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → teachers.user_id</td></tr>
+        <tr><td class="c-col">origin</td><td class="c-type">enum('direct_browse','requirement_application')</td><td></td></tr>
+        <tr><td class="c-col c-fk">source_application_id</td><td class="c-type">bigint unsigned, nullable</td><td><span class="fk-tag v">FK</span> → requirement_applications.id</td></tr>
+        <tr><td class="c-col">status, decline_reason</td><td class="c-type">enum('pending','approved','declined') / varchar</td><td></td></tr>
+        <tr><td class="c-col">fee_charged</td><td class="c-type">decimal(10,2), nullable</td><td><span class="c-note">NULL while platform fee is OFF</span></td></tr>
+        <tr><td class="c-col">requested_at, decided_at, whatsapp_shared_at</td><td class="c-type">timestamp</td><td></td></tr>
+      </tbody></table></div>
+      <div class="tbl-foot">UNIQUE(client_user_id, teacher_user_id) — the site's own rule ("your first connection is free, from the second a fee applies") only makes sense if a client can't have two simultaneous connections to the same teacher.</div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">teacher_weekly_availability</span><span class="tbl-tag tag-core">Core</span><span class="tbl-desc">The recurring day × time-slot grid — plus which connection currently has it booked</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col c-fk">teacher_user_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → teachers.user_id</td></tr>
+        <tr><td class="c-col">day_of_week, time_slot</td><td class="c-type">tinyint / varchar</td><td><span class="c-note">unique per teacher</span></td></tr>
+        <tr><td class="c-col">is_available</td><td class="c-type">boolean</td><td></td></tr>
+        <tr><td class="c-col c-fk">booked_connection_id</td><td class="c-type">bigint unsigned, nullable</td><td><span class="fk-tag v">FK</span> → connections.id</td></tr>
+      </tbody></table></div>
+      <div class="tbl-foot"><b>"7 of 12 slots have a class booked"</b> = <code style="font-family:var(--font-mono)">COUNT(*) WHERE booked_connection_id IS NOT NULL</code>. CHECK constraint stops a slot being booked while marked unavailable.</div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">messages</span><span class="tbl-tag tag-core">Core</span><span class="tbl-desc">Post-approval conversation thread</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col c-fk">connection_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → connections.id</td></tr>
+        <tr><td class="c-col c-fk">sender_user_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → users.id</td></tr>
+        <tr><td class="c-col">body, sent_at</td><td class="c-type">text / timestamp</td><td></td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">ratings</span><span class="tbl-tag tag-core">★ Core</span><span class="tbl-desc">One student review per connection — read by the teacher's Ratings tab AND the admin's Ratings Moderation queue</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col c-fk">connection_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → connections.id, <span class="c-note">unique</span></td></tr>
+        <tr><td class="c-col c-fk">teacher_user_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → teachers.user_id</td></tr>
+        <tr><td class="c-col c-fk">client_user_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → clients.user_id</td></tr>
+        <tr><td class="c-col">stars</td><td class="c-type">tinyint unsigned</td><td><span class="c-note">CHECK 1–5</span></td></tr>
+        <tr><td class="c-col">review_text, status, flagged_reason</td><td class="c-type">text / enum('published','flagged','removed') / varchar</td><td></td></tr>
+      </tbody></table></div>
+      <div class="tbl-foot">One rating per connection (not per teacher) is why UNIQUE sits on <code style="font-family:var(--font-mono)">connection_id</code> — matches the site exactly: the "Rate this teacher" button only ever appears once per approved relationship.</div>
+    </div>
+
+    <div class="group-header" id="grp-wallet" style="--mc:var(--m-wallet)"><span class="gc"></span>Wallet<span class="gcount">1 table</span></div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">wallet_transactions</span><span class="tbl-tag tag-ledger">Ledger</span><span class="tbl-desc">Every credit grant and spend, for either role — client free postings/connections, teacher application credits and profile-completion bonuses</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col c-fk">user_id</td><td class="c-type">bigint unsigned</td><td><span class="fk-tag v">FK</span> → users.id</td></tr>
+        <tr><td class="c-col">credit_type</td><td class="c-type">enum('free_requirement_posting','free_connection','job_application_credit','profile_completion_bonus')</td><td></td></tr>
+        <tr><td class="c-col">delta_amount</td><td class="c-type">smallint</td><td><span class="c-note">+granted / -spent</span></td></tr>
+        <tr><td class="c-col">reason, created_at</td><td class="c-type">varchar / timestamp</td><td></td></tr>
+      </tbody></table></div>
+      <div class="tbl-foot"><b>No balance column, anywhere.</b> "2 of 3 job-application credits remaining" = <code style="font-family:var(--font-mono)">SUM(delta_amount) WHERE user_id=? AND credit_type=?</code>. A stored, mutable balance is a second source of truth that a missed update could desync from this history — the exact bug class this design is built to avoid.</div>
+    </div>
+
+    <div class="group-header" id="grp-admin" style="--mc:var(--m-admin)"><span class="gc"></span>Platform Administration<span class="gcount">5 tables</span></div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">platform_settings</span><span class="tbl-tag tag-lookup">Key-value</span><span class="tbl-desc">Fee on/off, fee amount, first-connection rule, pricing visibility — the "Platform Fee &amp; Pricing" screen</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">setting_key</td><td class="c-type">varchar(100)</td><td>PK</td></tr>
+        <tr><td class="c-col">setting_value</td><td class="c-type">varchar(500)</td><td></td></tr>
+        <tr><td class="c-col c-fk">updated_by</td><td class="c-type">bigint unsigned, nullable</td><td><span class="fk-tag v">FK</span> → users.id</td></tr>
+        <tr><td class="c-col">updated_at</td><td class="c-type">timestamp</td><td></td></tr>
+      </tbody></table></div>
+      <div class="tbl-foot">A small, genuinely heterogeneous set of global toggles is the one place a key-value shape is the <em>more</em> normalized choice — four dedicated boolean/decimal columns on a fake "singleton" settings table would need a manufactured single-row PK instead of this natural one.</div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">cms_content_blocks</span><span class="tbl-tag tag-core">Core</span><span class="tbl-desc">Editable public-site copy — hero headline, About mission statement, FAQ answers, footer contact info</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col">block_key</td><td class="c-type">varchar(100)</td><td><span class="c-note">unique</span></td></tr>
+        <tr><td class="c-col">label, content</td><td class="c-type">varchar / text</td><td></td></tr>
+        <tr><td class="c-col c-fk">last_edited_by</td><td class="c-type">bigint unsigned, nullable</td><td><span class="fk-tag v">FK</span> → users.id</td></tr>
+        <tr><td class="c-col">last_edited_at</td><td class="c-type">timestamp</td><td></td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">permission_modules</span><span class="tbl-tag tag-lookup">Lookup</span><span class="tbl-desc">The 5 fixed columns of the permissions matrix</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col">module_key, module_label</td><td class="c-type">varchar</td><td><span class="c-note">key unique</span></td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">subadmin_permissions</span><span class="tbl-tag tag-bridge">Bridge</span><span class="tbl-desc">Literally the permissions-matrix checkboxes</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk c-fk">subadmin_user_id</td><td class="c-type">bigint unsigned</td><td>PK, <span class="fk-tag v">FK</span> → users.id</td></tr>
+        <tr><td class="c-col c-pk c-fk">module_id</td><td class="c-type">bigint unsigned</td><td>PK, <span class="fk-tag v">FK</span> → permission_modules.id</td></tr>
+        <tr><td class="c-col c-fk">granted_by</td><td class="c-type">bigint unsigned, nullable</td><td><span class="fk-tag v">FK</span> → users.id</td></tr>
+        <tr><td class="c-col">granted_at</td><td class="c-type">timestamp</td><td></td></tr>
+      </tbody></table></div>
+      <div class="tbl-foot">A checked box in the admin UI = a row exists here. There's no boolean grid column to keep in sync with the checkbox state — the row's existence <em>is</em> the state.</div>
+    </div>
+
+    <div class="tbl-card">
+      <div class="tbl-head"><span class="tbl-name">audit_logs</span><span class="tbl-tag tag-lookup">Catch-all</span><span class="tbl-desc">Heterogeneous one-off events only — logged in, changed pricing, updated availability</span></div>
+      <div class="tbl-wrap"><table><thead><tr><th>Column</th><th>Type</th><th>Key</th></tr></thead><tbody>
+        <tr><td class="c-col c-pk">id</td><td class="c-type">bigint unsigned</td><td>PK</td></tr>
+        <tr><td class="c-col c-fk">actor_user_id</td><td class="c-type">bigint unsigned, nullable</td><td><span class="fk-tag v">FK</span> → users.id</td></tr>
+        <tr><td class="c-col">action, target_type, target_id</td><td class="c-type">varchar / varchar / bigint</td><td></td></tr>
+        <tr><td class="c-col">created_at</td><td class="c-type">timestamp</td><td></td></tr>
+      </tbody></table></div>
+      <div class="tbl-foot"><b>Not used for:</b> Connection Logs or Client &amp; Requirement Logs — those two admin screens read <code style="font-family:var(--font-mono)">connections</code> and <code style="font-family:var(--font-mono)">requirements</code> directly, which already carry status and timestamps. This table only exists for events that have no home table of their own.</div>
+    </div>
+
+  </div>
+
+  <!-- ================= NORMALIZATION PANEL ================= -->
+  <div class="panel" id="p-norm">
+    <p class="prose">Four checks, applied to every table above rather than argued for once in the abstract.</p>
+    <div class="nf-grid">
+      <div class="nf-card">
+        <h3>1NF — atomic values, no repeating groups</h3>
+        <p>Nothing in this schema stores a delimited list in a single column. Every place the built UI lets someone pick several of something — a teacher's expertise tags, their certifications, their online-class locations, package pricing rows, a requirement's preferred time slots — has its own child table: <code>teacher_expertise</code>, <code>teacher_certifications</code>, <code>teacher_online_locations</code>, <code>teacher_pricing_packages</code>, <code>requirement_availability_slots</code>.</p>
+      </div>
+      <div class="nf-card">
+        <h3>2NF — no partial dependency on a composite key</h3>
+        <p>The two true composite-key tables, <code>teacher_expertise(teacher_user_id, style_id)</code> and <code>subadmin_permissions(subadmin_user_id, module_id)</code>, carry no non-key attribute at all besides audit metadata (<code>granted_by</code>, <code>granted_at</code>) that depends on the <em>whole</em> pairing, not on either half alone.</p>
+      </div>
+      <div class="nf-card">
+        <h3>3NF — no transitive dependency</h3>
+        <p>Nothing depends on a non-key column of the same table. <code>requirements.city_id</code> points at <code>cities</code> rather than storing <code>city</code>, <code>state</code> and <code>country</code> as three text columns that would all change together — the classic transitive-dependency smell — and the same pattern covers <code>clients</code> and <code>teachers</code>.</p>
+      </div>
+      <div class="nf-card">
+        <h3>BCNF — every determinant is a candidate key</h3>
+        <p>Every non-trivial functional dependency in this schema is already rooted at a table's primary key, so 3NF and BCNF coincide here — there's no table with two overlapping candidate keys that would force a further split.</p>
+      </div>
+    </div>
+
+    <div class="section-head" style="margin-top:40px;"><h2>Redundancy specifically avoided</h2></div>
+    <div class="finding"><div class="ftitle">Teacher's public rating is never stored pre-blended</div><div class="fbody">It's <code>AVG(ratings.stars WHERE status='published') × 0.7 + teachers.team_rating × 0.3</code>, computed on read. Storing the blended 4.9 as a column would need an update every time any one review changes, is added, or is removed by moderation — a classic update-anomaly risk this design has zero of.</div></div>
+    <div class="finding"><div class="ftitle">Wallet balances are a ledger, not a mutable counter</div><div class="fbody"><code>wallet_transactions</code> is append-only. A stored balance column would require every credit grant and spend to remember to update it in lockstep — one missed update and the number silently drifts from reality.</div></div>
+    <div class="finding"><div class="ftitle">Applicant and slot-filled counts are COUNT(), not cached integers</div><div class="fbody">"2 teachers applied", "7 of 12 slots booked" — both come from counting rows in <code>requirement_applications</code> and <code>teacher_weekly_availability</code> at query time.</div></div>
+    <div class="finding"><div class="ftitle">Geography is one chain, not three repeated text columns</div><div class="fbody"><code>countries → states → cities</code>, referenced by FK from <code>clients</code>, <code>teachers</code> and <code>requirements</code> — a city name is spelled exactly one way, everywhere.</div></div>
+
+    <div class="section-head" style="margin-top:40px;"><h2>Constraint inventory</h2><span class="sub">what actually stops bad data at the database, not just in application code</span></div>
+    <div class="cr-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:9px;margin-top:16px;">
+      <div class="cr-item" style="background:var(--surface2);border:1px solid var(--border);padding:10px 13px;border-radius:6px;font-family:var(--font-mono);font-size:11.5px;border-left:3px solid var(--accent);">UNIQUE(client_user_id, teacher_user_id)<span class="d" style="display:block;color:var(--muted);font-family:var(--font-body);margin-top:4px;font-size:11px;">connections — one relationship per client/teacher pair, ever</span></div>
+      <div class="cr-item" style="background:var(--surface2);border:1px solid var(--border);padding:10px 13px;border-radius:6px;font-family:var(--font-mono);font-size:11.5px;border-left:3px solid var(--accent);">UNIQUE(requirement_id, teacher_user_id)<span class="d" style="display:block;color:var(--muted);font-family:var(--font-body);margin-top:4px;font-size:11px;">requirement_applications — no duplicate applications</span></div>
+      <div class="cr-item" style="background:var(--surface2);border:1px solid var(--border);padding:10px 13px;border-radius:6px;font-family:var(--font-mono);font-size:11.5px;border-left:3px solid var(--accent);">UNIQUE(connection_id)<span class="d" style="display:block;color:var(--muted);font-family:var(--font-body);margin-top:4px;font-size:11px;">ratings — exactly one review per connection</span></div>
+      <div class="cr-item" style="background:var(--surface2);border:1px solid var(--border);padding:10px 13px;border-radius:6px;font-family:var(--font-mono);font-size:11.5px;border-left:3px solid var(--accent);">UNIQUE(teacher_user_id, day_of_week, time_slot)<span class="d" style="display:block;color:var(--muted);font-family:var(--font-body);margin-top:4px;font-size:11px;">teacher_weekly_availability — one row per slot per teacher</span></div>
+      <div class="cr-item" style="background:var(--surface2);border:1px solid var(--border);padding:10px 13px;border-radius:6px;font-family:var(--font-mono);font-size:11.5px;border-left:3px solid var(--accent);">CHECK budget_min ≤ budget_max<span class="d" style="display:block;color:var(--muted);font-family:var(--font-body);margin-top:4px;font-size:11px;">requirements</span></div>
+      <div class="cr-item" style="background:var(--surface2);border:1px solid var(--border);padding:10px 13px;border-radius:6px;font-family:var(--font-mono);font-size:11.5px;border-left:3px solid var(--accent);">CHECK stars BETWEEN 1 AND 5<span class="d" style="display:block;color:var(--muted);font-family:var(--font-body);margin-top:4px;font-size:11px;">ratings</span></div>
+      <div class="cr-item" style="background:var(--surface2);border:1px solid var(--border);padding:10px 13px;border-radius:6px;font-family:var(--font-mono);font-size:11.5px;border-left:3px solid var(--accent);">CHECK team_rating BETWEEN 1.0 AND 5.0<span class="d" style="display:block;color:var(--muted);font-family:var(--font-body);margin-top:4px;font-size:11px;">teachers</span></div>
+      <div class="cr-item" style="background:var(--surface2);border:1px solid var(--border);padding:10px 13px;border-radius:6px;font-family:var(--font-mono);font-size:11.5px;border-left:3px solid var(--accent);">CHECK booked_connection_id requires is_available<span class="d" style="display:block;color:var(--muted);font-family:var(--font-body);margin-top:4px;font-size:11px;">teacher_weekly_availability — can't book an unavailable slot</span></div>
+      <div class="cr-item" style="background:var(--surface2);border:1px solid var(--border);padding:10px 13px;border-radius:6px;font-family:var(--font-mono);font-size:11.5px;border-left:3px solid var(--accent);">ON DELETE CASCADE, everywhere a child row is meaningless without its parent<span class="d" style="display:block;color:var(--muted);font-family:var(--font-body);margin-top:4px;font-size:11px;">e.g. delete a connection → its messages and rating go too</span></div>
+      <div class="cr-item" style="background:var(--surface2);border:1px solid var(--border);padding:10px 13px;border-radius:6px;font-family:var(--font-mono);font-size:11.5px;border-left:3px solid var(--accent);">ON DELETE SET NULL, everywhere a reference is informational<span class="d" style="display:block;color:var(--muted);font-family:var(--font-body);margin-top:4px;font-size:11px;">e.g. delete an admin user → their past cms_content_blocks edits stay, unattributed</span></div>
+    </div>
+  </div>
+
+  <!-- ================= FLOWS PANEL ================= -->
+  <div class="panel" id="p-flows">
+    <div class="flow-diagram">
+      <h3>Teacher onboarding &amp; verification</h3>
+      <div class="fsub">Signup through to appearing in the public Teacher Directory</div>
+      <div class="flow-steps">
+        <div class="fstep"><span class="fnum">01</span><div class="ftitle">Sign up</div><span class="ftbl">INSERT <b>users</b> (role='teacher')</span><span class="ftbl">INSERT <b>teachers</b></span></div>
+        <div class="fstep"><span class="fnum">02</span><div class="ftitle">Complete profile</div><span class="ftbl">INSERT <b>teacher_expertise</b>, <b>teacher_certifications</b>, <b>teacher_documents</b>, <b>teacher_weekly_availability</b>, <b>teacher_online_locations</b>, <b>teacher_pricing_packages</b></span></div>
+        <div class="fstep"><span class="fnum">03</span><div class="ftitle">100% complete</div><span class="ftbl">INSERT <b>wallet_transactions</b> (profile_completion_bonus, +2)</span></div>
+        <div class="fstep"><span class="fnum">04</span><div class="ftitle">Admin reviews docs</div><span class="ftbl">UPDATE <b>teacher_certifications</b>.status, <b>teacher_documents</b>.status</span></div>
+        <div class="fstep"><span class="fnum">05</span><div class="ftitle">Approved</div><span class="ftbl">UPDATE <b>teachers</b>.verification_status='verified'</span></div>
+      </div>
+    </div>
+
+    <div class="flow-diagram">
+      <h3>Job board: post → apply → select</h3>
+      <div class="fsub">Client posts a requirement; teachers apply; client picks one</div>
+      <div class="flow-steps">
+        <div class="fstep"><span class="fnum">01</span><div class="ftitle">Client posts</div><span class="ftbl">INSERT <b>requirements</b></span><span class="ftbl">INSERT <b>requirement_availability_slots</b></span></div>
+        <div class="fstep"><span class="fnum">02</span><div class="ftitle">Teachers apply</div><span class="ftbl">INSERT <b>requirement_applications</b> (status='pending')</span></div>
+        <div class="fstep"><span class="fnum">03</span><div class="ftitle">Client approves one</div><span class="ftbl">UPDATE <b>requirement_applications</b>.status='approved'</span><span class="ftbl">UPDATE <b>requirements</b>.status='matched'</span></div>
+        <div class="fstep"><span class="fnum">04</span><div class="ftitle">Auto-connect</div><span class="ftbl">INSERT <b>connections</b> (origin='requirement_application', source_application_id=…)</span></div>
+        <div class="fstep"><span class="fnum">05</span><div class="ftitle">Contact revealed</div><span class="ftbl">INSERT <b>messages</b></span><span class="ftbl">UPDATE <b>connections</b>.whatsapp_shared_at</span></div>
+      </div>
+    </div>
+
+    <div class="flow-diagram">
+      <h3>Direct browse → connect → rate</h3>
+      <div class="fsub">Client finds a teacher directly, sends a request, and rates them after</div>
+      <div class="flow-steps">
+        <div class="fstep"><span class="fnum">01</span><div class="ftitle">Client requests</div><span class="ftbl">INSERT <b>connections</b> (origin='direct_browse')</span></div>
+        <div class="fstep"><span class="fnum">02</span><div class="ftitle">Teacher decides</div><span class="ftbl">UPDATE <b>connections</b>.status</span><span class="ftbl">IF declined → decline_reason</span></div>
+        <div class="fstep"><span class="fnum">03</span><div class="ftitle">Slot booked</div><span class="ftbl">UPDATE <b>teacher_weekly_availability</b>.booked_connection_id</span></div>
+        <div class="fstep"><span class="fnum">04</span><div class="ftitle">Client rates</div><span class="ftbl">INSERT <b>ratings</b> (UNIQUE per connection)</span></div>
+        <div class="fstep"><span class="fnum">05</span><div class="ftitle">Admin can moderate</div><span class="ftbl">UPDATE <b>ratings</b>.status='flagged'/'removed'</span></div>
+      </div>
+    </div>
+
+    <div class="flow-diagram">
+      <h3>Wallet credit lifecycle</h3>
+      <div class="fsub">Every grant and spend is one ledger row — no balance column anywhere</div>
+      <div class="flow-steps">
+        <div class="fstep"><span class="fnum">01</span><div class="ftitle">Account created</div><span class="ftbl">INSERT <b>wallet_transactions</b> (free_connection, +1)</span></div>
+        <div class="fstep"><span class="fnum">02</span><div class="ftitle">First connection used</div><span class="ftbl">INSERT <b>wallet_transactions</b> (free_connection, -1)</span></div>
+        <div class="fstep"><span class="fnum">03</span><div class="ftitle">Profile hits 100%</div><span class="ftbl">INSERT <b>wallet_transactions</b> (profile_completion_bonus, +2)</span></div>
+        <div class="fstep"><span class="fnum">04</span><div class="ftitle">Balance shown</div><span class="ftbl">SUM(delta_amount) computed on page load</span></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="fm">Designed from a full read-through of the YogSetu HTML site and its Client, Teacher and Admin dashboards. MySQL 8 / InnoDB DDL for every table on this page ships alongside it as <code>yogsetu_schema.sql</code> — table names, columns and constraints here are generated to match it exactly, not maintained separately.</div>
+  </footer>
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+      darkMode: true,
+      background: '#0b0d12',
+      primaryColor: '#191d28',
+      primaryTextColor: '#e6e9f2',
+      primaryBorderColor: '#d98e3f',
+      lineColor: '#8991a8',
+      secondaryColor: '#12151d',
+      tertiaryColor: '#191d28',
+      fontFamily: 'IBM Plex Mono, monospace',
+      fontSize: '12px'
+    },
+    er: { diagramPadding: 20, layoutDirection: 'TB', minEntityWidth: 130, minEntityHeight: 70, entityPadding: 10, useMaxWidth: true }
+  });
+
+  function showPanel(name){
+    document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.t === name));
+    document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'p-' + name));
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up | YogSetu</title>
+<meta name="description" content="Create a free YogSetu account as a client or a verified yoga teacher.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+  /* --- Phone OTP verification (signup only) --- */
+  .phone-verify-row{ display:flex; gap:8px; align-items:stretch; }
+  .phone-verify-row input{ flex:1; min-width:0; }
+  .phone-verify-row input.field-error{ border-color:#B4472F !important; }
+
+  .otp-trigger-btn{
+    flex-shrink:0;
+    padding:0 16px;
+    border-radius:var(--radius-pill,999px);
+    border:1.5px solid var(--pine,#1A1A18);
+    background:transparent;
+    color:var(--pine,#1A1A18);
+    font-family:'Inter',sans-serif;
+    font-weight:600;
+    font-size:13px;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:background .15s ease,color .15s ease,opacity .15s ease,border-color .15s ease;
+  }
+  .otp-trigger-btn:hover:not(:disabled){ background:var(--pine,#1A1A18); color:var(--paper,#fff); }
+  .otp-trigger-btn:disabled{ opacity:.35; cursor:not-allowed; }
+  .otp-trigger-btn.is-verified{
+    border-color:var(--marigold-deep,#A65032);
+    background:var(--marigold-deep,#A65032);
+    color:var(--paper,#fff);
+    opacity:1;
+    cursor:default;
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+  }
+
+  .otp-panel{
+    margin:0 0 18px;
+    padding:18px 18px 16px;
+    border:1px solid var(--line,#E4DBC5);
+    border-radius:var(--radius,16px);
+    background:var(--sand,#FAF5EA);
+  }
+  .otp-panel.has-error{ animation:otpShake .4s ease; }
+  @keyframes otpShake{
+    10%,90%{ transform:translateX(-2px); }
+    20%,80%{ transform:translateX(3px); }
+    30%,50%,70%{ transform:translateX(-5px); }
+    40%,60%{ transform:translateX(5px); }
+  }
+  .otp-panel-top{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
+  .otp-panel-top p{ margin:0; font-size:13.5px; color:var(--ink-soft,#55524A); }
+  .otp-panel-top strong{ color:var(--ink,#1C1B18); }
+  .otp-text-link{ border:none; background:none; padding:0; font-size:13px; font-weight:600; color:var(--marigold-deep,#A65032); cursor:pointer; text-decoration:underline; text-underline-offset:2px; }
+  .otp-text-link:disabled{ color:var(--ink-faint,#8C887D); cursor:not-allowed; text-decoration:none; }
+
+  .otp-boxes{ display:flex; gap:8px; margin-bottom:10px; }
+  .otp-box{
+    width:42px; height:48px;
+    text-align:center;
+    font-size:18px; font-weight:600;
+    font-family:'IBM Plex Mono',monospace;
+    border:1.5px solid var(--line,#E4DBC5);
+    border-radius:10px;
+    background:var(--paper,#fff);
+    color:var(--ink,#1C1B18);
+    outline:none;
+    transition:border-color .15s ease;
+  }
+  .otp-box:focus{ border-color:var(--marigold,#D97757); }
+  .otp-box.filled{ border-color:var(--pine,#1A1A18); }
+  .otp-panel.has-error .otp-box{ border-color:#B4472F; }
+
+  .otp-error{ margin:0 0 12px; font-size:13px; color:#B4472F; font-weight:600; }
+
+  .otp-panel-bottom{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .otp-resend{ font-size:13px; color:var(--ink-faint,#8C887D); display:flex; align-items:center; gap:4px; }
+
+  .otp-demo-note{
+    margin:14px 0 0; padding-top:12px;
+    border-top:1px dashed var(--line,#E4DBC5);
+    font-size:11.5px; letter-spacing:.02em;
+    color:var(--ink-faint,#8C887D);
+  }
+  .otp-demo-note strong{ color:var(--marigold-deep,#A65032); letter-spacing:.08em; }
+
+  @media (max-width:480px){
+    .otp-box{ width:38px; height:44px; font-size:16px; }
+  }
+</style>
+</head>
+<body class="inner-page">
+
+<header class="site-header-fixed is-visible force-visible" id="siteHeaderFixed">
+  <a href="index.html" class="logo" aria-label="YogSetu home">
+    <span class="mark" aria-hidden="true"></span>
+    <span>
+      <span class="word">Yog<em>Setu</em></span>
+    </span>
+  </a>
+  <nav class="nav-links" aria-label="Main">
+    <a href="teachers.html">Browse teachers</a>
+    <a href="requirements.html">Job board</a>
+    <a href="teacher-benefits.html">For teachers</a>
+    <a href="about.html">About</a>
+  </nav>
+  <div class="header-actions">
+    <a href="login.html" class="hdr-link">Log in</a>
+    <a href="signup.html" class="btn btn-primary btn-small">Sign up</a>
+  </div>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<nav class="mobile-menu" id="mobileMenu" aria-label="Mobile">
+    <a href="teachers.html">Browse teachers</a>
+    <a href="requirements.html">Job board</a>
+    <a href="teacher-benefits.html">For teachers</a>
+    <a href="about.html">About</a>
+  <a href="login.html">Log in</a>
+  <a href="signup.html">Sign up</a>
+</nav>
+
+<main>
+
+<div class="auth-shell">
+  <div class="form-card">
+    <div class="auth-head">
+      <h1>Create your YogSetu account</h1>
+      <p>Free for both students and teachers to join.</p>
+    </div>
+
+    <form data-demo-form>
+      <div class="role-toggle">
+        <label>
+          <input type="radio" name="role" value="client">
+          <span class="ico"><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg></span>
+          <span class="lbl">I'm a client</span>
+          <span class="sub">Looking for a teacher</span>
+        </label>
+        <label>
+          <input type="radio" name="role" value="teacher">
+          <span class="ico"><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M12 2v6"/><path d="M5 22c0-5 3-7 7-7s7 2 7 7"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <span class="lbl">I'm a teacher</span>
+          <span class="sub">Looking for students</span>
+        </label>
+      </div>
+
+      <div class="field"><label for="s-name">Full name</label><input type="text" id="s-name" required></div>
+      <div class="field-row">
+        <div class="field"><label for="s-email">Email</label><input type="email" id="s-email" required></div>
+        <div class="field">
+          <label for="s-phone">Phone</label>
+          <div class="phone-verify-row">
+            <input type="tel" id="s-phone" placeholder="10-digit mobile number" maxlength="10" required>
+            <button type="button" class="otp-trigger-btn" id="sendOtpBtn" disabled>Send OTP</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="otp-panel" id="otpPanel" hidden>
+        <div class="otp-panel-top">
+          <p>Enter the code sent to <strong id="otpPhoneDisplay"></strong></p>
+          <button type="button" class="otp-text-link" id="otpChangeNumber">Change number</button>
+        </div>
+        <div class="otp-boxes" id="otpBoxes">
+          <input type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="1" class="otp-box" data-i="0">
+          <input type="text" inputmode="numeric" maxlength="1" class="otp-box" data-i="1">
+          <input type="text" inputmode="numeric" maxlength="1" class="otp-box" data-i="2">
+          <input type="text" inputmode="numeric" maxlength="1" class="otp-box" data-i="3">
+          <input type="text" inputmode="numeric" maxlength="1" class="otp-box" data-i="4">
+          <input type="text" inputmode="numeric" maxlength="1" class="otp-box" data-i="5">
+        </div>
+        <p class="otp-error" id="otpError" hidden>That code doesn't match. Try again.</p>
+        <div class="otp-panel-bottom">
+          <button type="button" class="btn btn-primary btn-small" id="verifyOtpBtn">Verify</button>
+          <span class="otp-resend">
+            <button type="button" class="otp-text-link" id="resendOtpBtn" disabled>Resend code</button>
+            <span id="otpTimerWrap">in <span id="otpTimer">30</span>s</span>
+          </span>
+        </div>
+        <p class="otp-demo-note">Design preview &mdash; no SMS is sent. Demo code: <strong id="demoOtpCode">000000</strong></p>
+      </div>
+
+      <div class="field"><label for="s-pass">Password</label><input type="password" id="s-pass" required></div>
+
+      <div data-role-only="teacher" hidden>
+        <div class="field-row">
+          <div class="field"><label for="s-style">Primary yoga style</label>
+            <select id="s-style"><option>Hatha</option><option>Ashtanga / Power</option><option>Vinyasa</option><option>Prenatal</option><option>Therapeutic</option><option>Meditation</option><option>Yoga for Seniors</option><option>Corporate Wellness</option></select>
+          </div>
+          <div class="field"><label for="s-city">City</label><input type="text" id="s-city" placeholder="e.g. Lucknow"></div>
+        </div>
+        <div class="alert info">You'll upload your certification documents for verification right after signing up.</div>
+      </div>
+
+      <div data-role-only="client" hidden>
+        <div class="field"><label for="s-need">What are you looking for? (optional)</label><input type="text" id="s-need" placeholder="e.g. Hatha teacher, mornings, Lucknow"></div>
+      </div>
+
+      <label class="checkbox-row"><input type="checkbox" required><span>I agree to the <a href="terms.html" style="color:var(--marigold-deep);">Terms &amp; Conditions</a> and <a href="privacy.html" style="color:var(--marigold-deep);">Privacy Policy</a>.</span></label>
+
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:18px;">Create account</button>
+      <p data-form-note hidden style="margin-top:14px;text-align:center;color:var(--pine);font-weight:600;font-size:14px;">This is a design preview &mdash; account creation goes live once the backend is connected.</p>
+    </form>
+
+    <div class="auth-divider">or</div>
+    <p class="auth-foot">Already have an account? <a href="login.html">Log in</a></p>
+  </div>
+</div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+
+      <div class="footer-brand">
+        <span class="logo"><span class="dot" aria-hidden="true"></span>YogSetu</span>
+        <p>A verified yoga teacher directory &mdash; powered by YogKulam's credentialing infrastructure.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="mono">For students</h4>
+        <ul>
+          <li><a href="teachers.html">Browse teachers</a></li>
+          <li><a href="requirements.html">Post a requirement</a></li>
+          <li><a href="index.html#verification">Verification process</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="mono">For teachers</h4>
+        <ul>
+          <li><a href="signup.html?role=teacher">Create your profile</a></li>
+          <li><a href="teacher-benefits.html">Become verified</a></li>
+          <li><a href="requirements.html">Browse requirements</a></li>
+          <li><a href="login.html">Teacher login</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="mono">Company</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="https://www.yogkulam.com" target="_blank" rel="noopener">YogKulam</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="terms.html">Terms &amp; conditions</a></li>
+          <li><a href="privacy.html">Privacy policy</a></li>
+          <li><a href="refund.html">Refund policy</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <span>YogSetu is a <a href="https://www.yogkulam.com" target="_blank" rel="noopener">YogKulam</a> initiative</span>
+      <span><span class="dot" aria-hidden="true">&middot;</span>yogsetu.com</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/site.js"></script>
+<script>
+(function(){
+  const phoneInput   = document.getElementById('s-phone');
+  const sendBtn      = document.getElementById('sendOtpBtn');
+  const otpPanel     = document.getElementById('otpPanel');
+  const phoneDisplay = document.getElementById('otpPhoneDisplay');
+  const otpBoxes     = Array.from(document.querySelectorAll('.otp-box'));
+  const verifyBtn    = document.getElementById('verifyOtpBtn');
+  const resendBtn    = document.getElementById('resendOtpBtn');
+  const timerWrap    = document.getElementById('otpTimerWrap');
+  const timerEl      = document.getElementById('otpTimer');
+  const errorEl      = document.getElementById('otpError');
+  const demoCodeEl   = document.getElementById('demoOtpCode');
+  const changeBtn    = document.getElementById('otpChangeNumber');
+  const form         = document.querySelector('form[data-demo-form]');
+
+  const checkIcon = '<svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" fill="none" stroke-width="2.6"><path d="M4 12.5l5 5L20 6"/></svg>';
+
+  let currentCode = null;
+  let phoneVerified = false;
+  let timerId = null;
+
+  function validPhone(){ return /^\d{10}$/.test(phoneInput.value.trim()); }
+  function genCode(){ return String(Math.floor(100000 + Math.random() * 900000)); }
+
+  function resetVerified(){
+    if(!phoneVerified) return;
+    phoneVerified = false;
+    sendBtn.classList.remove('is-verified');
+    sendBtn.textContent = 'Send OTP';
+  }
+
+  phoneInput.addEventListener('input', function(){
+    sendBtn.disabled = !validPhone();
+    resetVerified();
+    otpPanel.hidden = true;
+    clearInterval(timerId);
+  });
+
+  function startTimer(){
+    let t = 30;
+    timerEl.textContent = t;
+    timerWrap.hidden = false;
+    resendBtn.disabled = true;
+    clearInterval(timerId);
+    timerId = setInterval(function(){
+      t -= 1;
+      timerEl.textContent = t;
+      if(t <= 0){
+        clearInterval(timerId);
+        resendBtn.disabled = false;
+        timerWrap.hidden = true;
+      }
+    }, 1000);
+  }
+
+  function sendOtp(){
+    currentCode = genCode();
+    demoCodeEl.textContent = currentCode;
+    phoneDisplay.textContent = '+91 ' + phoneInput.value.trim();
+    otpPanel.hidden = false;
+    otpPanel.classList.remove('has-error');
+    errorEl.hidden = true;
+    otpBoxes.forEach(function(b){ b.value = ''; b.classList.remove('filled'); });
+    otpBoxes[0].focus();
+    startTimer();
+  }
+
+  sendBtn.addEventListener('click', function(){
+    if(sendBtn.disabled || phoneVerified) return;
+    sendOtp();
+  });
+
+  resendBtn.addEventListener('click', function(){
+    if(resendBtn.disabled) return;
+    sendOtp();
+  });
+
+  changeBtn.addEventListener('click', function(){
+    otpPanel.hidden = true;
+    clearInterval(timerId);
+    phoneInput.focus();
+    phoneInput.select();
+  });
+
+  otpBoxes.forEach(function(box, i){
+    box.addEventListener('input', function(){
+      box.value = box.value.replace(/[^0-9]/g, '').slice(0, 1);
+      box.classList.toggle('filled', !!box.value);
+      if(box.value && i < otpBoxes.length - 1){ otpBoxes[i + 1].focus(); }
+    });
+    box.addEventListener('keydown', function(e){
+      if(e.key === 'Backspace' && !box.value && i > 0){ otpBoxes[i - 1].focus(); }
+    });
+    box.addEventListener('paste', function(e){
+      const text = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
+      if(!text.length) return;
+      e.preventDefault();
+      text.slice(0, 6).split('').forEach(function(ch, idx){
+        if(otpBoxes[idx]){ otpBoxes[idx].value = ch; otpBoxes[idx].classList.add('filled'); }
+      });
+      otpBoxes[Math.min(text.length, otpBoxes.length - 1)].focus();
+    });
+  });
+
+  function markVerified(){
+    phoneVerified = true;
+    clearInterval(timerId);
+    otpPanel.hidden = true;
+    sendBtn.disabled = false;
+    sendBtn.classList.add('is-verified');
+    sendBtn.innerHTML = checkIcon + ' Verified';
+  }
+
+  verifyBtn.addEventListener('click', function(){
+    const entered = otpBoxes.map(function(b){ return b.value; }).join('');
+    if(entered.length === 6 && entered === currentCode){
+      markVerified();
+      return;
+    }
+    otpPanel.classList.add('has-error');
+    errorEl.textContent = "That code doesn't match. Try again.";
+    errorEl.hidden = false;
+    otpBoxes.forEach(function(b){ b.value = ''; b.classList.remove('filled'); });
+    otpBoxes[0].focus();
+    setTimeout(function(){ otpPanel.classList.remove('has-error'); }, 420);
+  });
+
+  if(form){
+    form.addEventListener('submit', function(e){
+      if(phoneVerified) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      if(!validPhone()){
+        phoneInput.classList.add('field-error');
+        phoneInput.focus();
+        phoneInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(function(){ phoneInput.classList.remove('field-error'); }, 500);
+        return;
+      }
+      if(otpPanel.hidden){ sendOtp(); }
+      otpPanel.classList.add('has-error');
+      errorEl.textContent = 'Verify your phone number to continue.';
+      errorEl.hidden = false;
+      otpPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(function(){ otpPanel.classList.remove('has-error'); }, 420);
+    }, true);
+  }
+})();
+</script>
+</body>
+</html>

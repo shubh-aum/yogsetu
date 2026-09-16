@@ -4,5 +4,6 @@ npm-debug.log*
 *.log
 server.out.log
 server.err.log
+server.pid
 .DS_Store
 Thumbs.db
