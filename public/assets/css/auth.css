@@ -1,0 +1,46 @@
+/* ============================================================
+   YogSetu — AUTH.CSS
+   Shared split layout for login.html / signup.html: a video panel
+   on the left (the video already carries its own baked-in stats/
+   captions, so no text is overlaid on top of it here — that caused
+   an overlap/collision with the video's own on-screen content) and
+   the existing .auth-shell/.form-card form on the right, unchanged.
+   Scoped to new classes so the shared .form-card/.auth-shell rules
+   in site.css (also used by contact.html and post-requirement.html)
+   are never touched.
+   ============================================================ */
+
+.auth-split{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:clamp(16px,2.4vw,32px);
+  min-height:calc(100vh - 70px);
+  margin-bottom:clamp(20px,3vh,32px);
+}
+
+/* Video sits at 75% of the panel's own width/height, centered, so it renders
+   smaller than the full 50% column — at edge-to-edge cover, its baked-in
+   text/stats were getting cropped right at the panel border. */
+.auth-split-media{
+  position:relative;overflow:hidden;background:var(--pine-deep);
+  border-radius:var(--radius-card);
+  display:flex;align-items:center;justify-content:center;
+}
+.auth-split-video{
+  width:75%;height:75%;
+  object-fit:cover;object-position:center;
+  border-radius:18px;
+}
+
+.auth-split-form{
+  display:flex;align-items:center;justify-content:center;
+  overflow-y:auto;
+}
+/* neutralize .auth-shell's own page-level padding/background — it's now one
+   half of a split layout, not a full-width page section */
+.auth-split-form .auth-shell{padding:clamp(28px,5vh,56px) 20px;background:none;width:100%;}
+
+@media (max-width:900px){
+  /* no room for a 50/50 split on tablet/phone — drop the video, form goes full width */
+  .auth-split{grid-template-columns:1fr;min-height:auto;}
+  .auth-split-media{display:none;}
+}

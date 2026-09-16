@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/auth.css">
 <style>
   /* --- Phone OTP verification (signup only) --- */
   .phone-verify-row{ display:flex; gap:8px; align-items:stretch; }
@@ -133,14 +134,22 @@
 
 <main>
 
-<div class="auth-shell">
-  <div class="form-card">
-    <div class="auth-head">
-      <h1>Create your YogSetu account</h1>
-      <p>Free for both students and teachers to join.</p>
-    </div>
+<div class="auth-split">
+  <div class="auth-split-media">
+    <video class="auth-split-video" autoplay muted loop playsinline aria-hidden="true" tabindex="-1">
+      <source src="assets/images/global%20presence.mp4" type="video/mp4">
+    </video>
+  </div>
 
-    <form data-demo-form>
+  <div class="auth-split-form">
+    <div class="auth-shell">
+      <div class="form-card">
+        <div class="auth-head">
+          <h1>Create your YogSetu account</h1>
+          <p>Free for both students and teachers to join.</p>
+        </div>
+
+        <form data-demo-form>
       <div class="role-toggle">
         <label>
           <input type="radio" name="role" value="client">
@@ -214,8 +223,10 @@
       <p data-form-note hidden style="margin-top:14px;text-align:center;color:var(--pine);font-weight:600;font-size:14px;">This is a design preview &mdash; account creation goes live once the backend is connected.</p>
     </form>
 
-    <div class="auth-divider">or</div>
-    <p class="auth-foot">Already have an account? <a href="login.html">Log in</a></p>
+        <div class="auth-divider">or</div>
+        <p class="auth-foot">Already have an account? <a href="login.html">Log in</a></p>
+      </div>
+    </div>
   </div>
 </div>
 

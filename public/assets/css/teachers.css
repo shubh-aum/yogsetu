@@ -1,0 +1,342 @@
+/* ============================================================
+   YogSetu — TEACHERS.CSS
+   Page-specific styles for the "Browse teachers" redesign.
+   Extends base.css / site.css tokens; scoped to new class names
+   so it never touches shared components used on other pages.
+   ============================================================ */
+
+/* ---- 1. HEADER SEARCH (icon toggles a dropdown panel; video hero has no form).
+   Reuses the existing .profile-btn look (visible light circle + border at rest,
+   not just on hover) so it doesn't read as a faint, easy-to-miss ghost icon. ---- */
+.hdr-search-btn[aria-expanded="true"]{background:#EBE5D3;border-color:rgba(26,26,24,.3);color:var(--pine);}
+.hdr-search-btn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+.header-search-panel{
+  position:fixed;top:0;left:0;right:0;z-index:55;
+  background:var(--sand);border-bottom:1px solid var(--line);
+  box-shadow:0 24px 50px -30px rgba(26,26,24,.4);
+  max-height:0;overflow:hidden;opacity:0;
+  transition:max-height .32s ease,opacity .25s ease;
+}
+.header-search-panel.is-open{max-height:220px;opacity:1;}
+.header-search-inner{max-width:1000px;margin:0 auto;padding:78px clamp(20px,4vw,64px) 20px;}
+
+.tsearch-bar{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:var(--radius-card);
+  padding:12px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) auto;
+  gap:8px;
+  box-shadow:0 30px 60px -46px rgba(26,26,24,.4);
+}
+.tsearch-field{
+  display:flex;flex-direction:column;gap:4px;
+  padding:8px 14px;border-radius:14px;
+  border:1px solid transparent;
+}
+.tsearch-field:not(:last-child){border-right:1px solid var(--line-soft);}
+.tsearch-field label{font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-faint);}
+.tsearch-field select{
+  border:none;background:none;font:inherit;font-size:14.5px;color:var(--ink);padding:2px 0;
+  appearance:none;-webkit-appearance:none;cursor:pointer;
+}
+.tsearch-field select:focus{outline:none;}
+.tsearch-bar .btn-search{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--pine);color:#F4EFE1;font-weight:600;font-size:15px;
+  padding:0 26px;border-radius:14px;
+  transition:background .18s ease,transform .18s ease;
+}
+.tsearch-bar .btn-search:hover{background:var(--pine-mid);transform:translateY(-1px);}
+.tsearch-bar .btn-search svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2.2;}
+
+.tsearch-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+.tsearch-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 15px;border-radius:999px;
+  border:1px solid var(--line);background:var(--paper);
+  font-size:13px;font-weight:500;color:var(--ink-soft);
+  transition:border-color .18s ease,color .18s ease,background .18s ease;
+}
+.tsearch-chip:hover{border-color:var(--marigold);color:var(--marigold-deep);}
+.tsearch-chip svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.4;}
+
+@media (max-width:860px){
+  .tsearch-bar{grid-template-columns:1fr 1fr;}
+  .tsearch-field:nth-child(3){border-right:none;}
+  .tsearch-bar .btn-search{grid-column:1 / -1;padding:14px;border-radius:12px;}
+}
+@media (max-width:560px){
+  .tsearch-bar{grid-template-columns:1fr;padding:10px;}
+  .tsearch-field{border-right:none!important;border-bottom:1px solid var(--line-soft);padding:10px 8px;}
+  .tsearch-field:last-of-type{border-bottom:none;}
+}
+
+/* ---- 1b. VIDEO BANNER HERO (reuses base.css .hero-wrap/.hero-card/.hero-media/
+   .hero-scrim chrome from the homepage; content classes below are page-specific).
+   Deliberately minimal content (kicker, title, two buttons only — no subhead,
+   no facts row) kept centered, so there's as little text as possible competing
+   with the video for attention. Tablet/mobile: the video is dropped entirely
+   and content centers over the plain dark fallback background instead. ---- */
+.thero-card{min-height:clamp(400px,52vh,540px);}
+.thero-card .hero-media{opacity:1;} /* this page has no #heroVideo reveal script like the homepage — show it immediately */
+.thero-body{
+  position:relative;z-index:5;flex:1;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;gap:clamp(18px,2.6vh,26px);
+  padding:clamp(28px,4vh,44px) clamp(20px,4vw,56px) clamp(90px,12vh,120px);
+  text-align:center;
+}
+.thero-head{max-width:640px;}
+.thero-kicker{
+  display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;
+  color:rgba(241,237,224,.75);margin-bottom:14px;
+}
+.thero-kicker .sep{opacity:.45;}
+.thero-title{
+  font-family:'Fraunces',serif;font-weight:500;
+  font-size:clamp(34px,5vw,60px);line-height:1.1;letter-spacing:-.02em;color:#FFFDF7;
+}
+.thero-title em{font-style:italic;color:var(--marigold);}
+.thero-cta{margin:8px 0 0;}
+
+@media (max-width:1024px){
+  /* Tablet and below: no video at all — the .hero-media-fallback gradient
+     (already defined in base.css) becomes the visible background. */
+  .thero-card{min-height:auto;}
+  .thero-card .hero-media,
+  .thero-card .hero-scrim{display:none;}
+  .thero-body{padding:36px 24px 28px;}
+  .thero-featured{
+    position:static;
+    background:var(--pine-deep);
+    padding:16px 20px 22px;
+  }
+}
+
+.thero-featured{
+  position:absolute;left:0;right:0;bottom:0;z-index:5;
+  padding:18px clamp(20px,4vw,56px) 22px;
+  /* fully opaque (alpha 1, not just "mostly") by the time it reaches the avatar
+     row, so nothing in the video behind — at any frame — can show through */
+  background:linear-gradient(180deg,rgba(23,22,20,0) 0%,rgba(23,22,20,1) 45%,rgba(23,22,20,1) 100%);
+  display:flex;align-items:center;gap:16px;
+}
+.thero-featured-label{color:rgba(241,237,224,.7);white-space:nowrap;flex-shrink:0;}
+.thero-avatar-rail{display:flex;gap:16px;overflow-x:auto;scroll-behavior:smooth;scrollbar-width:none;flex:1;padding:2px;}
+.thero-avatar-rail::-webkit-scrollbar{display:none;}
+.hero-avatar{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:6px;width:56px;text-align:center;}
+.hero-avatar-photo{position:relative;width:52px;height:52px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,.5);background:#3A3935;flex-shrink:0;}
+.hero-avatar-photo img{width:100%;height:100%;object-fit:cover;}
+.hero-avatar-photo .fallback{position:absolute;inset:0;display:none;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:14px;color:#EDE7D8;}
+.hero-avatar-photo.missing img{display:none;}
+.hero-avatar-photo.missing .fallback{display:flex;}
+.hero-avatar-cap{font-size:10.5px;font-weight:500;color:rgba(241,237,224,.8);line-height:1.2;white-space:nowrap;}
+.thero-avatar-next{
+  flex-shrink:0;width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#FFFDF7;
+  display:flex;align-items:center;justify-content:center;
+}
+.thero-avatar-next svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+@media (max-width:640px){
+  .thero-featured{padding:14px 16px 16px;}
+  .thero-featured-label{display:none;}
+}
+
+#resultsBar{scroll-margin-top:80px;}
+
+/* ---- 2. BROWSE BY STYLE STRIP ---- */
+.style-strip-section{background:#F2ECDE;padding:clamp(30px,4.5vh,44px) 0;}
+.style-strip-head{max-width:1320px;margin:0 auto;padding:0 clamp(20px,4vw,64px) 18px;display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.style-strip-head h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(19px,2vw,24px);color:var(--ink);letter-spacing:-.02em;}
+.style-strip-head p{font-size:13.5px;color:var(--ink-faint);}
+.style-strip{
+  display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;
+  padding:4px clamp(20px,4vw,64px) 10px;max-width:1320px;margin:0 auto;
+}
+.style-strip::-webkit-scrollbar{display:none;}
+.style-pill{
+  flex:0 0 auto;scroll-snap-align:start;width:132px;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  padding:14px 10px 16px;border-radius:18px;
+  border:1.5px solid var(--line);background:var(--paper);
+  transition:border-color .2s ease,transform .2s ease,box-shadow .2s ease;
+  cursor:pointer;
+}
+.style-pill:hover{transform:translateY(-3px);box-shadow:0 18px 34px -24px rgba(26,26,24,.4);}
+.style-pill.is-active{border-color:var(--marigold);background:rgba(217,119,87,.06);}
+.style-pill .thumb{
+  width:64px;height:64px;border-radius:50%;overflow:hidden;background:#EDE6D6;
+  display:flex;align-items:center;justify-content:center;
+}
+.style-pill .thumb img{width:100%;height:100%;object-fit:cover;}
+.style-pill span{font-size:12.5px;font-weight:600;color:var(--ink);text-align:center;line-height:1.25;}
+.style-pill.is-active span{color:var(--marigold-deep);}
+
+/* ---- 3. TRUST STRIP ---- */
+.trust-strip{
+  max-width:1320px;margin:0 auto;padding:clamp(22px,3vh,30px) clamp(20px,4vw,64px);
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;
+}
+.trust-item{display:flex;align-items:center;gap:11px;}
+.trust-item .ico{
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  background:rgba(217,119,87,.14);color:var(--marigold-deep);
+  display:flex;align-items:center;justify-content:center;
+}
+.trust-item .ico svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round;}
+.trust-item p{font-size:13.5px;font-weight:500;color:var(--ink-soft);line-height:1.35;}
+.trust-item strong{color:var(--ink);}
+@media (max-width:960px){ .trust-strip{grid-template-columns:repeat(2,minmax(0,1fr));} }
+@media (max-width:560px){ .trust-strip{grid-template-columns:1fr;} }
+
+/* ---- 4. ACTIVE FILTER PILLS ---- */
+.active-filters{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:16px;}
+.active-filters.is-empty{display:none;}
+.afilter-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:6px 8px 6px 13px;border-radius:999px;
+  background:var(--pine);color:#F4EFE1;font-size:12.5px;font-weight:500;
+}
+.afilter-pill button{
+  width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.18);
+  display:flex;align-items:center;justify-content:center;color:inherit;flex-shrink:0;
+}
+.afilter-pill button:hover{background:rgba(255,255,255,.32);}
+.afilter-pill svg{width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:3;stroke-linecap:round;}
+.afilter-clear{font-size:12.5px;font-weight:600;color:var(--marigold-deep);border-bottom:1px solid transparent;}
+.afilter-clear:hover{border-color:var(--marigold-deep);}
+
+/* ---- 4b. ENHANCED TEACHER CARD ---- */
+.tcard.thidden{display:none;}
+.tcard .price-line{
+  display:flex;align-items:baseline;gap:5px;margin-top:10px;
+  font-family:'Fraunces',serif;font-size:17px;font-weight:600;color:var(--pine);
+}
+.tcard .price-line span{font-family:'Inter',sans-serif;font-size:11.5px;font-weight:400;color:var(--ink-faint);}
+.tcard .availability{
+  display:flex;align-items:center;gap:6px;margin-top:8px;
+  font-size:11.5px;font-weight:600;color:#3E7A32;
+}
+.tcard .availability.is-soon{color:var(--marigold-deep);}
+.tcard .availability .dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0;}
+.tcard .cta-row{display:flex;gap:8px;margin-top:14px;}
+.tcard .cta-row .btn{flex:1;padding:10px 8px;font-size:12.5px;justify-content:center;gap:5px;}
+.tcard .cta-row .btn-secondary{border:1px solid var(--line);}
+
+/* ---- 4d. CATEGORY ROWS — each yoga style is a row; the teacher(s) in it show as
+   a big photo+details card (slider if there's more than one), and rows alternate
+   the photo between left and right for editorial rhythm as you scroll down. ---- */
+.category-rows{display:flex;flex-direction:column;gap:clamp(32px,4.5vh,48px);}
+.category-row.is-empty{display:none;}
+.category-row-head{margin-bottom:14px;}
+.category-row-head h3{font-family:'Fraunces',serif;font-weight:500;font-size:20px;color:var(--ink);letter-spacing:-.01em;}
+
+/* Wrap owns position:relative so the prev/next arrows can float over the card's
+   edges without being clipped by the card's own overflow:hidden. */
+.category-slider-wrap{position:relative;}
+.category-slider{
+  display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;border-radius:22px;
+}
+.category-slider::-webkit-scrollbar{display:none;}
+
+.category-row .cat-prev,.category-row .cat-next{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:6;
+  width:42px;height:42px;border-radius:50%;flex-shrink:0;
+  background:rgba(255,255,255,.95);border:1px solid rgba(26,26,24,.14);
+  box-shadow:0 12px 26px -12px rgba(26,26,24,.45);
+  display:flex;align-items:center;justify-content:center;color:var(--pine);
+  transition:background .18s ease,box-shadow .18s ease;
+}
+.category-row .cat-prev{left:-18px;}
+.category-row .cat-next{right:-18px;}
+.category-row .cat-prev:hover,.category-row .cat-next:hover{background:#fff;}
+.category-row .cat-prev:disabled,.category-row .cat-next:disabled{opacity:.35;pointer-events:none;}
+.category-row .cat-prev svg,.category-row .cat-next svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+@media (max-width:900px){
+  .category-row .cat-prev{left:8px;}
+  .category-row .cat-next{right:8px;}
+}
+
+.tcard--editorial{
+  width:100%;flex:0 0 100%;scroll-snap-align:start;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);
+  background:var(--paper);border:1px solid rgba(26,26,24,.16);border-radius:22px;overflow:hidden;
+}
+.tcard--editorial .shot{aspect-ratio:auto;height:100%;min-height:260px;order:1;}
+.tcard--editorial .info{padding:clamp(20px,2.6vw,32px);display:flex;flex-direction:column;justify-content:center;order:2;}
+.tcard--editorial h3 a{font-size:clamp(20px,2vw,26px);}
+.editorial-kicker{
+  display:inline-flex;align-items:center;gap:6px;margin-bottom:8px;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--marigold-deep);font-weight:600;
+}
+
+/* Small circular signature portrait above the name — same person as the main
+   photo, just repeated small, like a signature stamp on the profile. */
+.teacher-badge{
+  width:46px;height:46px;border-radius:50%;overflow:hidden;flex-shrink:0;
+  border:2px solid var(--paper);box-shadow:0 6px 14px -6px rgba(26,26,24,.4);
+  margin-bottom:12px;background:#EDE6D6;
+}
+.teacher-badge img{width:100%;height:100%;object-fit:cover;}
+
+/* Social proof strip: a stack of anonymized recent-client initials + a short review */
+.social-proof{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:18px;flex-wrap:wrap;
+  margin-top:16px;padding-top:16px;border-top:1px solid var(--line-soft);
+}
+.recent-clients{display:flex;align-items:center;gap:9px;flex-shrink:0;}
+.client-avatars{display:flex;}
+.client-avatar{
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;color:#FCFAF4;
+  border:2px solid var(--paper);margin-left:-8px;
+}
+.client-avatar:first-child{margin-left:0;}
+.client-count{font-size:12px;color:var(--ink-faint);white-space:nowrap;}
+.last-review{max-width:280px;text-align:left;}
+.last-review .review-stars{display:block;color:var(--marigold);font-size:11px;letter-spacing:1.5px;margin-bottom:2px;}
+.last-review .review-quote{font-family:'Fraunces',serif;font-style:italic;font-size:13.5px;color:var(--ink-soft);line-height:1.4;margin-bottom:2px;}
+.last-review .review-author{font-size:11px;color:var(--ink-faint);}
+
+/* Alternate image side: odd rows keep photo left (DOM/default order), even ("is-right") rows flip it */
+.category-row.is-right .tcard--editorial .shot{order:2;}
+.category-row.is-right .tcard--editorial .info{order:1;}
+
+@media (max-width:720px){
+  .tcard--editorial{grid-template-columns:1fr;}
+  .tcard--editorial .shot{aspect-ratio:16/10;min-height:0;order:1!important;}
+  .tcard--editorial .info{order:2!important;}
+  .social-proof{flex-direction:column;gap:12px;}
+}
+
+/* ---- 4c. EMPTY STATE ---- */
+.empty-state{
+  display:none;text-align:center;padding:clamp(50px,8vh,80px) 20px;
+  background:var(--paper);border:1px dashed var(--line);border-radius:var(--radius);
+}
+.empty-state.is-visible{display:block;}
+.empty-state h3{font-family:'Fraunces',serif;font-size:22px;font-weight:500;color:var(--ink);margin-bottom:8px;}
+.empty-state p{font-size:14.5px;color:var(--ink-soft);max-width:44ch;margin:0 auto 20px;}
+.empty-state .btn-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+
+/* ---- 6. CROSS-SELL BAND (uses shared .cta-band from site.css; the whole card is one image
+   with real, invisible buttons placed over its drawn pill shapes — percentages are tuned
+   against the source whomtohire.png at its native 2171x724 ratio, so they track the image
+   at any rendered width as long as it's shown uncropped, full width). ---- */
+.teachers-crosssell{margin-top:clamp(40px,6vh,64px);margin-bottom:clamp(40px,6vh,64px);padding:0;overflow:hidden;}
+.crosssell-image-wrap{position:relative;line-height:0;}
+.crosssell-image-wrap img{display:block;width:100%;height:auto;}
+.crosssell-hit{
+  position:absolute;top:69.3%;height:9.7%;border-radius:999px;
+  outline:2px solid transparent;outline-offset:2px;
+  transition:background .18s ease,outline-color .18s ease;
+}
+.crosssell-hit:hover,.crosssell-hit:focus-visible{background:rgba(255,255,255,.1);outline-color:rgba(255,255,255,.5);}
+.crosssell-hit--primary{left:11.6%;width:15.8%;}
+.crosssell-hit--secondary{left:28.2%;width:15.8%;}
